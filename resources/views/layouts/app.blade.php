@@ -1,36 +1,55 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="en">
     <head>
         <meta charset="utf-8">
+        <link rel="icon" type="image/x-icon" href="https://simpleicon.com/wp-content/uploads/link-2.svg">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Midone admin is super flexible, powerful, clean & modern responsive tailwind admin template with unlimited possibilities.">
+        <meta name="keywords" content="admin template, Midone admin template, dashboard template, flat admin template, responsive admin template, web app">
+        <meta name="author" content="R44MMPR">
         <meta name="csrf-token" content="{{ csrf_token() }}">
-
-        <title>{{ config('app.name', 'Login') }}</title>
-
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
-        <!-- Scripts -->
+        <title>Dashboard - Mahir</title>
+        <!-- BEGIN: CSS Assets-->
+        <link rel="stylesheet" href="dist/css/app.css" />
+        <!-- END: CSS Assets-->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
-            @include('layouts.navigation')
 
-            <!-- Page Heading -->
-            @if (isset($header))
-                <header class="bg-white dark:bg-gray-800 shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endif
+    <body class="app">
+        @include('layouts.mobile-menu')
 
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
+        <div class="flex">
+
+            @include('layouts.side-menu')
+
+            <div class="content">
+
+            @include('layouts.navbar')
+
+
+            @yield('content')
+
+            </div>
         </div>
+
+        @stack('scripts')
+        @include('layouts.scripts')
+        <script>
+            const menuBtn = document.getElementById('side-menu-toggler');
+            const sidebar = document.getElementById('side-menu');
+
+            menuBtn.onclick = function() {
+                const iconElement = document.getElementById('side-menu-toggler');
+            if (sidebar.className.indexOf('side-nav--simple') === -1) {
+                sidebar.className += ' side-nav--simple';
+                iconElement.setAttribute('data-feather', 'arrow-right');
+            } else {
+                sidebar.className = 'side-nav';
+                iconElement.setAttribute('data-feather', 'arrow-left');
+            }
+            return;
+            };
+
+        </script>
     </body>
 </html>

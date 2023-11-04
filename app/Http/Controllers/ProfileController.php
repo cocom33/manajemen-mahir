@@ -16,9 +16,9 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
-        return view('profile.edit', [
+        return view('pages.profile', array_merge([
             'user' => $request->user(),
-        ]);
+        ], $this->getMenuData()));
     }
 
     /**
