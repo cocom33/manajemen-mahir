@@ -13,7 +13,7 @@ class TeamController extends Controller
     public function index()
     {
         $team = Team::all();
-        return view('team.index', compact('team'));
+        return view('pages.team.index', compact('team'));
     }
 
     /**
@@ -21,7 +21,7 @@ class TeamController extends Controller
      */
     public function create()
     {
-        return view('team.create');
+        return view('pages.team.create');
     }
 
     /**
@@ -30,7 +30,7 @@ class TeamController extends Controller
     public function store(Request $request)
     {
         $team = Team::create($request->all());
-        return redirect()->route('team.index');
+        return redirect()->route('teams.index');
     }
 
     /**
@@ -38,7 +38,7 @@ class TeamController extends Controller
      */
     public function show(Team $team)
     {
-        return view('team.show', compact('team'));
+        return view('pages.team.show', compact('team'));
     }
 
     /**
@@ -55,7 +55,7 @@ class TeamController extends Controller
     public function update(Request $request, Team $team)
     {
         $team->update($request->all());
-        return redirect()->route('team.index');
+        return redirect()->route('teams.index');
     }
 
     /**
@@ -64,6 +64,6 @@ class TeamController extends Controller
     public function destroy(Team $team)
     {
         $team->delete();
-        return redirect()->route('team.index');
+        return redirect()->route('teams.index');
     }
 }

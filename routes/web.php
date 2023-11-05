@@ -25,24 +25,18 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');   
+    return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 //CRUD TEAM
-Route::resource('teams', 'TeamController');
-// Route::get('/dashboard', function () {
-//     return view('pages.dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/contoh', [ContohController::class, 'index'])->name('contoh');
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::get('/team', [TeamController::class, 'index'])->name('team.index');
-});
+    Route::resource('teams', TeamController::class);
 
-Route::middleware('auth')->group(function () {
+    // Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 require __DIR__.'/auth.php';
