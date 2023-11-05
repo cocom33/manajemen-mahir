@@ -5,7 +5,7 @@
         <a id="side-menu-toggler" class="mr-2 cursor-pointer"> <i data-feather="bar-chart-2" class="w-8 h-8 text-black transform -rotate-90"></i> </a>
         <a href="" class="">Application</a> <i data-feather="chevron-right" class="breadcrumb__icon"></i>
         <a href="" class="breadcrumb--active">
-            Dashboard
+            @yield('title', 'Dashboard')
         </a>
     </div>
     <!-- END: Breadcrumb -->

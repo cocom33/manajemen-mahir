@@ -129,6 +129,36 @@ class Controller extends BaseController
                 'page_name' => 'contoh',
                 'title' => 'Contoh'
             ],
+            'project' => [
+                'icon' => 'box',
+                'layout' => 'side-menu',
+                'page_name' => 'project',
+                'title' => 'List Project'
+            ],
+            'keuangan perusahaan' => [
+                'icon' => 'box',
+                'layout' => 'side-menu',
+                'page_name' => 'keuangan-perusahaan',
+                'title' => 'Keuangan Perusahaan'
+            ],
+            'keuangan umum' => [
+                'icon' => 'box',
+                'layout' => 'side-menu',
+                'page_name' => 'keuangan-umum',
+                'title' => 'Keuangan Umum'
+            ],
+            'client' => [
+                'icon' => 'box',
+                'layout' => 'side-menu',
+                'page_name' => 'client',
+                'title' => 'Client'
+            ],
+            'project type' => [
+                'icon' => 'box',
+                'layout' => 'side-menu',
+                'page_name' => 'project-type',
+                'title' => 'Project Type'
+            ],
             // 'menu-layout' => [
             //     'icon' => 'box',
             //     'page_name' => 'menu-layout',
