@@ -5,6 +5,7 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TeamController;
 use Illuminate\Support\Facades\Route;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
@@ -23,6 +24,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/dashboard', function () {
+    return view('dashboard');   
+})->middleware(['auth', 'verified'])->name('dashboard');
+//CRUD TEAM
+Route::resource('teams', 'TeamController');
 // Route::get('/dashboard', function () {
 //     return view('pages.dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
@@ -30,6 +36,7 @@ Route::get('/', function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/contoh', [ContohController::class, 'index'])->name('contoh');
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/team', [TeamController::class, 'index'])->name('team.index');
 });
 
 Route::middleware('auth')->group(function () {
