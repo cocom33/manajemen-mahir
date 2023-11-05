@@ -4,16 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\Team;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class TeamController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($pageName = 'team')
     {
         $teams = Team::all();
-        return view('teams.index', compact('teams'));
+        return view('pages/' . $pageName, $this->getMenuData());
     }
 
     /**
