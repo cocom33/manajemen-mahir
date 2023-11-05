@@ -22,11 +22,9 @@
                     <div class="my-auto">
                         <img alt="Mahir Techno" class="-intro-x w-1/2 -mt-16" src="./images/Sentiment-analysis-rafiki.svg">
                         <div class="-intro-x text-white font-medium text-4xl leading-tight mt-10">
-                            Selamat datang di website
-                            <br>
-                            Manajemen Mahir Techno
+                            Manajemen Project Mahir Techno
                         </div>
-                        <div class="-intro-x mt-5 text-lg text-white">Mengelola data kantor lebih mudah.</div>
+                        <div class="-intro-x mt-5 text-lg text-white">Mengelola project lebih mudah.</div>
                     </div>
                 </div>
                 <!-- END: Login Info -->

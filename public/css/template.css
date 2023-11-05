@@ -6432,7 +6432,8 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 
 @media (max-width: 1279px) {
   .login {
-    background: linear-gradient(to bottom, #1C3FAA, #2B51B4);
+    background-color: transparent;
+    background-image: linear-gradient(90deg,#185adb 0%,#10eaf0 100%);
     background-repeat: no-repeat;
     background-attachment: fixed;
   }
