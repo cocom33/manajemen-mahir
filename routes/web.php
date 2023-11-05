@@ -8,9 +8,12 @@ use App\Http\Controllers\KeuanganUmumController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PorjectTeamController;
 use App\Http\Controllers\PorjectTypeController;
+use App\Http\Controllers\Auth\PasswordController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TeamController;
 use Illuminate\Support\Facades\Route;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,18 +39,21 @@ Route::resource('teams', 'TeamController');
 //     return view('pages.dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', [PageController::class, 'loadPage'])->name('dashboard');
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/contoh', [ContohController::class, 'index'])->name('contoh');
 
     // profile
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+});
+
+Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     // end profile
 
     // team
-    Route::get('/team', [TeamController::class, 'index'])->name('team.index');
+    Route::get('/team', [TeamController::class, 'index'])->name('team');
     // end team
 
     // client

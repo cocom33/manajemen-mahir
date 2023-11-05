@@ -5,21 +5,22 @@
 <div class="content">
     <div class="intro-y flex items-center mt-8">
         <h2 class="text-lg font-medium mr-auto">
-            Update Profile
+            Profile
         </h2>
     </div>
     <div class="grid grid-cols-12 gap-6">
-        <!-- BEGIN: Profile Menu -->
-        <div class="col-span-12 lg:col-span-4 xxl:col-span-3 flex lg:block flex-col-reverse">
-            <div class="intro-y box mt-5">
-                <div class="relative flex items-center p-5">
-                    <div class="w-12 h-12 image-fit">
-                        <img alt="Midone Tailwind HTML Admin Template" class="rounded-full" src="dist/images/profile-8.jpg">
-                    </div>
-                    <div class="ml-4 mr-auto">
-                        <div class="font-medium text-base">{{ $user->name }}</div>
-                        <div class="text-gray-600">Frontend Engineer</div>
-                    </div>
+        <div class="col-span-12 lg:col-span-12 xxl:col-span-9">
+
+            <form id="send-verification" method="post" action="{{ route('verification.send') }}">
+                @csrf
+            </form>
+
+            <!-- BEGIN: Display Information -->
+            <div class="intro-y box lg:mt-5">
+                <div class="flex items-center p-5 border-b border-gray-200">
+                    <h2 class="font-medium text-base mr-auto">
+                        Display Information
+                    </h2>
                     <div class="dropdown relative">
                         <a class="dropdown-toggle w-5 h-5 block" href="javascript:;"> <i data-feather="more-horizontal" class="w-5 h-5 text-gray-700"></i> </a>
                         <div class="dropdown-box mt-5 absolute w-56 top-0 right-0 z-20">
@@ -35,40 +36,14 @@
                                     <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white hover:bg-gray-200 rounded-md"> <i data-feather="sidebar" class="w-4 h-4 text-gray-700 mr-2"></i> Indonesia </a>
                                 </div>
                                 <div class="px-3 py-3 border-t border-gray-200 font-medium flex">
-                                    <button type="button" class="button button--sm bg-theme-1 text-white">Settings</button>
+                                    <button type="button" class="button button--sm bg-theme-10 text-white">Settings</button>
                                     <button type="button" class="button button--sm bg-gray-200 text-gray-600 ml-auto">View Profile</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="p-5 border-t border-gray-200">
-                    <a class="flex items-center text-theme-1 font-medium" href=""> <i data-feather="activity" class="w-4 h-4 mr-2"></i> Personal Information </a>
-                    <a class="flex items-center mt-5" href=""> <i data-feather="box" class="w-4 h-4 mr-2"></i> Account Settings </a>
-                    <a class="flex items-center mt-5" href=""> <i data-feather="lock" class="w-4 h-4 mr-2"></i> Change Password </a>
-                    <a class="flex items-center mt-5" href=""> <i data-feather="settings" class="w-4 h-4 mr-2"></i> User Settings </a>
-                </div>
-                <div class="p-5 border-t border-gray-200">
-                    <a class="flex items-center" href=""> <i data-feather="activity" class="w-4 h-4 mr-2"></i> Email Settings </a>
-                    <a class="flex items-center mt-5" href=""> <i data-feather="box" class="w-4 h-4 mr-2"></i> Saved Credit Cards </a>
-                    <a class="flex items-center mt-5" href=""> <i data-feather="lock" class="w-4 h-4 mr-2"></i> Social Networks </a>
-                    <a class="flex items-center mt-5" href=""> <i data-feather="settings" class="w-4 h-4 mr-2"></i> Tax Information </a>
-                </div>
-                <div class="p-5 border-t flex">
-                    <button type="button" class="button button--sm block bg-theme-1 text-white">New Group</button>
-                    <button type="button" class="button button--sm border text-gray-700 ml-auto">New Quick Link</button>
-                </div>
-            </div>
-        </div>
-        <!-- END: Profile Menu -->
-        <div class="col-span-12 lg:col-span-8 xxl:col-span-9">
-            <!-- BEGIN: Display Information -->
-            <div class="intro-y box lg:mt-5">
-                <div class="flex items-center p-5 border-b border-gray-200">
-                    <h2 class="font-medium text-base mr-auto">
-                        Display Information
-                    </h2>
-                </div>
+
                 <div class="p-5">
                     <div class="grid grid-cols-12 gap-5">
                         <div class="col-span-12 xl:col-span-4">
@@ -78,100 +53,113 @@
                                     <div id="removePhoto" title="Remove this profile photo?" class="tooltip w-5 h-5 flex items-center justify-center absolute rounded-full text-white bg-theme-6 right-0 top-0 -mr-2 -mt-2"> <i data-feather="x" class="w-4 h-4"></i> </div>
                                 </div>
                                 <div class="w-40 mx-auto cursor-pointer relative mt-5">
-                                    <button id="changePhotoButton" type="button" class="button w-full bg-theme-1 text-white">Change Photo</button>
+                                    <button id="changePhotoButton" type="button" class="button w-full bg-theme-10 text-white">Change Photo</button>
                                     <input type="file" id="fileInput" class="w-full h-full top-0 left-0 absolute opacity-0">
                                 </div>
                             </div>
                         </div>
-                        <div class="col-span-12 xl:col-span-8">
+                        <form method="post" action="{{ route('profile.update') }}" class="col-span-12 xl:col-span-8">
+                            @csrf
+                            @method('patch')
+
                             <div>
-                                <label>Display Name</label>
-                                <input type="text" class="input w-full border bg-gray-100 cursor-not-allowed mt-2" placeholder="Input text" value="{{ $user->name }}" disabled>
+                                <x-input-label for="name" :value="__('Name')" />
+                                <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" />
+                                <x-input-error class="mt-2" :messages="$errors->get('name')" />
                             </div>
+
                             <div class="mt-3">
-                                <label>Postal Code</label>
-                                <div class="mt-2">
-                                    <select class="select2 w-full">
-                                        <option value="1">018906 - 1 STRAITS BOULEVARD SINGA...</option>
-                                        <option value="2">018910 - 5A MARINA GARDENS DRIVE...</option>
-                                        <option value="3">018915 - 100A CENTRAL BOULEVARD...</option>
-                                        <option value="4">018925 - 21 PARK STREET MARINA...</option>
-                                        <option value="5">018926 - 23 PARK STREET MARINA...</option>
-                                    </select>
-                                </div>
+                                <x-input-label for="email" :value="__('Email')" />
+                                <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />
+                                <x-input-error class="mt-2" :messages="$errors->get('email')" />
+
+                                @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
+                                    <div>
+                                        <p class="text-sm mt-2 text-gray-800 dark:text-gray-200">
+                                            {{ __('Your email address is unverified.') }}
+
+                                            <button form="send-verification" class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">
+                                                {{ __('Click here to re-send the verification email.') }}
+                                            </button>
+                                        </p>
+
+                                        @if (session('status') === 'verification-link-sent')
+                                            <p class="mt-2 font-medium text-sm text-green-600 dark:text-green-400">
+                                                {{ __('A new verification link has been sent to your email address.') }}
+                                            </p>
+                                        @endif
+                                    </div>
+                                @endif
                             </div>
-                            <div class="mt-3">
-                                <label>Address</label>
-                                <textarea class="input w-full border mt-2" placeholder="Adress">10 Anson Road, International Plaza, #10-11, 079903 Singapore, Singapore</textarea>
+
+                            <div class="flex items-center gap-4">
+                                <x-primary-button>{{ __('Save') }}</x-primary-button>
+
+                                @if (session('status') === 'profile-updated')
+                                    <p
+                                        x-data="{ show: true }"
+                                        x-show="show"
+                                        x-transition
+                                        x-init="setTimeout(() => show = false, 2000)"
+                                        class="text-sm text-gray-600 dark:text-gray-400"
+                                    >{{ __('Saved.') }}</p>
+                                @endif
                             </div>
-                            <button type="button" class="button w-20 bg-theme-1 text-white mt-3">Save</button>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
             <!-- END: Display Information -->
-            <!-- BEGIN: Personal Information -->
-            <div class="intro-y box lg:mt-5">
+
+            <!-- BEGIN: Change Password -->
+            <div class="intro-y box lg:mt-8">
                 <div class="flex items-center p-5 border-b border-gray-200">
                     <h2 class="font-medium text-base mr-auto">
-                        Personal Information
+                        Change Password
                     </h2>
                 </div>
                 <div class="p-5">
-                    <div class="grid grid-cols-12 gap-5">
-                        <div class="col-span-12 xl:col-span-6">
-                            <div>
-                                <label>Email</label>
-                                <input type="text" class="input w-full border bg-gray-100 cursor-not-allowed mt-2" placeholder="Input text" value="russellcrowe@left4code.com" disabled>
-                            </div>
-                            <div class="mt-3">
-                                <label>Name</label>
-                                <input type="text" class="input w-full border mt-2" placeholder="Input text" value="Russell Crowe" disabled>
-                            </div>
-                            <div class="mt-3">
-                                <label>ID Type</label>
-                                <select class="input w-full border mt-2">
-                                    <option>IC</option>
-                                    <option>FIN</option>
-                                    <option>Passport</option>
-                                </select>
-                            </div>
-                            <div class="mt-3">
-                                <label>ID Number</label>
-                                <input type="text" class="input w-full border mt-2" placeholder="Input text" value="357821204950001">
-                            </div>
+                    <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                        {{ __('Ensure your account is using a long, random password to stay secure.') }}
+                    </p>
+                    <form method="post" action="{{ route('password.update') }}" class="mt-6 space-y-6">
+                        @csrf
+                        @method('put')
+
+                        <div>
+                            <x-input-label for="current_password" :value="__('Current Password')" />
+                            <x-text-input id="current_password" name="current_password" type="password" class="mt-1 block w-full" autocomplete="current-password" />
+                            <x-input-error :messages="$errors->updatePassword->get('current_password')" class="mt-2" />
                         </div>
-                        <div class="col-span-12 xl:col-span-6">
-                            <div>
-                                <label>Phone Number</label>
-                                <input type="text" class="input w-full border mt-2" placeholder="Input text" value="65570828">
-                            </div>
-                            <div class="mt-3">
-                                <label>Address</label>
-                                <input type="text" class="input w-full border mt-2" placeholder="Input text" value="10 Anson Road, International Plaza, #10-11, 079903 Singapore, Singapore">
-                            </div>
-                            <div class="mt-3">
-                                <label>Bank Name</label>
-                                <div class="mt-2">
-                                    <select class="select2 w-full">
-                                        <option value="1">SBI - STATE BANK OF INDIA</option>
-                                        <option value="1">CITI BANK - CITI BANK</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="mt-3">
-                                <label>Bank Account</label>
-                                <input type="text" class="input w-full border mt-2" placeholder="Input text" value="DBS Current 011-903573-0">
-                            </div>
+
+                        <div>
+                            <x-input-label for="password" :value="__('New Password')" />
+                            <x-text-input id="password" name="password" type="password" class="mt-1 block w-full" autocomplete="new-password" />
+                            <x-input-error :messages="$errors->updatePassword->get('password')" class="mt-2" />
                         </div>
-                    </div>
-                    <div class="flex justify-end mt-4">
-                        <a href="" class="text-theme-6 flex items-center"> <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Delete Account </a>
-                        <button type="button" class="button w-20 bg-theme-1 text-white ml-auto">Save</button>
-                    </div>
+
+                        <div>
+                            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
+                            <x-text-input id="password_confirmation" name="password_confirmation" type="password" class="mt-1 block w-full" autocomplete="new-password" />
+                            <x-input-error :messages="$errors->updatePassword->get('password_confirmation')" class="mt-2" />
+                        </div>
+
+                        <x-primary-button>{{ __('Save') }}</x-primary-button>
+
+                        @if (session('status') === 'password-updated')
+                            <p
+                                x-data="{ show: true }"
+                                x-show="show"
+                                x-transition
+                                x-init="setTimeout(() => show = false, 2000)"
+                                class="text-sm text-gray-600 dark:text-gray-400"
+                            >{{ __('Saved.') }}</p>
+                        @endif
+                    </form>
                 </div>
             </div>
-            <!-- END: Personal Information -->
+            <!-- END: Change Password -->
+
         </div>
     </div>
 </div>
@@ -206,7 +194,5 @@
     changePhotoButton.addEventListener('click', function () {
         fileInput.click();
     });
-
-
 </script>
 @endpush

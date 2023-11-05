@@ -20,12 +20,10 @@
             <div class="search-result__content">
                 <div class="search-result__content__title">Pages</div>
                 <div class="mb-5">
-                    @foreach ($side_menu as $menu)
-                    <a href="{{ route($menu['page_name']) }}" class="flex items-center mb-2">
-                        <div class="w-8 h-8 bg-theme-18 text-theme-9 flex items-center justify-center rounded-full"> <i class="w-4 h-4" data-feather="{{ $menu['icon'] }}"></i> </div>
-                        <div class="ml-3">{{ $menu['title'] }}</div>
+                    <a href="" class="flex items-center mb-2">
+                        <div class="w-8 h-8 bg-theme-18 text-theme-9 flex items-center justify-center rounded-full"> <i class="w-4 h-4" data-feather="inbox"></i> </div>
+                        <div class="ml-3">P</div>
                     </a>
-                    @endforeach
                 </div>
                 <div class="search-result__content__title">Users</div>
                 <div class="mb-5">
@@ -138,10 +136,10 @@
                     <div class="text-xs text-theme-41">Software Engineer</div>
                 </div>
                 <div class="p-2">
-                    <a href="{{ route('profile.edit') }}" class="flex items-center block p-2 transition duration-300 ease-in-out hover:bg-theme-1 rounded-md"> <i data-feather="user" class="w-4 h-4 mr-2"></i> Profile </a>
-                    <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out hover:bg-theme-1 rounded-md"> <i data-feather="edit" class="w-4 h-4 mr-2"></i> Add Account </a>
-                    <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out hover:bg-theme-1 rounded-md"> <i data-feather="lock" class="w-4 h-4 mr-2"></i> Reset Password </a>
-                    <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out hover:bg-theme-1 rounded-md"> <i data-feather="help-circle" class="w-4 h-4 mr-2"></i> Help </a>
+                    <a href="{{ route('profile.edit') }}" class="flex items-center block p-2 transition duration-300 ease-in-out hover:bg-theme-10 rounded-md"> <i data-feather="user" class="w-4 h-4 mr-2"></i> Profile </a>
+                    <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out hover:bg-theme-10 rounded-md"> <i data-feather="edit" class="w-4 h-4 mr-2"></i> Add Account </a>
+                    <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out hover:bg-theme-10 rounded-md"> <i data-feather="lock" class="w-4 h-4 mr-2"></i> Reset Password </a>
+                    <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out hover:bg-theme-10 rounded-md"> <i data-feather="help-circle" class="w-4 h-4 mr-2"></i> Help </a>
                 </div>
                 <div class="p-2 border-t border-theme-40">
                     <form method="POST" action="{{ route('logout') }}">
@@ -152,7 +150,7 @@
                                             this.closest('form').submit();">
                             {{ __('Log Out') }}
                         </x-dropdown-link> --}}
-                        <button type="submit" class="w-full flex items-center block p-2 transition duration-300 ease-in-out hover:bg-theme-1 rounded-md"> <i data-feather="toggle-right" class="w-4 h-4 mr-2"></i> Logout </button>
+                        <button type="submit" class="w-full flex items-center block p-2 transition duration-300 ease-in-out hover:bg-theme-10 rounded-md"> <i data-feather="toggle-right" class="w-4 h-4 mr-2"></i> Logout </button>
                     </form>
                 </div>
             </div>

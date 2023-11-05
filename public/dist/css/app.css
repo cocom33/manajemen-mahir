@@ -6951,7 +6951,8 @@ select.input.input--lg {
 }
 
 html {
-  background: #1C3FAA;
+    background-color: transparent;
+    background-image: linear-gradient(90deg,#185adb 0%,#10eaf0 100%);
 }
 
 body {
