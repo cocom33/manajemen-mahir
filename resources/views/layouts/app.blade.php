@@ -11,8 +11,6 @@
         <title>Dashboard - Mahir</title>
         <!-- BEGIN: CSS Assets-->
         <link rel="stylesheet" href="dist/css/app.css" />
-        <!-- END: CSS Assets-->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
 
     <body class="app">
@@ -33,6 +31,36 @@
         </div>
 
         @stack('scripts')
+        @if($errors->any())
+            @foreach($errors->all() as $error)
+                <script>
+                    iziToast.error({
+                        title: '',
+                        position: 'topRight',
+                        message: '{{ $error }}',
+                    });
+                </script>
+            @endforeach
+        @endif
+        @if(session()->get('error'))
+            <script>
+                iziToast.error({
+                    title: '',
+                    position: 'topRight',
+                    message: '{{ session()->get('error') }}',
+                });
+            </script>
+        @endif
+
+        @if(session()->get('success'))
+            <script>
+                iziToast.success({
+                    title: '',
+                    position: 'topRight',
+                    message: '{{ session()->get('success') }}',
+                });
+            </script>
+        @endif
         @include('layouts.scripts')
         <script>
             const menuBtn = document.getElementById('side-menu-toggler');
