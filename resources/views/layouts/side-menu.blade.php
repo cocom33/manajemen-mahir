@@ -45,6 +45,26 @@
                 </li>
             </ul>
         </li>
+        <li>
+            <a href="javascript:;" class="side-menu {{ Request::is('teams') ? 'side-menu--active side-menu--open' : '' }}">
+                <div class="side-menu__icon"> <i data-feather="box"></i> </div>
+                <div class="side-menu__title"> Teams <i data-feather="{{ Request::is('teams') ? 'chevron-up' : 'chevron-down' }}" class="side-menu__sub-icon"></i> </div>
+            </a>
+            <ul class="{{ Request::is('teams') ? 'side-menu__sub-open' : '' }}" style="{{ Request::is('teams') ? 'display: block' : '' }}">
+                <li>
+                    <a href="{{route('teams.index')}}" class="side-menu {{ Request::is('teams') ? 'side-menu--active' : '' }}">
+                        <div class="side-menu__icon"> <i data-feather="activity"></i> </div>
+                        <div class="side-menu__title"> All Teams </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="simple-menu-dashboard.html" class="side-menu">
+                        <div class="side-menu__icon"> <i data-feather="activity"></i> </div>
+                        <div class="side-menu__title"> Add Team </div>
+                    </a>
+                </li>
+            </ul>
+        </li>
         <li class="side-nav__devider my-6"></li>
     </ul>
 </nav>
