@@ -4,17 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\Team;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
 class TeamController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index($pageName = 'team')
+    public function index()
     {
-        $teams = Team::all();
-        return view('pages/' . $pageName, $this->getMenuData());
+        $team = Team::all();
+        return view('team.index', compact('team'));
     }
 
     /**
@@ -22,7 +21,7 @@ class TeamController extends Controller
      */
     public function create()
     {
-        return view('teams.create');
+        return view('team.create');
     }
 
     /**
@@ -31,7 +30,7 @@ class TeamController extends Controller
     public function store(Request $request)
     {
         $team = Team::create($request->all());
-        return redirect()->route('teams.index');
+        return redirect()->route('team.index');
     }
 
     /**
@@ -39,7 +38,7 @@ class TeamController extends Controller
      */
     public function show(Team $team)
     {
-        return view('teams.show', compact('team'));
+        return view('team.show', compact('team'));
     }
 
     /**
@@ -47,7 +46,7 @@ class TeamController extends Controller
      */
     public function edit(Team $team)
     {
-        return view('teams.edit', compact('team'));
+        return view('team.edit', compact('team'));
     }
 
     /**
@@ -56,7 +55,7 @@ class TeamController extends Controller
     public function update(Request $request, Team $team)
     {
         $team->update($request->all());
-        return redirect()->route('teams.index');
+        return redirect()->route('team.index');
     }
 
     /**
@@ -65,6 +64,6 @@ class TeamController extends Controller
     public function destroy(Team $team)
     {
         $team->delete();
-        return redirect()->route('teams.index');
+        return redirect()->route('team.index');
     }
 }

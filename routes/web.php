@@ -36,13 +36,13 @@ Route::resource('teams', 'TeamController');
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/contoh', [ContohController::class, 'index'])->name('contoh');
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/team', [TeamController::class, 'index'])->name('team.index');
 });
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::get('/team', [TeamController::class, 'index'])->name('team.index');
 });
 
 require __DIR__.'/auth.php';
