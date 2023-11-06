@@ -43,6 +43,13 @@
             'icon'   => 'user',
             'name'   => 'client',
         ],
+        'devider',
+        'profile' =>  [
+            'title'  => 'Profile',
+            'url'    => route('profile.edit'),
+            'icon'   => 'user',
+            'name'   => 'profile',
+        ],
         'tasdes' =>  [
             'title'  => 'asd',
             'icon'   => 'user',
