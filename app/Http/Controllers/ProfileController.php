@@ -35,10 +35,7 @@ class ProfileController extends Controller
 
         $request->user()->save();
 
-        $user = User::all();
-        dd($user);
-
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        return back()->with('success', 'Profile has been updated successfully!');
     }
 
     /**

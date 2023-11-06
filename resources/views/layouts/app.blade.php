@@ -11,8 +11,9 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>Dashboard - Mahir</title>
         <!-- BEGIN: CSS Assets-->
-        <link rel="stylesheet" href="dist/css/app.css" />
-        
+        <link rel="stylesheet" href="./dist/css/app.css" />
+        <link rel="stylesheet" href="{{ asset('dist/css/iziToast.min.css') }}" />
+
     </head>
 
     <body class="app">
@@ -33,6 +34,8 @@
         </div>
 
         @stack('scripts')
+        @include('layouts.scripts')
+
         @if($errors->any())
             @foreach($errors->all() as $error)
                 <script>
@@ -63,7 +66,6 @@
                 });
             </script>
         @endif
-        @include('layouts.scripts')
         <script>
             const menuBtn = document.getElementById('side-menu-toggler');
             const sidebar = document.getElementById('side-menu');
@@ -81,5 +83,6 @@
             };
 
         </script>
+        @vite('resources/js/app.js')
     </body>
 </html>
