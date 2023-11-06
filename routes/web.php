@@ -37,6 +37,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/contoh', [ContohController::class, 'index'])->name('contoh');
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/team', [TeamController::class, 'index'])->name('team.index');
+    Route::delete('/team', [TeamController::class, 'destroy'])->name('team.index');
 });
 
 Route::middleware('auth')->group(function () {
