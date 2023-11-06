@@ -50,7 +50,7 @@
             'icon'   => 'user',
             'name'   => 'profile',
         ],
-        'tasdes' =>  [
+        'team' =>  [
             'title'  => 'asd',
             'icon'   => 'user',
             'name'   => 'client',
