@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('title', 'Project Type')
 
 @section('content')
  <!-- BEGIN: Content -->
