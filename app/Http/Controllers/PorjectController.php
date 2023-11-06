@@ -8,6 +8,6 @@ class PorjectController extends Controller
 {
     public function index()
     {
-        return view('project.index', $this->getMenuData());
+        return view('admin.project.index', $this->getMenuData());
     }
 }

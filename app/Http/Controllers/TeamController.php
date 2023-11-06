@@ -11,10 +11,10 @@ class TeamController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index($pageName = 'team')
+    public function index()
     {
         $teams = Team::all();
-        return view('pages/' . $pageName, $this->getMenuData());
+        return view('admin.team.index');
     }
 
     /**

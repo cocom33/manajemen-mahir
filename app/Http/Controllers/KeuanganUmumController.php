@@ -8,6 +8,6 @@ class KeuanganUmumController extends Controller
 {
     public function index()
     {
-        return view('keuangan-umum.index', $this->getMenuData());
+        return view('admin.keuangan-umum.index', $this->getMenuData());
     }
 }
