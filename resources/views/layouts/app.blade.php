@@ -11,7 +11,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>Dashboard - Mahir</title>
         <!-- BEGIN: CSS Assets-->
-        <link rel="stylesheet" href="./dist/css/app.css" />
+        <link rel="stylesheet" href="{{ asset('dist/css/app.css')}}" />
         <link rel="stylesheet" href="{{ asset('dist/css/iziToast.min.css') }}" />
 
     </head>

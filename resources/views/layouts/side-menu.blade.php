@@ -12,6 +12,12 @@
             'icon'   => 'home',
             'name'   => 'project',
         ],
+        'teams' =>  [
+            'title'  => 'Teams',
+            'url'    => route('team'),
+            'icon'   => 'home',
+            'name'   => 'teams',
+        ],
         'keuangan-perusahaan' =>  [
             'title'  => 'Keuangan Perusahaan',
             'url'    => route('keuangan-perusahaan'),
