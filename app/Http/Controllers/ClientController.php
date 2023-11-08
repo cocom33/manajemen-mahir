@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class DashboardController extends Controller
+class ClientController extends Controller
 {
     public function index()
     {
-        return view('admin.dashboard.dashboard');
+        return view('admin.client.index', $this->getMenuData());
     }
 }
