@@ -150,7 +150,7 @@ class Controller extends BaseController
             'client' => [
                 'icon' => 'box',
                 'layout' => 'side-menu',
-                'page_name' => 'client',
+                'page_name' => 'client.index',
                 'title' => 'Client'
             ],
             'project type' => [

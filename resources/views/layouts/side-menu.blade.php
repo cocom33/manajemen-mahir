@@ -14,7 +14,7 @@
         ],
         'teams' =>  [
             'title'  => 'Teams',
-            'url'    => route('team'),
+            'url'    => route('teams.index'),
             'icon'   => 'home',
             'name'   => 'teams',
         ],
@@ -39,13 +39,13 @@
         ],
         'team' =>  [
             'title'  => 'Team',
-            'url'    => route('team'),
+            'url'    => route('teams.index'),
             'icon'   => 'user',
             'name'   => 'team',
         ],
         'client' =>  [
             'title'  => 'Client',
-            'url'    => route('client'),
+            'url'    => route('client.index'),
             'icon'   => 'user',
             'name'   => 'client',
         ],
@@ -59,16 +59,16 @@
         'team' =>  [
             'title'  => 'asd',
             'icon'   => 'user',
-            'name'   => 'client',
+            'name'   => 'team.index',
             'children' => [
                 [
                     'title'  => 'tes 11',
-                    'url'    => route('client'),
+                    'url'    => route('client.index'),
                     'icon'   => 'activity',
                 ],
                 [
                     'title'  => 'tes 2',
-                    'url'    => route('client'),
+                    'url'    => route('client.index'),
                     'icon'   => 'activity',
                 ],
             ]
