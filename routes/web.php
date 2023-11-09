@@ -41,7 +41,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // profile
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::resource('teams', TeamController::class);
+});
 
     // Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -50,11 +50,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // end profile
 
     // team
-    Route::get('/team', [TeamController::class, 'index'])->name('team');
+    Route::resource('teams', TeamController::class);
+
     // end team
 
     // client
-    Route::get('/client', [ClientController::class, 'index'])->name('client');
+    Route::resource('client', ClientController::class);
     // end client
 
     // project

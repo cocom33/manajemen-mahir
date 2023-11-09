@@ -12,8 +12,8 @@ class TeamController extends Controller
      */
     public function index()
     {
-        $team = Team::all();
-        return view('pages.team.index', compact('team'));
+        $teams = Team::all();
+        return view('admin.team.index', compact('teams'));
     }
 
     /**
@@ -21,7 +21,7 @@ class TeamController extends Controller
      */
     public function create()
     {
-        return view('pages.team.create');
+        return view('admin.team.create');
     }
 
     /**
@@ -38,7 +38,7 @@ class TeamController extends Controller
      */
     public function show(Team $team)
     {
-        return view('pages.team.show', compact('team'));
+        return view('admin.team.show', compact('teams'));
     }
 
     /**
@@ -46,7 +46,7 @@ class TeamController extends Controller
      */
     public function edit(Team $team)
     {
-        return view('team.edit', compact('team'));
+        return view('admin.team.edit', compact('teams'));
     }
 
     /**
@@ -64,6 +64,9 @@ class TeamController extends Controller
     public function destroy(Team $team)
     {
         $team->delete();
-        return redirect()->route('teams.index');
+
+        session()->flash('message', 'Team deleted successfully.');
+
+        return redirect()->back();
     }
 }
