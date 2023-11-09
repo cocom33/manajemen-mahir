@@ -64,7 +64,7 @@
                                     <form action="{{ route('teams.destroy', $team->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="flex items-center text-theme-6 block p-2 transition duration-300 ease-in-out bg-white hover:bg-gray-200 rounded-md">
+                                        <button type="submit" class="show-alert-delete-box flex items-center text-theme-6 block p-2 transition duration-300 ease-in-out bg-white hover:bg-gray-200 rounded-md">
                                             <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Delete
                                         </button>
                                     </form>

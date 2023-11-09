@@ -29,8 +29,23 @@ class TeamController extends Controller
      */
     public function store(Request $request)
     {
-        $team = Team::create($request->all());
-        return redirect()->route('teams.index');
+        $request->validate([
+            'name' => 'required',
+            'wa' => 'required',
+            'status' => 'required',
+            'email' => 'required',
+            'alamat' => 'required',
+        ]);
+
+        $dt = New Team();
+        $dt->name = $request->name;
+        $dt->wa = $request->wa;
+        $dt->email = $request->email;
+        $dt->alamat = $request->alamat;
+        $dt->status = $request->status;
+        $dt->save();
+
+        return redirect()->route('teams.index')->with('success', 'Team '. $dt->name .' created successfully!');
     }
 
     /**
