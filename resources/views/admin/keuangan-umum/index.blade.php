@@ -67,33 +67,3 @@
 </div>
 <!-- END: Datatable -->
 @endsection
-
-@push('scripts')
-<script type="text/javascript">
-    $(document).ready(function() {
-        $(document).on('click', '.show-alert-delete-box', function(event){
-            var form =  $(this).closest("form");
-
-            event.preventDefault();
-            Swal.fire({
-                title: "Are you sure you want to delete this record?",
-                text: "If you delete this, it will be gone forever.",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, delete it!"
-            }).then((result) => {
-            if (result.isConfirmed) {
-                Swal.fire({
-                title: "Deleted!",
-                text: "Your data has been deleted.",
-                icon: "success"
-                });
-                form.submit();
-            }
-            });
-        });
-    });
-</script>
-@endpush

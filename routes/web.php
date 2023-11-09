@@ -41,7 +41,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // profile
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-});
 
     // Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
