@@ -9,13 +9,13 @@
         'project' =>  [
             'title'  => 'Project',
             'url'    => route('project'),
-            'icon'   => 'home',
+            'icon'   => 'briefcase',
             'name'   => 'project',
         ],
         'teams' =>  [
             'title'  => 'Teams',
             'url'    => route('teams.index'),
-            'icon'   => 'home',
+            'icon'   => 'users',
             'name'   => 'teams',
         ],
         'keuangan-perusahaan' =>  [
@@ -27,14 +27,14 @@
         'keuangan-umum' =>  [
             'title'  => 'Keuangan Umum',
             'url'    => route('keuangan-umum.index'),
-            'icon'   => 'home',
+            'icon'   => 'dollar-sign',
             'name'   => 'keuangan-umum',
         ],
         'devider',
         'project-type' =>  [
             'title'  => 'Project Type',
             'url'    => route('project-type.index'),
-            'icon'   => 'home',
+            'icon'   => 'layout',
             'name'   => 'project-type'
         ],
         'team' =>  [
