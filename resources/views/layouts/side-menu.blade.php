@@ -12,12 +12,6 @@
             'icon'   => 'briefcase',
             'name'   => 'project',
         ],
-        'teams' =>  [
-            'title'  => 'Teams',
-            'url'    => route('teams.index'),
-            'icon'   => 'users',
-            'name'   => 'teams',
-        ],
         'keuangan-perusahaan' =>  [
             'title'  => 'Keuangan Perusahaan',
             'url'    => route('keuangan-perusahaan'),
@@ -31,17 +25,17 @@
             'name'   => 'keuangan-umum',
         ],
         'devider',
+        'teams' =>  [
+            'title'  => 'Teams',
+            'url'    => route('teams.index'),
+            'icon'   => 'users',
+            'name'   => 'teams',
+        ],
         'project-type' =>  [
             'title'  => 'Project Type',
             'url'    => route('project-type.index'),
             'icon'   => 'layout',
             'name'   => 'project-type'
-        ],
-        'team' =>  [
-            'title'  => 'Team',
-            'url'    => route('teams.index'),
-            'icon'   => 'user',
-            'name'   => 'team',
         ],
         'client' =>  [
             'title'  => 'Client',
