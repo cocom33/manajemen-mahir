@@ -29,15 +29,13 @@ class ProjectTypeController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validate = $request->validate([
             'name' => 'required'
         ]);
 
-        $dt = New ProjectType();
-        $dt->name = $request->name;
-        $dt->save();
+        ProjectType::create($validate);
 
-        return redirect()->route('project-type.index')->with('success', 'Project Type created successfully!');
+        return redirect()->route('project-type.index')->with('success', $request->name .' created successfully!');
     }
 
     /**
@@ -62,14 +60,13 @@ class ProjectTypeController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $dt = ProjectType::where('id', $id)->first();
-
-        $request->validate([
+        $validate = $request->validate([
             'name' => 'required'
         ]);
 
-        $dt->name = $request->name;
-        $dt->update();
+        $dt = ProjectType::find($id);
+
+        $dt->update($validate);
 
         return redirect()->route('project-type.index')->with('success', 'Project Type updated successfully!');
     }
