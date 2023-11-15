@@ -9,13 +9,13 @@
         'project' =>  [
             'title'  => 'Project',
             'url'    => route('project'),
-            'icon'   => 'home',
+            'icon'   => 'briefcase',
             'name'   => 'project',
         ],
         'teams' =>  [
             'title'  => 'Teams',
             'url'    => route('teams.index'),
-            'icon'   => 'home',
+            'icon'   => 'users',
             'name'   => 'teams',
         ],
         'keuangan-perusahaan' =>  [
@@ -26,16 +26,16 @@
         ],
         'keuangan-umum' =>  [
             'title'  => 'Keuangan Umum',
-            'url'    => route('keuangan-umum'),
-            'icon'   => 'home',
+            'url'    => route('keuangan-umum.index'),
+            'icon'   => 'dollar-sign',
             'name'   => 'keuangan-umum',
         ],
         'devider',
         'project-type' =>  [
             'title'  => 'Project Type',
-            'url'    => route('project-type'),
-            'icon'   => 'home',
-            'name'   => 'project-type',
+            'url'    => route('project-type.index'),
+            'icon'   => 'layout',
+            'name'   => 'project-type'
         ],
         'team' =>  [
             'title'  => 'Team',
@@ -65,11 +65,13 @@
                     'title'  => 'tes 11',
                     'url'    => route('client.index'),
                     'icon'   => 'activity',
+                    'name'   => 'client',
                 ],
                 [
                     'title'  => 'tes 2',
                     'url'    => route('client.index'),
                     'icon'   => 'activity',
+                    'name'   => 'client',
                 ],
             ]
         ],
@@ -79,7 +81,7 @@
 <!-- BEGIN: Side Menu -->
 <nav class="side-nav" id="side-menu">
     <a href="" class="intro-x flex items-center pl-5 pt-4">
-        <img alt="logo" class="w-24" src="dist/images/mahir-logo.png">
+        <img alt="logo" class="w-24" src="{{ asset('dist/images/mahir-logo.png') }}">
     </a>
     <div class="side-nav__devider my-6"></div>
     <ul>
@@ -96,14 +98,14 @@
                     </li>
                 @else
                     <li>
-                        <a href="javascript:;" class="side-menu">
+                        <a href="javascript:;" class="side-menu {{ Request::is($menu['name'] ) ? 'side-menu--active' : '' }}">
                             <div class="side-menu__icon"> <i data-feather="layout"></i> </div>
                             <div class="side-menu__title"> {{ $menu['title'] }} <i data-feather="chevron-down" class="side-menu__sub-icon"></i> </div>
                         </a>
-                        <ul class="">
+                        <ul class="{{ Request::is($menu['name'] ) ? 'side-menu__sub-open' : '' }}">
                             @foreach ($menu['children'] as $item)
                                 <li>
-                                    <a href="{{ $item['url'] }}" class="side-menu">
+                                    <a href="{{ $item['url'] }}" class="{{ Request::is( $item['name'] ) ? 'side-menu side-menu--active' : 'side-menu' }}">
                                         <div class="side-menu__icon"> <i data-feather="{{ $item['icon'] }}"></i> </div>
                                         <div class="side-menu__title"> {{ $item['title'] }} </div>
                                     </a>

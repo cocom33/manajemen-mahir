@@ -11,8 +11,10 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>Dashboard - Mahir</title>
         <!-- BEGIN: CSS Assets-->
-        <link rel="stylesheet" href="{{ asset('dist/css/app.css')}}" />
+        <link rel="stylesheet" href="{{ asset('dist/css/app.css') }}" />
         <link rel="stylesheet" href="{{ asset('dist/css/iziToast.min.css') }}" />
+        <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.9.0/dist/sweetalert2.min.css" rel="stylesheet">
+
     </head>
 
     <body class="app">
@@ -26,14 +28,15 @@
 
             @include('layouts.navbar')
 
-
-            @yield('content')
+            <!-- BEGIN: Content -->
+                @yield('content')
+            <!-- END: Content -->
 
             </div>
         </div>
 
-        @stack('scripts')
         @include('layouts.scripts')
+        @stack('scripts')
 
         @if($errors->any())
             @foreach($errors->all() as $error)

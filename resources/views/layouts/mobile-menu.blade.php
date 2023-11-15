@@ -20,14 +20,14 @@
         ],
         'keuangan-umum' =>  [
             'title'  => 'Keuangan Umum',
-            'url'    => route('keuangan-umum'),
+            'url'    => route('keuangan-umum.index'),
             'icon'   => 'home',
             'name'   => 'keuangan-umum',
         ],
         'devider',
         'project-type' =>  [
             'title'  => 'Project Type',
-            'url'    => route('project-type'),
+            'url'    => route('project-type.index'),
             'icon'   => 'home',
             'name'   => 'project-type',
         ],
@@ -74,7 +74,7 @@
 <div class="mobile-menu md:hidden">
     <div class="mobile-menu-bar">
         <a href="" class="flex mr-auto">
-            <img alt="logo" class="w-14" src="dist/images/mahir-logo.png">
+            <img alt="logo" class="w-14" src="{{ asset('dist/images/mahir-logo.png') }}">
         </a>
         <a href="javascript:;" id="mobile-menu-toggler"> <i data-feather="bar-chart-2" class="w-8 h-8 text-white transform -rotate-90"></i> </a>
     </div>

@@ -11,7 +11,9 @@ use App\Http\Controllers\PorjectTypeController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProjectTypeController;
 use App\Http\Controllers\TeamController;
+use App\Models\KeuanganUmum;
 use Illuminate\Support\Facades\Route;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
@@ -34,18 +36,13 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 //CRUD TEAM
-// Route::get('/dashboard', function () {
-//     return view('pages.dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/contoh', [ContohController::class, 'index'])->name('contoh');
 
     // profile
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-});
 
-Route::middleware('auth')->group(function () {
+    // Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -82,11 +79,11 @@ Route::middleware('auth')->group(function () {
     // end project
 
     // project type
-    Route::get('/project-type', [PorjectTypeController::class, 'index'])->name('project-type');
+    Route::resource('project-type', ProjectTypeController::class);
     // end project type
 
     // keuangan umum
-    Route::get('keuangan-umum', [KeuanganUmumController::class, 'index'])->name('keuangan-umum');
+    Route::resource('keuangan-umum', KeuanganUmumController::class);
     // end keuangan umum
 
     // keuangan perusahaan

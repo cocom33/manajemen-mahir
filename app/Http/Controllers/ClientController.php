@@ -10,18 +10,32 @@ class ClientController extends Controller
     public function index()
     {
         $clients = Client::all();
-        return view('admin.client.index', $this->getMenuData(), compact('clients'));
+        return view('admin.client.index', compact('clients'));
     }
 
-        public function create()
+    public function create()
     {
         return view('admin.client.create');
     }
 
     public function store(Request $request)
     {
-        $client = Client::create($request->all());
-        return redirect()->route('client.index');
+        $request->validate([
+            'name' => 'required',
+            'wa' => 'required',
+            'email' => 'required',
+            'alamat' => 'required',
+        ]);
+
+        $dt = New Client();
+        $dt->name = $request->name;
+        $dt->wa = $request->wa;
+        $dt->email = $request->email;
+        $dt->alamat = $request->alamat;
+        $dt->sumber = $request->sumber;
+        $dt->save();
+
+        return redirect()->route('client.index')->with('success', 'Client '. $dt->name .' created successfully!');
     }
 
     public function show(Client $client)
@@ -34,16 +48,31 @@ class ClientController extends Controller
         return view('admin.client.edit', compact('client'));
     }
 
-    public function update(Request $request, Client $client)
+    public function update(Request $request, String $id)
     {
-        $client->update($request->all());
-        return redirect()->route('client.index');
+        $dt = Client::where('id', $id)->first();
+
+        $request->validate([
+            'name' => 'required',
+            'wa' => 'required',
+            'email' => 'required',
+            'alamat' => 'required',
+        ]);
+
+        $dt->name = $request->name;
+        $dt->wa = $request->wa;
+        $dt->email = $request->email;
+        $dt->alamat = $request->alamat;
+        $dt->sumber = $request->sumber;
+        $dt->update();
+
+        return redirect()->route('client.index')->with('success', 'Client '. $dt->name .' updated successfully!');
     }
 
     public function destroy(Client $client)
     {
         $client->delete();
-        return redirect()->route('client.index');
+        return redirect()->route('client.index')->with('error', 'Client '. $client->name .' deleted successfully!');
     }
 
 }
