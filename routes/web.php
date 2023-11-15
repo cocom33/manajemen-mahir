@@ -59,6 +59,23 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // project
     Route::get('/project', [PorjectController::class, 'index'])->name('project');
+    Route::get('/project-create', [PorjectController::class, 'form'])->name('project.create');
+    Route::post('/project-store', [PorjectController::class, 'store'])->name('project.store');
+    Route::get('/project/{slug}/edit', [PorjectController::class, 'form'])->name('project.edit');
+    Route::put('/project/{slug}/update', [PorjectController::class, 'update'])->name('project.update');
+    Route::delete('/project/{slug}', [PorjectController::class, 'delete'])->name('project.delete');
+
+    Route::get('/project/{slug}', [PorjectController::class, 'projectDetail'])->name('project.detail');
+
+    Route::get('/project/{slug}/team', [PorjectController::class, 'projectTeam'])->name('project.team');
+    Route::get('/project/{slug}/add-team', [PorjectController::class, 'projectAddTeam'])->name('project.team.add');
+    Route::post('/project/{slug}/team-store', [PorjectController::class, 'projectDetailTeamStore'])->name('project.detail.team');
+
+    Route::get('/project/{slug}/lampiran', [PorjectController::class, 'projectLampiran'])->name('project.lampiran');
+
+    Route::get('/project/{slug}/fee', [PorjectController::class, 'projectFee'])->name('project.fee');
+
+    Route::get('/project/{slug}/invoice', [PorjectController::class, 'projectInvoice'])->name('project.invoice');
     // end project
 
     // project type
