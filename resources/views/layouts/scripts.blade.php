@@ -8,8 +8,7 @@
 <!-- Sweet Alerts 2 -->
 <script src="/vendor/sweetalert2/dist/sweetalert2.all.min.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=["your-google-map-api"]&libraries=places"></script>
-<script src="{{ asset('dist/js/app.js') }}"></script>
-<script src="{{ asset('dist/js/iziToast.min.js') }}"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.9.0/dist/sweetalert2.all.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
