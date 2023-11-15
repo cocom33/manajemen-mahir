@@ -29,7 +29,7 @@ class TeamController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validate = $request->validate([
             'name' => 'required',
             'wa' => 'required',
             'status' => 'required',
@@ -37,15 +37,9 @@ class TeamController extends Controller
             'alamat' => 'required',
         ]);
 
-        $dt = New Team();
-        $dt->name = $request->name;
-        $dt->wa = $request->wa;
-        $dt->email = $request->email;
-        $dt->alamat = $request->alamat;
-        $dt->status = $request->status;
-        $dt->save();
+        Team::create($validate);
 
-        return redirect()->route('teams.index')->with('success', 'Team '. $dt->name .' created successfully!');
+        return redirect()->route('teams.index')->with('success', 'Team '. $request->name .' created successfully!');
     }
 
     /**
