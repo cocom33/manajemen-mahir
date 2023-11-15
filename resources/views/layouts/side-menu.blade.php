@@ -89,7 +89,7 @@
             @else
                 @if (empty($menu['children']))
                     <li>
-                        <a href="{{ $menu['url'] }}" class="side-menu {{ Request::is($menu['name']) ? 'side-menu--active' : '' }}">
+                        <a href="{{ $menu['url'] }}" class="side-menu {{ Request::is($menu['name']."*") ? 'side-menu--active' : '' }}">
                             <div class="side-menu__icon"> <i data-feather="{{ $menu['icon'] }}"></i> </div>
                             <div class="side-menu__title"> {{ $menu['title'] }} </div>
                         </a>

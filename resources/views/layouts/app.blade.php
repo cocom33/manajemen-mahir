@@ -13,7 +13,6 @@
         <!-- BEGIN: CSS Assets-->
         <link rel="stylesheet" href="{{ asset('dist/css/app.css')}}" />
         <link rel="stylesheet" href="{{ asset('dist/css/iziToast.min.css') }}" />
-
     </head>
 
     <body class="app">

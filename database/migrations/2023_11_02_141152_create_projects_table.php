@@ -20,8 +20,8 @@ return new class extends Migration
             $table->foreignId('project_type_id');
             $table->string('description');
             $table->enum('status', ['penawaran', 'deal', 'finish', 'cancel'])->default('penawaran');
-            $table->string('start_date')->default(Date('now'));
-            $table->string('deadline_date');
+            $table->date('start_date')->nullable();
+            $table->date('deadline_date')->nullable();
             $table->integer('harga_penawaran')->nullable();
             $table->integer('harga_deal')->nullable();
             $table->enum('status_server', ['mahir', 'mandiri'])->nullable();
