@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use App\Models\Project;
+use App\Models\ProjectDocument;
 use App\Models\ProjectType;
 use App\Models\Team;
 use Illuminate\Http\Request;
@@ -89,6 +90,24 @@ class PorjectController extends Controller
         $data['project'] = Project::where('slug', $slug)->first();
 
         return view('admin.project.lampiran.index', $data);
+    }
+
+    public function projectLampiranStore(Request $request, $slug)
+    {
+        $data = Project::where('slug', $slug)->first();
+
+        $request->validate([
+            'name' => 'required',
+            'link' => 'required',
+        ]);
+
+        $dt = New ProjectDocument();
+        $dt->project_id = $data->id;
+        $dt->name = $request->name;
+        $dt->link = $request->link;
+        $dt->save();
+
+        return back()->with('success', $request->name .' created successfully!');
     }
 
     public function projectTeam($slug)

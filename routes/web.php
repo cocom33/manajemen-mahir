@@ -72,6 +72,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/project/{slug}/team-store', [PorjectController::class, 'projectDetailTeamStore'])->name('project.detail.team');
 
     Route::get('/project/{slug}/lampiran', [PorjectController::class, 'projectLampiran'])->name('project.lampiran');
+    Route::post('/project/lampiran-store/{slug}', [PorjectController::class, 'projectLampiranStore'])->name('project.lampiran.upload');
 
     Route::get('/project/{slug}/fee', [PorjectController::class, 'projectFee'])->name('project.fee');
 
