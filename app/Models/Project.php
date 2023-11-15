@@ -17,6 +17,7 @@ class Project extends Model
         'name',
         'slug',
         'client_id',
+        'project_type_id',
         'description',
         'status',
         'project_type',
@@ -59,5 +60,10 @@ class Project extends Model
     public function keuanganProject()
     {
         return $this->belongsTo(keuanganProject::class);
+    }
+
+    public function client()
+    {
+        return $this->belongsTo(Client::class, 'client_id', 'id');
     }
 }

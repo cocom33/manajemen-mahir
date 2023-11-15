@@ -3,8 +3,10 @@
 
 @section('content')
  <!-- BEGIN: Content -->
- <div class="content">
-
-</div>
+ <x-card title="Project List" :route="route('project.create')">
+    <div class="relative w-full">
+        <livewire:project-table />
+    </div>
+ </x-card>
 <!-- END: Content -->
 @endsection
