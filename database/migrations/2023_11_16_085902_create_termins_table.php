@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('keuangan_projects', function (Blueprint $table) {
+        Schema::create('termins', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('project_id');
-            $table->enum('type', ['langsung', 'termin']);
+            $table->foreignId('keuangan_project_id');
+            $table->string('name');
 
             $table->softDeletes();
             $table->timestamps();
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('keuangan_projects');
+        Schema::dropIfExists('termins');
     }
 };

@@ -76,6 +76,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('/project/lampiran-update/{id}', [PorjectController::class, 'projectLampiranUpdate'])->name('project.lampiran.update');
 
     Route::get('/project/{slug}/fee', [PorjectController::class, 'projectFee'])->name('project.fee');
+    Route::post('/project/{slug}/fee/create', [ProjectController::class, ''])->name('project.fee.create');
 
     Route::get('/project/{slug}/invoice', [PorjectController::class, 'projectInvoice'])->name('project.invoice');
     // end project

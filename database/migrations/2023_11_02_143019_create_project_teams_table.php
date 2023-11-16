@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('project_id');
             $table->foreignId('team_id');
+            $table->integer('fee')->nullable();
 
             $table->softDeletes();
             $table->timestamps();

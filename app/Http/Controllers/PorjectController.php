@@ -150,4 +150,10 @@ class PorjectController extends Controller
 
         return view('admin.project.fee.index', $data);
     }
+
+    public function projectFeeStore(Request $request, $slug)
+    {
+        //
+        return redirect()->back()->with('success', 'berhasil menambahkan pembayaran');
+    }
 }

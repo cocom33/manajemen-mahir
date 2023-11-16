@@ -11,12 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('keuangan_projects', function (Blueprint $table) {
+        Schema::create('invoice_systems', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('project_id');
-            $table->enum('type', ['langsung', 'termin']);
-
-            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -26,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('keuangan_projects');
+        Schema::dropIfExists('invoice_systems');
     }
 };
