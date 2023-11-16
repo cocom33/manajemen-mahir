@@ -88,6 +88,9 @@ class PorjectController extends Controller
     public function projectLampiran($slug)
     {
         $data['project'] = Project::where('slug', $slug)->first();
+        $data['lampiran'] = ProjectDocument::where('project_id', $data['project']->id)->first();
+
+        // dd($data['lampiran']->name);
 
         return view('admin.project.lampiran.index', $data);
     }
@@ -108,6 +111,21 @@ class PorjectController extends Controller
         $dt->save();
 
         return back()->with('success', $request->name .' created successfully!');
+    }
+
+    public function projectLampiranUpdate(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'required',
+            'link' => 'required',
+        ]);
+
+        $dt = ProjectDocument::where('project_id', $id)->first();
+        $dt->name = $request->name;
+        $dt->link = $request->link;
+        $dt->update();
+
+        return back()->with('success', $request->name .' updated successfully!');
     }
 
     public function projectTeam($slug)
