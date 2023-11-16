@@ -20,5 +20,11 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('asd'),
             'email_verified_at' => Date('now'),
         ]);
+
+        $this->call([
+            ClientSeeder::class,
+            ProjectTypeSeeder::class,
+            TeamSeeder::class,
+        ]);
     }
 }
