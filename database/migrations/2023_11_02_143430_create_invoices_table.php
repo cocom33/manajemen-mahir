@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('project_id');
             $table->string('no_invoice');
 
+            $table->softDeletes();
             $table->timestamps();
         });
     }

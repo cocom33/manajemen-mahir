@@ -13,7 +13,9 @@ class PorjectController extends Controller
 {
     public function index()
     {
-        return view('admin.project.index');
+        $data['projects'] = Project::get();
+
+        return view('admin.project.index', $data);
     }
 
     public function projectDetail($slug)
