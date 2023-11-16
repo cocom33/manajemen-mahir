@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('keuangan_perusahaan_id');
             $table->integer('bulan');
+
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('project_id');
             $table->foreignId('team_id');
 
+            $table->softDeletes();
             $table->timestamps();
         });
     }
