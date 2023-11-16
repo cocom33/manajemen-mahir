@@ -13,7 +13,7 @@ class KeuanganPerusahaanController extends Controller
     {
         $data['data'] = KeuanganPerusahaan::where('tahun', Date('Y'))->first();
         $data['all'] = KeuanganDetail::all();
-        dd($data['all']);
+        // dd($data['all']);
 
         return view('admin.keuangan-perusahaan.index', $data);
     }

@@ -2,6 +2,7 @@
     <table class="table table-report table-report--bordered display datatable w-full">
         <thead>
             <tr>
+                <th class="border-b-2 whitespace-no-wrap">BULAN</th>
                 <th class="border-b-2 whitespace-no-wrap">DESCRIPTION</th>
                 <th class="border-b-2 text-center whitespace-no-wrap">STATUS</th>
                 <th class="border-b-2 text-center whitespace-no-wrap">TOTAL</th>
@@ -9,8 +10,9 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($datas as $data)
+            @foreach ($keuanganDetails as $data)
                 <tr>
+                    <td class="border-b">{{ \Carbon\Carbon::create()->month($data->bulan)->format('F') }}</td>
                     <td class="border-b">{{ $data->description }}</td>
                     <td class="text-center border-b">
                         @if ($data->status === 'pemasukan')
