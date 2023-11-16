@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('description');
             $table->integer('total');
 
+            $table->softDeletes();
             $table->timestamps();
         });
     }
