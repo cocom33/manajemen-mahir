@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('langsungs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('keuangan_project_id');
-            $table->integer('total_fee');
+            $table->foreignId('project_team_id');
+            $table->integer('fee');
 
             $table->softDeletes();
             $table->timestamps();
