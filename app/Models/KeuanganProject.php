@@ -9,7 +9,7 @@ class KeuanganProject extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['project_id', 'harga_type'];
+    protected $fillable = ['project_id', 'type'];
 
     public function project()
     {
