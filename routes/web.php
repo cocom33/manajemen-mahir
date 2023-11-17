@@ -74,7 +74,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/project/{slug}/lampiran', [PorjectController::class, 'projectLampiran'])->name('project.lampiran');
 
     Route::get('/project/{slug}/fee', [PorjectController::class, 'projectFee'])->name('project.fee');
-    Route::post('/project/{slug}/fee/create', [ProjectController::class, ''])->name('project.fee.create');
+    Route::post('/project/{slug}/fee/create', [PorjectController::class, 'projectFeeStore'])->name('project.fee.create');
+    Route::post('/project/{slug}/fee/langsung/create', [PorjectController::class, 'projectFeeLangsungStore'])->name('project.fee.langsung.store');
 
     Route::get('/project/{slug}/invoice', [PorjectController::class, 'projectInvoice'])->name('project.invoice');
     // end project
