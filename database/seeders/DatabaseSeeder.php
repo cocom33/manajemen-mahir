@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             ClientSeeder::class,
             ProjectTypeSeeder::class,
             TeamSeeder::class,
+            ProjectSeeder::class,
         ]);
     }
 }

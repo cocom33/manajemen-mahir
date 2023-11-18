@@ -9,10 +9,9 @@
         <thead>
             <tr>
                 <th class="border-b-2 whitespace-no-wrap">PROJECT NAME</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">CLIENT NAME</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">PROJECT TYPE</th>
                 <th class="border-b-2 text-center whitespace-no-wrap">STATUS</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">WHATSAPP</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">EMAIL</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">ALAMAT</th>
                 <th class="border-b-2 text-center whitespace-no-wrap">ACTIONS</th>
             </tr>
         </thead>
@@ -24,14 +23,15 @@
                     <div class="text-gray-600 text-xs whitespace-no-wrap">{{ $project->name }}</div>
                 </td>
                 <td class="w-40 border-b">
-                    <div class="flex items-center sm:justify-center {{ $project->status == 'TETAP' ? 'text-theme-12' : 'text-theme-9' }}">
-                        {{ ucfirst($project->status) }}
+                    <div class="flex items-center sm:justify-center">
+                        {{ ucfirst($project->client->name) }}
                     </div>
                 </td>
 
-                <td class="text-center border-b">{{ $project->wa }}</td>
-                <td class="text-center border-b">{{ $project->email }}</td>
-                <td class="text-center border-b">{{ $project->alamat }}</td>
+                <td class="text-center border-b">{{ $project->projectType->name }}</td>
+                <td class="text-center border-b text-theme-40">
+                    {{ $project->status }}
+                </td>
                 <td class="border-b w-5">
                     <div class="flex sm:justify-center items-center">
                         <div class="dropdown relative">
