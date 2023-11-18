@@ -5,6 +5,9 @@
     <x-card title="Detail {{ $project->name }}">
         <x-tab-detail page="fee" slug="{{ $project->slug }}" />
         <div class="mt-5">
+
+            <livewire:project.project_fee :data="$project" />
+
             {{-- <livewire:project.project_fee :data="$project" /> --}}
             <div>
                 @if (!$fee_type)
@@ -123,8 +126,6 @@
                     @endif
                 @endif
             </div>
-
-
         </div>
     </x-card>
 @endsection

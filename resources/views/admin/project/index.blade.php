@@ -4,9 +4,6 @@
 @section('content')
  <!-- BEGIN: Content -->
  <x-card title="Project List" :route="route('project.create')">
-    {{-- <div class="relative w-full">
-        <livewire:project-table />
-    </div> --}}
 
     <table class="table table-report table-report--bordered display datatable w-full">
         <thead>
