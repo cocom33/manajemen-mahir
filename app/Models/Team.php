@@ -9,4 +9,8 @@ class Team extends Model
 {
     use HasFactory;
     protected $fillable = ['name', 'status', 'wa', 'email', 'alamat'];
+
+    public function projectTeam(){
+        return $this->belongsTo(ProjectTeam::class);
+    }
 }

@@ -22,20 +22,22 @@ class ProjectTeamsController extends Controller
      */
     public function create()
     {
-        return view('admin.project.team.create');
+        return view('admin.project.team.index');
     }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        $team = new Team;
-        $team->name = $request->name;
-        $team->save();
+{
+    $projectTeam = new ProjectTeam;
+    $projectTeam->project_id = $request->project_id;
+    $projectTeam->team_id = $request->team_id;
+    $projectTeam->save();
 
-        return redirect('/teams');
-    }
+    return redirect()->back();
+}
+
 
     /**
      * Display the specified resource.

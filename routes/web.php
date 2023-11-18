@@ -11,6 +11,7 @@ use App\Http\Controllers\PorjectTypeController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProjectTeamsController;
 use App\Http\Controllers\ProjectTypeController;
 use App\Http\Controllers\TeamController;
 use App\Models\KeuanganUmum;
@@ -68,14 +69,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/project/{slug}', [PorjectController::class, 'projectDetail'])->name('project.detail');
 
     Route::get('/project/{slug}/team', [PorjectController::class, 'projectTeam'])->name('project.team');
-    Route::get('/project/{slug}/add-team', [PorjectController::class, 'projectAddTeam'])->name('project.team.add');
-    Route::post('/project/{slug}/team-store', [PorjectController::class, 'projectDetailTeamStore'])->name('project.detail.team');
+    Route::post('/project/{slug}/team-store', [PorjectController::class, 'projectAddTeam'])->name('project.add.team');
+    Route::delete('/project/{slug}/team-destroy', [PorjectController::class, 'projectDeleteTeam'])->name('project.delete.team');
 
     Route::get('/project/{slug}/lampiran', [PorjectController::class, 'projectLampiran'])->name('project.lampiran');
 
     Route::get('/project/{slug}/fee', [PorjectController::class, 'projectFee'])->name('project.fee');
 
     Route::get('/project/{slug}/invoice', [PorjectController::class, 'projectInvoice'])->name('project.invoice');
+    
     // end project
 
     // project type
@@ -85,6 +87,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // keuangan umum
     Route::resource('keuangan-umum', KeuanganUmumController::class);
     // end keuangan umum
+
 
     // keuangan perusahaan
     Route::get('keuangan-perusahaan', [KeuanganPerusahaanController::class, 'index'])->name('keuangan-perusahaan');

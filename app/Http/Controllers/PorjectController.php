@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use App\Models\Project;
+use App\Models\ProjectTeam;
 use App\Models\ProjectType;
 use App\Models\Team;
 use Illuminate\Http\Request;
@@ -94,9 +95,29 @@ class PorjectController extends Controller
     public function projectTeam($slug)
     {
         $data['project'] = Project::where('slug', $slug)->first();
-
+        $data['teams'] = Team::all();
+        $data['projectTeams'] = ProjectTeam::get();
+    
         return view('admin.project.team.index', $data);
     }
+    
+
+    public function projectDeleteTeam($id){
+        $data = ProjectTeam::where('id',$id)->first();
+        $data->delete();
+        return back()->with('success', 'Team Team');
+    }
+
+    public function projectAddTeam(Request $request, $slug){
+        $data = Project::where('slug', $slug)->first();
+        
+        $dt = new ProjectTeam;
+        $dt->project_id = $data->id;
+        $dt->team_id = $request->team_id;
+        $dt->save();
+
+        return back()->with('success', 'Project Team Delete Success');
+   }
 
     public function projectInvoice($slug)
     {
