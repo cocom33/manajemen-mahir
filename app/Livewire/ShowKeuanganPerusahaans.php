@@ -14,8 +14,8 @@ class ShowKeuanganPerusahaans extends Component
 
     public function mount()
     {
-        $this->keuanganDetails = KeuanganDetail::get();
-        $this->keuanganBulanans = KeuanganBulanan::where('id', 1)->get();
+        $this->keuanganDetails = KeuanganDetail::with('keuanganBulanan')->latest()->get();
+        // $this->keuanganBulanans = KeuanganBulanan::with('keuanganDetail')->get();
     }
     public function render()
     {

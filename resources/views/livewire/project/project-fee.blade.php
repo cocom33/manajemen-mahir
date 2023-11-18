@@ -1,6 +1,6 @@
 <div>
     <form wire:model="">
-        <div class="w-full">
+        <div class="w-full"">
             <x-form-select
                 label="Status Project"
                 name="status"
@@ -9,8 +9,8 @@
                     'value' => $model->status ?? '',
                 ]"
                 :options="[
-                    'penawaran' => 'penawaran',
-                    'deal'      => 'deal',
+                    'penawaran' => 'Penawaran',
+                    'deal'      => 'Deal',
                 ]"
             />
         </div>

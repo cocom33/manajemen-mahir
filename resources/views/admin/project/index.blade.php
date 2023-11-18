@@ -4,9 +4,6 @@
 @section('content')
  <!-- BEGIN: Content -->
  <x-card title="Project List" :route="route('project.create')">
-    {{-- <div class="relative w-full">
-        <livewire:project-table />
-    </div> --}}
 
     <table class="table table-report table-report--bordered display datatable w-full">
         <thead>
@@ -46,7 +43,7 @@
                                     <a href="{{ route('project.edit', $project->slug) }}" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white hover:bg-gray-200 rounded-md">
                                         <i data-feather="edit-2" class="w-4 h-4 mr-2"></i> Edit
                                     </a>
-                                    <a href="{{ route('project.edit', $project->slug) }}" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white hover:bg-gray-200 rounded-md">
+                                    <a href="{{ route('project.detail', $project->slug) }}" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white hover:bg-gray-200 rounded-md">
                                         <i data-feather="eye" class="w-4 h-4 mr-2"></i> Show
                                     </a>
                                     <form action="{{ route('project.delete', $project->slug) }}" method="POST">

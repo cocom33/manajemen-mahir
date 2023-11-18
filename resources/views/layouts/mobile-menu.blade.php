@@ -7,14 +7,14 @@
             'name'   => 'dashboard',
         ],
         'project' =>  [
-            'title'  => 'Project',
-            'url'    => route('project'),
+            'title'  => 'Projects',
+            'url'    => route('projects'),
             'icon'   => 'home',
-            'name'   => 'project',
+            'name'   => 'projects',
         ],
         'keuangan-perusahaan' =>  [
             'title'  => 'Keuangan Perusahaan',
-            'url'    => route('keuangan-perusahaan'),
+            'url'    => route('keuangan-perusahaan.index'),
             'icon'   => 'home',
             'name'   => 'keuangan-perusahaan',
         ],

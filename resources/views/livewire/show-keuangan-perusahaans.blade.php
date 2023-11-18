@@ -12,7 +12,7 @@
         <tbody>
             @foreach ($keuanganDetails as $data)
                 <tr>
-                    <td class="border-b">{{ \Carbon\Carbon::create()->month($data->bulan)->format('F') }}</td>
+                    <td class="border-b">{{ \Carbon\Carbon::create()->month($data->keuanganBulanan->bulan)->format('F') }}</td>
                     <td class="border-b">{{ $data->description }}</td>
                     <td class="text-center border-b">
                         @if ($data->status === 'pemasukan')
@@ -24,10 +24,10 @@
                     <td class="text-center border-b">Rp. {{ number_format($data->total, 2, ',', '.') }}</td>
                     <td class="border-b">
                         <div class="flex sm:justify-center items-center">
-                            <a class="flex items-center mr-3" href="{{ route('keuangan-umum.edit', $data->id) }}">
+                            <a class="flex items-center mr-3" href="{{ route('keuangan-perusahaan.edit', $data->id) }}">
                                 <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Edit
                             </a>
-                            <form method="POST" action="{{ route('keuangan-umum.destroy', $data->id) }}">
+                            <form method="POST" action="{{ route('keuangan-perusahaan.destroy', $data->id) }}">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="flex items-center text-theme-6 show-alert-delete-box" data-toggle="tooltip" title='Delete'><i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Delete</button>
@@ -36,6 +36,16 @@
                     </td>
                 </tr>
             @endforeach
+            {{-- @foreach ($keuanganBulanans as $data)
+    @foreach ($data->keuanganDetails as $detail)
+        {{ $detail->nama_field_yang_ingin_ditampilkan }}
+        @if ($detail->keuanganBulanan)
+            Bulan: {{ $detail->keuanganBulanan->bulan }}
+        @else
+            Bulan tidak tersedia
+        @endif
+    @endforeach
+@endforeach --}}
         </tbody>
     </table>
 </div>

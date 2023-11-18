@@ -6,7 +6,6 @@
         <x-tab-detail page="fee" slug="{{ $project->slug }}" />
         <div class="mt-5">
             <livewire:project.project_fee :data="$project" />
-
         </div>
     </x-card>
 @endsection

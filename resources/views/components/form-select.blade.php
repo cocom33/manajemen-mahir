@@ -4,8 +4,9 @@
 <div class="mb-3">
 	<label class="my-1 me-2" for="{{ $label }}">{{ $label }}{{ $required == 'true' ? '*' : '' }}</label>
 	<select
+        data-hide-search="true"
 		name		  ={{ $name }}
-		class			="input w-full border mt-2"
+		class			="input w-full border mt-2 select2"
 		id				="{{ $label }}"
 		aria-label="select {{ $label }}"
 		{{ $attributes }}

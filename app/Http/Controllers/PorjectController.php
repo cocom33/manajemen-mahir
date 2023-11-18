@@ -90,7 +90,7 @@ class PorjectController extends Controller
     public function projectLampiran($slug)
     {
         $data['project'] = Project::where('slug', $slug)->first();
-        $data['lampiran'] = ProjectDocument::where('project_id', $data['project']->id)->first();
+        $data['lampiran'] = ProjectDocument::where('project_id', $data['project']->id)->get();
 
         // dd($data['lampiran']->name);
 
@@ -115,20 +115,46 @@ class PorjectController extends Controller
         return back()->with('success', $request->name .' created successfully!');
     }
 
-    public function projectLampiranUpdate(Request $request, $id)
+    public function projectLampiranEdit($slug, $id)
+    {
+        $project = Project::where('slug', $slug)->first();
+
+
+        if (!$project) {
+            abort(404);
+        }
+
+        $lampiran = ProjectDocument::where('project_id', $project->id)->get();
+
+        $single = ProjectDocument::where('id', $id)->first();
+
+        return view('admin.project.lampiran.edit', compact('project', 'lampiran', 'single'));
+    }
+
+
+    public function projectLampiranUpdate(Request $request, $slug, $id)
     {
         $request->validate([
             'name' => 'required',
             'link' => 'required',
         ]);
 
-        $dt = ProjectDocument::where('project_id', $id)->first();
+        $dt = ProjectDocument::where('id', $id)->first();
         $dt->name = $request->name;
         $dt->link = $request->link;
         $dt->update();
 
-        return back()->with('success', $request->name .' updated successfully!');
+        return redirect()->route('project.lampiran', $slug)->with('success', 'Lampiran ' .  $request->name .' updated successfully!');
     }
+
+    public function projectLampiranDestroy($slug, $id)
+    {
+        $data = ProjectDocument::where('id', $id)->first();
+        $data->delete();
+
+        return redirect()->route('project.lampiran', $slug)->with('error', 'Lampiran ' .  $data->name .' deleted successfully!');
+    }
+
 
     public function projectTeam($slug)
     {
