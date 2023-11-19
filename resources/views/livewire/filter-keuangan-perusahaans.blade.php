@@ -4,7 +4,7 @@
             <label>Tahun</label>
             <div class="mt-2">
                 <select  data-hide-search="true" class="select2 w-full">
-                    <option value="1">{{ $data->tahun }}</option>
+                    <option value="1">{{ $data->tahun ?? Date('Y') }}</option>
                 </select>
             </div>
         </div>
@@ -12,9 +12,13 @@
             <label>Bulan</label>
             <div class="mt-2">
                 <select  data-hide-search="true" class="select2 w-full">
-                    @foreach ($data->bulan as $item)
-                        <option value="{{ $item->bulan }}"> {{ \Carbon\Carbon::create()->month($item->bulan)->format('F') }}</option>
-                    @endforeach
+                    @if ($data)
+                        @foreach ($data->bulan as $item)
+                            <option value="{{ $item->bulan }}"> {{ \Carbon\Carbon::create()->month($item->bulan)->format('F') }}</option>
+                        @endforeach
+                    @else
+                        <option></option>
+                    @endif
                 </select>
             </div>
         </div>
