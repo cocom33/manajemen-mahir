@@ -59,7 +59,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // end client
 
     // project
-    Route::get('/project', [PorjectController::class, 'index'])->name('project');
+    Route::get('/projects', [PorjectController::class, 'index'])->name('projects');
     Route::get('/project-create', [PorjectController::class, 'form'])->name('project.create');
     Route::post('/project-store', [PorjectController::class, 'store'])->name('project.store');
     Route::get('/project/{slug}/edit', [PorjectController::class, 'form'])->name('project.edit');
@@ -73,8 +73,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/project/{slug}/team-destroy', [PorjectController::class, 'projectDeleteTeam'])->name('project.delete.team');
 
     Route::get('/project/{slug}/lampiran', [PorjectController::class, 'projectLampiran'])->name('project.lampiran');
+    Route::post('/project/{slug}/add-lampiran', [PorjectController::class, 'projectLampiranStore'])->name('project.lampiran.upload');
+    Route::get('/project/{slug}/lampiran/{id}/edit', [PorjectController::class, 'projectLampiranEdit'])->name('project.lampiran.edit');
+    Route::put('/project/{slug}/lampiran/{id}/update', [PorjectController::class, 'projectLampiranUpdate'])->name('project.lampiran.update');
+    Route::delete('/project/{slug}/lampiran/{id}/delete', [PorjectController::class, 'projectLampiranDestroy'])->name('project.lampiran.destroy');
 
     Route::get('/project/{slug}/fee', [PorjectController::class, 'projectFee'])->name('project.fee');
+    Route::post('/project/{slug}/fee/create', [PorjectController::class, ''])->name('project.fee.create');
+    Route::post('/project/{slug}/fee/create', [PorjectController::class, 'projectFeeStore'])->name('project.fee.create');
+    Route::put('/project/{slug}/fee/langsung/create', [PorjectController::class, 'projectFeeLangsungStore'])->name('project.fee.langsung.store');
+    Route::put('/project/{slug}/fee/termin/create', [PorjectController::class, 'projectTerminStore'])->name('project.fee.termin.store');
+    Route::get('/project/{slug}/fee/termin/{termin}', [PorjectController::class, 'projectTerminDetail'])->name('project.fee.termin.detail');
+    Route::put('/project/{slug}/fee/termin/{termin}/create', [PorjectController::class, 'projectTerminDetailStore'])->name('project.fee.termin.detail.store');
 
     Route::get('/project/{slug}/invoice', [PorjectController::class, 'projectInvoice'])->name('project.invoice');
     
@@ -90,7 +100,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 
     // keuangan perusahaan
-    Route::get('keuangan-perusahaan', [KeuanganPerusahaanController::class, 'index'])->name('keuangan-perusahaan');
+    Route::resource('keuangan-perusahaan', KeuanganPerusahaanController::class);
     // end keuangan perusahaan
 });
 

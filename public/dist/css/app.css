@@ -36860,7 +36860,7 @@ video {
 }
 
 .datatable-wrapper .datatable tbody tr:nth-child(even) {
-  background-color: transparent;
+  /* background-color: transparent; */
 }
 
 .datatable-wrapper .datatable tbody tr:last-child td {

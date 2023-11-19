@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('keuangan_projects', function (Blueprint $table) {
             $table->id();
             $table->foreignId('project_id');
-            $table->enum('harga_type', ['langsung', 'termin']);
+            $table->enum('type', ['langsung', 'termin']);
 
             $table->softDeletes();
             $table->timestamps();

@@ -2,7 +2,7 @@
 @section('title', 'Create Project')
 
 @section('content')
-    <x-card title="Buat Project Baru" :routeBack="route('project')">
+    <x-card title="Buat Project Baru" :routeBack="route('projects')">
         <form action="{{ $route }}" method="post">
             @if ($model)
                 @method('PUT')
@@ -46,10 +46,10 @@
                     'value' => $model->status ?? '',
                 ]"
                 :options="[
-                    'penawaran' => 'penawaran',
-                    'deal'      => 'deal',
-                    'finish'    => 'finish',
-                    'cancel'    => 'cancel'
+                    'penawaran' => 'Penawaran',
+                    'deal'      => 'Deal',
+                    'finish'    => 'Finish',
+                    'cancel'    => 'Cancel'
                 ]"
             />
             <x-form-input

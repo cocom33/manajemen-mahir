@@ -1,6 +1,5 @@
 @props(['title', 'route' => '', 'routeBack' => ''])
 
-<div class="content">
     <div class="intro-y space-around col-span-12 flex flex-wrap sm:flex-no-wrap items-center justify-between mt-5">
         <b class="text-xl">{{ $title }}</b>
 
@@ -20,4 +19,3 @@
     <div class="intro-y datatable-wrapper box p-5 mt-5">
         {{ $slot }}
     </div>
-</div>

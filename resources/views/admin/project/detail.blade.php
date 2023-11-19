@@ -5,6 +5,11 @@
     <x-card title="Detail {{ $project->name }}">
         <x-tab-detail page="detail" slug="{{ $project->slug }}" />
         <div class="mt-8">
+            <div class="flex justify-end">
+                <a href="{{ route('project.edit', $project->slug) }}" class="button flex align-center text-white bg-theme-1 shadow-md">
+                  <i data-feather="edit-2" class=" w-4 h-4 font-bold mr-2"></i> Edit
+                </a>
+            </div>
             <x-form-input class="font-bold" label="name project" name="" value="{{ $project->name }}" readonly="readonly" required="false" />
             <x-form-input class="font-bold" label="name client" name="" value="{{ $project->client->name }}" readonly="readonly" required="false" />
             <x-form-input class="font-bold" label="type project" name="" value="{{ $project->projectType->name }}" readonly="readonly" required="false" />

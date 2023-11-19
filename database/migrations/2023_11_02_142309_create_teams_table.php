@@ -18,6 +18,8 @@ return new class extends Migration
         $table->string('wa');
         $table->string('email');
         $table->string('alamat');
+
+        $table->softDeletes();
         $table->timestamps();
     });
 }
