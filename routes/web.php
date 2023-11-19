@@ -80,7 +80,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/project/{slug}/fee', [PorjectController::class, 'projectFee'])->name('project.fee');
     Route::post('/project/{slug}/fee/create', [PorjectController::class, ''])->name('project.fee.create');
     Route::post('/project/{slug}/fee/create', [PorjectController::class, 'projectFeeStore'])->name('project.fee.create');
-    Route::post('/project/{slug}/fee/langsung/create', [PorjectController::class, 'projectFeeLangsungStore'])->name('project.fee.langsung.store');
+    Route::put('/project/{slug}/fee/langsung/create', [PorjectController::class, 'projectFeeLangsungStore'])->name('project.fee.langsung.store');
+    Route::put('/project/{slug}/fee/termin/create', [PorjectController::class, 'projectTerminStore'])->name('project.fee.termin.store');
+    Route::get('/project/{slug}/fee/termin/{termin}', [PorjectController::class, 'projectTerminDetail'])->name('project.fee.termin.detail');
+    Route::put('/project/{slug}/fee/termin/{termin}/create', [PorjectController::class, 'projectTerminDetailStore'])->name('project.fee.termin.detail.store');
 
     Route::get('/project/{slug}/invoice', [PorjectController::class, 'projectInvoice'])->name('project.invoice');
     // end project
