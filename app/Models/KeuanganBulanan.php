@@ -20,4 +20,9 @@ class KeuanganBulanan extends Model
     {
         return $this->hasMany(KeuanganDetail::class);
     }
+
+    public function getMonthNames($value)
+    {
+       return \Carbon\Carbon::create()->month($value)->format('F');
+    }
 }
