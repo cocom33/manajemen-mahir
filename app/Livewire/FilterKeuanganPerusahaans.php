@@ -2,12 +2,20 @@
 
 namespace App\Livewire;
 
+use App\Models\KeuanganBulanan;
 use App\Models\KeuanganPerusahaan;
 use Livewire\Component;
 
 class FilterKeuanganPerusahaans extends Component
 {
-    public $selectedMonth;
+
+    public $bulan_id;
+    public $query;
+
+    public function render()
+    {
+        $data['data'] = KeuanganPerusahaan::where('tahun', Date('Y'))->first();
+    }
 
     protected $listeners = ['updatedMonth' => 'updateMonth'];
 
@@ -17,17 +25,10 @@ class FilterKeuanganPerusahaans extends Component
         // Update your data based on the selected month...
     }
 
-    public function render()
-{
-    if ($this->selectedMonth) {
-        $data['data'] = KeuanganPerusahaan::where('tahun', Date('Y'))
-            ->whereMonth('tanggal', $this->selectedMonth)
-            ->first();
-    } else {
-        $data['data'] = KeuanganPerusahaan::where('tahun', Date('Y'))->first();
-    }
 
-    return view('livewire.filter-keuangan-perusahaans', $data);
-}
+    public function filter()
+    {
+        $this->dispatch('show-keuangan-perusahaans', 'reloadDatas', $this->bulan_id, $this->query);
+    }
 
 }

@@ -10,29 +10,32 @@ use Livewire\Component;
 class ShowKeuanganPerusahaans extends Component
 {
     public $keuanganDetails;
-    public $keuanganBulanans;
-    public $selectedMonth;
-    protected $listeners = ['monthUpdated' => 'updateMonth'];
+
+    protected $listeners = ['reloadDatas' => 'reloadDatas'];
 
     public function mount()
     {
-        $this->updateMonth(null);
-    }
-
-    public function updateMonth($month)
-    {
-        $this->selectedMonth = $month;
-        $this->keuanganDetails = KeuanganDetail::with('keuanganBulanan')->latest();
-
-        if ($this->selectedMonth) {
-            $this->keuanganDetails = $this->keuanganDetails->whereMonth('tanggal', $this->selectedMonth);
-        }
-
-        $this->keuanganDetails = $this->keuanganDetails->get();
+        $this->keuanganDetails = KeuanganDetail::with('keuanganBulanan')->latest()->get();
     }
 
     public function render()
     {
         return view('livewire.show-keuangan-perusahaans');
+    }
+
+
+    public function reloadDatas($bulan_id, $query)
+    {
+        $this->keuanganDetails = KeuanganDetail::query();
+
+        if ($bulan_id) {
+            $this->keuanganDetails = $this->keuanganDetails->where('bulan_id', $bulan_id);
+        }
+
+        if ($query) {
+            $this->keuanganDetails = $this->keuanganDetails->where('description', 'like', '%' . $query . '%');
+        }
+
+        $this->keuanganDetails = $this->keuanganDetails->get();
     }
 }
