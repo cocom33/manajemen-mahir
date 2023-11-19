@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('invoice_others', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('invoice_id');
+            $table->string('description');
+            $table->integer('price');
+            $table->integer('total');
+
+            $table->softDeletes();
             $table->timestamps();
         });
     }
