@@ -9,10 +9,15 @@ class Langsung extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['keuangan_project_id', 'name'];
+    protected $fillable = ['keuangan_project_id', 'project_team_id', 'fee'];
 
     public function keuangan_project()
     {
         return $this->belongsTo(KeuanganProject::class);
+    }
+
+    public function projectTeam()
+    {
+        return $this->belongsTo(ProjectTeam::class);
     }
 }
