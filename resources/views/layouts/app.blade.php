@@ -14,7 +14,7 @@
         <link rel="stylesheet" href="{{ asset('dist/css/app.css') }}" />
         <link rel="stylesheet" href="{{ asset('dist/css/iziToast.min.css') }}" />
         <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.9.0/dist/sweetalert2.min.css" rel="stylesheet">
-
+        @livewireStyles
     </head>
 
     <body class="app">
@@ -33,9 +33,11 @@
             <!-- END: Content -->
 
             </div>
+
         </div>
 
         @include('layouts.scripts')
+        @livewireScripts
         @stack('scripts')
 
         @if($errors->any())

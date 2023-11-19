@@ -1,4 +1,18 @@
 <div>
+    <form wire:model="">
+        <div class="w-full"">
+            <x-form-select
+                label="Status Project"
+                name="status"
+                :default="[
+                    'label' => $model->status ?? '',
+                    'value' => $model->status ?? '',
+                ]"
+                :options="[
+                    'penawaran' => 'Penawaran',
+                    'deal'      => 'Deal',
+                ]"
+            />
     @if ($isset)
         <div class="w-full">
             <label for="">Pilih Type Pembayaran</label>

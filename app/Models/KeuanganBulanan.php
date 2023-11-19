@@ -18,7 +18,7 @@ class KeuanganBulanan extends Model
         return $this->belongsTo(KeuanganPerusahaan::class);
     }
 
-    public function detail()
+    public function keuanganDetail()
     {
         return $this->hasMany(KeuanganDetail::class);
     }
