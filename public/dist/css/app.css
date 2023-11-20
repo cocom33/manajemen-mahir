@@ -8151,7 +8151,6 @@ body {
   padding-right: 1.25rem;
   padding-bottom: 4rem;
   overflow-x: hidden;
-  transition: ease-in-out 250ms;
 }
 
 @media (max-width: 1279px) {
@@ -36262,7 +36261,6 @@ video {
   margin-left: auto;
 }
 
-
 .pagination {
   display: flex;
   margin-right: auto;
@@ -36860,7 +36858,7 @@ video {
 }
 
 .datatable-wrapper .datatable tbody tr:nth-child(even) {
-  /* background-color: transparent; */
+  background-color: transparent;
 }
 
 .datatable-wrapper .datatable tbody tr:last-child td {

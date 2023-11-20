@@ -3,7 +3,7 @@
 
 @section('content')
     <!-- BEGIN: Content -->
-    <div class="intro-y space-around col-span-12 flex flex-wrap sm:flex-no-wrap items-center justify-between mt-5">
+    <div class="intro-y space-around col-span-12 flex flex-wrap sm:flex-no-wrap items-center justify-between mt-5 mb-10">
         <b class="text-xl">Keuangan Perusahaan</b>
         <div class="flex">
             <div class="dropdown relative mr-2">
@@ -22,11 +22,10 @@
         </div>
     </div>
 
-    <livewire:filter-keuangan-perusahaans />
-
-    <!-- BEGIN: Datatable -->
+    {{-- <livewire:filter-keuangan-perusahaans />
+    <livewire:show-keuangan-perusahaans /> --}}
     <div class="intro-y datatable-wrapper box p-5 mt-5">
-        <livewire:show-keuangan-perusahaans />
+        <livewire:keuangan-perusahaans-table/>
     </div>
-    <!-- END: Datatable -->
+
 @endsection
