@@ -2,7 +2,7 @@
 <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
 <script src="{{ asset('dist/js/app.js')}}"></script>
 <script src="{{ asset('dist/js/iziToast.min.js') }}"></script>
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+{{-- <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script> --}}
 
 <!-- Sweet Alerts 2 -->
 <script src="/vendor/sweetalert2/dist/sweetalert2.all.min.js"></script>

@@ -3,7 +3,6 @@
     <head>
         <meta charset="utf-8">
         <link rel="icon" type="image/x-icon" href="https://simpleicon.com/wp-content/uploads/link-2.svg">
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="Midone admin is super flexible, powerful, clean & modern responsive tailwind admin template with unlimited possibilities.">
         <meta name="keywords" content="admin template, Midone admin template, dashboard template, flat admin template, responsive admin template, web app">
