@@ -169,13 +169,6 @@ class PorjectController extends Controller
         return view('admin.project.team.index', $data);
     }
 
-    public function projectInvoice($slug)
-    {
-        $data['project'] = Project::where('slug', $slug)->first();
-
-        return view('admin.project.invoice.index', $data);
-    }
-
     public function projectFee($slug)
     {
         $data['project'] = Project::where('slug', $slug)->first();
@@ -253,7 +246,7 @@ class PorjectController extends Controller
 
     public function projectTerminDetailStore(Request $request)
     {
-        $terminfee = TerminFee::where([['id', $request->id], ['termin_id', $request->termin_id]])->first();
+        $terminfee = TerminFee::find($request->id);
 
         if ($terminfee) {
             $terminfee->update([

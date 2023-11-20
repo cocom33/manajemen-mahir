@@ -8,7 +8,7 @@
     <div class="intro-y col-span-12 lg:col-span-6">
         <!-- BEGIN: Form Layout -->
         <div class="intro-y box p-5">
-            <form method="post" action="{{ route('project-type.update', $data->id) }}">
+            <form method="post" action="{{ route('category-project.update', $data->id) }}">
                 @csrf
                 @method('PUT')
                 <div>
@@ -19,7 +19,7 @@
                     @enderror
                 </div>
                 <div class="text-right mt-5">
-                    <a href="{{ route('project-type.index') }}"><button type="button" class="button w-24 border text-gray-700 mr-1">Cancel</button></a>
+                    <a href="{{ route('category-project.index') }}"><button type="button" class="button w-24 border text-gray-700 mr-1">Cancel</button></a>
                     <button type="submit" class="button w-24 bg-theme-1 text-white">Save</button>
                 </div>
             </form>

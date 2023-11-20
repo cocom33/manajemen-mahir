@@ -29,8 +29,21 @@
                 </td>
 
                 <td class="text-center border-b">{{ $project->projectType->name }}</td>
-                <td class="text-center border-b text-theme-40">
-                    {{ $project->status }}
+                <td class="text-center border-b">
+                    @switch($project->status)
+                        @case('penawaran')
+                            <span class="text-theme-12">{{ $project->status }}</span>
+                            @break
+                        @case('deal')
+                            <span class="text-theme-40">{{ $project->status }}</span>
+                            @break
+                        @case('finish')
+                            <span class="text-theme-9">{{ $project->status }}</span>
+                            @break
+                        @case('cancel')
+                            <span class="text-theme-6">{{ $project->status }}</span>
+                            @break
+                    @endswitch
                 </td>
                 <td class="border-b w-5">
                     <div class="flex sm:justify-center items-center">

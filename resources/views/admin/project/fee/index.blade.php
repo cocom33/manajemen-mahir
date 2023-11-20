@@ -5,10 +5,6 @@
     <x-card title="Detail {{ $project->name }}">
         <x-tab-detail page="fee" slug="{{ $project->slug }}" />
         <div class="mt-5">
-
-            {{-- <livewire:project.project_fee :data="$project" /> --}}
-
-            {{-- <livewire:project.project_fee :data="$project" /> --}}
             <div>
                 @if (!$fee_type)
                     <form action="{{ route('project.fee.create', $project->slug) }}" method="post">

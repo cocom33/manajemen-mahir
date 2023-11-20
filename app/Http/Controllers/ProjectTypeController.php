@@ -35,7 +35,7 @@ class ProjectTypeController extends Controller
 
         ProjectType::create($validate);
 
-        return redirect()->route('project-type.index')->with('success', $request->name .' created successfully!');
+        return redirect()->route('category-project.index')->with('success', $request->name .' created successfully!');
     }
 
     /**
@@ -68,7 +68,7 @@ class ProjectTypeController extends Controller
 
         $dt->update($validate);
 
-        return redirect()->route('project-type.index')->with('success', 'Project Type updated successfully!');
+        return redirect()->route('category-project.index')->with('success', 'Project Type updated successfully!');
     }
 
     /**
@@ -80,6 +80,6 @@ class ProjectTypeController extends Controller
 
         $dt->delete();
 
-        return redirect()->route('project-type.index')->with('error', 'Project Type deleted successfully!');
+        return redirect()->route('category-project.index')->with('error', 'Project Type deleted successfully!');
     }
 }
