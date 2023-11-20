@@ -11,7 +11,7 @@ class InvoiceOther extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $fillable = ['invoice_id', 'description', 'harga', 'total'];
+    protected $fillable = ['invoice_id', 'description', 'price', 'total'];
 
     public function invoice()
     {

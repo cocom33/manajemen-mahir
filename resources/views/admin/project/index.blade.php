@@ -9,10 +9,9 @@
             <thead>
                 <tr>
                     <th class="border-b-2 whitespace-no-wrap">PROJECT NAME</th>
+                    <th class="border-b-2 text-center whitespace-no-wrap">CLIENT</th>
+                    <th class="border-b-2 text-center whitespace-no-wrap">PROJECT CATEGORY</th>
                     <th class="border-b-2 text-center whitespace-no-wrap">STATUS</th>
-                    <th class="border-b-2 text-center whitespace-no-wrap">WHATSAPP</th>
-                    <th class="border-b-2 text-center whitespace-no-wrap">EMAIL</th>
-                    <th class="border-b-2 text-center whitespace-no-wrap">ALAMAT</th>
                     <th class="border-b-2 text-center whitespace-no-wrap">ACTIONS</th>
                 </tr>
             </thead>
@@ -24,14 +23,28 @@
                         <div class="text-gray-600 text-xs whitespace-no-wrap">{{ $project->name }}</div>
                     </td>
                     <td class="w-40 border-b">
-                        <div class="flex items-center sm:justify-center {{ $project->status == 'TETAP' ? 'text-theme-12' : 'text-theme-9' }}">
-                            {{ ucfirst($project->status) }}
+                        <div class="flex items-center sm:justify-center">
+                            {{ $project->client->name }}
                         </div>
                     </td>
 
-                    <td class="text-center border-b">{{ $project->wa }}</td>
-                    <td class="text-center border-b">{{ $project->email }}</td>
-                    <td class="text-center border-b">{{ $project->alamat }}</td>
+                    <td class="text-center border-b">{{ $project->projectType->name }}</td>
+                    <td class="text-center border-b">
+                        @switch($project->status)
+                            @case('penawaran')
+                                <span class="text-theme-12">{{ $project->status }}</span>
+                                @break
+                            @case('deal')
+                                <span class="text-theme-40">{{ $project->status }}</span>
+                                @break
+                            @case('finish')
+                                <span class="text-theme-9">{{ $project->status }}</span>
+                                @break
+                            @case('cancel')
+                                <span class="text-theme-6">{{ $project->status }}</span>
+                                @break
+                        @endswitch
+                    </td>
                     <td class="border-b w-5">
                         <div class="flex sm:justify-center items-center">
                             <div class="dropdown relative">
