@@ -21,8 +21,6 @@ class FilterKeuanganPerusahaans extends Component
 
     public function updateMonth($value)
     {
-        $this->selectedMonth = $value;
-        // Update your data based on the selected month...
     }
 
 

@@ -46,7 +46,7 @@ final class KeuanganPerusahaansTable extends PowerGridComponent
         return [];
     }
 
-    public function getMonthNames($value)
+    public function getBulanAttribute($value)
     {
        return \Carbon\Carbon::create()->month($value)->format('F');
     }
@@ -88,7 +88,7 @@ final class KeuanganPerusahaansTable extends PowerGridComponent
     {
         return [
             Filter::select('keuangan_bulanan_id')
-                ->dataSource(KeuanganBulanan::select('getMonthNames')->distinct()->get())
+                ->dataSource(KeuanganBulanan::select('bulan')->distinct()->get())
                 ->optionValue('bulan')
                 ->optionLabel('bulan'),
             Filter::inputText('description')->operators(['contains']),

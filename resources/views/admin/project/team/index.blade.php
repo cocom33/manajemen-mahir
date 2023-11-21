@@ -42,13 +42,21 @@
                                 </button>
                                 <div class="dropdown-box mt-10 absolute w-48 top-0 left-0 z-20">
                                     <div class="dropdown-box__content box p-2">
-                                        <form action="{{ route('project.delete.team', $team->id) }}" method="POST">
+                                        <form action="{{route('project.add.team', $project->slug)}}" method="POST">
                                             @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="show-alert-delete-box flex items-center text-theme-6 block p-2 transition duration-300 ease-in-out bg-white hover:bg-gray-200 rounded-md">
-                                                <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Delete
-                                            </button>
+                                            @method('POST')
+                                            <div class="mt-5 flex flex-wrap sm:flex-no-wrap">
+                                                <select data-placeholder="Pilih Team" name="team_id" class="select2 w-full" multiple>
+                                                    @foreach ($teams as $team)
+                                                    @if (!$projectTeams->pluck('team_id')->contains($team->id))
+                                                    <option value="{{ $team->id }}"> {{ $team->name }} </option>
+                                                    @endif
+                                                    @endforeach
+                                                </select>
+                                                <button type="submit" class="button bg-theme-1 text-white mx-5">Submit</button>
+                                            </div>
                                         </form>
+                                        
                                     </div>
                                 </div>
                             </div>

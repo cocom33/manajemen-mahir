@@ -169,25 +169,39 @@ class PorjectController extends Controller
         $data['projectTeams'] = ProjectTeam::get();
     
         return view('admin.project.team.index', $data);
+        
     }
     
 
     public function projectDeleteTeam($id){
         $data = ProjectTeam::where('id',$id)->first();
         $data->delete();
-        return back()->with('success', 'Team Team');
+        return back()->with('success', 'Project Team Deleted Successfully');
     }
 
     public function projectAddTeam(Request $request, $slug){
-        $data = Project::where('slug', $slug)->first();
-        
-        $dt = new ProjectTeam;
-        $dt->project_id = $data->id;
-        $dt->team_id = $request->team_id;
-        $dt->save();
-
-        return back()->with('success', 'Project Team Delete Success');
-   }
+        $project = Project::where('slug', $slug)->first();
+        $team_id = $request->team_id;
+    
+        // Cek apakah tim sudah ada dalam proyek
+        $existingTeam = ProjectTeam::where('project_id', $project->id)
+                                   ->where('team_id', $team_id)
+                                   ->first();
+    
+        if ($existingTeam) {
+            // Jika tim sudah ada, kembalikan pesan error
+            return back()->with('error', 'Team sudah ada dalam proyek ini');
+        } else {
+            // Jika tim belum ada, tambahkan ke proyek
+            $dt = new ProjectTeam;
+            $dt->project_id = $project->id;
+            $dt->team_id = $team_id;
+            $dt->save();
+    
+            return back()->with('success', 'Project Team Added Successfully');
+        }
+    }
+    
 
     public function projectInvoice($slug)
     {
