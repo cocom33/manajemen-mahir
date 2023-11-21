@@ -13,20 +13,22 @@
             <form action="{{route('keuangan-perusahaan.store')}}" method="POST">
                 @csrf
                 <div class="preview">
-                    <div>
+                    {{-- <div>
                         <label>Bulan</label>
                         <div class="mt-2">
                             <select name="bulan" data-hide-search="true" class="select2 w-full">
                                 <option selected disabled>Pilih Bulan</option>
-                                @foreach ($bulans as $bulan)
+                                @forelse ($bulans as $bulan)
                                     <option value="{{ $bulan->id }}">{{ \Carbon\Carbon::create()->month($bulan->bulan)->format('F') }}</option>
-                                @endforeach
+                                @empty
+                                    <option value="{{ date('m') }}" selected>{{ date('F') }}</option>
+                                @endforelse
                             </select>
                             @error('bulan')
                             <div class="text-theme-6 mt-2">{{ $message }}</div>
                         @enderror
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="mt-3">
                         <label>Description</label>
                         <input type="text" name="description" class="input w-full border mt-2 @error('description') border-theme-6 @enderror">
