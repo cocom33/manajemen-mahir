@@ -21,6 +21,12 @@ final class KeuanganPerusahaansTable extends PowerGridComponent
 {
     use WithExport;
 
+    //Custom per page
+    public int $perPage = 5;
+
+    //Custom per page values
+    public array $perPageValues = [0, 5, 10, 20, 50];
+
     public function setUp(): array
     {
         $this->showCheckBox();
@@ -29,10 +35,12 @@ final class KeuanganPerusahaansTable extends PowerGridComponent
             Exportable::make('export')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
-            Header::make()->showSearchInput(),
+            Header::make()
+                ->withoutLoading()
+                ->showSearchInput(),
             Footer::make()
-                ->showPerPage()
-                ->showRecordCount(),
+                ->showPerPage($this->perPage, $this->perPageValues)
+                ->showRecordCount(mode: 'full'),
         ];
     }
 
@@ -44,11 +52,6 @@ final class KeuanganPerusahaansTable extends PowerGridComponent
     public function relationSearch(): array
     {
         return [];
-    }
-
-    public function getMonthNames($value)
-    {
-       return \Carbon\Carbon::create()->month($value)->format('F');
     }
 
     public function addColumns(): PowerGridColumns
@@ -71,7 +74,7 @@ final class KeuanganPerusahaansTable extends PowerGridComponent
             Column::make('Id', 'id'),
             Column::make('Bulan', 'keuangan_bulanan_id')
                 ->sortable()
-                ->searchable(),
+                ->searchable(),   
             Column::make('Description', 'description')
                 ->sortable()
                 ->searchable(),
@@ -87,10 +90,6 @@ final class KeuanganPerusahaansTable extends PowerGridComponent
     public function filters(): array
     {
         return [
-            Filter::select('keuangan_bulanan_id')
-                ->dataSource(KeuanganBulanan::select('getMonthNames')->distinct()->get())
-                ->optionValue('bulan')
-                ->optionLabel('bulan'),
             Filter::inputText('description')->operators(['contains']),
             Filter::datetimepicker('created_at'),
         ];
@@ -105,11 +104,10 @@ final class KeuanganPerusahaansTable extends PowerGridComponent
     public function actions(\App\Models\KeuanganDetail $row): array
     {
         return [
-            // Button::add('edit')
-            //     ->slot('Edit: '.$row->id)
-            //     ->id()
-            //     ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
-            //     ->dispatch('edit', ['rowId' => $row->id])
+            // Button::add('create-dish')
+            //     ->slot('Create a dish')
+            //     ->class('bg-indigo-500 text-white'),
+
             Button::add('edit')
             ->bladeComponent('livewire.action-button', [
                 "route"     => '/keuangan-perusahaan/',
@@ -117,7 +115,6 @@ final class KeuanganPerusahaansTable extends PowerGridComponent
                 "routeedit" => '/edit',
                 "edit"      => true,
                 "delete"    => true,
-                // "detail"    => true,
             ]),
         ];
     }

@@ -1,5 +1,6 @@
 <?php
 
+use Dompdf\Dompdf;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
 
@@ -83,7 +84,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'id',
 
     /*
     |--------------------------------------------------------------------------
@@ -96,7 +97,7 @@ return [
     |
     */
 
-    'fallback_locale' => 'en',
+    'fallback_locale' => 'id',
 
     /*
     |--------------------------------------------------------------------------
@@ -168,6 +169,8 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+
+        \Riskihajar\Terbilang\TerbilangServiceProvider::class,
     ])->toArray(),
 
     /*
@@ -183,6 +186,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
+        'Terbilang' => \Riskihajar\Terbilang\TerbilangServiceProvider::class,
     ])->toArray(),
 
 ];
