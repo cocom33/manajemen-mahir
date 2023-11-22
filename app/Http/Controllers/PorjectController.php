@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use App\Models\Invoice;
 use App\Models\KeuanganPerusahaan;
 use App\Models\KeuanganProject;
 use App\Models\Langsung;
@@ -12,7 +13,10 @@ use App\Models\ProjectTeam;
 use App\Models\ProjectType;
 use App\Models\Team;
 use App\Models\Termin;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class PorjectController extends Controller
 {
@@ -171,11 +175,50 @@ class PorjectController extends Controller
     public function projectInvoice($slug)
     {
         $data['project'] = Project::where('slug', $slug)->first();
+        $data['invoice'] = Invoice::where('project_id', $data['project']->id)->first();
+        // dd($data['invoice']);
 
         return view('admin.project.invoice.index', $data);
     }
 
-    public function projectFee($slug)
+    public function projectInvoiceStore(Request $request, $slug)
+    {
+        $project = Project::where('slug', $slug)->first();
+        $invoiceNumber = 'INV'.now()->format('Ymd'). mt_rand(100,999);
+
+        $data = $request->validate([
+            'type' => 'required',
+        ]);
+
+        $data['project_id'] = $project->id;
+        $data['no_invoice'] = Invoice::generateInvoiceNumber();
+        $model = Invoice::create($data);
+
+        return redirect()->back()->with('success', 'Invoice created successfully');
+
+    }
+
+    public function getInvoices($slug, $id)
+    {
+        $data['project'] = Project::with('client')->where('slug', $slug)->first();
+        $data['invoice'] = Invoice::where('id', $id)->first();
+
+        // $tanggalMulai = $data['project']->start_date;
+        // $tanggalBatas = $data['project']->deadline_date;
+        $tanggalMulai = Carbon::createFromFormat('Y-m-d', $data['project']->start_date);
+        $tanggalBatas = Carbon::createFromFormat('Y-m-d', $data['project']->deadline_date);
+
+        $selisihHari = $tanggalMulai->diffInDays($tanggalBatas);
+        $selisihMinggu = $tanggalMulai->diffInWeeks($tanggalBatas);
+        $selisihBulan = $tanggalMulai->diffInMonths($tanggalBatas);
+
+        $terbilang = \Riskihajar\Terbilang\Facades\Terbilang::make( $data['project']->harga_deal);
+
+        $pdf = Pdf::loadView('admin.project.invoice.invoice', $data, compact('selisihHari', 'selisihMinggu', 'selisihBulan', 'terbilang'));
+        return $pdf->stream();
+    }
+
+    public function projectFee($slug, $id)
     {
         $data['project'] = Project::where('slug', $slug)->first();
         $data['fee_type'] = KeuanganProject::where('project_id', $data['project']->id)->first();

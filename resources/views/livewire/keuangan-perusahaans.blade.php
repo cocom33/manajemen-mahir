@@ -3,13 +3,13 @@
         <div class="w-full">
             <label>Search</label>
             <div class="mt-2">
-                <input wire:model.debounce.350ms="search" type="text" class="input w-full border" placeholder="Search for...">
+                <input wire:model.live.debounce.250ms="search" type="text" class="input w-full border" placeholder="Search for...">
             </div>
         </div>
         <div class="w-full">
             <label>Tahun</label>
             <div class="mt-2">
-                <select wire:model="" data-hide-search="true" class="select2 w-full">
+                <select data-hide-search="true" class="select2 w-full">
                     @foreach ($tahuns as $item)
                         <option value="{{ $item->id }}">{{ $item->tahun }}</option>
                     @endforeach

@@ -83,6 +83,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/project/{slug}/fee/langsung/create', [PorjectController::class, 'projectFeeLangsungStore'])->name('project.fee.langsung.store');
 
     Route::get('/project/{slug}/invoice', [PorjectController::class, 'projectInvoice'])->name('project.invoice');
+    Route::post('/project/{slug}/invoice/add-invoice', [PorjectController::class, 'projectInvoiceStore'])->name('project.invoice.store');
+    Route::get('/project/{slug}/invoice/{id}/stream', [PorjectController::class, 'getInvoices'])->name('project.invoice.stream');
     // end project
 
     // project type

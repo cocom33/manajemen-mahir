@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&family=Poppins&display=swap');
+
+body {
+    font-family: Poppins;
+}
+
+h4 {
+    margin: 0;
+}
+.w-full {
+    width: 100%;
+}
+.w-half {
+    width: 50%;
+}
+.w-30 {
+    width: 30%;
+}
+.text-information {
+    display: flex;
+}
+.margin-top {
+    margin-top: 1.25rem;
+}
+.footer {
+    font-size: 0.875rem;
+    padding: 1rem;
+    background-color: rgb(241 245 249);
+}
+table {
+    width: 100%;
+    border-spacing: 0;
+}
+table.products {
+    font-size: 0.875rem;
+    margin-top: 5px;
+}
+table.products tr {
+    border: solid 0.001rem black;
+}
+table.products th {
+    color: #000000;
+    padding: 0.5rem;
+    border: solid 0.001rem black;
+}
+table tr.items td {
+    padding: 0.5rem;
+    border: solid 0.001rem black;
+}
+.total {
+    text-align: right;
+    margin-top: 1rem;
+    font-size: 0.875rem;
+}

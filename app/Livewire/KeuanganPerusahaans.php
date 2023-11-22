@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\KeuanganBulanan;
 use App\Models\KeuanganDetail;
 use App\Models\KeuanganPerusahaan;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class KeuanganPerusahaans extends Component
@@ -19,12 +20,14 @@ class KeuanganPerusahaans extends Component
 
         return view('livewire.keuangan-perusahaans',[
             'tahuns' => KeuanganPerusahaan::get(),
-            'bulans' => KeuanganBulanan::orderBy('bulan', 'asc')->get(),
+            'bulans' => KeuanganBulanan::get(),
             'keuanganDetails' => KeuanganDetail::when($this->byBulans, function($query){
                                                         $query->where('keuangan_bulanan_id', $this->byBulans);
                                                     })
                                                     ->search(trim($this->search))
+                                                    ->orderBy('id', 'asc')
                                                     ->paginate($this->perPage)
-        ]);
+                                                ]);
+                                                Log::info();
     }
 }
