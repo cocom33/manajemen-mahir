@@ -13,6 +13,14 @@ return new class extends Migration
     {
         Schema::create('invoice_systems', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('invoice_id');
+            $table->string('description');
+            $table->integer('price');
+            $table->integer('date');
+            $table->enum('date_type', ['year', 'month', 'week', 'day']);
+            $table->integer('total');
+
+            $table->softDeletes();
             $table->timestamps();
         });
     }
