@@ -29,7 +29,7 @@
             <a href="{{route('keuangan-perusahaan.create')}}"><button class="button text-white bg-theme-1 shadow-md ">Add New</button></a>
         </div>
     </div>
-
+    {{-- <livewire:keuangan-perusahaans /> --}}
     {{-- <livewire:filter-keuangan-perusahaans />
     <livewire:show-keuangan-perusahaans /> --}}
     <div class="intro-y datatable-wrapper box p-5 mt-5">

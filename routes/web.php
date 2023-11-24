@@ -81,6 +81,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/project/{slug}/fee', [PorjectController::class, 'projectFee'])->name('project.fee');
     Route::post('/project/{slug}/fee/create', [PorjectController::class, ''])->name('project.fee.create');
     Route::post('/project/{slug}/fee/create', [PorjectController::class, 'projectFeeStore'])->name('project.fee.create');
+
+    Route::post('/project/{slug}/fee/langsung/create', [PorjectController::class, 'projectFeeLangsungStore'])->name('project.fee.langsung.store');
+
+    Route::get('/project/{slug}/invoice', [PorjectController::class, 'projectInvoice'])->name('project.invoice');
+    Route::post('/project/{slug}/invoice/add-invoice', [PorjectController::class, 'projectInvoiceStore'])->name('project.invoice.store');
+    Route::get('/project/{slug}/invoice/{id}/stream', [PorjectController::class, 'getInvoices'])->name('project.invoice.stream');
+
     Route::put('/project/{slug}/fee/langsung/create', [PorjectController::class, 'projectFeeLangsungStore'])->name('project.fee.langsung.store');
     Route::put('/project/{slug}/fee/termin/create', [PorjectController::class, 'projectTerminStore'])->name('project.fee.termin.store');
     Route::get('/project/{slug}/fee/termin/{termin}', [PorjectController::class, 'projectTerminDetail'])->name('project.fee.termin.detail');
@@ -94,6 +101,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('/project/{slug}/invoice-other/store', [InvoiceController::class, 'invoiceOtherStore'])->name('project.invoice.other.create');
     Route::delete('/project/{slug}/invoice-system/{id}/delete', [InvoiceController::class, 'invoiceSystemDestroy'])->name('project.invoice.system.delete');
     Route::delete('/project/{slug}/invoice-other/{id}/delete', [InvoiceController::class, 'invoiceOtherDestroy'])->name('project.invoice.other.delete');
+
     // end project
 
     // project type

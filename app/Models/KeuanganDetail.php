@@ -23,4 +23,12 @@ class KeuanganDetail extends Model
     {
         return $this->belongsTo(KeuanganBulanan::class);
     }
+
+    public function scopeSearch($query, $term)
+    {
+        $term = "%$term%";
+        $query->where(function($query) use ($term) {
+            $query->where('description', 'like', $term);
+        });
+    }
 }

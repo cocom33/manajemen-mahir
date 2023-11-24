@@ -1,92 +1,144 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
-  <title>Invoice</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Invoice</title>
+    <link rel="stylesheet" href="./invoice/style.css" type="text/css">
 </head>
 <body>
-  <div class="row">
-    <div class="col-12">
-      <div class="card">
-        <div class="card-body">
-          <table style="width:100%">
-            <tr>
-              <td colspan="3">
-                <img src="{{ asset('dist/images/mahir-logo.png') }}" alt="" style="width: 80px">
-              </td>
-              <td>
-                <h5>Mahir Technogy Indonesia</h5>
-                <div> Alamat : Jl. Raya Krapyak, RT.05, Karanganyar Ds, sambirejo, Wedomartani, Kec. Ngemplak, Kabupaten Sleman, Daerah Istimewa Yogyakarta</div>
-                <div>Telp/Whatsapp : 0857-2524-9265</div>
-              </td>
-            </tr>
-            <tr>
-              <td colspan="4">
-                <div>
-                  <h4>INVOICE</h4>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td colspan="3">
-                <div>
-                  <div class="text-gray font-weight-bold">Tagihan Kepada</div>
-                  <div class="text-gray">nomore infois</div>
-                  <div class="text-gray">Alamat : disini</div>
-                  <div class="text-gray">Email : disini</div>
-                  <div class="text-gray">Telepon : disini</div>
-                </div>
-              </td>
-              <td>
-                <div class=" font-weight-bold">Tangal Pembelian</div>
-                <div>2 jun 2022</div>
-                <div class=" font-weight-bold">No Transaksi</div>
-                <div>no transaksi</div>
-                <div class=" font-weight-bold">Status Pembayaran</div>
-                <div>
-                    sukses
-                </div>
-              </td>
-            </tr>
-          </table>
+    <h1><center>INVOICE</center></h1>
+    <table class="w-full">
+        <tr>
+            <td class="w-half">
+                <img src="./invoice/mahir.png" alt="laravel daily" width="200" />
+                <p style="color: rgb(69, 69, 69); font-style: bold"><i>PT. Mahir Technology Indonesia</i></p>
+            </td>
+            <td class="w-30">
+                Tanggal <span style="margin-left: 27px">{{ Carbon\Carbon::parse($invoice->created_at)->format('Y-m-d') }}</span><br>
+                No. Invoice <span style="margin-left: 5px">{{ $invoice->no_invoice }}</span><br>
+                Kepada <span style="margin-left: 30px">{{ $project->client->name }}</span>
+            </td>
+        </tr>
+    </table>
 
-          <table class="table table-bordered my-4">
+    <div class="margin-top">
+        <table class="w-full">
             <tr>
-              <td class="bg-success text-white">Produk</td>
-              <td class="bg-success text-white">qty</td>
-              <td class="bg-success text-white">harga</td>
-              <td class="bg-success text-white">Jumlah</td>
+                <td class="w-half">
+                    <div style="width: 50%">Jl. Raya Krapyak, RT.05, Karanganyar,
+                        Wedomartani Ngemplak, Kabupaten Sleman, DI Yogyakarta 55584</div>
+                    <div>085725249265</div>
+                    <div style="color:rgb(24, 178, 178); text-decoration: underline;">office@mahirtechnology.com</div>
+                    <div>No NPWP: 961220316542000</div>
+                </td>
             </tr>
-            <tr>
-              <td>
-                <div>judul df</div>
-                <div><small>katerogri</small></div>
-              </td>
-              <td>1</td>
-              <td>Rp. 1000000</td>
-              <td>Rp. 1000000</td>
-            </tr>
-            <tr>
-              <td colspan="3"><b>Subtotal</b></td>
-              <td><b>Rp 1000000</b></td>
-            </tr>
-            <tr>
-              <td colspan="3"><b>Total</b></td>
-              <td><b>Rp 200000</b></td>
-            </tr>
-          </table>
-
-          <div class="my4">
-            <small><i>invoice ini di unduh pada : {{ date('Y/m/d H:i:s') }}</i></small>
-          </div>
-        </div>
-      </div>
+        </table>
     </div>
-  </div>
+
+    <div class="margin-top">
+        <span>Project or Service Description</span>
+        <table class="products">
+            <tr>
+                <th>Description</th>
+                <th>Price Item</th>
+                <th>Qty</th>
+                <th>Total</th>
+            </tr>
+            <tr class="items">
+                <td style="width: 45%">
+                    Pelunasan {{ $project->name }}
+                </td>
+                <td style="text-align: center; width: 20%">
+                    {{ 'Rp ' .number_format($project->harga_deal, 2, ',', '.') }}
+                </td>
+                <td style="text-align: right; width: 10%">
+                    @if ($selisihHari < 7)
+                        {{ $selisihHari }} Hari
+                    @elseif ($selisihMinggu < 4)
+                        {{ $selisihMinggu }} Minggu
+                    @else
+                        {{ $selisihBulan }} Bulan
+                    @endif
+                </td>
+                <td style="text-align: right; width: 20%">
+                    {{ 'Rp ' .number_format($project->harga_deal, 2, ',', '.') }}
+                </td>
+            </tr>
+        </table>
+    </div>
+
+
+
+    <div class="margin-top">
+        <table class="products">
+            <tr class="items">
+                <td style="width: 45%; border:none"></td>
+                <td style="width: 20%; border:none"></td>
+                <td style="text-align: right; width: 10%; border:none">
+                    JUMLAH
+                </td>
+                <td style="text-align: right; width: 20%; border:none">
+                    {{ 'Rp ' .number_format($project->harga_deal, 2, ',', '.') }}
+                </td>
+            </tr>
+            <tr class="items">
+                <td style="width: 45%; border:none">
+                    <b>Terbilang:</b>
+                </td>
+                <td style="text-align: center; width: 20%; border:none">
+
+                </td>
+                <td style="text-align: right; width: 10%; border:none">
+                    Pajak
+                </td>
+                <td style="text-align: right; width: 20%; border: solid 0.001rem rgb(112, 112, 112)">
+                    0
+                </td>
+            </tr>
+            <tr class="items">
+                <td style="width: 45%; border:none">
+                    <b><i> {{ $terbilang }} rupiah </i></b>
+                </td>
+                <td style="text-align: center; width: 20%; border:none">
+
+                </td>
+                <td style="text-align: right; width: 10%; border:none">
+                </td>
+                <td style="text-align: right; width: 20%; border: solid 0.001rem rgb(112, 112, 112); background: rgb(231, 231, 231)">
+                    Rp0.00
+                </td>
+            </tr>
+            <tr class="items">
+                <td style="width: 45%; border:none">
+
+                </td>
+                <td style="text-align: center; width: 20%; border:none">
+
+                </td>
+                <td style="text-align: right; width: 10%; border:none">
+                    TOTAL
+                </td>
+                <td style="text-align: right; width: 20%; border: solid 0.001rem rgb(112, 112, 112); background: rgb(231, 231, 231)">
+                    <b>{{ 'Rp ' .number_format($project->harga_deal, 2, ',', '.') }}</b>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <table class="w-full">
+        <tr>
+            <td class="w-half">
+                <span><b><i>Silahkan transfer ke:</i></b></span><br>
+                <span>Bank mandiri<br> <b>1370016335214</b><br> An. Irhamullah</span>
+            </td>
+            <td class="w-30" style="position: relative;">
+                <img src="./invoice/assign-ustadz.png" alt="laravel daily" width="250"  style="position: absolute; right: 30px; top: 30px" />
+                <p style="text-align: center; padding-top: 70px">Irhamullah, S.Kom<br>
+                    (Direktur)</p>
+            </td>
+        </tr>
+    </table>
 </body>
 </html>
