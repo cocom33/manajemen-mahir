@@ -1,6 +1,14 @@
 @extends('layouts.app')
 @section('title', 'Keuangan Perusahaan')
 
+@push('styles')
+    <style>
+        option {
+            font-family: 'Roboto' !important;
+        }
+    </style>
+@endpush
+
 @section('content')
     <!-- BEGIN: Content -->
     <div class="intro-y space-around col-span-12 flex flex-wrap sm:flex-no-wrap items-center justify-between mt-5 mb-10">
@@ -21,11 +29,15 @@
             <a href="{{route('keuangan-perusahaan.create')}}"><button class="button text-white bg-theme-1 shadow-md ">Add New</button></a>
         </div>
     </div>
-    <livewire:keuangan-perusahaans />
+    {{-- <livewire:keuangan-perusahaans /> --}}
     {{-- <livewire:filter-keuangan-perusahaans />
     <livewire:show-keuangan-perusahaans /> --}}
-    {{-- <div class="intro-y datatable-wrapper box p-5 mt-5">
-        <livewire:keuangan-perusahaans-table/>
-    </div> --}}
+    <div class="intro-y datatable-wrapper box p-5 mt-5">
+        @if ($tahun)
+            <livewire:keuangan />
+        @else
+            <h4 class="text-md   text-center">Tidak ada data, silahkan buat dahulu</h4>
+        @endif
+    </div>
 
 @endsection

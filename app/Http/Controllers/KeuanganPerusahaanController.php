@@ -14,12 +14,7 @@ class KeuanganPerusahaanController extends Controller
      */
     public function index()
     {
-        $data['data'] = KeuanganPerusahaan::where('tahun', Date('Y'))->first();
-        $data['all'] = KeuanganDetail::get();
-        $data['keuanganBulanans'] = KeuanganBulanan::all();
-
-
-        // dd($data['all']);
+        $data['tahun'] = KeuanganPerusahaan::where('tahun', Date('Y'))->first();
 
         return view('admin.keuangan-perusahaan.index', $data);
     }
@@ -39,13 +34,26 @@ class KeuanganPerusahaanController extends Controller
      */
     public function store(Request $request)
     {
+        $tahun = KeuanganPerusahaan::where('tahun', date('Y'))->first();
+        $bulan = KeuanganBulanan::where('bulan', date('m'))->first();
+
         $data = $request->validate([
-            'bulan' => 'required',
+            // 'bulan' => 'required',
             'description' => 'required',
             'total' => 'required|numeric',
         ]);
 
-        $data['keuangan_bulanan_id'] = $request->bulan;
+        if(!$tahun) {
+            $tahun = KeuanganPerusahaan::create(['tahun' => date('Y')]);
+        }
+        if(!$bulan) {
+            $bulan = KeuanganBulanan::create([
+                'keuangan_perusahaan_id' => $tahun->id,
+                'bulan' => date('m'), 'tahun_id',
+            ]);
+        }
+
+        $data['keuangan_bulanan_id'] = $bulan->id;
 
         $model = KeuanganDetail::create($data);
 
