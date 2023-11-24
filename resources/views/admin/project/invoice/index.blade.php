@@ -38,7 +38,7 @@
         @endif
         <div class="mt-5">
             @if (!$invoice)
-                <form action="{{ route('project.invoice.create', $project->slug) }}" method="post">
+                {{-- <form action="{{ route('project.invoice.create', $project->slug) }}" method="post">
                     @csrf
                     <div class="w-full">
                         <x-form-input label="Nomor Invoice" name="no_invoice"  />
@@ -55,7 +55,7 @@
                             <i data-feather="plus" class=" w-4 h-4 font-bold mr-2"></i> <span>Tambah Invoice</span>
                         </button>
                     </div>
-                </form>
+                </form> --}}
             @else
                 <div class="w-full flex justify-between align-center">
                     <h3 class="font-bold text-xl">
@@ -106,11 +106,11 @@
                     </form>
 
                     <div class="mt-8">
-                        <div class="flex justify-end mb-5">
+                        {{-- <div class="flex justify-end mb-5">
                             <a target="_blank" href="{{ route('project.invoice.download', [$project->slug, $invoice->id]) }}" class="button flex align-center text-white bg-theme-1 shadow-md">
                                 <i data-feather="download" class=" w-4 h-4 mt-1 font-bold mr-2"></i> Download Invoice
                             </a>
-                        </div>
+                        </div> --}}
                         <table class="table table-report table-report--bordered display datatable w-full">
                             <thead>
                                 <tr>
@@ -188,11 +188,11 @@
                     </form>
 
                     <div class="mt-8">
-                        <div class="flex justify-end mb-5">
+                        {{-- <div class="flex justify-end mb-5">
                             <a href="" class="button flex align-center text-white bg-theme-1 shadow-md">
                                 <i data-feather="download" class=" w-4 h-4 mt-1 font-bold mr-2"></i> Download Invoice
                             </a>
-                        </div>
+                        </div> --}}
                         <table class="table table-report table-report--bordered display datatable w-full">
                             <thead>
                                 <tr>
