@@ -39,48 +39,84 @@
 
     <div class="margin-top">
         <span>Project or Service Description</span>
+        @if ($invoice->type == 'system')
         <table class="products">
-            <tr>
-                <th>Description</th>
-                <th>Price Item</th>
-                <th>Qty</th>
-                <th>Total</th>
-            </tr>
-            <tr class="items">
-                <td style="width: 45%">
-                    Pelunasan {{ $project->name }}
-                </td>
-                <td style="text-align: center; width: 20%">
-                    {{ 'Rp ' .number_format($project->harga_deal, 2, ',', '.') }}
-                </td>
-                <td style="text-align: right; width: 10%">
-                    @if ($selisihHari < 7)
-                        {{ $selisihHari }} Hari
-                    @elseif ($selisihMinggu < 4)
-                        {{ $selisihMinggu }} Minggu
-                    @else
-                        {{ $selisihBulan }} Bulan
-                    @endif
-                </td>
-                <td style="text-align: right; width: 20%">
-                    {{ 'Rp ' .number_format($project->harga_deal, 2, ',', '.') }}
-                </td>
-            </tr>
+            <thead>
+                <tr>
+                    <th>Description</th>
+                    <th>Price Item</th>
+                    <th>Qty</th>
+                    <th>TOTAL</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($invoiceDetails as $item)
+                <tr class="items">
+                    <td style="width: 40%;">
+                        {{ $item->description }}
+                    </td>
+                    <td style="text-align: center; width: 20%">
+                        {{ 'Rp ' .number_format($item->price) }}
+                    </td>
+                    <td style="text-align: center; width: 15%">
+                        {{ $item->total . ' ' }}
+                        @if ($item->date_type == 'year')
+                            Tahun
+                        @elseif ($item->date_type == 'month')
+                            Bulan
+                        @elseif ($item->date_type == 'week')
+                            Minggu
+                        @elseif ($item->date_type == 'day')
+                            Hari
+                        @endif
+                    </td>
+                    <td style="text-align: right; width: 20%">
+                        {{ 'Rp ' .number_format($item->total * $item->price) }}
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
         </table>
+        @else
+        <table class="products">
+            <thead>
+                <tr>
+                    <th>Description</th>
+                    <th>Price Item</th>
+                    <th>TOTAL</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($invoiceOthers as $item)
+                <tr class="items">
+                    <td style="width: 55%;">
+                        {{ $item->description }}
+                    </td>
+                    <td style="text-align: center; width: 20%">
+                        {{ 'Rp ' .number_format($item->price) }}
+                    </td>
+                    <td style="text-align: right; width: 20%">
+                        {{ 'Rp ' .number_format($item->total * $item->price) }}
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+        @endif
     </div>
 
 
 
     <div class="margin-top">
-        <table class="products">
+        <table class="detail">
             <tr class="items">
                 <td style="width: 45%; border:none"></td>
                 <td style="width: 20%; border:none"></td>
                 <td style="text-align: right; width: 10%; border:none">
-                    JUMLAH
+                    <b style="color: rgb(61, 58, 58)"><i>JUMLAH</i></b>
                 </td>
                 <td style="text-align: right; width: 20%; border:none">
-                    {{ 'Rp ' .number_format($project->harga_deal, 2, ',', '.') }}
+                    {{ 'Rp ' . number_format($total) }}
                 </td>
             </tr>
             <tr class="items">
@@ -91,7 +127,7 @@
 
                 </td>
                 <td style="text-align: right; width: 10%; border:none">
-                    Pajak
+                    <b style="color: rgb(61, 58, 58)"><i>PAJAK</i></b>
                 </td>
                 <td style="text-align: right; width: 20%; border: solid 0.001rem rgb(112, 112, 112)">
                     0
@@ -118,10 +154,10 @@
 
                 </td>
                 <td style="text-align: right; width: 10%; border:none">
-                    TOTAL
+                    <b>TOTAL</b>
                 </td>
                 <td style="text-align: right; width: 20%; border: solid 0.001rem rgb(112, 112, 112); background: rgb(231, 231, 231)">
-                    <b>{{ 'Rp ' .number_format($project->harga_deal, 2, ',', '.') }}</b>
+                    <b>{{ 'Rp ' . number_format($total) }}</b>
                 </td>
             </tr>
         </table>
@@ -131,7 +167,12 @@
         <tr>
             <td class="w-half">
                 <span><b><i>Silahkan transfer ke:</i></b></span><br>
+                @if ($invoice->type == 'system')
                 <span>Bank mandiri<br> <b>1370016335214</b><br> An. Irhamullah</span>
+                @else
+                <span>Bank mandiri<br> <b>1370022006312</b><br> An. PT Mahir Technology Indonesia</span>
+
+                @endif
             </td>
             <td class="w-30" style="position: relative;">
                 <img src="./invoice/assign-ustadz.png" alt="laravel daily" width="250"  style="position: absolute; right: 30px; top: 30px" />
