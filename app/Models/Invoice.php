@@ -15,14 +15,11 @@ class Invoice extends Model
 
     public static function generateInvoiceNumber()
     {
-        // Mendapatkan angka increment dari nomor invoice sebelumnya
         $lastInvoice = self::orderBy('created_at', 'desc')->first();
 
         if ($lastInvoice) {
-            // Mendapatkan angka increment dari nomor invoice sebelumnya
             $lastIncrement = intval(substr($lastInvoice->no_invoice, 0, strpos($lastInvoice->no_invoice, '/')));
         } else {
-            // Jika ini invoice pertama, mulai dari 1
             $lastIncrement = 0;
         }
 

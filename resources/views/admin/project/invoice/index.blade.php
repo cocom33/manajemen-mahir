@@ -83,6 +83,7 @@
                             <x-form-input label="Harga" name="price" placeholder="masukkan jumlah uang" type="number" addon="w-full" />
                             <x-form-input label="Masukkan Jumlah" name="total" value="1" placeholder="masukkan total barang" type="number" addon="w-full" />
                         </div>
+                        
                         <div class="flex w-full gap-3">
                             <x-form-input label="Masukkan Lama waktu" name="date" placeholder="ex: 1" addon="w-full" />
                             <div class="w-full">
@@ -188,11 +189,6 @@
                     </form>
 
                     <div class="mt-8">
-                        {{-- <div class="flex justify-end mb-5">
-                            <a href="" class="button flex align-center text-white bg-theme-1 shadow-md">
-                                <i data-feather="download" class=" w-4 h-4 mt-1 font-bold mr-2"></i> Download Invoice
-                            </a>
-                        </div> --}}
                         <table class="table table-report table-report--bordered display datatable w-full">
                             <thead>
                                 <tr>

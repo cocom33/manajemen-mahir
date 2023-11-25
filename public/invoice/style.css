@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&family=Poppins&display=swap');
 
 body {
-    font-family: Poppins;
+    font-family: courier;
 }
 
 h4 {
@@ -38,14 +38,28 @@ table.products {
 table.products tr {
     border: solid 0.001rem black;
 }
-table.products th {
+table.products, table.products th, table.products td {
     color: #000000;
+    border: solid 0.0001rem  black;
+    border-collapse: collapse;
+}
+
+table.products th, table.products td {
     padding: 0.5rem;
+}
+
+table.detail {
+    font-size: 0.875rem;
+    margin-top: 5px;
+}
+table.detail tr {
     border: solid 0.001rem black;
 }
-table tr.items td {
+table.detail th, table.detail td {
+    color: #000000;
     padding: 0.5rem;
-    border: solid 0.001rem black;
+    border: solid 0.001rem  black;
+    border-collapse: collapse;
 }
 .total {
     text-align: right;

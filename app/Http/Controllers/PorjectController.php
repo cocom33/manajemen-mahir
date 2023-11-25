@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use App\Models\Invoice;
+use App\Models\InvoiceOther;
+use App\Models\InvoiceSystem;
 use App\Models\KeuanganPerusahaan;
 use App\Models\KeuanganProject;
 use App\Models\Langsung;
@@ -177,7 +179,6 @@ class PorjectController extends Controller
     {
         $data['project'] = Project::where('slug', $slug)->first();
         $data['invoice'] = Invoice::where('project_id', $data['project']->id)->first();
-        // dd($data['invoice']);
 
         return view('admin.project.invoice.index', $data);
     }
@@ -204,18 +205,23 @@ class PorjectController extends Controller
         $data['project'] = Project::with('client')->where('slug', $slug)->first();
         $data['invoice'] = Invoice::where('id', $id)->first();
 
-        // $tanggalMulai = $data['project']->start_date;
-        // $tanggalBatas = $data['project']->deadline_date;
-        $tanggalMulai = Carbon::createFromFormat('Y-m-d', $data['project']->start_date);
-        $tanggalBatas = Carbon::createFromFormat('Y-m-d', $data['project']->deadline_date);
+        if ($data['invoice']->type == 'system'){
+            $data['invoiceDetails'] = InvoiceSystem::where('invoice_id', $data['invoice']->id)->get();
+            $data['total'] = 0;
+            foreach ($data['invoiceDetails'] as $item) {
+                $data['total'] += $item['price'] * $item['total'];
+            }
+            $data['terbilang'] = \Riskihajar\Terbilang\Facades\Terbilang::make( $data['total']);
+        } else {
+            $data['invoiceOthers'] = InvoiceOther::where('invoice_id', $data['invoice']->id)->get();
+            $data['total'] = 0;
+            foreach ($data['invoiceOthers'] as $item) {
+                $data['total'] += $item['price'] * $item['total'];
+            }
+            $data['terbilang'] = \Riskihajar\Terbilang\Facades\Terbilang::make( $data['total']);
+        }
 
-        $selisihHari = $tanggalMulai->diffInDays($tanggalBatas);
-        $selisihMinggu = $tanggalMulai->diffInWeeks($tanggalBatas);
-        $selisihBulan = $tanggalMulai->diffInMonths($tanggalBatas);
-
-        $terbilang = \Riskihajar\Terbilang\Facades\Terbilang::make( $data['project']->harga_deal);
-
-        $pdf = Pdf::loadView('admin.project.invoice.invoice', $data, compact('selisihHari', 'selisihMinggu', 'selisihBulan', 'terbilang'));
+        $pdf = Pdf::loadView('admin.project.invoice.invoice', $data);
         return $pdf->stream('inovice-'. $data['invoice']->no_invoice.'.pdf');
     }
 
