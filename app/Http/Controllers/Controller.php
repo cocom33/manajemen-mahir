@@ -156,7 +156,7 @@ class Controller extends BaseController
             'project type' => [
                 'icon' => 'box',
                 'layout' => 'side-menu',
-                'page_name' => 'project-type',
+                'page_name' => 'category-project',
                 'title' => 'Project Type'
             ],
             // 'menu-layout' => [

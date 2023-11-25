@@ -31,11 +31,11 @@
             'icon'   => 'users',
             'name'   => 'teams',
         ],
-        'project-type' =>  [
-            'title'  => 'Project Type',
-            'url'    => route('project-type.index'),
+        'category-project' =>  [
+            'title'  => 'Project Category',
+            'url'    => route('category-project.index'),
             'icon'   => 'layout',
-            'name'   => 'project-type'
+            'name'   => 'category-project'
         ],
         'client' =>  [
             'title'  => 'Client',
@@ -50,25 +50,25 @@
             'icon'   => 'user',
             'name'   => 'profile',
         ],
-        'team' =>  [
-            'title'  => 'asd',
-            'icon'   => 'user',
-            'name'   => 'team.index',
-            'children' => [
-                [
-                    'title'  => 'tes 11',
-                    'url'    => route('client.index'),
-                    'icon'   => 'activity',
-                    'name'   => 'client',
-                ],
-                [
-                    'title'  => 'tes 2',
-                    'url'    => route('client.index'),
-                    'icon'   => 'activity',
-                    'name'   => 'client',
-                ],
-            ]
-        ],
+        // 'team' =>  [
+        //     'title'  => 'asd',
+        //     'icon'   => 'user',
+        //     'name'   => 'team.index',
+        //     'children' => [
+        //         [
+        //             'title'  => 'tes 11',
+        //             'url'    => route('client.index'),
+        //             'icon'   => 'activity',
+        //             'name'   => 'client',
+        //         ],
+        //         [
+        //             'title'  => 'tes 2',
+        //             'url'    => route('client.index'),
+        //             'icon'   => 'activity',
+        //             'name'   => 'client',
+        //         ],
+        //     ]
+        // ],
     ];
 @endphp
 

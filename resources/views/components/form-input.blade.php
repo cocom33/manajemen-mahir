@@ -1,6 +1,6 @@
-@props(['label', 'name', 'value', 'pesan' => '', 'placeholder' => '','type'=> 'text', 'class' => '', 'readonly', 'uppercase' => false , 'wraperattribute' => true, 'required' => 'true'])
+@props(['label', 'name', 'value', 'pesan' => '', 'placeholder' => '','type'=> 'text', 'class' => '', 'readonly', 'uppercase' => false , 'wraperattribute' => true, 'required' => 'true', 'addon' => ''])
 
-<div class="mb-3">
+<div class="mb-3 {{ $addon }} ">
   <label for="{{ $label }}" class="{{ $class }}">{{ $label }}{{ $required == 'true' ? '*' : '' }}</label>
   <input
     class      ="input w-full border mt-2"

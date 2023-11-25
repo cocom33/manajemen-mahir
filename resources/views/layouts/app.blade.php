@@ -10,10 +10,11 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>Dashboard - Mahir</title>
         <!-- BEGIN: CSS Assets-->
+        @livewireStyles
+        @stack('styles')
         <link rel="stylesheet" href="{{ asset('dist/css/app.css') }}" />
         <link rel="stylesheet" href="{{ asset('dist/css/iziToast.min.css') }}" />
         <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.9.0/dist/sweetalert2.min.css" rel="stylesheet">
-        @livewireStyles
     </head>
 
     <body class="app">
@@ -35,9 +36,9 @@
 
         </div>
 
-        @include('layouts.scripts')
         @livewireScripts
         @stack('scripts')
+        @include('layouts.scripts')
 
         @if($errors->any())
             @foreach($errors->all() as $error)

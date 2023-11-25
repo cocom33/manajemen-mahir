@@ -25,11 +25,11 @@
             'name'   => 'keuangan-umum',
         ],
         'devider',
-        'project-type' =>  [
-            'title'  => 'Project Type',
-            'url'    => route('project-type.index'),
-            'icon'   => 'home',
-            'name'   => 'project-type',
+        'category-project' =>  [
+            'title'  => 'Project Category',
+            'url'    => route('category-project.index'),
+            'icon'   => 'layout',
+            'name'   => 'category-project'
         ],
         'team' =>  [
             'title'  => 'Team',

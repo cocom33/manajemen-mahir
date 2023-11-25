@@ -5,7 +5,7 @@
 <div class="intro-y flex flex-col sm:flex-row items-center mt-8">
     <h2 class="text-lg font-medium mr-auto">Project Type</h2>
     <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
-        <a href="{{ route('project-type.create') }}"><button class="button text-white bg-theme-1 shadow-md mr-2">Add New Project Type</button></a>
+        <a href="{{ route('category-project.create') }}"><button class="button text-white bg-theme-1 shadow-md mr-2">Add New Project Type</button></a>
         <div class="dropdown relative ml-auto sm:ml-0">
             <button class="dropdown-toggle button px-2 box text-gray-700">
                 <span class="w-5 h-5 flex items-center justify-center">
@@ -40,10 +40,10 @@
                     <td class="border-b">{{ $data->name }}</td>
                     <td class="border-b w-5">
                         <div class="flex sm:justify-center items-center">
-                            <a class="flex items-center mr-3" href="{{ route('project-type.edit', $data->id) }}">
+                            <a class="flex items-center mr-3" href="{{ route('category-project.edit', $data->id) }}">
                                 <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Edit
                             </a>
-                            <form method="POST" action="{{ route('project-type.destroy', $data->id) }}">
+                            <form method="POST" action="{{ route('category-project.destroy', $data->id) }}">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="flex items-center text-theme-6 show-alert-delete-box" data-toggle="tooltip" title='Delete'><i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Delete</button>
