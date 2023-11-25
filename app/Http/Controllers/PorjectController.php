@@ -215,10 +215,10 @@ class PorjectController extends Controller
         $terbilang = \Riskihajar\Terbilang\Facades\Terbilang::make( $data['project']->harga_deal);
 
         $pdf = Pdf::loadView('admin.project.invoice.invoice', $data, compact('selisihHari', 'selisihMinggu', 'selisihBulan', 'terbilang'));
-        return $pdf->stream();
+        return $pdf->stream('inovice-'. $data['invoice']->no_invoice.'.pdf');
     }
 
-    public function projectFee($slug, $id)
+    public function projectFee($slug)
     {
         $data['project'] = Project::where('slug', $slug)->first();
         $data['fee_type'] = KeuanganProject::where('project_id', $data['project']->id)->first();
