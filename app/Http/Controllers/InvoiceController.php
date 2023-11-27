@@ -11,16 +11,6 @@ use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
 {
-
-    public function downloadInvoice($slug, $id)
-    {
-        $invoice = Invoice::find($id);
-        $pdf = Pdf::loadView('admin.project.invoice.invoice', compact('invoice'));
-        // return $pdf->stream();
-    }
-    // $pdf = Pdf::loadView('admin.project.invoice.invoice', compact('invoice'));
-    // return $pdf->stream();
-
     public function index($slug)
     {
         $data['project'] = Project::where('slug', $slug)->first();
