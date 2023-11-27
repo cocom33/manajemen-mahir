@@ -171,8 +171,11 @@ class PorjectController extends Controller
     public function projectTeam($slug)
     {
         $data['project'] = Project::where('slug', $slug)->first();
-
+        $data['teams'] = Team::all();
+        $data['projectTeams'] = ProjectTeam::get();
+    
         return view('admin.project.team.index', $data);
+        
     }
 
     public function projectInvoice($slug)
