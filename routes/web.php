@@ -10,6 +10,7 @@ use App\Http\Controllers\PorjectTeamController;
 use App\Http\Controllers\PorjectTypeController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectTeamsController;
 use App\Http\Controllers\ProjectTypeController;
@@ -86,12 +87,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/project/{slug}/fee/termin/{termin}', [PorjectController::class, 'projectTerminDetail'])->name('project.fee.termin.detail');
     Route::put('/project/{slug}/fee/termin/{termin}/create', [PorjectController::class, 'projectTerminDetailStore'])->name('project.fee.termin.detail.store');
 
-    Route::get('/project/{slug}/invoice', [PorjectController::class, 'projectInvoice'])->name('project.invoice');
-    
+    Route::get('/project/{slug}/invoice', [InvoiceController::class, 'index'])->name('project.invoice');
+    Route::post('/project/{slug}/invoice', [InvoiceController::class, 'store'])->name('project.invoice.create');
+    Route::get('/project/{slug}/invoice/detail/{id}', [InvoiceController::class, 'detail'])->name('project.invoice.detail');
+    Route::get('/project/{slug}/invoice/download/{id}', [InvoiceController::class, 'downloadInvoice'])->name('project.invoice.download');
+    Route::put('/project/{slug}/invoice-system/store', [InvoiceController::class, 'invoiceSystemStore'])->name('project.invoice.system.create');
+    Route::put('/project/{slug}/invoice-other/store', [InvoiceController::class, 'invoiceOtherStore'])->name('project.invoice.other.create');
+    Route::delete('/project/{slug}/invoice-system/{id}/delete', [InvoiceController::class, 'invoiceSystemDestroy'])->name('project.invoice.system.delete');
+    Route::delete('/project/{slug}/invoice-other/{id}/delete', [InvoiceController::class, 'invoiceOtherDestroy'])->name('project.invoice.other.delete');
     // end project
 
     // project type
-    Route::resource('project-type', ProjectTypeController::class);
+    Route::resource('category-project', ProjectTypeController::class);
     // end project type
 
     // keuangan umum

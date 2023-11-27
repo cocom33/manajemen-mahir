@@ -5,10 +5,6 @@
     <x-card title="Detail {{ $project->name }}">
         <x-tab-detail page="fee" slug="{{ $project->slug }}" />
         <div class="mt-5">
-
-            <livewire:project.project_fee :data="$project" />
-
-            {{-- <livewire:project.project_fee :data="$project" /> --}}
             <div>
                 @if (!$fee_type)
                     <form action="{{ route('project.fee.create', $project->slug) }}" method="post">
@@ -202,7 +198,7 @@
             form.classList.toggle('hidden')
         }
 
-        @if ($fee_type->type == 'langsung')
+        @if ($fee_type && $fee_type->type == 'langsung')
             @foreach($fee_langsung as $item)
                 function EditFee{{ $item->id }}() {
                     var field{{ $item->id }} = document.getElementById('fieldFee{{ $item->id }}');
@@ -218,7 +214,8 @@
                     edit{{ $item->id }}.classList.toggle('hidden');
                 }
             @endforeach
-        @else
+        @endif
+        @if ($fee_type && $fee_type->type == 'termin')
             @foreach($termin as $item)
                 function EditFeeTermin{{ $item->id }}() {
                     var field{{ $item->id }} = document.getElementById('fieldFeeTermin{{ $item->id }}');
