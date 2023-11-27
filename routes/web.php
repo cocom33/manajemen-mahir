@@ -71,7 +71,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/project/{slug}/team', [PorjectController::class, 'projectTeam'])->name('project.team');
     Route::post('/project/{slug}/team-store', [PorjectController::class, 'projectAddTeam'])->name('project.add.team');
-    Route::delete('/project/{slug}/team-destroy', [PorjectController::class, 'projectDeleteTeam'])->name('project.delete.team');
+    Route::delete('/project/{slug}/team-destroy/{id}', [PorjectController::class, 'projectDeleteTeam'])->name('project.delete.team');
 
     Route::get('/project/{slug}/lampiran', [PorjectController::class, 'projectLampiran'])->name('project.lampiran');
     Route::post('/project/{slug}/add-lampiran', [PorjectController::class, 'projectLampiranStore'])->name('project.lampiran.upload');
