@@ -12,6 +12,7 @@ use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProjectTeamsController;
 use App\Http\Controllers\ProjectTypeController;
 use App\Http\Controllers\TeamController;
 use App\Models\KeuanganUmum;
@@ -69,8 +70,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/project/{slug}', [PorjectController::class, 'projectDetail'])->name('project.detail');
 
     Route::get('/project/{slug}/team', [PorjectController::class, 'projectTeam'])->name('project.team');
-    Route::get('/project/{slug}/add-team', [PorjectController::class, 'projectAddTeam'])->name('project.team.add');
-    Route::post('/project/{slug}/team-store', [PorjectController::class, 'projectDetailTeamStore'])->name('project.detail.team');
+    Route::post('/project/{slug}/team-store', [PorjectController::class, 'projectAddTeam'])->name('project.add.team');
+    Route::delete('/project/{slug}/team-destroy', [PorjectController::class, 'projectDeleteTeam'])->name('project.delete.team');
 
     Route::get('/project/{slug}/lampiran', [PorjectController::class, 'projectLampiran'])->name('project.lampiran');
     Route::post('/project/{slug}/add-lampiran', [PorjectController::class, 'projectLampiranStore'])->name('project.lampiran.upload');
@@ -111,6 +112,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // keuangan umum
     Route::resource('keuangan-umum', KeuanganUmumController::class);
     // end keuangan umum
+
 
     // keuangan perusahaan
     Route::resource('keuangan-perusahaan', KeuanganPerusahaanController::class);

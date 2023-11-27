@@ -12,4 +12,8 @@ class Team extends Model
     use SoftDeletes;
 
     protected $fillable = ['name', 'status', 'wa', 'email', 'alamat'];
+
+    public function projectTeam(){
+        return $this->belongsTo(ProjectTeam::class);
+    }
 }
