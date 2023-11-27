@@ -171,11 +171,36 @@ class PorjectController extends Controller
     public function projectTeam($slug)
     {
         $data['project'] = Project::where('slug', $slug)->first();
-        $data['teams'] = Team::all();
-        $data['projectTeams'] = ProjectTeam::get();
-    
+        $data['projectTeams'] = ProjectTeam::where('project_id', $data['project']->id)->get();
+        $data['teams'] = Team::whereNotIn('id', $data['projectTeams']->pluck('id'))->get();
+
         return view('admin.project.team.index', $data);
-        
+
+    }
+
+    public function projectAddTeam(Request $request, $slug)
+    {
+        $project = Project::where('slug', $slug)->first();
+        $request->validate([
+            'team_id' => 'required|'
+        ]);
+
+        foreach ($request->team_id as $key => $value) {
+            ProjectTeam::create([
+                'project_id' => $project->id,
+                'team_id' => $value,
+            ]);
+        }
+
+        return redirect()->back()->with('success', 'berhasil menambahkan tim');
+    }
+
+    public function projectDeleteTeam($slug, $id)
+    {
+        $data = ProjectTeam::find($id);
+        $data->delete();
+
+        return redirect()->back()->with('success', 'berhasil menghapus tim');
     }
 
     public function projectInvoice($slug)
