@@ -12,6 +12,7 @@ use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProjectFeeController;
 use App\Http\Controllers\ProjectTeamsController;
 use App\Http\Controllers\ProjectTypeController;
 use App\Http\Controllers\TeamController;
@@ -80,20 +81,20 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('/project/{slug}/lampiran/{id}/update', [PorjectController::class, 'projectLampiranUpdate'])->name('project.lampiran.update');
     Route::delete('/project/{slug}/lampiran/{id}/delete', [PorjectController::class, 'projectLampiranDestroy'])->name('project.lampiran.destroy');
 
-    Route::get('/project/{slug}/fee', [PorjectController::class, 'projectFee'])->name('project.fee');
-    Route::post('/project/{slug}/fee/create', [PorjectController::class, ''])->name('project.fee.create');
-    Route::post('/project/{slug}/fee/create', [PorjectController::class, 'projectFeeStore'])->name('project.fee.create');
+    Route::get('/project/{slug}/fee', [ProjectFeeController::class, 'projectFee'])->name('project.fee');
+    Route::post('/project/{slug}/fee/create', [ProjectFeeController::class, ''])->name('project.fee.create');
+    Route::post('/project/{slug}/fee/create', [ProjectFeeController::class, 'projectFeeStore'])->name('project.fee.create');
 
-    Route::post('/project/{slug}/fee/langsung/create', [PorjectController::class, 'projectFeeLangsungStore'])->name('project.fee.langsung.store');
+    Route::post('/project/{slug}/fee/langsung/create', [ProjectFeeController::class, 'projectFeeLangsungStore'])->name('project.fee.langsung.store');
 
     Route::get('/project/{slug}/invoice', [PorjectController::class, 'projectInvoice'])->name('project.invoice');
     Route::post('/project/{slug}/invoice/add-invoice', [PorjectController::class, 'projectInvoiceStore'])->name('project.invoice.store');
     Route::get('/project/{slug}/invoice/{id}/stream', [PorjectController::class, 'getInvoices'])->name('project.invoice.stream');
 
-    Route::put('/project/{slug}/fee/langsung/create', [PorjectController::class, 'projectFeeLangsungStore'])->name('project.fee.langsung.store');
-    Route::put('/project/{slug}/fee/termin/create', [PorjectController::class, 'projectTerminStore'])->name('project.fee.termin.store');
-    Route::get('/project/{slug}/fee/termin/{termin}', [PorjectController::class, 'projectTerminDetail'])->name('project.fee.termin.detail');
-    Route::put('/project/{slug}/fee/termin/{termin}/create', [PorjectController::class, 'projectTerminDetailStore'])->name('project.fee.termin.detail.store');
+    Route::put('/project/{slug}/fee/langsung/create', [ProjectFeeController::class, 'projectFeeLangsungStore'])->name('project.fee.langsung.store');
+    Route::put('/project/{slug}/fee/termin/create', [ProjectFeeController::class, 'projectTerminStore'])->name('project.fee.termin.store');
+    Route::get('/project/{slug}/fee/termin/{termin}', [ProjectFeeController::class, 'projectTerminDetail'])->name('project.fee.termin.detail');
+    Route::put('/project/{slug}/fee/termin/{termin}/create', [ProjectFeeController::class, 'projectTerminDetailStore'])->name('project.fee.termin.detail.store');
 
     Route::get('/project/{slug}/invoice', [InvoiceController::class, 'index'])->name('project.invoice');
     Route::post('/project/{slug}/invoice', [InvoiceController::class, 'store'])->name('project.invoice.create');
