@@ -171,25 +171,38 @@ class PorjectController extends Controller
     public function projectTeam($slug)
     {
         $data['project'] = Project::where('slug', $slug)->first();
-        $data['projectTeams'] = ProjectTeam::where('project_id', $data['project']->id)->get();
-        $data['teams'] = Team::whereNotIn('id', $data['projectTeams']->pluck('id'))->get();
+        $data['projectTeams'] = ProjectTeam::where([['project_id', $data['project']->id], ['status', '1']])->get();
+        $data['teams'] = Team::whereNotIn('id', $data['projectTeams']->pluck('team_id'))->get();
 
         return view('admin.project.team.index', $data);
 
+    }
+
+    public function projectEditTeam(Request $request, $slug)
+    {
+        $data = ProjectTeam::find($request->id);
+        $data->update(['fee' => $request->fee]);
+        return redirect()->back()->with('success', 'berhasil merubah fee team');
     }
 
     public function projectAddTeam(Request $request, $slug)
     {
         $project = Project::where('slug', $slug)->first();
         $request->validate([
-            'team_id' => 'required|'
+            'team_id' => 'required'
         ]);
 
+
         foreach ($request->team_id as $key => $value) {
-            ProjectTeam::create([
-                'project_id' => $project->id,
-                'team_id' => $value,
-            ]);
+            $data = ProjectTeam::where('team_id', $value)->first();
+            if($data) {
+                $data->update(['status' => 1]);
+            } else {
+                ProjectTeam::create([
+                    'project_id' => $project->id,
+                    'team_id' => $value,
+                ]);
+            }
         }
 
         return redirect()->back()->with('success', 'berhasil menambahkan tim');
@@ -198,7 +211,7 @@ class PorjectController extends Controller
     public function projectDeleteTeam($slug, $id)
     {
         $data = ProjectTeam::find($id);
-        $data->delete();
+        $data->update(['status' => 0]);
 
         return redirect()->back()->with('success', 'berhasil menghapus tim');
     }
@@ -257,10 +270,10 @@ class PorjectController extends Controller
     {
         $data['project'] = Project::where('slug', $slug)->first();
         $data['fee_type'] = KeuanganProject::where('project_id', $data['project']->id)->first();
-        $data['project_teams'] = ProjectTeam::where('project_id', $data['project']->id)->get();
 
         if ($data['fee_type'] && $data['fee_type']->type == 'langsung') {
             $data['fee_langsung'] = Langsung::where('keuangan_project_id', $data['fee_type']->id)->get();
+            $data['project_teams'] = ProjectTeam::whereNotIn('id', $data['fee_langsung']->pluck('project_team_id'))->where([['project_id', $data['project']->id], ['status', 1]])->get();
         }
 
         if ($data['fee_type'] && $data['fee_type']->type == 'termin') {
@@ -323,7 +336,7 @@ class PorjectController extends Controller
     {
         $data['project'] = Project::where('slug', $slug)->first();
         $data['termin'] = Termin::where('slug', $termin)->first();
-        $data['teams'] = ProjectTeam::whereNotIn('id', $data['termin']->termin_fee->pluck('project_team_id'))->where('project_id', $data['project']->id)->get();
+        $data['teams'] = ProjectTeam::whereNotIn('id', $data['termin']->termin_fee->pluck('project_team_id'))->where([['project_id', $data['project']->id], ['status', 1]])->get();
 
         return view('admin.project.fee.termin-fee', $data);
     }

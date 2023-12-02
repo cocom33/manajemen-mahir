@@ -70,7 +70,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/project/{slug}', [PorjectController::class, 'projectDetail'])->name('project.detail');
 
     Route::get('/project/{slug}/team', [PorjectController::class, 'projectTeam'])->name('project.team');
-    Route::post('/project/{slug}/team-store', [PorjectController::class, 'projectAddTeam'])->name('project.add.team');
+    Route::put('/project/{slug}/team-store', [PorjectController::class, 'projectAddTeam'])->name('project.add.team');
+    Route::put('/project/{slug}/team-edit', [PorjectController::class, 'projectEditTeam'])->name('project.edit.team');
     Route::delete('/project/{slug}/team-destroy/{id}', [PorjectController::class, 'projectDeleteTeam'])->name('project.delete.team');
 
     Route::get('/project/{slug}/lampiran', [PorjectController::class, 'projectLampiran'])->name('project.lampiran');
