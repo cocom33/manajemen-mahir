@@ -121,6 +121,7 @@
                     @else
                         <form action="{{ route('project.fee.termin.store', $project->slug) }}" method="post" class="hidden mt-3" id="formTermin">
                             @csrf
+                            @method('PUT')
                             <input type="hidden" name="keuangan_project_id" value="{{ $fee_type->id }}">
                             <x-form-input label="Nama Termin" name="name" placeholder="masukkan nama termin" />
 
