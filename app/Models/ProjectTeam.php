@@ -11,7 +11,7 @@ class ProjectTeam extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $fillable = ['project_id', 'team_id', 'fee'];
+    protected $fillable = ['project_id', 'team_id', 'fee', 'status'];
 
     public function project()
     {

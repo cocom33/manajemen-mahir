@@ -15,7 +15,7 @@
                 <div class="preview">
                     <div>
                         <label>Nama Team</label>
-                        <input type="text" name="name" class="input w-full border mt-2 @error('name') border-theme-6 @enderror" placeholder="Nama Client">
+                        <input type="text" name="name" class="input w-full border mt-2 @error('name') border-theme-6 @enderror" placeholder="Nama Team">
                         @error('name')
                             <div class="text-theme-6 mt-2">{{ $message }}</div>
                         @enderror

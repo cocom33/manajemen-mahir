@@ -43,7 +43,9 @@
             @foreach($lampiran->where('project_id', $project->id) as $item)
                 <tr>
                     <td class="border-b">{{ $item->name }}</td>
-                    <td class="text-center border-b">{{ $item->link }}</td>
+                    <td class="text-center border-b">
+                        <a href="{{ $item->link }}" class="button bg-theme-1 text-white px-5" target="_blank" rel="noopener noreferrer">link disini</a>
+                    </td>
                     <td class="border-b w-5">
                         <div class="flex sm:justify-center items-center">
                             <div class="dropdown relative">

@@ -54,6 +54,11 @@ final class KeuanganPerusahaansTable extends PowerGridComponent
         return [];
     }
 
+    public function getBulanAttribute($value)
+    {
+       return \Carbon\Carbon::create()->month($value)->format('F');
+    }
+
     public function addColumns(): PowerGridColumns
     {
         return PowerGrid::columns()
@@ -90,6 +95,10 @@ final class KeuanganPerusahaansTable extends PowerGridComponent
     public function filters(): array
     {
         return [
+            Filter::select('keuangan_bulanan_id')
+                ->dataSource(KeuanganBulanan::select('bulan')->distinct()->get())
+                ->optionValue('bulan')
+                ->optionLabel('bulan'),
             Filter::inputText('description')->operators(['contains']),
             Filter::datetimepicker('created_at'),
         ];

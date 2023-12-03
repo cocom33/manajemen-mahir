@@ -18,4 +18,8 @@ class Team extends Model
     {
         return $this->belongsToMany(Skill::class);
     }
+
+    public function projectTeam(){
+        return $this->belongsTo(ProjectTeam::class);
+    }
 }

@@ -171,8 +171,49 @@ class PorjectController extends Controller
     public function projectTeam($slug)
     {
         $data['project'] = Project::where('slug', $slug)->first();
+        $data['projectTeams'] = ProjectTeam::where([['project_id', $data['project']->id], ['status', '1']])->get();
+        $data['teams'] = Team::whereNotIn('id', $data['projectTeams']->pluck('team_id'))->get();
 
         return view('admin.project.team.index', $data);
+
+    }
+
+    public function projectEditTeam(Request $request, $slug)
+    {
+        $data = ProjectTeam::find($request->id);
+        $data->update(['fee' => $request->fee]);
+        return redirect()->back()->with('success', 'berhasil merubah fee team');
+    }
+
+    public function projectAddTeam(Request $request, $slug)
+    {
+        $project = Project::where('slug', $slug)->first();
+        $request->validate([
+            'team_id' => 'required'
+        ]);
+
+
+        foreach ($request->team_id as $key => $value) {
+            $data = ProjectTeam::where([['team_id', $value], ['project_id', $project->id]])->first();
+            if($data) {
+                $data->update(['status' => 1]);
+            } else {
+                ProjectTeam::create([
+                    'project_id' => $project->id,
+                    'team_id' => $value,
+                ]);
+            }
+        }
+
+        return redirect()->back()->with('success', 'berhasil menambahkan tim');
+    }
+
+    public function projectDeleteTeam($slug, $id)
+    {
+        $data = ProjectTeam::find($id);
+        $data->update(['status' => 0]);
+
+        return redirect()->back()->with('success', 'berhasil menghapus tim');
     }
 
     public function projectInvoice($slug)
@@ -223,102 +264,5 @@ class PorjectController extends Controller
 
         $pdf = Pdf::loadView('admin.project.invoice.invoice', $data);
         return $pdf->stream('inovice-'. $data['invoice']->no_invoice.'.pdf');
-    }
-
-    public function projectFee($slug)
-    {
-        $data['project'] = Project::where('slug', $slug)->first();
-        $data['fee_type'] = KeuanganProject::where('project_id', $data['project']->id)->first();
-        $data['project_teams'] = ProjectTeam::where('project_id', $data['project']->id)->get();
-
-        if ($data['fee_type'] && $data['fee_type']->type == 'langsung') {
-            $data['fee_langsung'] = Langsung::where('keuangan_project_id', $data['fee_type']->id)->get();
-        }
-
-        if ($data['fee_type'] && $data['fee_type']->type == 'termin') {
-            $data['termin'] = Termin::where('keuangan_project_id', $data['fee_type']->id)->get();
-        }
-
-        return view('admin.project.fee.index', $data);
-    }
-
-    public function projectFeeStore(Request $request, $slug)
-    {
-        $data = $request->all();
-        KeuanganProject::create($data);
-
-        return redirect()->back()->with('success', 'berhasil membuat type pembayaran');
-    }
-
-    public function projectFeeLangsungStore(Request $request)
-    {
-        $langsung = Langsung::find($request->id);
-
-        if($langsung) {
-            $langsung->update([
-                'fee'   => $request->fee,
-            ]);
-            return redirect()->back()->with('success', 'berhasil merubah fee');
-        }
-
-        $data = $request->validate([
-            'keuangan_project_id' => 'required',
-            'project_team_id' => 'required',
-            'fee' => 'required',
-        ]);
-
-        Langsung::create($data);
-        return redirect()->back()->with('success', 'berhasil melakukan pembayaran');
-    }
-
-    public function projectTerminStore(Request $request)
-    {
-        $termin = Termin::find($request->id);
-
-        if($termin) {
-            $termin->update([
-                'name' => $request->name,
-            ]);
-            return redirect()->back()->with('success', 'berhasil merubah nama termin');
-        }
-
-        $data = $request->validate([
-            'keuangan_project_id' => 'required',
-            'name' => 'required',
-        ]);
-
-        Termin::create($data);
-        return redirect()->back()->with('success', 'berhasil menambahkan termin');
-    }
-
-    public function projectTerminDetail($slug, $termin)
-    {
-        $data['project'] = Project::where('slug', $slug)->first();
-        $data['termin'] = Termin::where('slug', $termin)->first();
-        $data['teams'] = ProjectTeam::whereNotIn('id', $data['termin']->termin_fee->pluck('project_team_id'))->where('project_id', $data['project']->id)->get();
-
-        return view('admin.project.fee.termin-fee', $data);
-    }
-
-    public function projectTerminDetailStore(Request $request)
-    {
-        $terminfee = TerminFee::find($request->id);
-
-        if ($terminfee) {
-            $terminfee->update([
-                'fee' => $request->fee,
-            ]);
-
-            return redirect()->back()->with('success', 'berhasil update fee team');
-        }
-
-        $data = $request->validate([
-            'project_team_id' => 'required',
-            'termin_id' => 'required',
-            'fee' => 'required',
-        ]);
-
-        TerminFee::create($data);
-        return redirect()->back()->with('success', 'berhasil menambahkan fee kepada team');
     }
 }
