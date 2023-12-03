@@ -35,7 +35,7 @@
                     @enderror
                 </div>
                 <div class="text-right mt-5">
-                    <a href="{{ route('category-project.index') }}"><button type="button" class="button w-24 border text-gray-700 mr-1">Cancel</button></a>
+                    <a href="{{ route('keuangan-umum.index') }}"><button type="button" class="button w-24 border text-gray-700 mr-1">Cancel</button></a>
                     <button type="submit" class="button w-24 bg-theme-1 text-white">Save</button>
                 </div>
             </form>

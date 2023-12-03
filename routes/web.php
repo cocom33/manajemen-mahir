@@ -13,6 +13,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectTypeController;
+use App\Http\Controllers\SkillController;
 use App\Http\Controllers\TeamController;
 use App\Models\KeuanganUmum;
 use Illuminate\Support\Facades\Route;
@@ -58,6 +59,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('client', ClientController::class);
     // end client
 
+    // Skill
+    Route::resource('skill', SkillController::class);
+    // end Skill
+
     // project
     Route::get('/projects', [PorjectController::class, 'index'])->name('projects');
     Route::get('/project-create', [PorjectController::class, 'form'])->name('project.create');
@@ -89,7 +94,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/project/{slug}/invoice/{id}/stream', [PorjectController::class, 'getInvoices'])->name('project.invoice.stream');
 
     Route::put('/project/{slug}/fee/langsung/create', [PorjectController::class, 'projectFeeLangsungStore'])->name('project.fee.langsung.store');
-    Route::put('/project/{slug}/fee/termin/create', [PorjectController::class, 'projectTerminStore'])->name('project.fee.termin.store');
+    Route::post('/project/{slug}/fee/termin/create', [PorjectController::class, 'projectTerminStore'])->name('project.fee.termin.store');
     Route::get('/project/{slug}/fee/termin/{termin}', [PorjectController::class, 'projectTerminDetail'])->name('project.fee.termin.detail');
     Route::put('/project/{slug}/fee/termin/{termin}/create', [PorjectController::class, 'projectTerminDetailStore'])->name('project.fee.termin.detail.store');
 

@@ -37,6 +37,12 @@
             'icon'   => 'layout',
             'name'   => 'category-project'
         ],
+        'skill' =>  [
+            'title'  => 'Skills',
+            'url'    => route('skill.index'),
+            'icon'   => 'layout',
+            'name'   => 'skill'
+        ],
         'client' =>  [
             'title'  => 'Client',
             'url'    => route('client.index'),
@@ -50,25 +56,6 @@
             'icon'   => 'user',
             'name'   => 'profile',
         ],
-        // 'team' =>  [
-        //     'title'  => 'asd',
-        //     'icon'   => 'user',
-        //     'name'   => 'team.index',
-        //     'children' => [
-        //         [
-        //             'title'  => 'tes 11',
-        //             'url'    => route('client.index'),
-        //             'icon'   => 'activity',
-        //             'name'   => 'client',
-        //         ],
-        //         [
-        //             'title'  => 'tes 2',
-        //             'url'    => route('client.index'),
-        //             'icon'   => 'activity',
-        //             'name'   => 'client',
-        //         ],
-        //     ]
-        // ],
     ];
 @endphp
 
@@ -111,6 +98,7 @@
             @endif
         @endforeach
         <li class="side-nav__devider my-6"></li>
+        <input type="text" id="rupiah" oninput="formatRupiah(this)">
     </ul>
 </nav>
 <!-- END: Side Menu -->

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Skill;
 use App\Models\Team;
 use Illuminate\Http\Request;
 
@@ -21,7 +22,8 @@ class TeamController extends Controller
      */
     public function create()
     {
-        return view('admin.team.create');
+        $data['skills'] = Skill::get();
+        return view('admin.team.create', $data);
     }
 
     /**
@@ -29,14 +31,18 @@ class TeamController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request);
         $validate = $request->validate([
             'name' => 'required',
             'wa' => 'required',
             'status' => 'required',
+            'skill' => 'required',
             'email' => 'required',
             'alamat' => 'required',
         ]);
 
+        // $skill = $validate['skill'];
+        $validate['skill'] = json_encode($request->skill);
         Team::create($validate);
 
         return redirect()->route('teams.index')->with('success', 'Team '. $request->name .' created successfully!');
@@ -47,7 +53,9 @@ class TeamController extends Controller
      */
     public function show(Team $team)
     {
-        return view('admin.team.show', compact('teams'));
+        $skills = Skill::get();
+
+        return view('admin.team.show', compact('team', 'skills'));
     }
 
     /**
@@ -55,7 +63,9 @@ class TeamController extends Controller
      */
     public function edit(Team $team)
     {
-        return view('admin.team.edit', compact('team'));
+        $skills = Skill::get();
+        // dd($team);
+        return view('admin.team.edit', compact('team', 'skills'));
     }
 
     /**
