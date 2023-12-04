@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use App\Models\Project;
 use Illuminate\Http\Request;
 
 class ClientController extends Controller
@@ -40,7 +41,9 @@ class ClientController extends Controller
 
     public function show(Client $client)
     {
-        return view('admin.client.show', compact('client'));
+        $projects = Project::where('client_id', $client->id)->get();
+
+        return view('admin.client.show', compact('client', 'projects'));
     }
 
     public function edit(Client $client)
