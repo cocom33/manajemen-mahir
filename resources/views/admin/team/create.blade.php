@@ -23,12 +23,26 @@
                     <div class="mt-3">
                         <label>Status</label>
                         <div class="mt-2">
-                            <select name="status" data-hide-search="true" class="select2 w-full ">
+                            <select name="status" data-hide-search="true" class="select2 w-full">
                                 <option selected disabled>Pilih Status</option>
                                 <option value="TETAP">Tetap</option>
                                 <option value="FREELANCE">Freelance</option>
                             </select>
                         </div>
+                    </div>
+                    <div class="mt-3">
+                        <label>Skills</label>
+                        <div class="mt-2">
+                            <select name="skill[]" data-hide-search="true" class="select2 w-full border-theme-6" multiple>
+                                <option disabled>Pilih Status</option>
+                                @foreach ($skills as $skill)
+                                <option value="{{ $skill->id }}">{{ $skill->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        @error('skills')
+                            <div class="text-theme-6 mt-2">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="mt-3">
                         <label>Nomor Whatsapp</label>

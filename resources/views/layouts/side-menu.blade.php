@@ -37,6 +37,12 @@
             'icon'   => 'layout',
             'name'   => 'category-project'
         ],
+        'skill' =>  [
+            'title'  => 'Skills',
+            'url'    => route('skill.index'),
+            'icon'   => 'hexagon',
+            'name'   => 'skill'
+        ],
         'client' =>  [
             'title'  => 'Client',
             'url'    => route('client.index'),
@@ -50,25 +56,6 @@
             'icon'   => 'user',
             'name'   => 'profile',
         ],
-        // 'team' =>  [
-        //     'title'  => 'asd',
-        //     'icon'   => 'user',
-        //     'name'   => 'team.index',
-        //     'children' => [
-        //         [
-        //             'title'  => 'tes 11',
-        //             'url'    => route('client.index'),
-        //             'icon'   => 'activity',
-        //             'name'   => 'client',
-        //         ],
-        //         [
-        //             'title'  => 'tes 2',
-        //             'url'    => route('client.index'),
-        //             'icon'   => 'activity',
-        //             'name'   => 'client',
-        //         ],
-        //     ]
-        // ],
     ];
 @endphp
 
