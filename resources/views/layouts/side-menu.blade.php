@@ -40,7 +40,7 @@
         'skill' =>  [
             'title'  => 'Skills',
             'url'    => route('skill.index'),
-            'icon'   => 'layout',
+            'icon'   => 'hexagon',
             'name'   => 'skill'
         ],
         'client' =>  [
@@ -98,7 +98,6 @@
             @endif
         @endforeach
         <li class="side-nav__devider my-6"></li>
-        <input type="text" id="rupiah" oninput="formatRupiah(this)">
     </ul>
 </nav>
 <!-- END: Side Menu -->

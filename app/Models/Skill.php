@@ -13,7 +13,7 @@ class Skill extends Model
 
     protected $fillable = ['name'];
 
-    public function teams(): BelongsToMany
+    public function team(): BelongsToMany
     {
         return $this->belongsToMany(Team::class);
     }

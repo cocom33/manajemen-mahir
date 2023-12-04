@@ -31,6 +31,12 @@
             'icon'   => 'layout',
             'name'   => 'category-project'
         ],
+        'skill' =>  [
+            'title'  => 'Skills',
+            'url'    => route('skill.index'),
+            'icon'   => 'hexagon',
+            'name'   => 'skill'
+        ],
         'team' =>  [
             'title'  => 'Team',
             'url'    => route('teams.index'),

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Project;
+use App\Models\ProjectTeam;
 use App\Models\Skill;
 use App\Models\Team;
 use Illuminate\Http\Request;
@@ -55,8 +57,23 @@ class TeamController extends Controller
     {
         $skills = Skill::get();
 
-        return view('admin.team.show', compact('team', 'skills'));
+        $teamSkillsId = json_decode($team->skill, true);
+
+        $skill_team = Skill::find($teamSkillsId);
+
+        $projectsTeams = ProjectTeam::where('team_id', $team->id)->get();
+
+        $projectId = $projectsTeams->pluck('project_id')->toArray();
+
+        $projects = Project::whereIn('id', $projectId)->get();
+
+        if ($projects->isEmpty()) {
+            return view('admin.team.show', compact('team', 'skill_team'))->with('projects', null);
+        }
+
+        return view('admin.team.show', compact('team', 'skill_team', 'projects'));
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -64,7 +81,7 @@ class TeamController extends Controller
     public function edit(Team $team)
     {
         $skills = Skill::get();
-        // dd($team);
+
         return view('admin.team.edit', compact('team', 'skills'));
     }
 
@@ -74,7 +91,7 @@ class TeamController extends Controller
     public function update(Request $request, Team $team)
     {
         $team->update($request->all());
-        return redirect()->route('teams.index');
+        return redirect()->back('teams.index')->with('success', 'Team '. $request->name .' updated successfully!');
     }
 
     /**

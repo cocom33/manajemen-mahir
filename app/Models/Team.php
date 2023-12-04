@@ -14,7 +14,7 @@ class Team extends Model
 
     protected $fillable = ['name', 'status', 'skill', 'wa', 'email', 'alamat'];
 
-    public function skills(): BelongsToMany
+    public function skill(): BelongsToMany
     {
         return $this->belongsToMany(Skill::class);
     }

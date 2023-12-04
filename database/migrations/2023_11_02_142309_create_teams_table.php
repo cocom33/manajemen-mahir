@@ -15,6 +15,7 @@ return new class extends Migration
         $table->id();
         $table->string('name');
         $table->enum('status', ['freelance', 'tetap']);
+        $table->string('skill')->nullable();
         $table->string('wa');
         $table->string('email');
         $table->string('alamat');

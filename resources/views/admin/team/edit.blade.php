@@ -32,7 +32,7 @@
                 <div class="mt-3">
                     <label>Skills</label>
                     <div class="mt-2">
-                        <select name="skill[]" data-hide-search="true" class="select2 w-full border-theme-6" multiple>
+                        <select name="skill[]" class="select2 w-full border-theme-6" multiple>
                             <option disabled>Pilih Status</option>
                             @foreach ($skills as $skill)
                             <option value="{{ $skill->id }}"
