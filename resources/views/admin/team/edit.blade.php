@@ -42,7 +42,7 @@
                             @endforeach
                         </select>
                     </div>
-                    @error('skills')
+                    @error('skill')
                         <div class="text-theme-6 mt-2">{{ $message }}</div>
                     @enderror
                 </div>

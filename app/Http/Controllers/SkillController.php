@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Skill;
+use App\Models\Team;
 use Illuminate\Http\Request;
 
 class SkillController extends Controller
@@ -41,9 +42,20 @@ class SkillController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Skill $skill)
     {
-        //
+
+        $teams = Team::all();
+
+        // Decode the JSON string containing the skill IDs from $skill
+        $skillIds = json_decode($skill->id, true);
+
+        // Filter teams where the 'skill' column contains any of the skill IDs
+        $team = $teams->filter(function ($team) use ($skillIds) {
+            return collect($skillIds)->intersect(json_decode($team->skill, true))->isNotEmpty();
+        });
+
+        return view('admin.skill.show', compact('skill', 'team'));
     }
 
     /**

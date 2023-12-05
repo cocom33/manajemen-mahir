@@ -16,6 +16,7 @@ class SkillSeeder extends Seeder
         $skills = [
             'PHP',
             'JavaScript',
+            'Laravel',
             'Python',
             'Java',
             'C#',

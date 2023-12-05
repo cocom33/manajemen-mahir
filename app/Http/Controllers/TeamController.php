@@ -90,6 +90,15 @@ class TeamController extends Controller
      */
     public function update(Request $request, Team $team)
     {
+        $request->validate([
+            'name' => 'required',
+            'wa' => 'required',
+            'status' => 'required',
+            'skill' => 'required',
+            'email' => 'required',
+            'alamat' => 'required',
+        ]);
+
         $team->update($request->all());
         return redirect()->back('teams.index')->with('success', 'Team '. $request->name .' updated successfully!');
     }
