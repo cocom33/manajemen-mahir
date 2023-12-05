@@ -26,6 +26,9 @@
                             <a class="flex items-center mr-3" href="{{ route('skill.edit', $data->id) }}">
                                 <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Edit
                             </a>
+                            <a class="flex items-center text-theme-3 mr-3" href="{{ route('skill.show', $data->id) }}">
+                                <i data-feather="eye" class="w-4 h-4 mr-1"></i> Show
+                            </a>
                             <form method="POST" action="{{ route('skill.destroy', $data->id) }}">
                                 @csrf
                                 @method('DELETE')
