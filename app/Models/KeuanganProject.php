@@ -15,6 +15,16 @@ class KeuanganProject extends Model
 
     public function project()
     {
-        return $this->belongsTo(Project::class);
+        return $this->hasOne(Project::class);
+    }
+
+    public function langsung()
+    {
+        return $this->hasMany(Langsung::class);
+    }
+
+    public function termin()
+    {
+        return $this->hasMany(Termin::class);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Project;
 use App\Models\ProjectTeam;
 use App\Models\Team;
 use Illuminate\Http\Request;
@@ -11,17 +12,23 @@ class ProjectTeamsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($slug)
     {
+        $project = Project::where('slug', $slug)->first();
         $teams = Team::all();
-        return view('admin.project.team.index', compact('teams'));
+        $detail = $this->gaji($project);
+
+        return view('admin.project.team.index', compact('teams', 'detail'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create($slug)
     {
+        $project = Project::where('slug', $slug)->first();
+        $$data['detail'] = $this->gaji($project);
+
         return view('admin.project.team.index');
     }
 
@@ -42,10 +49,13 @@ class ProjectTeamsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $id, $slug)
     {
         $team = Team::find($id);
-        return view('admin.project.team.show', compact('team'));
+        $project = Project::where('slug', $slug)->first();
+        $detail = $this->gaji($project);
+
+        return view('admin.project.team.show', compact('team', 'detail'));
     }
 
     /**

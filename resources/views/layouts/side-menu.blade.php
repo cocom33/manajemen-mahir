@@ -10,7 +10,13 @@
             'title'  => 'Projects',
             'url'    => route('projects'),
             'icon'   => 'briefcase',
-            'name'   => 'projects',
+            'name'   => 'project',
+        ],
+        'tagihan' =>  [
+            'title'  => 'Tagihan',
+            'url'    => route('tagihan'),
+            'icon'   => 'alert-triangle',
+            'name'   => 'tagihan',
         ],
         'keuangan-perusahaan' =>  [
             'title'  => 'Keuangan Perusahaan',
@@ -50,6 +56,12 @@
             'icon'   => 'user',
             'name'   => 'profile',
         ],
+        // 'user' =>  [
+        //     'title'  => 'User',
+        //     'url'    => route('profile.edit'),
+        //     'icon'   => 'user',
+        //     'name'   => 'profile',
+        // ],
         // 'team' =>  [
         //     'title'  => 'asd',
         //     'icon'   => 'user',

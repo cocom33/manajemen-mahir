@@ -2,7 +2,7 @@
 @section('title', $project->name)
 
 @section('content')
-    <x-card title="Detail {{ $project->name }}">
+    <x-card title="Detail {{ $project->name }}" :project="$detail">
         <x-tab-detail page="invoice" slug="{{ $project->slug }}" />
         @if ($invoice == null)
         <form action="{{ route('project.invoice.store', $project->slug) }}" method="POST" class="mt-5">
@@ -17,8 +17,8 @@
                     </select>
                 </div>
             </div>
-            <button class="button w-32 mr-2 mb-2 flex items-center justify-center bg-theme-1 text-white"> <i data-feather="printer" class="w-4 h-4 mr-2"></i>
-                Invoice
+            <button class="button w-32 mr-2 mb-2 flex items-center justify-center bg-theme-1 text-white">
+                <i data-feather="printer" class="w-4 h-4 mr-2"></i> Invoice
             </button>
         </form>
         @else
@@ -37,26 +37,7 @@
             @endif
         @endif
         <div class="mt-5">
-            @if (!$invoice)
-                {{-- <form action="{{ route('project.invoice.create', $project->slug) }}" method="post">
-                    @csrf
-                    <div class="w-full">
-                        <x-form-input label="Nomor Invoice" name="no_invoice"  />
-                        <label for="">Pilih Type Invoice</label>
-                        <select name="type" class="input w-full border mt-2">
-                            <option value="system">Invoice Pembuatan Sistem</option>
-                            <option value="other">Invoice Lainnya</option>
-                        </select>
-
-                        <input type="hidden" name="project_id" value="{{ $project->id }}" />
-                    </div>
-                    <div class="flex justify-end mt-3">
-                        <button class="button flex align-center text-white bg-theme-1 shadow-md">
-                            <i data-feather="plus" class=" w-4 h-4 font-bold mr-2"></i> <span>Tambah Invoice</span>
-                        </button>
-                    </div>
-                </form> --}}
-            @else
+            @if ($invoice)
                 <div class="w-full flex justify-between align-center">
                     <h3 class="font-bold text-xl">
                         Invoice {{ $invoice->type == 'system' ? 'Pembuatan System' : '' }}
@@ -83,7 +64,7 @@
                             <x-form-input label="Harga" name="price" placeholder="masukkan jumlah uang" type="number" addon="w-full" />
                             <x-form-input label="Masukkan Jumlah" name="total" value="1" placeholder="masukkan total barang" type="number" addon="w-full" />
                         </div>
-                        
+
                         <div class="flex w-full gap-3">
                             <x-form-input label="Masukkan Lama waktu" name="date" placeholder="ex: 1" addon="w-full" />
                             <div class="w-full">

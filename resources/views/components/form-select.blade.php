@@ -14,7 +14,7 @@
 	Type <span x-text="type"></span>
 
 	@isset($default)
-		<option value="{{ $default['value'] }}" class="hidden" selected>{{ $default['label'] }}</option>
+		<option value="{{ $default['value'] }}" class="hidden" class="display: none" selected>{{ $default['label'] }}</option>
 	@endisset
 	@foreach ($options as $optionId => $optionName)
 		<option

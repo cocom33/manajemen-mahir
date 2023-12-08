@@ -2,7 +2,7 @@
 @section('title', $project->name)
 
 @section('content')
-    <x-card title="Detail {{ $project->name }}">
+    <x-card title="Detail {{ $project->name }}" :project="$detail">
         <x-tab-detail page="team" slug="{{ $project->slug }}" />
             <form action="{{route('project.add.team', $project->slug)}}" method="POST">
                 @csrf
@@ -41,7 +41,7 @@
                             </td>
                             <td class="text-center border-b">{{ $team->team->name }}  </td>
                             <td class="text-center border-b">
-                                <span id="fee{{ $key }}">{{ $team->fee ?? '-' }}</span>
+                                <span id="fee{{ $key }}">{{ $team->fee ? 'Rp. ' . number_format($team->fee) : '-' }}</span>
                                 <form action="{{ route('project.edit.team', $project->slug) }}" method="post" id="formEdit{{ $key }}">
                                     @csrf
                                     @method('PUT')

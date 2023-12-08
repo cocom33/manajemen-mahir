@@ -25,7 +25,8 @@ class Project extends Model
         'deadline_date',
         'harga_penawaran',
         'harga_deal',
-        'status_server',
+        'pajak',
+        'type_pajak',
     ];
 
     public function sluggable(): array
@@ -52,14 +53,24 @@ class Project extends Model
         return $this->hasMany(ProjectTeam::class);
     }
 
+    public function tagihan()
+    {
+        return $this->hasMany(Tagihan::class);
+    }
+
     public function invoice()
     {
         return $this->hasOne(Invoice::class);
     }
 
-    public function keuanganProject()
+    public function keuangan_project()
     {
-        return $this->belongsTo(keuanganProject::class);
+        return $this->hasOne(keuanganProject::class, 'project_id', 'id');
+    }
+
+    public function pengeluaran()
+    {
+        return $this->hasMany(Pengeluaran::class);
     }
 
     public function client()

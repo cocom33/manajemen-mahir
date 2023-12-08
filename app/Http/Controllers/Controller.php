@@ -12,6 +12,29 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
 
+    public function gaji($project)
+    {
+        $fee = 0;
+        $belanja = $project->pengeluaran->sum('price');
+        if ($project->keuangan_project && $project->keuangan_project->type == 'termin') {
+            foreach ($project->keuangan_project->termin as $value) {
+                $fee = $fee + $value->termin_fee->sum('fee');
+            }
+        }
+        if ($project->keuangan_project && $project->keuangan_project->type == 'langsung') {
+            $fee = $project->keuangan_project->langsung->sum('fee');
+        }
+        if ($project->type_pajak == 1) {
+            $sisa = $project->harga_deal - $belanja - $fee;
+            $deal = $project->harga_deal + $project->pajak;
+        } else {
+            $sisa = $project->harga_deal - $belanja - $fee - $project->pajak;
+            $deal = $project->harga_deal;
+        }
+
+        return ['pajak' => $project->pajak, 'type_pajak' => $project->type_pajak, 'deal' => $deal, 'sisa' => $sisa, 'fee' => $fee, 'belanja' => $belanja];
+    }
+
     /**
      * Determine active menu & submenu.
      *
