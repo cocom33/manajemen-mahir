@@ -2,7 +2,7 @@
 @section('title', $project->name)
 
 @section('content')
-    <x-card title="Detail {{ $project->name }}">
+    <x-card title="Detail {{ $project->name }}" :project="$detail">
         <x-tab-detail page="lampiran" slug="{{ $project->slug }}" />
         <div class="bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md mt-5" role="alert">
             <div class="flex">

@@ -7,12 +7,6 @@
             <span>Detail</span>
         </div>
     </a>
-    <a href="{{ route('project.lampiran', $slug) }}" class="flex justify-center w-full rounded-md py-3  @if($page == 'lampiran') {{ $active }} @endif">
-        <div class="flex items-center m-auto">
-            <i data-feather="paperclip" class="w-5 h-5 mr-2"></i>
-            <span>Lampiran</span>
-        </div>
-    </a>
     <a href="{{ route('project.team', $slug) }}" class="flex justify-center w-full rounded-md py-3  @if($page == 'team') {{ $active }} @endif">
         <div class="flex items-center m-auto">
             <i data-feather="users" class="w-5 h-5 mr-2"></i>
@@ -25,10 +19,22 @@
             <span>Fee</span>
         </div>
     </a>
-    <a href="{{ route('project.invoice', $slug) }}" class="flex justify-center w-full rounded-md py-3  @if($page == 'invoice') {{ $active }} @endif">
+    <a href="{{ route('project.tagihan', $slug) }}" class="flex justify-center w-full rounded-md py-3  @if($page == 'tagihan') {{ $active }} @endif">
+        <div class="flex items-center m-auto">
+            <i data-feather="alert-triangle" class="w-5 h-5 mr-2"></i>
+            <span>Tagihan</span>
+        </div>
+    </a>
+    <a href="{{ route('project.lampiran', $slug) }}" class="flex justify-center w-full rounded-md py-3  @if($page == 'lampiran') {{ $active }} @endif">
+        <div class="flex items-center m-auto">
+            <i data-feather="paperclip" class="w-5 h-5 mr-2"></i>
+            <span>Lampiran</span>
+        </div>
+    </a>
+    <a href="{{ route('project.pengeluaran', $slug) }}" class="flex justify-center w-full rounded-md py-3  @if($page == 'pengeluaran') {{ $active }} @endif">
         <div class="flex items-center m-auto">
             <i data-feather="activity" class="w-5 h-5 mr-2"></i>
-            <span>Invoice</span>
+            <span>Pengeluaran</span>
         </div>
     </a>
 </div>

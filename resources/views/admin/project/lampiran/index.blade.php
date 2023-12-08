@@ -2,7 +2,7 @@
 @section('title', $project->name)
 
 @section('content')
-    <x-card title="Detail {{ $project->name }}">
+    <x-card title="Detail {{ $project->name }}" :project="$detail">
         <x-tab-detail page="lampiran" slug="{{ $project->slug }}" />
         <form class="mt-5" method="POST" action="{{ route('project.lampiran.upload', $project->slug) }}">
             @csrf

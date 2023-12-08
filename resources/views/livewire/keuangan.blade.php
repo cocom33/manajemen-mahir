@@ -9,7 +9,7 @@
         <div class="w-full">
             <label>Tahun</label>
             <div class="mt-2">
-                <select class="input w-full" wire:model="tahun">
+                <select class="input w-full border-2" wire:model="tahun">
                     @forelse ($all as $item)
                         <option wire:click="changet({{ $item->tahun }})" value="{{ $item->tahun }}">{{ $item->tahun }}</option>
                     @empty
@@ -23,9 +23,9 @@
             <label>Bulan</label>
             <div class="mt-2">
                 <wire:ignore>
-                    <select class="input w-full" id="select2" wire:model="bulan">
-                        @foreach ([1,2,3,4,5,6,7,8,9,10,11,12] as $key => $item)
-                            <option wire:click="changeb({{ $key+1 }})" value="{{ $key + 1 }}" @if($key + 1 == date('m')) selected @endif> {{ \Carbon\Carbon::create()->month($item)->format('F') }}</option>
+                    <select class="input w-full border-2" id="select2" wire:model="bulan">
+                        @foreach ([1,2,3,4,5,6,7,8,9,10,11,12] as $item)
+                            <option wire:click="changeb({{ $item }})" value="{{ $item }}" @if($item == date('m')) selected @endif> {{ \Carbon\Carbon::create()->month($item)->format('F') }}</option>
                         @endforeach
                         {{-- @foreach ($now->bulan as $item)
                             <option value="{{ $item->id }}"> {{ \Carbon\Carbon::create()->month($item->bulan)->format('F') }}</option>
@@ -35,7 +35,6 @@
             </div>
         </div>
     </div>
-    {{ $tahun . ' dan ' . $bulan }}
 
     <div class="intro-y datatable-wrapper box p-5 mt-5">
         <table class="table table-report table-report--bordered display datatable w-full">

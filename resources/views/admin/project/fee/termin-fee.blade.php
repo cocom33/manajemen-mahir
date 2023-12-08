@@ -2,7 +2,7 @@
 @section('title', $project->name)
 
 @section('content')
-    <x-card title="Detail {{ $project->name }}">
+    <x-card title="Detail {{ $project->name }}" :project="$detail">
         <x-tab-detail page="fee" slug="{{ $project->slug }}" />
         <div class="mt-5">
             <div class="w-full flex justify-between align-center">
@@ -47,12 +47,13 @@
                         <tr>
                             <th class="border-b-2 text-center whitespace-no-wrap">TERMIN NAME</th>
                             <th class="border-b-2 text-center whitespace-no-wrap">FEE</th>
+                            <th class="border-b-2 text-center whitespace-no-wrap">STATUS</th>
                             <th class="border-b-2 text-center whitespace-no-wrap">TANGGAL</th>
                             <th class="border-b-2 text-center whitespace-no-wrap">ACTIONS</th>
                         </tr>
                     </thead>
                     <tbody>
-                    @foreach($termin->termin_fee as $item)
+                    @foreach($termin->termin_fee as $key => $item)
                         <tr>
                             <td class="border-b">
                                 <div class="font-medium whitespace-no-wrap">{{ $item->project_team->team->name }}</div>
@@ -66,6 +67,23 @@
                                     <input type="hidden" name="id" value="{{ $item->id }}">
                                     <input type="hidden" name="termin_id" value="{{ $termin->id }}">
                                 </form>
+                            </td>
+                            <td class="text-center border-b">
+                                @php
+                                    $testfee[$key] = 0;
+                                    foreach ($project->keuangan_project->termin as $value) {
+                                        if ($value->termin_fee->where('project_team_id', $item->project_team->id)->first()) {
+                                            $testfee[$key] = $testfee[$key] + $value->termin_fee->where('project_team_id', $item->project_team->id)->first()->fee;
+                                        }
+                                    }
+                                @endphp
+
+                                @if ($testfee[$key] >= $item->project_team->fee)
+                                    <span class="font-medium text-theme-40">Lunas</span>
+                                @else
+                                    <div class="font-medium whitespace-no-wrap text-theme-6">Belum Lunas</div>
+                                    <div class="text-gray-600 text-xs whitespace-no-wrap">tersisa Rp. {{ number_format($item->project_team->fee - $testfee[$key]) }}</div>
+                                @endif
                             </td>
                             <td class="text-center border-b">{{ $item->created_at->format('d M Y') }}</td>
                             <td class="border-b w-5">
