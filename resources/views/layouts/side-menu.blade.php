@@ -43,6 +43,12 @@
             'icon'   => 'layout',
             'name'   => 'category-project'
         ],
+        'skill' =>  [
+            'title'  => 'Skills',
+            'url'    => route('skill.index'),
+            'icon'   => 'hexagon',
+            'name'   => 'skill'
+        ],
         'client' =>  [
             'title'  => 'Client',
             'url'    => route('client.index'),

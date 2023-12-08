@@ -17,6 +17,7 @@ use App\Http\Controllers\ProjectFeeController;
 use App\Http\Controllers\ProjectTeamsController;
 use App\Http\Controllers\ProjectTypeController;
 use App\Http\Controllers\TagihanController;
+use App\Http\Controllers\SkillController;
 use App\Http\Controllers\TeamController;
 use App\Models\KeuanganUmum;
 use Illuminate\Support\Facades\Route;
@@ -61,6 +62,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // client
     Route::resource('client', ClientController::class);
     // end client
+
+    // Skill
+    Route::resource('skill', SkillController::class);
+    // end Skill
 
     // project
     Route::get('/projects', [PorjectController::class, 'index'])->name('projects');

@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Project;
+use App\Models\ProjectTeam;
+use App\Models\Skill;
 use App\Models\Team;
 use Illuminate\Http\Request;
 
@@ -21,7 +24,8 @@ class TeamController extends Controller
      */
     public function create()
     {
-        return view('admin.team.create');
+        $data['skills'] = Skill::get();
+        return view('admin.team.create', $data);
     }
 
     /**
@@ -29,14 +33,18 @@ class TeamController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request);
         $validate = $request->validate([
             'name' => 'required',
             'wa' => 'required',
             'status' => 'required',
+            'skill' => 'required',
             'email' => 'required',
             'alamat' => 'required',
         ]);
 
+        // $skill = $validate['skill'];
+        $validate['skill'] = json_encode($request->skill);
         Team::create($validate);
 
         return redirect()->route('teams.index')->with('success', 'Team '. $request->name .' created successfully!');
@@ -47,15 +55,34 @@ class TeamController extends Controller
      */
     public function show(Team $team)
     {
-        return view('admin.team.show', compact('teams'));
+        $skills = Skill::get();
+
+        $teamSkillsId = json_decode($team->skill, true);
+
+        $skill_team = Skill::find($teamSkillsId);
+
+        $projectsTeams = ProjectTeam::where('team_id', $team->id)->get();
+
+        $projectId = $projectsTeams->pluck('project_id')->toArray();
+
+        $projects = Project::whereIn('id', $projectId)->get();
+
+        if ($projects->isEmpty()) {
+            return view('admin.team.show', compact('team', 'skill_team'))->with('projects', null);
+        }
+
+        return view('admin.team.show', compact('team', 'skill_team', 'projects'));
     }
+
 
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(Team $team)
     {
-        return view('admin.team.edit', compact('team'));
+        $skills = Skill::get();
+
+        return view('admin.team.edit', compact('team', 'skills'));
     }
 
     /**
@@ -63,8 +90,17 @@ class TeamController extends Controller
      */
     public function update(Request $request, Team $team)
     {
+        $request->validate([
+            'name' => 'required',
+            'wa' => 'required',
+            'status' => 'required',
+            'skill' => 'required',
+            'email' => 'required',
+            'alamat' => 'required',
+        ]);
+
         $team->update($request->all());
-        return redirect()->route('teams.index');
+        return redirect()->back('teams.index')->with('success', 'Team '. $request->name .' updated successfully!');
     }
 
     /**

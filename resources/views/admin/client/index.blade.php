@@ -61,6 +61,9 @@
                                     <a href="{{ route('client.edit', $client) }}" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white hover:bg-gray-200 rounded-md">
                                         <i data-feather="edit-2" class="w-4 h-4 mr-2"></i> Edit
                                     </a>
+                                    <a href="{{ route('client.show', $client) }}" class="flex text-theme-3 items-center block p-2 transition duration-300 ease-in-out bg-white hover:bg-gray-200 rounded-md">
+                                        <i data-feather="eye" class="w-4 h-4 mr-2"></i> Show
+                                    </a>
                                     <form action="{{ route('client.destroy', $client->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
