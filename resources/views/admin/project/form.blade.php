@@ -2,7 +2,7 @@
 @section('title', 'Create Project')
 
 @section('content')
-    <x-card title="Buat Project Baru" :routeBack="route('projects')">
+    <x-card title="Buat Project Baru" :routeBack="route('projects')" >
         <form action="{{ $route }}" method="post">
             @if ($model)
                 @method('PUT')
@@ -80,18 +80,34 @@
                 type="number"
                 required="false"
             />
+            @php
+                if ($model && $model->type_pajak == 1) {
+                    $type = 'penambahan';
+                    $val = 1;
+                }
+                if ($model && $model->type_pajak == 0) {
+                    $type = 'pengurangan';
+                    $val = 0;
+                }
+            @endphp
             <x-form-select
-                label="Status Server"
-                name="status_server"
+                label="Pajak"
+                name="type_pajak"
                 :default="[
-                    'label' => $model->status_server ?? '',
-                    'value' => $model->status_server ?? '',
+                    'label' => $type ?? '',
+                    'value' => $val ?? '',
                 ]"
                 :options="[
-                    'mahir', 'mandiri'
+                    '0' => 'pengurangan', '1' => 'penambahan'
                 ]"
                 required="false"
-                pesan="bisa dikosongkan"
+            />
+            <x-form-input
+                label="Harga Pajak"
+                name="pajak"
+                value="{{ $model->pajak ?? '' }}"
+                type="number"
+                required="false"
             />
             <div class="flex justify-end">
                 <button class="button text-white bg-theme-1 shadow-md">@if ($model) Edit @else Tambah @endif Data</button>

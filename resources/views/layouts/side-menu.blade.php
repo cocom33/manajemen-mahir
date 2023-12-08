@@ -10,7 +10,13 @@
             'title'  => 'Projects',
             'url'    => route('projects'),
             'icon'   => 'briefcase',
-            'name'   => 'projects',
+            'name'   => 'project',
+        ],
+        'tagihan' =>  [
+            'title'  => 'Tagihan',
+            'url'    => route('tagihan'),
+            'icon'   => 'alert-triangle',
+            'name'   => 'tagihan',
         ],
         'keuangan-perusahaan' =>  [
             'title'  => 'Keuangan Perusahaan',
@@ -56,6 +62,31 @@
             'icon'   => 'user',
             'name'   => 'profile',
         ],
+        // 'user' =>  [
+        //     'title'  => 'User',
+        //     'url'    => route('profile.edit'),
+        //     'icon'   => 'user',
+        //     'name'   => 'profile',
+        // ],
+        // 'team' =>  [
+        //     'title'  => 'asd',
+        //     'icon'   => 'user',
+        //     'name'   => 'team.index',
+        //     'children' => [
+        //         [
+        //             'title'  => 'tes 11',
+        //             'url'    => route('client.index'),
+        //             'icon'   => 'activity',
+        //             'name'   => 'client',
+        //         ],
+        //         [
+        //             'title'  => 'tes 2',
+        //             'url'    => route('client.index'),
+        //             'icon'   => 'activity',
+        //             'name'   => 'client',
+        //         ],
+        //     ]
+        // ],
     ];
 @endphp
 

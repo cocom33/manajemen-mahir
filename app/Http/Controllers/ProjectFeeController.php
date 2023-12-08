@@ -10,23 +10,24 @@ use App\Models\ProjectTeam;
 use Illuminate\Http\Request;
 use App\Models\KeuanganProject;
 use App\Http\Controllers\Controller;
+use App\Models\Pengeluaran;
 
 class ProjectFeeController extends Controller
 {
-
     public function projectFee($slug)
     {
         $data['project'] = Project::where('slug', $slug)->first();
-        $data['fee_type'] = KeuanganProject::where('project_id', $data['project']->id)->first();
+        $data['pengeluaran'] = Pengeluaran::where('project_id', $data['project']->id)->get();
 
-        if ($data['fee_type'] && $data['fee_type']->type == 'langsung') {
-            $data['fee_langsung'] = Langsung::where('keuangan_project_id', $data['fee_type']->id)->get();
+        if ($data['project']->keuangan_project && $data['project']->keuangan_project->type == 'langsung') {
+            $data['fee_langsung'] = Langsung::where('keuangan_project_id', $data['project']->keuangan_project->id)->get();
             $data['project_teams'] = ProjectTeam::whereNotIn('id', $data['fee_langsung']->pluck('project_team_id'))->where([['project_id', $data['project']->id], ['status', 1]])->get();
         }
 
-        if ($data['fee_type'] && $data['fee_type']->type == 'termin') {
-            $data['termin'] = Termin::where('keuangan_project_id', $data['fee_type']->id)->get();
+        if ($data['project']->keuangan_project && $data['project']->keuangan_project->type == 'termin') {
+            $data['termin'] = Termin::where('keuangan_project_id', $data['project']->keuangan_project->id)->get();
         }
+        $data['detail'] = $this->gaji($data['project']);
 
         return view('admin.project.fee.index', $data);
     }
@@ -85,6 +86,7 @@ class ProjectFeeController extends Controller
         $data['project'] = Project::where('slug', $slug)->first();
         $data['termin'] = Termin::where('slug', $termin)->first();
         $data['teams'] = ProjectTeam::whereNotIn('id', $data['termin']->termin_fee->pluck('project_team_id'))->where([['project_id', $data['project']->id], ['status', 1]])->get();
+        $data['detail'] = $this->gaji($data['project']);
 
         return view('admin.project.fee.termin-fee', $data);
     }
