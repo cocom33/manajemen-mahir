@@ -80,7 +80,7 @@
                         <input type="hidden" name="invoice_id" value="{{ $invoice->id }}">
                         <x-form-input label="Deskripsi" name="description" placeholder="masukkan nama" />
                         <div class="flex w-full gap-3">
-                            <x-form-input label="Harga" name="price" placeholder="masukkan jumlah uang" type="number" addon="w-full" />
+                            <x-form-input label="Harga" id="proce" name="price" placeholder="masukkan jumlah uang" type="number" addon="w-full"  onkeyup="formatAngka(this)"/>
                             <x-form-input label="Masukkan Jumlah" name="total" value="1" placeholder="masukkan total barang" type="number" addon="w-full" />
                         </div>
                         
@@ -176,7 +176,7 @@
                         <input type="hidden" name="invoice_id" value="{{ $invoice->id }}">
                         <x-form-input label="Deskripsi" name="description" placeholder="masukkan nama" />
                         <div class="flex w-full gap-3">
-                            <x-form-input label="Harga" name="price" placeholder="masukkan jumlah uang" type="number" addon="w-full" />
+                            <x-form-input label="Harga" id="proce" name="price" placeholder="masukkan jumlah uang" type="number" addon="w-full" onkeyup="formatAngka(this)"/>
                             <x-form-input label="Masukkan Jumlah" name="total" value="1" placeholder="masukkan total barang" type="number" addon="w-full" />
                         </div>
 
@@ -248,5 +248,36 @@
             var form = document.getElementById('formOther');
             form.classList.toggle('hidden')
         }
+        function numberWithCommas(x) {
+    x = x.toString();
+    var pattern = /(-?\d+)(\d{3})/;
+    while (pattern.test(x))
+        x = x.replace(pattern, "$1,$2");
+    return x;
+}
+
+function formatAngka(objek) {
+    var input = objek.value;
+    var nominal = input.replace(/,/g, ''); // Menghapus koma
+    objek.value = numberWithCommas(nominal);
+
+    // Simpan nilai tanpa titik koma ke dalam input hidden
+    var priceElement = document.getElementById('price');
+    if(priceElement) { // Memeriksa apakah elemen ada
+        priceElement.value = nominal;
+    }
+}
+
+function submitForm() {
+    var feeValue = document.getElementById('price');
+    if (feeValue && feeValue.value === '') { // Memeriksa apakah elemen ada
+        alert('Fee tidak boleh kosong');
+        return false;
+    } else {
+        document.getElementById('price').value = feeValue.value;
+        return true;
+    }
+}
+
     </script>
 @endpush

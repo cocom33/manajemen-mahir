@@ -76,6 +76,39 @@
                             </td>
                         </tr>
                     @endforeach
+                    @foreach ($invoiceSystem as $data)
+                    <tr>
+                        {{-- <td class="border-b">{{ \Carbon\Carbon::create()->month($data->keuanganBulanan->bulan)->format('F') }}</td> --}}
+                        <td class="border-b">{{ $data->description }}</td>
+                        <td class=" border-b">
+                            <div class="flex items-center text-theme-6"> <i data-feather="check-square" class="w-4 h-4 mr-2"></i> Pengeluaran </div>
+                        </td>
+                        <td class=" border-b">Rp. {{ number_format($data->price, 2, ',', '.') }}</td>
+                        <td class="border-b">
+                            <div class="flex  items-center">
+                                <a class="flex items-center mr-3" href="{{ route('project.invoice.detail', [ $invoice->project->slug, $data->id ]) }}">
+                                    <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Show
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                @endforeach
+                @foreach ($invoiceOther as $data)
+                    <tr>
+                        <td class="border-b">{{ $data->description }}</td>
+                        <td class=" border-b">
+                            <div class="flex items-center text-theme-6"> <i data-feather="check-square" class="w-4 h-4 mr-2"></i> Pengeluaran </div>
+                        </td>
+                        <td class=" border-b">Rp. {{ number_format($data->price, 2, ',', '.') }}</td>
+                        <td class="border-b">
+                            <div class="flex  items-center">
+                                <a class="flex items-center mr-3" href="{{ route('project.invoice.detail', [ $invoice->project->slug, $data->id ]) }}">
+                                    <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Show
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                @endforeach
                 @else
                     <tr>
                         <td colspan="6">tidak ada data</td>

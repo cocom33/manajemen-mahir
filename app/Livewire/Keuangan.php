@@ -2,6 +2,9 @@
 
 namespace App\Livewire;
 
+use App\Models\Invoice;
+use App\Models\InvoiceOther;
+use App\Models\InvoiceSystem;
 use App\Models\KeuanganBulanan;
 use App\Models\KeuanganPerusahaan;
 use Livewire\Component;
@@ -23,7 +26,9 @@ class Keuangan extends Component
         $data['all'] = KeuanganPerusahaan::get();
 
         $data['detail'] = KeuanganBulanan::where([['keuangan_perusahaan_id', $data['now']->id], ['bulan', $this->bulan]])->first();
-
+        $data['invoiceSystem'] = InvoiceSystem::with('invoice')->get();
+        $data['invoiceOther'] = InvoiceOther::with('invoice')->get();
+        $data['invoice'] = Invoice::with('project')->first();
         return view('livewire.keuangan', $data);
     }
 

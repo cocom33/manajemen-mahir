@@ -19,25 +19,27 @@
             <form action="{{ route('project.fee.termin.detail.store', [$project->slug, $termin->slug]) }}" method="post" class="hidden mt-3" id="formTermin">
                 @csrf
                 @method('PUT')
-
+            
                 <x-form-input label="" name="termin_id" value="{{ $termin->id }}" type="hidden" required="false" />
-
+            
                 <label for="project_team_id">pilih tim</label>
                 <select name="project_team_id" id="project_team_id" class="input w-full border mt-2 mb-3">
                     @foreach ($teams as $item)
                         <option value="{{ $item->id }}">{{ $item->team->name }}</option>
                     @endforeach
                 </select>
-                <x-form-input label="Masukkan Fee" name="fee" placeholder="masukkan fee" type="number" />
-
-
+                <label>Masukkan Fee</label>
+                <input type="text" id="fee" name="fee" class="input w-full border mt-2" onkeyup="formatAngka(this)">
+                <input type="hidden" id="feeValue" name="feeValue">
+            
                 <div class="flex justify-end">
-                    <button class="button flex align-center text-white bg-theme-1 shadow-md mt-3">
+                    <button type="submit" class="button flex align-center text-white bg-theme-1 shadow-md mt-3" onclick="submitForm()">
                         <i data-feather="plus" class=" w-4 h-4 mt-1 font-bold mr-2"></i> <span>Tambah</span>
                     </button>
                 </div>
                 <hr class="my-4">
             </form>
+            
 
             <div class="mt-8">
                 <table class="table table-report table-report--bordered display datatable w-full">
@@ -113,5 +115,34 @@
                 edit{{ $item->id }}.classList.toggle('hidden');
             }
         @endforeach
+        
+        function numberWithCommas(x) {
+            x = x.toString();
+            var pattern = /(-?\d+)(\d{3})/;
+            while (pattern.test(x))
+                x = x.replace(pattern, "$1,$2");
+            return x;
+        }
+
+        function formatAngka(objek) {
+            var input = objek.value;
+            var nominal = input.replace(/\D/g, '');
+            objek.value = numberWithCommas(nominal);
+
+            // Simpan nilai tanpa titik koma ke dalam input hidden
+            document.getElementById('feeValue').value = nominal;
+        }
+
+        function submitForm() {
+            var feeValue = document.getElementById('feeValue');
+            if (feeValue.value === '') {
+                alert('Fee tidak boleh kosong');
+                return false;
+            } else {
+                document.getElementById('fee').value = feeValue.value;
+                return true;
+            }
+        }
+
     </script>
 @endpush
