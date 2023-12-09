@@ -17,9 +17,9 @@ return new class extends Migration
             $table->foreignId('project_id');
             $table->string('title');
             $table->text('description');
-            $table->integer('harga_awal');
-            $table->integer('harga_asli');
-            $table->integer('total');
+            $table->bigInteger('harga_awal');
+            $table->bigInteger('harga_asli');
+            $table->bigInteger('total');
             $table->date('date_start');
             $table->integer('date');
             $table->string('date_type');

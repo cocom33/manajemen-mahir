@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('description');
             $table->enum('status', ['pemasukan', 'pengeluaran']);
-            $table->integer('total');
+            $table->bigInteger('total');
             $table->timestamps();
         });
     }

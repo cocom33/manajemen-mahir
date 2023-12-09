@@ -69,15 +69,13 @@
             <x-form-input
                 label="Harga Penawaran"
                 name="harga_penawaran"
-                value="{{ $model->harga_penawaran ?? '' }}"
-                type="number"
+                value="{{ ($model->harga_penawaran ?? 0) }}"
                 required="false"
             />
             <x-form-input
-                label="Harga deal"
+                label="Harga Deal"
                 name="harga_deal"
-                value="{{ $model->harga_deal ?? '' }}"
-                type="number"
+                value="{{ ($model->harga_deal ?? 0) }}"
                 required="false"
             />
             @php
@@ -91,7 +89,7 @@
                 }
             @endphp
             <x-form-select
-                label="Pajak"
+                label="Type Pajak"
                 name="type_pajak"
                 :default="[
                     'label' => $type ?? '',
@@ -105,8 +103,7 @@
             <x-form-input
                 label="Harga Pajak"
                 name="pajak"
-                value="{{ $model->pajak ?? '' }}"
-                type="number"
+                value="{{ ($model->pajak ?? null) }}"
                 required="false"
             />
             <div class="flex justify-end">
@@ -115,3 +112,52 @@
         </form>
     </x-card>
 @endsection
+
+@push('scripts')
+    <script>
+        var penawaran = document.getElementById('Harga Penawaran');
+        penawaran.addEventListener('keyup', function(e) {
+            penawaran.value = formatRupiah(this.value, 'Rp. ');
+        });
+        var deal = document.getElementById('Harga Deal');
+        deal.addEventListener('keyup', function(e) {
+            deal.value = formatRupiah(this.value, 'Rp. ');
+        });
+        var pajak = document.getElementById('Harga Pajak');
+        pajak.addEventListener('keyup', function(e) {
+            pajak.value = formatRupiah(this.value, 'Rp. ');
+        });
+
+        function formatRupiah(number, prefix) {
+          var number_string = number.replace(/[^,\d]/g, '').toString(),
+              split = number_string.split(','),
+              remainder = split[0].length % 3,
+              rupiah = split[0].substr(0, remainder),
+              ribuan = split[0].substr(remainder).match(/\d{3}/gi);
+
+          if (ribuan) {
+              separator = remainder ? '.' : '';
+              rupiah += separator + ribuan.join('.');
+          }
+
+          rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+          return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+        }
+
+        // function formatRupiah(number, prefix) {
+        //     var number_string = number.replace(/[^,\d]/g, '').toString(),
+        //         split = number_string.split(','),
+        //         rupiah = split[0].replace(/^0+/, ''),
+        //         ribuan = rupiah.match(/\d{1,3}/g);
+
+        //     if (ribuan) {
+        //         separator = ',';
+        //         rupiah = ribuan.join(separator);
+        //     }
+
+        //     rupiah = split[1] !== undefined ? rupiah + ',' + split[1] : rupiah;
+        //     return prefix === undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+        // }
+
+    </script>
+@endpush

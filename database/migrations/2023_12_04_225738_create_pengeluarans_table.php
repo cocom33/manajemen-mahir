@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('project_id');
             $table->string('title');
             $table->string('description')->nullable();
-            $table->integer('price');
+            $table->bigInteger('price');
             $table->date('date');
 
             $table->timestamps();

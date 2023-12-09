@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('invoice_id');
             $table->string('description');
-            $table->integer('price');
+            $table->bigInteger('price');
             $table->integer('date');
             $table->enum('date_type', ['year', 'month', 'week', 'day']);
             $table->integer('total');

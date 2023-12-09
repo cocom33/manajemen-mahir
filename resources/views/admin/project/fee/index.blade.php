@@ -51,7 +51,7 @@
                                     <option value="{{ $item->id }}">{{ $item->team->name }}</option>
                                 @endforeach
                             </select>
-                            <x-form-input label="Fee" name="fee" placeholder="masukkan fee" type="number" />
+                            <x-form-input label="Fee" name="fee" placeholder="masukkan fee" />
 
                             <div class="flex justify-end">
                                 <button class="button flex align-center text-white bg-theme-1 shadow-md mt-3">
@@ -85,7 +85,7 @@
                                             <form action="{{ route('project.fee.langsung.store', $project->slug) }}" method="POST" id="edit_fee{{ $item->id }}">
                                                 @csrf
                                                 @method('PUT')
-                                                <input id="inputFee{{ $item->id }}" type="number" name="fee" class="hidden input w-full border" value="{{ $item->fee }}">
+                                                <input id="inputFee{{ $item->id }}" name="fee" class="hidden input w-full border" value="Rp. {{ str_replace(",",".",number_format($item->fee)) }}">
                                                 <input type="hidden" name="id" value="{{ $item->id }}">
                                             </form>
                                         </td>
@@ -268,5 +268,35 @@
                 }
             @endforeach
         @endif
+
+        var fee = document.getElementById('Fee');
+        fee.addEventListener('keyup', function(e) {
+            fee.value = formatRupiah(this.value, 'Rp. ');
+        });
+
+        @if ($project->keuangan_project && $project->keuangan_project->type == 'langsung')
+            @foreach ($fee_langsung as $item)
+                var fee{{ $item->id }} = document.getElementById('inputFee{{ $item->id }}');
+                fee{{ $item->id }}.addEventListener('keyup', function(e) {
+                    fee{{ $item->id }}.value = formatRupiah(this.value, 'Rp. ');
+                });
+            @endforeach
+        @endif
+
+        function formatRupiah(number, prefix) {
+          var number_string = number.replace(/[^,\d]/g, '').toString(),
+              split = number_string.split(','),
+              remainder = split[0].length % 3,
+              rupiah = split[0].substr(0, remainder),
+              ribuan = split[0].substr(remainder).match(/\d{3}/gi);
+
+          if (ribuan) {
+              separator = remainder ? '.' : '';
+              rupiah += separator + ribuan.join('.');
+          }
+
+          rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+          return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+        }
     </script>
 @endpush

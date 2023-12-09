@@ -41,6 +41,8 @@ class PengeluaranController extends Controller
             'price' => 'required',
             'description' => 'nullable',
         ]);
+        $price = str_replace("Rp. ", "", $request->price);
+        $data['price'] = str_replace(".", "", $price);
 
         Pengeluaran::create($data);
         return redirect()->back()->with('success', 'Berhasil Menambahkan Pengeluaran Project');
@@ -85,6 +87,8 @@ class PengeluaranController extends Controller
             'price' => 'required',
             'description' => 'nullable',
         ]);
+        $price = str_replace("Rp. ", "", $request->price);
+        $data['price'] = str_replace(".", "", $price);
 
         $query->update($data);
         return redirect()->route('project.pengeluaran', $slug)->with('success', 'Berhasil Merubah Pengeluaran Project');
