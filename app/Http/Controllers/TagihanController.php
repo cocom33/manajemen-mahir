@@ -36,6 +36,12 @@ class TagihanController extends Controller
             'description' => 'required',
         ]);
 
+        $harga_awal = str_replace("Rp. ", "", $request->harga_awal);
+        $data['harga_awal'] = str_replace(".", "", $harga_awal);
+
+        $harga_asli = str_replace("Rp. ", "", $request->harga_asli);
+        $data['harga_asli'] = str_replace(".", "", $harga_asli);
+
         $data['project_id'] = $request->project_id;
         $data['is_active'] = 1;
         $data['is_lunas'] = 0;
@@ -59,6 +65,12 @@ class TagihanController extends Controller
             'date_type' => 'required',
             'description' => 'required',
         ]);
+
+        $harga_awal = str_replace("Rp. ", "", $request->harga_awal);
+        $data['harga_awal'] = str_replace(".", "", $harga_awal);
+
+        $harga_asli = str_replace("Rp. ", "", $request->harga_asli);
+        $data['harga_asli'] = str_replace(".", "", $harga_asli);
 
         $tagihan->update($data);
         return redirect()->route('project.tagihan', $slug)->with('success', 'Berhasil Merubah Tagihan');

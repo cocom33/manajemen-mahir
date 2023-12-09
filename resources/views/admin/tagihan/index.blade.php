@@ -2,8 +2,7 @@
 
 @section('content')
  <!-- BEGIN: Content -->
-
-<x-card title="Tagihan List" >
+<x-card title="List Tagihan" >
     <div class="intro-y datatable-wrapper box p-5 mt-5">
         <table class="table table-report table-report--bordered display datatable w-full">
             <thead>

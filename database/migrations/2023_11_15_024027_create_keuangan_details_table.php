@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('keuangan_bulanan_id');
             $table->string('description');
-            $table->integer('total');
+            $table->bigInteger('total');
 
             $table->softDeletes();
             $table->timestamps();

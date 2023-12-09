@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('invoice_id');
             $table->string('description');
-            $table->integer('price');
-            $table->integer('total');
+            $table->bigInteger('price');
+            $table->bigInteger('total');
 
             $table->softDeletes();
             $table->timestamps();

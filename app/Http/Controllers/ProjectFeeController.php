@@ -43,10 +43,12 @@ class ProjectFeeController extends Controller
     public function projectFeeLangsungStore(Request $request)
     {
         $langsung = Langsung::find($request->id);
+        $fee = str_replace("Rp. ", "", $request->fee);
+        $price = str_replace(".", "", $fee);
 
         if($langsung) {
             $langsung->update([
-                'fee'   => $request->fee,
+                'fee'   => $price,
             ]);
             return redirect()->back()->with('success', 'berhasil merubah fee');
         }
@@ -56,6 +58,7 @@ class ProjectFeeController extends Controller
             'project_team_id' => 'required',
             'fee' => 'required',
         ]);
+        $data['fee'] = $price;
 
         Langsung::create($data);
         return redirect()->back()->with('success', 'berhasil melakukan pembayaran');
@@ -94,10 +97,12 @@ class ProjectFeeController extends Controller
     public function projectTerminDetailStore(Request $request)
     {
         $terminfee = TerminFee::find($request->id);
+        $fee = str_replace("Rp. ", "", $request->fee);
+        $price = str_replace(".", "", $fee);
 
         if ($terminfee) {
             $terminfee->update([
-                'fee' => $request->fee,
+                'fee' => $price,
             ]);
 
             return redirect()->back()->with('success', 'berhasil update fee team');
@@ -108,6 +113,7 @@ class ProjectFeeController extends Controller
             'termin_id' => 'required',
             'fee' => 'required',
         ]);
+        $data['fee'] = $price;
 
         TerminFee::create($data);
         return redirect()->back()->with('success', 'berhasil menambahkan fee kepada team');

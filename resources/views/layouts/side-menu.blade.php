@@ -18,12 +18,12 @@
             'icon'   => 'alert-triangle',
             'name'   => 'tagihan',
         ],
-        'keuangan-perusahaan' =>  [
-            'title'  => 'Keuangan Perusahaan',
-            'url'    => route('keuangan-perusahaan.index'),
-            'icon'   => 'home',
-            'name'   => 'keuangan-perusahaan',
-        ],
+        // 'keuangan-perusahaan' =>  [
+        //     'title'  => 'Keuangan Perusahaan',
+        //     'url'    => route('keuangan-perusahaan.index'),
+        //     'icon'   => 'home',
+        //     'name'   => 'keuangan-perusahaan',
+        // ],
         'keuangan-umum' =>  [
             'title'  => 'Keuangan Umum',
             'url'    => route('keuangan-umum.index'),
