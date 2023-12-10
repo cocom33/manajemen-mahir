@@ -2,7 +2,7 @@
 @section('title', $project->name)
 
 @section('content')
-    <x-card title="Detail {{ $project->name }}">
+    <x-card title="Detail {{ $project->name }}" :project="$detail">
         <x-tab-detail page="fee" slug="{{ $project->slug }}" />
         <div class="mt-5">
             <div class="w-full flex justify-between align-center">
@@ -28,16 +28,18 @@
                         <option value="{{ $item->id }}">{{ $item->team->name }}</option>
                     @endforeach
                 </select>
-                <x-form-input label="Masukkan Fee" name="fee" placeholder="masukkan fee" type="number" />
-
+                <label>Masukkan Fee</label>
+                <input type="text" id="fee" name="fee" class="input w-full border mt-2" onkeyup="formatAngka(this)">
+                <input type="hidden" id="feeValue" name="feeValue">
 
                 <div class="flex justify-end">
-                    <button class="button flex align-center text-white bg-theme-1 shadow-md mt-3">
+                    <button type="submit" class="button flex align-center text-white bg-theme-1 shadow-md mt-3" onclick="submitForm()">
                         <i data-feather="plus" class=" w-4 h-4 mt-1 font-bold mr-2"></i> <span>Tambah</span>
                     </button>
                 </div>
                 <hr class="my-4">
             </form>
+
 
             <div class="mt-8">
                 <table class="table table-report table-report--bordered display datatable w-full">
@@ -45,12 +47,13 @@
                         <tr>
                             <th class="border-b-2 text-center whitespace-no-wrap">TERMIN NAME</th>
                             <th class="border-b-2 text-center whitespace-no-wrap">FEE</th>
+                            <th class="border-b-2 text-center whitespace-no-wrap">STATUS</th>
                             <th class="border-b-2 text-center whitespace-no-wrap">TANGGAL</th>
                             <th class="border-b-2 text-center whitespace-no-wrap">ACTIONS</th>
                         </tr>
                     </thead>
                     <tbody>
-                    @foreach($termin->termin_fee as $item)
+                    @foreach($termin->termin_fee as $key => $item)
                         <tr>
                             <td class="border-b">
                                 <div class="font-medium whitespace-no-wrap">{{ $item->project_team->team->name }}</div>
@@ -60,10 +63,28 @@
                                 <form action="{{ route('project.fee.termin.detail.store', [$project->slug, $termin->slug]) }}" method="POST" id="edit_fee{{ $item->id }}">
                                     @csrf
                                     @method('PUT')
-                                    <input id="inputFee{{ $item->id }}" type="number" name="fee" class="hidden input w-full border" value="{{ $item->fee }}">
+                                    <input id="inputFee{{ $item->id }}" name="fee" class="hidden input w-full border" value="Rp. {{ str_replace(",",".",number_format($item->fee)) }}">
+
                                     <input type="hidden" name="id" value="{{ $item->id }}">
                                     <input type="hidden" name="termin_id" value="{{ $termin->id }}">
                                 </form>
+                            </td>
+                            <td class="text-center border-b">
+                                @php
+                                    $testfee[$key] = 0;
+                                    foreach ($project->keuangan_project->termin as $value) {
+                                        if ($value->termin_fee->where('project_team_id', $item->project_team->id)->first()) {
+                                            $testfee[$key] = $testfee[$key] + $value->termin_fee->where('project_team_id', $item->project_team->id)->first()->fee;
+                                        }
+                                    }
+                                @endphp
+
+                                @if ($testfee[$key] >= $item->project_team->fee)
+                                    <span class="font-medium text-theme-40">Lunas</span>
+                                @else
+                                    <div class="font-medium whitespace-no-wrap text-theme-6">Belum Lunas</div>
+                                    <div class="text-gray-600 text-xs whitespace-no-wrap">tersisa Rp. {{ number_format($item->project_team->fee - $testfee[$key]) }}</div>
+                                @endif
                             </td>
                             <td class="text-center border-b">{{ $item->created_at->format('d M Y') }}</td>
                             <td class="border-b w-5">
@@ -97,7 +118,6 @@
             form.classList.toggle('hidden')
         }
 
-
         @foreach($termin->termin_fee as $item)
             function EditFee{{ $item->id }}() {
                 var field{{ $item->id }} = document.getElementById('fieldFee{{ $item->id }}');
@@ -113,5 +133,56 @@
                 edit{{ $item->id }}.classList.toggle('hidden');
             }
         @endforeach
+
+        function numberWithCommas(x) {
+            x = x.toString();
+            var pattern = /(-?\d+)(\d{3})/;
+            while (pattern.test(x))
+                x = x.replace(pattern, "$1,$2");
+            return x;
+        }
+
+        function formatAngka(objek) {
+            var input = objek.value;
+            var nominal = input.replace(/\D/g, '');
+            objek.value = numberWithCommas(nominal);
+
+            // Simpan nilai tanpa titik koma ke dalam input hidden
+            document.getElementById('feeValue').value = nominal;
+        }
+
+        function submitForm() {
+            var feeValue = document.getElementById('feeValue');
+            if (feeValue.value === '') {
+                alert('Fee tidak boleh kosong');
+                return false;
+            } else {
+                document.getElementById('fee').value = feeValue.value;
+                return true;
+            }
+        }
+
+        @foreach($termin->termin_fee as $item)
+            var price{{ $item->id }} = document.getElementById('inputFee{{ $item->id }}');
+            price{{ $item->id }}.addEventListener('keyup', function(e) {
+                price{{ $item->id }}.value = formatRupiah(this.value, 'Rp. ');
+            });
+        @endforeach
+
+        function formatRupiah(number, prefix) {
+          var number_string = number.replace(/[^,\d]/g, '').toString(),
+              split = number_string.split(','),
+              remainder = split[0].length % 3,
+              rupiah = split[0].substr(0, remainder),
+              ribuan = split[0].substr(remainder).match(/\d{3}/gi);
+
+          if (ribuan) {
+              separator = remainder ? '.' : '';
+              rupiah += separator + ribuan.join('.');
+          }
+
+          rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+          return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+        }
     </script>
 @endpush

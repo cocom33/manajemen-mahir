@@ -34,6 +34,8 @@ class PorjectController extends Controller
     {
         $data['project'] = Project::where('slug', $slug)->first();
 
+        $data['detail'] = $this->gaji($data['project']);
+
         return view('admin.project.detail', $data);
     }
 
@@ -63,8 +65,24 @@ class PorjectController extends Controller
             'deadline_date' => 'sometimes',
             'harga_penawaran' => 'sometimes',
             'harga_deal' => 'sometimes',
-            'status_server' => 'sometimes',
+            'pajak' => 'sometimes',
+            'type_pajak' => 'sometimes',
         ]);
+
+        if($request->pajak) {
+            $pajak = str_replace("Rp. ", "", $request->pajak);
+            $data['pajak'] = str_replace(".", "", $pajak);
+        }
+
+        if($request->harga_penawaran) {
+            $harga_penawaran = str_replace("Rp. ", "", $request->harga_penawaran);
+            $data['harga_penawaran'] = str_replace(".", "", $harga_penawaran);
+        }
+
+        if($request->harga_deal) {
+            $harga_deal = str_replace("Rp. ", "", $request->harga_deal);
+            $data['harga_deal'] = str_replace(".", "", $harga_deal);
+        }
 
         $model = Project::create($data);
         return redirect()->route('project.detail', $model->slug)->with('success', 'berhasil membuat project baru');
@@ -84,8 +102,24 @@ class PorjectController extends Controller
             'deadline_date' => 'sometimes',
             'harga_penawaran' => 'sometimes',
             'harga_deal' => 'sometimes',
-            'status_server' => 'sometimes',
+            'pajak' => 'sometimes',
+            'type_pajak' => 'sometimes',
         ]);
+
+        if($request->pajak) {
+            $pajak = str_replace("Rp. ", "", $request->pajak);
+            $data['pajak'] = str_replace(".", "", $pajak);
+        }
+
+        if($request->harga_penawaran) {
+            $harga_penawaran = str_replace("Rp. ", "", $request->harga_penawaran);
+            $data['harga_penawaran'] = str_replace(".", "", $harga_penawaran);
+        }
+
+        if($request->harga_deal) {
+            $harga_deal = str_replace("Rp. ", "", $request->harga_deal);
+            $data['harga_deal'] = str_replace(".", "", $harga_deal);
+        }
 
         $model->update($data);
         return redirect()->route('project.detail', $model->slug)->with('success', 'berhasil mengupdate project');
@@ -104,7 +138,7 @@ class PorjectController extends Controller
         $data['project'] = Project::where('slug', $slug)->first();
         $data['lampiran'] = ProjectDocument::where('project_id', $data['project']->id)->get();
 
-        // dd($data['lampiran']->name);
+        $data['detail'] = $this->gaji($data['project']);
 
         return view('admin.project.lampiran.index', $data);
     }
@@ -131,7 +165,6 @@ class PorjectController extends Controller
     {
         $project = Project::where('slug', $slug)->first();
 
-
         if (!$project) {
             abort(404);
         }
@@ -140,7 +173,9 @@ class PorjectController extends Controller
 
         $single = ProjectDocument::where('id', $id)->first();
 
-        return view('admin.project.lampiran.edit', compact('project', 'lampiran', 'single'));
+        $detail = $this->gaji($project);
+
+        return view('admin.project.lampiran.edit', compact('project', 'lampiran', 'single', 'detail'));
     }
 
 
@@ -173,6 +208,7 @@ class PorjectController extends Controller
         $data['project'] = Project::where('slug', $slug)->first();
         $data['projectTeams'] = ProjectTeam::where([['project_id', $data['project']->id], ['status', '1']])->get();
         $data['teams'] = Team::whereNotIn('id', $data['projectTeams']->pluck('team_id'))->get();
+        $data['detail'] = $this->gaji($data['project']);
 
         return view('admin.project.team.index', $data);
 
@@ -180,8 +216,11 @@ class PorjectController extends Controller
 
     public function projectEditTeam(Request $request, $slug)
     {
+        $fee = str_replace("Rp. ", "", $request->fee);
+        $price = str_replace(".", "", $fee);
+
         $data = ProjectTeam::find($request->id);
-        $data->update(['fee' => $request->fee]);
+        $data->update(['fee' => $price]);
         return redirect()->back()->with('success', 'berhasil merubah fee team');
     }
 
@@ -220,6 +259,7 @@ class PorjectController extends Controller
     {
         $data['project'] = Project::where('slug', $slug)->first();
         $data['invoice'] = Invoice::where('project_id', $data['project']->id)->first();
+        $data['detail'] = $this->gaji($data['project']);
 
         return view('admin.project.invoice.index', $data);
     }

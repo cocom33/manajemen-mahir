@@ -11,10 +11,12 @@ use App\Http\Controllers\PorjectTypeController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\PengeluaranController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectFeeController;
 use App\Http\Controllers\ProjectTeamsController;
 use App\Http\Controllers\ProjectTypeController;
+use App\Http\Controllers\TagihanController;
 use App\Http\Controllers\SkillController;
 use App\Http\Controllers\TeamController;
 use App\Models\KeuanganUmum;
@@ -92,10 +94,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::post('/project/{slug}/fee/langsung/create', [ProjectFeeController::class, 'projectFeeLangsungStore'])->name('project.fee.langsung.store');
 
-    Route::get('/project/{slug}/invoice', [PorjectController::class, 'projectInvoice'])->name('project.invoice');
-    Route::post('/project/{slug}/invoice/add-invoice', [PorjectController::class, 'projectInvoiceStore'])->name('project.invoice.store');
-    Route::get('/project/{slug}/invoice/{id}/stream', [PorjectController::class, 'getInvoices'])->name('project.invoice.stream');
-
     Route::put('/project/{slug}/fee/langsung/create', [ProjectFeeController::class, 'projectFeeLangsungStore'])->name('project.fee.langsung.store');
     Route::put('/project/{slug}/fee/termin/create', [ProjectFeeController::class, 'projectTerminStore'])->name('project.fee.termin.store');
     Route::get('/project/{slug}/fee/termin/{termin}', [ProjectFeeController::class, 'projectTerminDetail'])->name('project.fee.termin.detail');
@@ -109,8 +107,31 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('/project/{slug}/invoice-other/store', [InvoiceController::class, 'invoiceOtherStore'])->name('project.invoice.other.create');
     Route::delete('/project/{slug}/invoice-system/{id}/delete', [InvoiceController::class, 'invoiceSystemDestroy'])->name('project.invoice.system.delete');
     Route::delete('/project/{slug}/invoice-other/{id}/delete', [InvoiceController::class, 'invoiceOtherDestroy'])->name('project.invoice.other.delete');
+    Route::post('/project/{slug}/invoice/add-invoice', [PorjectController::class, 'projectInvoiceStore'])->name('project.invoice.store');
+    Route::get('/project/{slug}/invoice/{id}/stream', [PorjectController::class, 'getInvoices'])->name('project.invoice.stream');
 
+    Route::get('/project/{slug}/tagihan', [TagihanController::class, 'index'])->name('project.tagihan');
+    Route::post('/project/{slug}/tagihan/store', [TagihanController::class, 'store'])->name('project.tagihan.store');
+    Route::put('/project/{slug}/tagihan/update', [TagihanController::class, 'update'])->name('project.tagihan.update');
+    Route::get('/project/{slug}/tagihan/{id}/edit', [TagihanController::class, 'edit'])->name('project.tagihan.edit');
+    Route::get('/project/{slug}/tagihan/{id}/detail', [TagihanController::class, 'detail'])->name('project.tagihan.detail');
+    Route::delete('/project/{slug}/tagihan/{id}/delete', [TagihanController::class, 'delete'])->name('project.tagihan.delete');
+    Route::put('/project/{slug}/tagihan/lunas', [TagihanController::class, 'lunas'])->name('project.tagihan.lunas');
+    Route::put('/project/{slug}/tagihan/clone', [TagihanController::class, 'clone'])->name('project.tagihan.clone');
+    Route::put('/project/{slug}/tagihan/non-aktif', [TagihanController::class, 'nonAktif'])->name('project.tagihan.non-aktif');
+
+    Route::get('/project/{slug}/pengeluaran', [PengeluaranController::class, 'index'])->name('project.pengeluaran');
+    Route::get('/project/{slug}/pengeluaran/{id}', [PengeluaranController::class, 'show'])->name('project.pengeluaran.show');
+    Route::get('/project/{slug}/pengeluaran/{id}/edit', [PengeluaranController::class, 'edit'])->name('project.pengeluaran.edit');
+    Route::post('/project/{slug}/pengeluaran/store', [PengeluaranController::class, 'store'])->name('project.pengeluaran.store');
+    Route::put('/project/{slug}/pengeluaran/update/{id}', [PengeluaranController::class, 'update'])->name('project.pengeluaran.update');
+    Route::delete('/project/{slug}/pengeluaran/{id}', [PengeluaranController::class, 'delete'])->name('project.pengeluaran.delete');
     // end project
+
+    // tagihan
+    Route::get('/tagihan', [TagihanController::class, 'list'])->name('tagihan');
+    Route::get('/tagihan/{id}', [TagihanController::class, 'show'])->name('tagihan.show');
+    // end tagihan
 
     // project type
     Route::resource('category-project', ProjectTypeController::class);

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('termin_id');
             $table->foreignId('project_team_id');
-            $table->integer('fee');
+            $table->bigInteger('fee');
 
             $table->softDeletes();
             $table->timestamps();

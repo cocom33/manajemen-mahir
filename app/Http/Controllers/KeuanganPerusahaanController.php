@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Invoice;
+use App\Models\InvoiceSystem;
 use App\Models\KeuanganBulanan;
 use App\Models\KeuanganDetail;
 use App\Models\KeuanganPerusahaan;
@@ -15,7 +17,8 @@ class KeuanganPerusahaanController extends Controller
     public function index()
     {
         $data['tahun'] = KeuanganPerusahaan::where('tahun', Date('Y'))->first();
-
+        $data['invoiceSystem'] = InvoiceSystem::with('invoice')->get();
+        $data['invoice'] = Invoice::with('project')->get();
         return view('admin.keuangan-perusahaan.index', $data);
     }
 

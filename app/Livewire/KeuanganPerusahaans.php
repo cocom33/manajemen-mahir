@@ -2,6 +2,8 @@
 
 namespace App\Livewire;
 
+use App\Models\Invoice;
+use App\Models\InvoiceSystem;
 use App\Models\KeuanganBulanan;
 use App\Models\KeuanganDetail;
 use App\Models\KeuanganPerusahaan;
@@ -21,6 +23,7 @@ class KeuanganPerusahaans extends Component
         return view('livewire.keuangan-perusahaans',[
             'tahuns' => KeuanganPerusahaan::get(),
             'bulans' => KeuanganBulanan::get(),
+
             'keuanganDetails' => KeuanganDetail::when($this->byBulans, function($query){
                         $query->where('keuangan_bulanan_id', $this->byBulans);
                     })
