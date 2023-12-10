@@ -22,12 +22,12 @@ class KeuanganPerusahaans extends Component
             'tahuns' => KeuanganPerusahaan::get(),
             'bulans' => KeuanganBulanan::get(),
             'keuanganDetails' => KeuanganDetail::when($this->byBulans, function($query){
-                                                        $query->where('keuangan_bulanan_id', $this->byBulans);
-                                                    })
-                                                    ->search(trim($this->search))
-                                                    ->orderBy('id', 'asc')
-                                                    ->paginate($this->perPage)
-                                                ]);
-                                                Log::info();
+                        $query->where('keuangan_bulanan_id', $this->byBulans);
+                    })
+                    ->search(trim($this->search))
+                    ->orderBy('id', 'asc')
+                    ->paginate($this->perPage)
+                ]);
+                Log::info();
     }
 }
