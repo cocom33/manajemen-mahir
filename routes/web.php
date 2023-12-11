@@ -138,13 +138,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // end project type
 
     // keuangan umum
-    Route::resource('keuangan-umum', KeuanganUmumController::class);
+    Route::resource('keuangan-umum', KeuanganPerusahaanController::class);
     // end keuangan umum
-
-
-    // keuangan perusahaan
-    Route::resource('keuangan-perusahaan', KeuanganPerusahaanController::class);
-    // end keuangan perusahaan
 });
 
 require __DIR__.'/auth.php';

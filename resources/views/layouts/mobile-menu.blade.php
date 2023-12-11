@@ -12,18 +12,18 @@
             'icon'   => 'home',
             'name'   => 'projects',
         ],
-        'keuangan-perusahaan' =>  [
-            'title'  => 'Keuangan Perusahaan',
-            'url'    => route('keuangan-perusahaan.index'),
-            'icon'   => 'home',
-            'name'   => 'keuangan-perusahaan',
-        ],
         'keuangan-umum' =>  [
             'title'  => 'Keuangan Umum',
             'url'    => route('keuangan-umum.index'),
             'icon'   => 'home',
             'name'   => 'keuangan-umum',
         ],
+        // 'keuangan-umum' =>  [
+        //     'title'  => 'Keuangan Umum',
+        //     'url'    => route('keuangan-umum.index'),
+        //     'icon'   => 'home',
+        //     'name'   => 'keuangan-umum',
+        // ],
         'devider',
         'category-project' =>  [
             'title'  => 'Project Category',
