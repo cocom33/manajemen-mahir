@@ -6,6 +6,7 @@ use App\Models\Invoice;
 use App\Models\InvoiceOther;
 use App\Models\InvoiceSystem;
 use App\Models\KeuanganBulanan;
+use App\Models\KeuanganDetail;
 use App\Models\KeuanganPerusahaan;
 use Livewire\Component;
 
@@ -16,19 +17,27 @@ class Keuangan extends Component
 
     public function mount()
     {
-        $this->tahun = date('Y');
-        $this->bulan = date('m');
+        $this->tahun = 'semua';
+        $this->bulan = 'semua';
     }
 
     public function render()
     {
-        $data['now'] = KeuanganPerusahaan::where('tahun', $this->tahun)->first();
-        $data['all'] = KeuanganPerusahaan::get();
+        $data['filtertahun'] = KeuanganPerusahaan::pluck('tahun');
+        $data['filterbulan'] = [1,2,3,4,5,6,7,8,9,10,11,12];
 
-        $data['detail'] = KeuanganBulanan::where([['keuangan_perusahaan_id', $data['now']->id], ['bulan', $this->bulan]])->first();
-        $data['invoiceSystem'] = InvoiceSystem::with('invoice')->get();
-        $data['invoiceOther'] = InvoiceOther::with('invoice')->get();
-        $data['invoice'] = Invoice::with('project')->first();
+        if($this->tahun != 'semua') {
+            $data['filtertahun'] = [$this->tahun];
+        }
+
+        if($this->bulan != 'semua') {
+            $data['filterbulan'] = [$this->bulan];
+        }
+
+        $master = KeuanganPerusahaan::whereIn('tahun', $data['filtertahun'])->whereIn('bulan', $data['filterbulan'])->pluck('id');
+
+        $data['detail'] = KeuanganDetail::whereIn('keuangan_perusahaan_id', $master)->get();
+
         return view('livewire.keuangan', $data);
     }
 

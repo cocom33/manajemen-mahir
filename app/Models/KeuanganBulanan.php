@@ -13,7 +13,7 @@ class KeuanganBulanan extends Model
 
     protected $fillable = ['bulan', 'keuangan_perusahaan_id'];
 
-    public function tahun()
+    public function keuanganTahunan()
     {
         return $this->belongsTo(KeuanganPerusahaan::class);
     }

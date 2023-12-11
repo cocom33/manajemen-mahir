@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('keuangan_perusahaans', function (Blueprint $table) {
             $table->id();
-            $table->integer('tahun');
+            $table->integer('tahun')->nullable();
+            $table->integer('bulan')->nullable();
 
             $table->softDeletes();
             $table->timestamps();

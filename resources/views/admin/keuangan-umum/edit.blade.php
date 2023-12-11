@@ -1,46 +1,51 @@
 @extends('layouts.app')
-
 @section('content')
-<div class="intro-y flex items-center mt-8">
-    <h2 class="text-lg font-medium mr-auto">Edit Keuangan Umum</h2>
-</div>
-<div class="grid grid-cols-12 gap-6 mt-5">
-    <div class="intro-y col-span-12 lg:col-span-6">
-        <!-- BEGIN: Form Layout -->
-        <div class="intro-y box p-5">
-            <form method="post" action="{{ route('keuangan-umum.update', $data->id) }}">
+<div class="intro-y mt-5 col-span-12 lg:col-span-6">
+    <div class="intro-y box">
+        <div class="flex flex-col sm:flex-row items-center p-5 border-b border-gray-200">
+            <h2 class="font-medium text-base mr-auto">
+                Add New Pengeluaran Perusahaan
+            </h2>
+            <div class="w-full sm:w-auto flex items-center sm:ml-auto mt-3 sm:mt-0">
+            </div>
+        </div>
+        <div class="p-5" id="vertical-form">
+            <form action="{{route('keuangan-umum.update', $data->id)}}" method="POST">
                 @csrf
                 @method('PUT')
-                <div>
-                    <label>Description</label>
-                    <input type="text" value="{{ $data->description }}" name="description" class="input w-full border mt-2 @error('description') border-theme-6 @enderror" placeholder="Input text">
-                    @error('description')
-                        <div class="text-theme-6 mt-2">{{ $message }}</div>
-                    @enderror
-                </div>
-                <div class="mt-3">
-                    <label>Status</label>
-                    <div class="mt-2">
-                        <select name="status" data-hide-search="true" class="select2 w-full">
-                            <option value="pemasukan" @if ( $data->status == 'pemasukan' ) selected @endif>Pemasukan</option>
-                            <option value="pengeluaran" @if ( $data->status == 'pengeluaran' ) selected @endif>Pengeluaran</option>
-                        </select>
+                <div class="preview">
+                    <div>
+                        <label>Bulan</label>
+                        <div class="mt-2">
+                            <select name="bulan" data-hide-search="true" class="select2 w-full">
+                                <option selected disabled>Pilih Bulan</option>
+                                @foreach ($bulans as $bulan)
+                                    <option value="{{ $bulan->id }}" {{ $bulan->id == $data->keuangan_bulanan_id ? 'selected' : '' }}>{{ \Carbon\Carbon::create()->month($bulan->bulan)->format('F') }}</option>
+                                @endforeach
+                            </select>
+                            @error('bulan')
+                            <div class="text-theme-6 mt-2">{{ $message }}</div>
+                        @enderror
+                        </div>
                     </div>
-                </div>
-                <div class="mt-3">
-                    <label>Total</label>
-                    <input type="text" value="{{ $data->total }}" name="total" class="input w-full border mt-2 @error('total') border-theme-6 @enderror" placeholder="Input text">
-                    @error('total')
-                        <div class="text-theme-6 mt-2">{{ $message }}</div>
-                    @enderror
-                </div>
-                <div class="text-right mt-5">
-                    <a href="{{ route('keuangan-umum.index') }}"><button type="button" class="button w-24 border text-gray-700 mr-1">Cancel</button></a>
-                    <button type="submit" class="button w-24 bg-theme-1 text-white">Save</button>
+                    <div class="mt-3">
+                        <label>Description</label>
+                        <input type="text" name="description" value="{{ $data->description }}" class="input w-full border mt-2 @error('description') border-theme-6 @enderror">
+                        @error('description')
+                            <div class="text-theme-6 mt-2">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="mt-3">
+                        <label>Total</label>
+                        <input type="number" name="total" value="{{ $data->total }}" class="input w-full border mt-2 @error('total') border-theme-6 @enderror">
+                        @error('total')
+                            <div class="text-theme-6 mt-2">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <button type="submit" class="button bg-theme-1 text-white mt-5">Save</button>
                 </div>
             </form>
         </div>
-        <!-- END: Form Layout -->
     </div>
 </div>
 @endsection

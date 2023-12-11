@@ -7,6 +7,7 @@ use App\Models\InvoiceSystem;
 use App\Models\KeuanganBulanan;
 use App\Models\KeuanganDetail;
 use App\Models\KeuanganPerusahaan;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class KeuanganPerusahaanController extends Controller
@@ -16,10 +17,7 @@ class KeuanganPerusahaanController extends Controller
      */
     public function index()
     {
-        $data['tahun'] = KeuanganPerusahaan::where('tahun', Date('Y'))->first();
-        $data['invoiceSystem'] = InvoiceSystem::with('invoice')->get();
-        $data['invoice'] = Invoice::with('project')->get();
-        return view('admin.keuangan-perusahaan.index', $data);
+        return view('admin.keuangan-umum.index');
     }
 
     /**
@@ -27,9 +25,7 @@ class KeuanganPerusahaanController extends Controller
      */
     public function create()
     {
-        $bulans = KeuanganBulanan::all();
-
-        return view('admin.keuangan-perusahaan.create', compact('bulans'));
+        return view('admin.keuangan-umum.create');
     }
 
     /**
@@ -37,30 +33,46 @@ class KeuanganPerusahaanController extends Controller
      */
     public function store(Request $request)
     {
-        $tahun = KeuanganPerusahaan::where('tahun', date('Y'))->first();
-        $bulan = KeuanganBulanan::where('bulan', date('m'))->first();
+        if ($request->tanggal) {
+            $tahun = KeuanganPerusahaan::where('tahun', Carbon::parse($request->tanggal)->format('Y'))->get();
+            if(!$tahun) {
+                $query = KeuanganPerusahaan::create([
+                    'tahun' => Carbon::parse($request->tanggal)->format('Y'),
+                    'bulan' => Carbon::parse($request->tanggal)->format('m'),
+                ]);
+            } else {
+                $query = $tahun->where('bulan', Carbon::parse($request->tanggal)->format('m'))->first();
+                if(!$query) {
+                    $query = KeuanganPerusahaan::create([
+                        'tahun' => Carbon::parse($request->tanggal)->format('Y'),
+                        'bulan' => Carbon::parse($request->tanggal)->format('m'),
+                    ]);
+                }
+            }
+
+            $tanggal = Carbon::parse($request->tanggal)->format('d');
+        } else {
+            $query = KeuanganPerusahaan::where([['tahun', date('Y')], ['bulan', date('m')]])->first();
+            if (!$query) {
+                $query = KeuanganPerusahaan::create([
+                    'tahun' => date('Y'),
+                    'bulan' => date('m'),
+                ]);
+            }
+            $tanggal = date('d');
+        }
 
         $data = $request->validate([
-            // 'bulan' => 'required',
+            'status' => 'required',
             'description' => 'required',
             'total' => 'required|numeric',
         ]);
-
-        if(!$tahun) {
-            $tahun = KeuanganPerusahaan::create(['tahun' => date('Y')]);
-        }
-        if(!$bulan) {
-            $bulan = KeuanganBulanan::create([
-                'keuangan_perusahaan_id' => $tahun->id,
-                'bulan' => date('m'), 'tahun_id',
-            ]);
-        }
-
-        $data['keuangan_bulanan_id'] = $bulan->id;
+        $data['tanggal'] = $tanggal;
+        $data['keuangan_perusahaan_id'] = $query->id;
 
         $model = KeuanganDetail::create($data);
 
-        return redirect()->route('keuangan-perusahaan.index')->with('success', 'Pengeluaran Perusahaan berhasil dibuat!!');
+        return redirect()->route('keuangan-umum.index')->with('success', 'Pengeluaran Perusahaan berhasil dibuat!!');
     }
 
     /**
@@ -80,7 +92,7 @@ class KeuanganPerusahaanController extends Controller
         $bulans = KeuanganBulanan::get();
         // dd($bulans);
 
-        return view('admin.keuangan-perusahaan.edit', compact('bulans', 'data'));
+        return view('admin.keuangan-umum.edit', compact('bulans', 'data'));
     }
 
     /**
@@ -100,7 +112,7 @@ class KeuanganPerusahaanController extends Controller
 
         $model->update($data);
 
-        return redirect()->route('keuangan-perusahaan.index')->with('success', $model->description . ' berhasil diedit!!');
+        return redirect()->route('keuangan-umum.index')->with('success', $model->description . ' berhasil diedit!!');
     }
 
     /**
