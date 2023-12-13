@@ -65,7 +65,7 @@ class Project extends Model
 
     public function keuangan_project()
     {
-        return $this->hasOne(keuanganProject::class, 'project_id', 'id');
+        return $this->hasOne(KeuanganProject::class, 'project_id', 'id');
     }
 
     public function pengeluaran()
