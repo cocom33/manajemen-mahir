@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
+use App\Models\ProjectFee;
 use App\Models\ProjectTeam;
 use App\Models\Skill;
 use App\Models\Team;
@@ -65,7 +66,7 @@ class TeamController extends Controller
 
         $projectId = $projectsTeams->pluck('project_id')->toArray();
 
-        $projects = Project::whereIn('id', $projectId)->get();
+        $projects = Project::with('keuangan_project')->whereIn('id', $projectId)->get();
 
         if ($projects->isEmpty()) {
             return view('admin.team.show', compact('team', 'skill_team'))->with('projects', null);
@@ -100,7 +101,7 @@ class TeamController extends Controller
         ]);
 
         $team->update($request->all());
-        return redirect()->back('teams.index')->with('success', 'Team '. $request->name .' updated successfully!');
+        return redirect()->back()->with('success', 'Team '. $request->name .' updated successfully!');
     }
 
     /**
