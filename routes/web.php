@@ -19,6 +19,7 @@ use App\Http\Controllers\ProjectTypeController;
 use App\Http\Controllers\TagihanController;
 use App\Http\Controllers\SkillController;
 use App\Http\Controllers\TeamController;
+use App\Http\Controllers\UserController;
 use App\Models\KeuanganUmum;
 use Illuminate\Support\Facades\Route;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
@@ -130,11 +131,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // tagihan
     Route::get('/tagihan', [TagihanController::class, 'list'])->name('tagihan');
-    Route::get('/tagihan/{id}', [TagihanController::class, 'show'])->name('tagihan.show');
+    // Route::get('/tagihan/{id}', [TagihanController::class, 'show'])->name('tagihan.show');
     // end tagihan
 
     // project type
     Route::resource('category-project', ProjectTypeController::class);
+    // end project type
+
+    // project type
+    Route::resource('users', UserController::class);
     // end project type
 
     // keuangan umum

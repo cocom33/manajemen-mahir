@@ -79,7 +79,7 @@
                 <tr>
                     <th class="border-b-2 whitespace-no-wrap">PROJECT NAME</th>
                     <th class="border-b-2 text-center whitespace-no-wrap">CLIENT</th>
-                    <th class="border-b-2 text-center whitespace-no-wrap">PROJECT CATEGORY</th>
+                    {{-- <th class="border-b-2 text-center whitespace-no-wrap">PROJECT CATEGORY</th> --}}
                     <th class="border-b-2 text-center whitespace-no-wrap">FEE</th>
                     <th class="border-b-2 text-center whitespace-no-wrap">STATUS</th>
                     <th class="border-b-2 text-center whitespace-no-wrap">ACTIONS</th>
@@ -99,7 +99,7 @@
                             </div>
                         </td>
 
-                        <td class="text-center border-b">{{ $project->projectType->name }}</td>
+                        {{-- <td class="text-center border-b">{{ $project->projectType->name }}</td> --}}
                         <td class="text-center border-b">
                             @php
                                 $projectTeam = App\Models\ProjectTeam::where('project_id', $project->id)
@@ -121,7 +121,7 @@
                             @endphp
 
                             @if($project->keuangan_project->type == 'langsung')
-                                @if($projectTeam->fee - $totalFeeLangsung == 0)
+                                @if($projectTeam->fee - $totalFeeLangsung <= 0)
                                     <span class="font-medium text-theme-40">Lunas</span>
                                     <div class="text-gray-600 text-xs whitespace-no-wrap">
                                         Rp. {{ number_format($projectTeam->fee) }}
@@ -133,7 +133,7 @@
                                     </div>
                                 @endif
                             @elseif($project->keuangan_project->type == 'termin')
-                                @if($projectTeam->fee - $totalFeeTermin == 0)
+                                @if($projectTeam->fee - $totalFeeTermin <= 0)
                                     <span class="font-medium text-theme-40">Lunas</span>
                                     <div class="text-gray-600 text-xs whitespace-no-wrap">
                                         Rp. {{ number_format($projectTeam->fee) }}

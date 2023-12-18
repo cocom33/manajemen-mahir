@@ -1,4 +1,4 @@
-@props(['title', 'project' => '', 'route' => '', 'routeBack' => ''])
+@props(['title', 'project' => '', 'route' => '', 'routeBack' => '', 'routeEdit' => ''])
 
     <div class="intro-y space-around col-span-12 flex flex-wrap sm:flex-no-wrap items-center justify-between mt-5">
         <b class="text-xl">{{ $title }}</b>
@@ -6,6 +6,12 @@
         @if ($route)
             <div class="flex">
                 <a href="{{ $route }}"><button class="button text-white bg-theme-1 shadow-md">Tambah data</button></a>
+            </div>
+        @endif
+
+        @if ($routeEdit)
+            <div class="flex">
+                <a href="{{ $routeEdit }}"><button class="button text-white bg-theme-1 shadow-md">Edit data</button></a>
             </div>
         @endif
 
@@ -35,7 +41,7 @@
 
         @if ($routeBack)
             <div class="flex">
-                <a href="{{ $routeBack }}"><button class="button text-white bg-theme-9 shadow-md ml-2">Kembali</button></a>
+                <a href="{{ $routeBack }}"><button class="button text-white bg-theme-1 shadow-md ml-2">Kembali</button></a>
             </div>
         @endif
     </div>
