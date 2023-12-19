@@ -51,7 +51,7 @@
                             <div class="flex items-center text-theme-6"> <i data-feather="check-square" class="w-4 h-4 mr-2"></i> Pengeluaran </div>
                             @endif
                         </td>
-                        <td class=" border-b">Rp. {{ number_format($data->total, 2, ',', '.') }}</td>
+                        <td class=" border-b">Rp. {{ number_format($data->total) }}</td>
                         <td class=" border-b">{{ $data->tanggal }} / {{ $data->keuanganPerusahaan->bulan }} / {{ $data->keuanganPerusahaan->tahun }}</td>
                         <td class="border-b">
                             <div class="flex  items-center">

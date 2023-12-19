@@ -1,7 +1,6 @@
 @extends('layouts.app')
 @section('content')
 
-
 <x-card title="Tambah User" routeBack="{{ route('users.index') }}">
     <form action="{{ $route }}" method="POST">
         @csrf

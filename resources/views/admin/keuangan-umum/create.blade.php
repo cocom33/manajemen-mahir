@@ -22,7 +22,7 @@
                     </div>
                     <div class="mt-3">
                         <label>Total</label>
-                        <input type="number" name="total" class="input w-full border mt-2 @error('total') border-theme-6 @enderror">
+                        <input id="total" name="total" class="input w-full border mt-2 @error('total') border-theme-6 @enderror">
                         @error('total')
                             <div class="text-theme-6 mt-2">{{ $message }}</div>
                         @enderror
@@ -33,7 +33,6 @@
                             <option value="pemasukan">pemasukan</option>
                             <option value="pengeluaran">pengeluaran</option>
                         </select>
-                        <small>boleh dikosongkan</small>
                         @error('status')
                             <div class="text-theme-6 mt-2">{{ $message }}</div>
                         @enderror
@@ -53,3 +52,28 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+    <script>
+        var total = document.getElementById('total');
+        total.addEventListener('keyup', function(e) {
+            total.value = formatRupiah(this.value, 'Rp. ');
+        });
+
+        function formatRupiah(number, prefix) {
+          var number_string = number.replace(/[^,\d]/g, '').toString(),
+              split = number_string.split(','),
+              remainder = split[0].length % 3,
+              rupiah = split[0].substr(0, remainder),
+              ribuan = split[0].substr(remainder).match(/\d{3}/gi);
+
+          if (ribuan) {
+              separator = remainder ? '.' : '';
+              rupiah += separator + ribuan.join('.');
+          }
+
+          rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+          return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+        }
+    </script>
+@endpush

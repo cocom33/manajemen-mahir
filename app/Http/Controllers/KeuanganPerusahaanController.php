@@ -65,10 +65,15 @@ class KeuanganPerusahaanController extends Controller
         $data = $request->validate([
             'status' => 'required',
             'description' => 'required',
-            'total' => 'required|numeric',
+            'total' => 'required',
         ]);
+
+        $total = str_replace("Rp. ", "", $request->total);
+        $price = str_replace(".", "", $total);
+
         $data['tanggal'] = $tanggal;
         $data['keuangan_perusahaan_id'] = $query->id;
+        $data['total'] = $price;
 
         $model = KeuanganDetail::create($data);
 
@@ -90,9 +95,10 @@ class KeuanganPerusahaanController extends Controller
     {
         $data = KeuanganDetail::findOrFail($id);
         $bulans = KeuanganBulanan::get();
+        $tanggal = $data->tanggal .'/'. $data->keuanganPerusahaan->bulan .'/'. $data->keuanganPerusahaan->tahun;
         // dd($bulans);
 
-        return view('admin.keuangan-umum.edit', compact('bulans', 'data'));
+        return view('admin.keuangan-umum.edit', compact('bulans', 'data', 'tanggal'));
     }
 
     /**
@@ -103,11 +109,14 @@ class KeuanganPerusahaanController extends Controller
         $model = KeuanganDetail::where('id', $id)->first();
 
         $data = $request->validate([
-            'bulan' => 'required',
             'description' => 'required',
-            'total' => 'required|numeric',
+            'total' => 'required',
         ]);
 
+        $total = str_replace("Rp. ", "", $request->total);
+        $price = str_replace(".", "", $total);
+
+        $data['total'] = $price;
         $data['keuangan_bulanan_id'] = $request->bulan;
 
         $model->update($data);

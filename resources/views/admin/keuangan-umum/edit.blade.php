@@ -14,20 +14,6 @@
                 @csrf
                 @method('PUT')
                 <div class="preview">
-                    <div>
-                        <label>Bulan</label>
-                        <div class="mt-2">
-                            <select name="bulan" data-hide-search="true" class="select2 w-full">
-                                <option selected disabled>Pilih Bulan</option>
-                                @foreach ($bulans as $bulan)
-                                    <option value="{{ $bulan->id }}" {{ $bulan->id == $data->keuangan_bulanan_id ? 'selected' : '' }}>{{ \Carbon\Carbon::create()->month($bulan->bulan)->format('F') }}</option>
-                                @endforeach
-                            </select>
-                            @error('bulan')
-                            <div class="text-theme-6 mt-2">{{ $message }}</div>
-                        @enderror
-                        </div>
-                    </div>
                     <div class="mt-3">
                         <label>Description</label>
                         <input type="text" name="description" value="{{ $data->description }}" class="input w-full border mt-2 @error('description') border-theme-6 @enderror">
@@ -37,8 +23,16 @@
                     </div>
                     <div class="mt-3">
                         <label>Total</label>
-                        <input type="number" name="total" value="{{ $data->total }}" class="input w-full border mt-2 @error('total') border-theme-6 @enderror">
+                        <input id="total" name="total" value="{{ $data->total }}" class="input w-full border mt-2 @error('total') border-theme-6 @enderror">
                         @error('total')
+                            <div class="text-theme-6 mt-2">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="mt-3">
+                        <label>Tanggal</label>
+                        <input type="date" name="tanggal" value="{{ $tanggal }}" class="input w-full border mt-2 @error('tanggal') border-theme-6 @enderror">
+                        <small>Bisa dikosongkan</small>
+                        @error('tanggal')
                             <div class="text-theme-6 mt-2">{{ $message }}</div>
                         @enderror
                     </div>
@@ -49,3 +43,28 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+    <script>
+        var total = document.getElementById('total');
+        total.addEventListener('keyup', function(e) {
+            total.value = formatRupiah(this.value, 'Rp. ');
+        });
+
+        function formatRupiah(number, prefix) {
+          var number_string = number.replace(/[^,\d]/g, '').toString(),
+              split = number_string.split(','),
+              remainder = split[0].length % 3,
+              rupiah = split[0].substr(0, remainder),
+              ribuan = split[0].substr(remainder).match(/\d{3}/gi);
+
+          if (ribuan) {
+              separator = remainder ? '.' : '';
+              rupiah += separator + ribuan.join('.');
+          }
+
+          rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+          return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+        }
+    </script>
+@endpush
