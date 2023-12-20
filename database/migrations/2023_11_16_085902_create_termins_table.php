@@ -16,6 +16,10 @@ return new class extends Migration
             $table->foreignId('keuangan_project_id');
             $table->string('name');
             $table->string('slug');
+            $table->string('price');
+            $table->date('tanggal');
+            $table->boolean('status')->default(0);
+            $table->string('lampiran')->nullable();
 
             $table->softDeletes();
             $table->timestamps();
