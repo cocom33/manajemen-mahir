@@ -16,7 +16,7 @@
     <a href="{{ route('project.fee', $slug) }}" class="flex justify-center w-full rounded-md py-3  @if($page == 'fee') {{ $active }} @endif">
         <div class="flex items-center m-auto">
             <i data-feather="dollar-sign" class="w-5 h-5 mr-2"></i>
-            <span>Fee</span>
+            <span>Pemasukan</span>
         </div>
     </a>
     <a href="{{ route('project.tagihan', $slug) }}" class="flex justify-center w-full rounded-md py-3  @if($page == 'tagihan') {{ $active }} @endif">

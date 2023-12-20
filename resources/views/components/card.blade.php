@@ -1,4 +1,4 @@
-@props(['title', 'project' => '', 'route' => '', 'routeBack' => ''])
+@props(['title', 'project' => '', 'route' => '', 'routeBack' => '', 'routeEdit' => ''])
 
     <div class="intro-y space-around col-span-12 flex flex-wrap sm:flex-no-wrap items-center justify-between mt-5">
         <b class="text-xl">{{ $title }}</b>
@@ -9,10 +9,17 @@
             </div>
         @endif
 
+        @if ($routeEdit)
+            <div class="flex">
+                <a href="{{ $routeEdit }}"><button class="button text-white bg-theme-1 shadow-md">Edit data</button></a>
+            </div>
+        @endif
+
         @if ($project)
             <div class="flex gap-3 items-center relative">
                 <p class="text-lg font-bold mr-3">Harga Deal : Rp. {{ number_format($project['deal']) }}</p>
-                <p class="text-lg font-bold">Tersisa : Rp. {{ number_format($project['sisa']) }}</p>
+                <p class="text-lg font-bold">Piutang : Rp. {{ number_format($project['sisa']) }}</p>
+                <p class="text-lg font-bold">Pengeluaran : Rp. {{ number_format($project['sisa']) }}</p>
                 <small class="border-2 border-black w-5 h-5 text-center rounded-full cursor-pointer" onclick="Detail()">i</small>
                 <div id="detail" class="hidden px-4 py-2 bg-theme-1 text-white absolute right-0 rounded-md" style="top: 35px">
                     @if ($project['type_pajak'] == 0)
@@ -35,7 +42,7 @@
 
         @if ($routeBack)
             <div class="flex">
-                <a href="{{ $routeBack }}"><button class="button text-white bg-theme-9 shadow-md ml-2">Kembali</button></a>
+                <a href="{{ $routeBack }}"><button class="button text-white bg-theme-1 shadow-md ml-2">Kembali</button></a>
             </div>
         @endif
     </div>

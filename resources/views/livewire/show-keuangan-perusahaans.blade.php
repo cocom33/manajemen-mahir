@@ -25,10 +25,10 @@
                         <td class=" border-b">Rp. {{ number_format($data->total, 2, ',', '.') }}</td>
                         <td class="border-b">
                             <div class="flex  items-center">
-                                <a class="flex items-center mr-3" href="{{ route('keuangan-perusahaan.edit', $data->id) }}">
+                                <a class="flex items-center mr-3" href="{{ route('keuangan-umum.edit', $data->id) }}">
                                     <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Edit
                                 </a>
-                                <form method="POST" action="{{ route('keuangan-perusahaan.destroy', $data->id) }}">
+                                <form method="POST" action="{{ route('keuangan-umum.destroy', $data->id) }}">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="flex items-center text-theme-6 show-alert-delete-box" data-toggle="tooltip" title='Delete'><i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Delete</button>
@@ -37,7 +37,7 @@
                         </td>
                     </tr>
                 @endforeach
-                
+
             </tbody>
         </table>
     </div>

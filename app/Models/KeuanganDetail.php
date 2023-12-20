@@ -12,16 +12,16 @@ class KeuanganDetail extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $fillable = ['keuangan_bulanan_id', 'description', 'total'];
+    protected $fillable = ['keuangan_perusahaan_id', 'description', 'total', 'status', 'tanggal'];
 
     /**
      * Get the bulan that owns the KeuanganDetail
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function keuanganBulanan(): BelongsTo
+    public function keuanganPerusahaan(): BelongsTo
     {
-        return $this->belongsTo(KeuanganBulanan::class);
+        return $this->belongsTo(KeuanganPerusahaan::class);
     }
 
     public function scopeSearch($query, $term)
