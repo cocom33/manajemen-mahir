@@ -18,7 +18,8 @@
         @if ($project)
             <div class="flex gap-3 items-center relative">
                 <p class="text-lg font-bold mr-3">Harga Deal : Rp. {{ number_format($project['deal']) }}</p>
-                <p class="text-lg font-bold">Tersisa : Rp. {{ number_format($project['sisa']) }}</p>
+                <p class="text-lg font-bold">Piutang : Rp. {{ number_format($project['sisa']) }}</p>
+                <p class="text-lg font-bold">Pengeluaran : Rp. {{ number_format($project['sisa']) }}</p>
                 <small class="border-2 border-black w-5 h-5 text-center rounded-full cursor-pointer" onclick="Detail()">i</small>
                 <div id="detail" class="hidden px-4 py-2 bg-theme-1 text-white absolute right-0 rounded-md" style="top: 35px">
                     @if ($project['type_pajak'] == 0)

@@ -157,6 +157,7 @@
                                 <thead>
                                     <tr>
                                         <th class="border-b-2 text-center whitespace-no-wrap">TERMIN NAME</th>
+                                        <th class="border-b-2 text-center whitespace-no-wrap">PRICE</th>
                                         <th class="border-b-2 text-center whitespace-no-wrap">TOTAL FEE</th>
                                         <th class="border-b-2 text-center whitespace-no-wrap">TANGGAL</th>
                                         <th class="border-b-2 text-center whitespace-no-wrap">ACTIONS</th>
@@ -174,6 +175,7 @@
                                                 <input type="hidden" name="id" value="{{ $item->id }}">
                                             </form>
                                         </td>
+                                        <td></td>
 
                                         <td class="text-center border-b">Rp. {{ number_format($item->termin_fee->sum('fee')) }}</td>
                                         <td class="text-center border-b">{{ $item->created_at->format('d M Y') }}</td>
@@ -197,20 +199,6 @@
                                         </td>
                                     </tr>
                                 @endforeach
-                                    <tr>
-                                        <td class="border-b">
-                                            <div class="font-medium whitespace-no-wrap">Perusahaan</div>
-                                        </td>
-                                        <td class="w-40 border-b">
-                                            <div class="flex items-center sm:justify-center">
-                                                Rp. {{ number_format($detail['sisa']) }}
-                                            </div>
-                                        </td>
-                                        <td class="text-center border-b">{{ $project->created_at->format('d M Y') }}</td>
-                                        <td class="text-center border-b">
-                                            <span class="text-theme-40">-</span>
-                                        </td>
-                                    </tr>
                                 </tbody>
                             </table>
                         </div>
