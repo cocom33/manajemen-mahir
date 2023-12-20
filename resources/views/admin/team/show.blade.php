@@ -79,14 +79,15 @@
                 <tr>
                     <th class="border-b-2 whitespace-no-wrap">PROJECT NAME</th>
                     <th class="border-b-2 text-center whitespace-no-wrap">CLIENT</th>
-                    <th class="border-b-2 text-center whitespace-no-wrap">PROJECT CATEGORY</th>
+                    {{-- <th class="border-b-2 text-center whitespace-no-wrap">PROJECT CATEGORY</th> --}}
+                    <th class="border-b-2 text-center whitespace-no-wrap">FEE</th>
                     <th class="border-b-2 text-center whitespace-no-wrap">STATUS</th>
                     <th class="border-b-2 text-center whitespace-no-wrap">ACTIONS</th>
                 </tr>
             </thead>
             <tbody>
             @if (!$projects == null)
-                @foreach($projects as $project)
+                @foreach($projects as $key => $project)
                     <tr>
                         <td class="border-b">
                             <div class="font-medium whitespace-no-wrap">{{ $project->name }}</div>
@@ -98,7 +99,55 @@
                             </div>
                         </td>
 
-                        <td class="text-center border-b">{{ $project->projectType->name }}</td>
+                        {{-- <td class="text-center border-b">{{ $project->projectType->name }}</td> --}}
+                        <td class="text-center border-b">
+                            @php
+                                $projectTeam = App\Models\ProjectTeam::where('project_id', $project->id)
+                                             ->where('team_id', $team->id)
+                                             ->first();
+                                $langsung = App\Models\Langsung::where('project_team_id', $projectTeam->id)->get();
+                                $termin = App\Models\TerminFee::where('project_team_id', $projectTeam->id)->get();
+
+                                $totalFeeLangsung = 0;
+                                $totalFeeTermin = 0;
+
+                                foreach ($langsung as $item) {
+                                    $totalFeeLangsung += $item->fee;
+                                }
+
+                                foreach ($termin as $item) {
+                                    $totalFeeTermin += $item->fee;
+                                }
+                            @endphp
+
+                            @if($project->keuangan_project->type == 'langsung')
+                                @if($projectTeam->fee - $totalFeeLangsung <= 0)
+                                    <span class="font-medium text-theme-40">Lunas</span>
+                                    <div class="text-gray-600 text-xs whitespace-no-wrap">
+                                        Rp. {{ number_format($projectTeam->fee) }}
+                                    </div>
+                                @else
+                                    <div class="font-medium whitespace-no-wrap text-theme-6">Belum Lunas</div>
+                                    <div class="text-gray-600 text-xs whitespace-no-wrap">
+                                        tersisa Rp. {{ number_format($projectTeam->fee - $totalFeeLangsung) }} dari {{ number_format($projectTeam->fee) }}
+                                    </div>
+                                @endif
+                            @elseif($project->keuangan_project->type == 'termin')
+                                @if($projectTeam->fee - $totalFeeTermin <= 0)
+                                    <span class="font-medium text-theme-40">Lunas</span>
+                                    <div class="text-gray-600 text-xs whitespace-no-wrap">
+                                        Rp. {{ number_format($projectTeam->fee) }}
+                                    </div>
+                                @else
+                                    <div class="font-medium whitespace-no-wrap text-theme-6">Belum Lunas</div>
+                                    <div class="text-gray-600 text-xs whitespace-no-wrap">
+                                        tersisa Rp. {{ number_format($projectTeam->fee - $totalFeeTermin) }} dari {{ number_format($projectTeam->fee) }}
+                                    </div>
+                                @endif
+                            @else
+                                -
+                            @endif
+                        </td>
                         <td class="text-center border-b">
                             @switch($project->status)
                                 @case('penawaran')
@@ -116,30 +165,9 @@
                             @endswitch
                         </td>
                         <td class="border-b w-5">
-                            <div class="flex sm:justify-center items-center">
-                                <div class="dropdown relative">
-                                    <button class="dropdown-toggle button inline-block bg-theme-1 text-white" type="button" id="actionMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i data-feather="more-vertical" class="w-4 h-4"></i>
-                                    </button>
-                                    <div class="dropdown-box mt-10 absolute w-48 top-0 left-0 z-20">
-                                        <div class="dropdown-box__content box p-2">
-                                            <a href="{{ route('project.edit', $project->slug) }}" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white hover:bg-gray-200 rounded-md">
-                                                <i data-feather="edit-2" class="w-4 h-4 mr-2"></i> Edit
-                                            </a>
-                                            <a href="{{ route('project.detail', $project->slug) }}" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white hover:bg-gray-200 rounded-md">
-                                                <i data-feather="eye" class="w-4 h-4 mr-2"></i> Show
-                                            </a>
-                                            <form action="{{ route('project.delete', $project->slug) }}" method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="show-alert-delete-box flex items-center text-theme-6 block p-2 transition duration-300 ease-in-out bg-white hover:bg-gray-200 rounded-md">
-                                                    <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Delete
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <a class="flex items-center text-theme-3 mr-3" href="{{ route('project.detail', $project->slug) }}">
+                                <i data-feather="eye" class="w-4 h-4 mr-1"></i> Show
+                            </a>
                         </td>
                     </tr>
                 @endforeach

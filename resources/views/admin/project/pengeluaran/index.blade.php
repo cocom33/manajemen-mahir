@@ -22,7 +22,7 @@
                 <input type="hidden" name="project_id" value="{{ $project->id }}">
                 <x-form-input label="Deskripsi" name="title" placeholder="masukkan nama" />
                 <div class="flex w-full gap-3">
-                    <x-form-input label="Harga" name="price" placeholder="masukkan jumlah uang" type="number" addon="w-full" />
+                    <x-form-input label="Harga" name="price" placeholder="masukkan jumlah uang" addon="w-full" />
                     <x-form-input label="Masukkan Tanggal" name="date" type="date" addon="w-full" />
                 </div>
 
@@ -91,6 +91,27 @@
         function formOther() {
             var form = document.getElementById('formOther');
             form.classList.toggle('hidden')
+        }
+
+        var harga = document.getElementById('Harga');
+        harga.addEventListener('keyup', function(e) {
+            harga.value = formatRupiah(this.value, 'Rp. ');
+        });
+
+        function formatRupiah(number, prefix) {
+          var number_string = number.replace(/[^,\d]/g, '').toString(),
+              split = number_string.split(','),
+              remainder = split[0].length % 3,
+              rupiah = split[0].substr(0, remainder),
+              ribuan = split[0].substr(remainder).match(/\d{3}/gi);
+
+          if (ribuan) {
+              separator = remainder ? '.' : '';
+              rupiah += separator + ribuan.join('.');
+          }
+
+          rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+          return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
         }
     </script>
 @endpush

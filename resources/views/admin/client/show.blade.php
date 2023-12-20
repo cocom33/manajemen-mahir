@@ -99,7 +99,7 @@
                         <td class="w-40 border-b">
                             <div class="flex items-center sm:justify-center">
                                 <span class="inline-flex items-center rounded-md bg-green-200 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
-                                    {{ date($project->created_at) }}
+                                    {{ \Carbon\Carbon::parse($project->created_at)->format('d M y') }}
                                 </span>
                             </div>
                         </td>

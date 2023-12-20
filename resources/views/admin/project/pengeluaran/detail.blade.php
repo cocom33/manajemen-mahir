@@ -21,7 +21,7 @@
 
                 <x-form-input label="Deskripsi" name="" value="{{ $pengeluaran->title ?? '-' }}" readonly="readonly" />
                 <div class="flex w-full gap-3">
-                    <x-form-input label="Harga" name="" addon="w-full" value="{{ $pengeluaran->price ?? '-' }}" readonly="readonly" />
+                    <x-form-input label="Harga" name="" addon="w-full" value="Rp. {{ number_format($pengeluaran->price) ?? '-' }}" readonly="readonly" />
                     <x-form-input label="Masukkan Tanggal" name="" addon="w-full" value="{{ $pengeluaran->date ?? '-' }}" readonly="readonly" />
                 </div>
 

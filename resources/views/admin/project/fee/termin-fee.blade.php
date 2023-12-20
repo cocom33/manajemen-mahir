@@ -19,9 +19,9 @@
             <form action="{{ route('project.fee.termin.detail.store', [$project->slug, $termin->slug]) }}" method="post" class="hidden mt-3" id="formTermin">
                 @csrf
                 @method('PUT')
-            
+
                 <x-form-input label="" name="termin_id" value="{{ $termin->id }}" type="hidden" required="false" />
-            
+
                 <label for="project_team_id">pilih tim</label>
                 <select name="project_team_id" id="project_team_id" class="input w-full border mt-2 mb-3">
                     @foreach ($teams as $item)
@@ -31,7 +31,7 @@
                 <label>Masukkan Fee</label>
                 <input type="text" id="fee" name="fee" class="input w-full border mt-2" onkeyup="formatAngka(this)">
                 <input type="hidden" id="feeValue" name="feeValue">
-            
+
                 <div class="flex justify-end">
                     <button type="submit" class="button flex align-center text-white bg-theme-1 shadow-md mt-3" onclick="submitForm()">
                         <i data-feather="plus" class=" w-4 h-4 mt-1 font-bold mr-2"></i> <span>Tambah</span>
@@ -39,7 +39,7 @@
                 </div>
                 <hr class="my-4">
             </form>
-            
+
 
             <div class="mt-8">
                 <table class="table table-report table-report--bordered display datatable w-full">
@@ -63,7 +63,8 @@
                                 <form action="{{ route('project.fee.termin.detail.store', [$project->slug, $termin->slug]) }}" method="POST" id="edit_fee{{ $item->id }}">
                                     @csrf
                                     @method('PUT')
-                                    <input id="inputFee{{ $item->id }}" type="number" name="fee" class="hidden input w-full border" value="{{ $item->fee }}">
+                                    <input id="inputFee{{ $item->id }}" name="fee" class="hidden input w-full border" value="Rp. {{ str_replace(",",".",number_format($item->fee)) }}">
+
                                     <input type="hidden" name="id" value="{{ $item->id }}">
                                     <input type="hidden" name="termin_id" value="{{ $termin->id }}">
                                 </form>
@@ -117,7 +118,6 @@
             form.classList.toggle('hidden')
         }
 
-
         @foreach($termin->termin_fee as $item)
             function EditFee{{ $item->id }}() {
                 var field{{ $item->id }} = document.getElementById('fieldFee{{ $item->id }}');
@@ -133,7 +133,7 @@
                 edit{{ $item->id }}.classList.toggle('hidden');
             }
         @endforeach
-        
+
         function numberWithCommas(x) {
             x = x.toString();
             var pattern = /(-?\d+)(\d{3})/;
@@ -162,5 +162,27 @@
             }
         }
 
+        @foreach($termin->termin_fee as $item)
+            var price{{ $item->id }} = document.getElementById('inputFee{{ $item->id }}');
+            price{{ $item->id }}.addEventListener('keyup', function(e) {
+                price{{ $item->id }}.value = formatRupiah(this.value, 'Rp. ');
+            });
+        @endforeach
+
+        function formatRupiah(number, prefix) {
+          var number_string = number.replace(/[^,\d]/g, '').toString(),
+              split = number_string.split(','),
+              remainder = split[0].length % 3,
+              rupiah = split[0].substr(0, remainder),
+              ribuan = split[0].substr(remainder).match(/\d{3}/gi);
+
+          if (ribuan) {
+              separator = remainder ? '.' : '';
+              rupiah += separator + ribuan.join('.');
+          }
+
+          rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+          return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+        }
     </script>
 @endpush

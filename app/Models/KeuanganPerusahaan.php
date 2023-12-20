@@ -11,10 +11,10 @@ class KeuanganPerusahaan extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $fillable = ['tahun'];
+    protected $fillable = ['tahun', 'bulan'];
 
-    public function bulan()
+    public function detail()
     {
-        return $this->hasMany(KeuanganBulanan::class);
+        return $this->hasMany(KeuanganDetail::class);
     }
 }

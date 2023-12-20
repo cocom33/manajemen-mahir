@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('keuangan_details', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('keuangan_bulanan_id');
+            $table->foreignId('keuangan_perusahaan_id');
+            $table->string('tanggal');
             $table->string('description');
-            $table->integer('total');
+            $table->enum('status', ['pemasukan', 'pengeluaran']);
+            $table->bigInteger('total');
 
             $table->softDeletes();
             $table->timestamps();

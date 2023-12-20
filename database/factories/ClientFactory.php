@@ -18,6 +18,7 @@ class ClientFactory extends Factory
     {
         return [
             'name' => $this->faker->name(),
+            'sumber' => $this->faker->randomElement(['iklan', 'teman', 'wa']),
             'wa' => $this->faker->phoneNumber(),
             'email' => $this->faker->email(),
             'alamat' => $this->faker->address(),

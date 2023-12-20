@@ -19,9 +19,9 @@
 
             <x-form-input class="font-bold" label="tanggal mulai" name="" value="{{ $project->start_date ?? '' }}" readonly="readonly" required="false" />
             <x-form-input class="font-bold" label="tanggal selesai" name="" value="{{ $project->deadline_date ?? '' }}" readonly="readonly" required="false" />
-            <x-form-input class="font-bold" label="harga penawaran" name="" value="{{ $project->harga_penawaran ?? '-' }}" readonly="readonly" required="false" />
-            <x-form-input class="font-bold" label="harga deal" name="" value="{{ $project->harga_deal ?? '-' }}" readonly="readonly" required="false" />
-            <x-form-input class="font-bold" label="harga Pajak" name="" value="{{ $project->pajak ?? '-' }}" readonly="readonly" required="false" />
+            <x-form-input class="font-bold" label="harga penawaran" name="" value="{{ number_format($project->harga_penawaran ?? '0') }}" readonly="readonly" required="false" />
+            <x-form-input class="font-bold" label="harga deal" name="" value="{{ number_format($project->harga_deal ?? '0') }}" readonly="readonly" required="false" />
+            <x-form-input class="font-bold" label="harga Pajak" name="" value="{{ number_format($project->pajak ?? '0') }}" readonly="readonly" required="false" />
             @if ($project->type_pajak == 1)
                 <small>pajak menambahkan harga deal</small>
             @else

@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('keuangan_umums', function (Blueprint $table) {
+        Schema::create('porject_team_fees', function (Blueprint $table) {
             $table->id();
-            $table->string('description');
-            $table->enum('status', ['pemasukan', 'pengeluaran']);
-            $table->integer('total');
+
+            $table->bigInteger('fee');
+            $table->string('photo')->nullable();
+
             $table->timestamps();
         });
     }
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('keuangan_umums');
+        Schema::dropIfExists('porject_team_fees');
     }
 };

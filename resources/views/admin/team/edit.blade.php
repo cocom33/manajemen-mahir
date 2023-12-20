@@ -33,7 +33,7 @@
                     <label>Skills</label>
                     <div class="mt-2">
                         <select name="skill[]" class="select2 w-full border-theme-6" multiple>
-                            <option disabled>Pilih Status</option>
+                            <option disabled>Pilih Skill</option>
                             @foreach ($skills as $skill)
                             <option value="{{ $skill->id }}"
                                 @if(in_array($skill->id, $team->skill ? json_decode($team->skill) : []))

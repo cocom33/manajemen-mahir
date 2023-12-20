@@ -15,9 +15,11 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('project_id');
+            $table->foreignId('project_team_fee_id')->nullable();
+            $table->foreignId('tagihan_id')->nullable();
             $table->string('title');
             $table->string('description')->nullable();
-            $table->integer('price');
+            $table->bigInteger('price');
             $table->date('date');
 
             $table->timestamps();

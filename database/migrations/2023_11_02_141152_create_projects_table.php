@@ -20,12 +20,12 @@ return new class extends Migration
             $table->foreignId('project_type_id');
             $table->text('description');
             $table->enum('status', ['penawaran', 'deal', 'finish', 'cancel'])->default('penawaran');
-            $table->integer('pajak')->nullable();
+            $table->bigInteger('pajak')->nullable();
             $table->boolean('type_pajak')->nullable();
             $table->date('start_date')->nullable();
             $table->date('deadline_date')->nullable();
-            $table->integer('harga_penawaran')->nullable();
-            $table->integer('harga_deal')->nullable();
+            $table->bigInteger('harga_penawaran')->nullable();
+            $table->bigInteger('harga_deal')->nullable();
 
             $table->softDeletes();
             $table->timestamps();
