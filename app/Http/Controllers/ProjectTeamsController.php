@@ -17,7 +17,7 @@ class ProjectTeamsController extends Controller
         $project = Project::where('slug', $slug)->first();
         $teams = Team::all();
         $detail = $this->gaji($project);
-
+        
         return view('admin.project.team.index', compact('teams', 'detail'));
     }
 
@@ -27,13 +27,14 @@ class ProjectTeamsController extends Controller
     public function create($slug)
     {
         $project = Project::where('slug', $slug)->first();
-        $$data['detail'] = $this->gaji($project);
+        $data['detail'] = $this->gaji($project);
 
         return view('admin.project.team.index');
     }
 
     /**
      * Store a newly created resource in storage.
+
      */
     public function store(Request $request)
 {
@@ -49,13 +50,19 @@ class ProjectTeamsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id, $slug)
+    public function show(string $slug, $id)
     {
         $team = Team::find($id);
         $project = Project::where('slug', $slug)->first();
         $detail = $this->gaji($project);
 
-        return view('admin.project.team.show', compact('team', 'detail'));
+        
+        
+        return view('admin.project.team.detail', compact('team', 'project', 'detail'));
+        
+        
+        
+        
     }
 
     /**

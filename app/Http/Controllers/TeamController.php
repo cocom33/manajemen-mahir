@@ -57,7 +57,7 @@ class TeamController extends Controller
     public function show(Team $team)
     {
         $skills = Skill::get();
-
+        
         $teamSkillsId = json_decode($team->skill, true);
 
         $skill_team = Skill::find($teamSkillsId);

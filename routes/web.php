@@ -54,9 +54,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     // end profile
+    Route::get('/teams-fee', [ProjectTeamsController::class])->name('teams.fee');
 
+    Route::get('/teams-details/{slug}/{id}', [ProjectTeamsController::class, 'show'])->name('project.teams.show');
     // team
     Route::resource('teams', TeamController::class);
+
+
 
     // end team
 

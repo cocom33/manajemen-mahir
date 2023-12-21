@@ -61,6 +61,12 @@
                                         <button id="editButton{{ $key }}" onclick="editTeam{{ $key }}()" class="button inline-block bg-theme-9 text-white" type="button" id="actionMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <i data-feather="edit-2" class="w-4 h-4"></i>
                                         </button>
+                                        <a href="{{ route('project.teams.show', [$project->slug, $team->id]) }}">
+                                            <button class="button inline-block bg-theme-10 text-white" type="button" id="actionMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i data-feather="eye" class="w-4 h-4"></i>
+                                            </button>
+                                          </a>
+
                                         <form action="{{ route('project.delete.team', [$project->slug, $team->id]) }}" method="post">
                                             @csrf
                                             @method('DELETE')
