@@ -67,10 +67,13 @@ class ProjectFeeController extends Controller
     public function projectTerminStore(Request $request)
     {
         $termin = Termin::find($request->id);
+        dd($request);
 
         if($termin) {
             $termin->update([
                 'name' => $request->name,
+                'price' => $request->price,
+                'tanggal' => $request->tanggal,
             ]);
             return redirect()->back()->with('success', 'berhasil merubah nama termin');
         }
@@ -78,6 +81,8 @@ class ProjectFeeController extends Controller
         $data = $request->validate([
             'keuangan_project_id' => 'required',
             'name' => 'required',
+            'price' => 'required',
+            'tanggal' => 'required',
         ]);
 
         Termin::create($data);
@@ -96,26 +101,37 @@ class ProjectFeeController extends Controller
 
     public function projectTerminDetailStore(Request $request)
     {
-        $terminfee = TerminFee::find($request->id);
-        $fee = str_replace("Rp. ", "", $request->fee);
-        $price = str_replace(".", "", $fee);
+        // $terminfee = TerminFee::find($request->id);
+        // $fee = str_replace("Rp. ", "", $request->fee);
+        // $price = str_replace(".", "", $fee);
 
-        if ($terminfee) {
-            $terminfee->update([
-                'fee' => $price,
-            ]);
+        // if ($terminfee) {
+        //     $terminfee->update([
+        //         'fee' => $price,
+        //     ]);
 
-            return redirect()->back()->with('success', 'berhasil update fee team');
-        }
+        //     return redirect()->back()->with('success', 'berhasil update fee team');
+        // }
 
-        $data = $request->validate([
-            'project_team_id' => 'required',
-            'termin_id' => 'required',
-            'fee' => 'required',
+        // $data = $request->validate([
+        //     'project_team_id' => 'required',
+        //     'termin_id' => 'required',
+        //     'fee' => 'required',
+        // ]);
+        // $data['fee'] = $price;
+
+        // TerminFee::create($data);
+        // return redirect()->back()->with('success', 'berhasil menambahkan fee kepada team');
+
+        $termin = Termin::find($request->id);
+
+        $termin->update([
+            'name' => $request->name,
+            'price' => $request->price,
+            'tanggal' => $request->tanggal,
+            'status' => $request->input('status', 0)
         ]);
-        $data['fee'] = $price;
 
-        TerminFee::create($data);
-        return redirect()->back()->with('success', 'berhasil menambahkan fee kepada team');
+        return redirect()->back()->with('success', 'Berhasil update data!');
     }
 }

@@ -17,7 +17,6 @@ return new class extends Migration
             $table->foreignId('project_id');
             $table->foreignId('project_team_fee_id')->nullable();
             $table->foreignId('tagihan_id')->nullable();
-            $table->foreignId('project_id');
             $table->string('title');
             $table->string('description')->nullable();
             $table->bigInteger('price');
