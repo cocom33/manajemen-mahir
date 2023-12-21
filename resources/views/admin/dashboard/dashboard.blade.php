@@ -72,7 +72,7 @@
             </div>
         </div>
         <!-- END: General Report -->
-        <!-- BEGIN: Sales Report -->
+        {{-- <!-- BEGIN: Sales Report -->
         <div class="col-span-12 lg:col-span-6 mt-8">
             <div class="intro-y block sm:flex items-center h-10">
                 <h2 class="text-lg font-medium truncate mr-5">
@@ -476,9 +476,9 @@
                 </select>
             </div>
         </div>
-        <!-- END: Weekly Top Seller -->
+        <!-- END: Weekly Top Seller --> --}}
     </div>
-    <div class="col-span-12 xxl:col-span-3 xxl:border-l border-theme-5 -mb-10 pb-10">
+    {{-- <div class="col-span-12 xxl:col-span-3 xxl:border-l border-theme-5 -mb-10 pb-10">
         <div class="xxl:pl-6 grid grid-cols-12 gap-6">
             <!-- BEGIN: Transactions -->
             <div class="col-span-12 md:col-span-6 xl:col-span-4 xxl:col-span-12 mt-3 xxl:mt-8">
@@ -769,7 +769,7 @@
             </div>
             <!-- END: Schedules -->
         </div>
-    </div>
+    </div> --}}
 </div>
 <!-- END: Content -->
 @endsection

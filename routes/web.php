@@ -102,7 +102,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('/project/{slug}/fee/langsung/create', [ProjectFeeController::class, 'projectFeeLangsungStore'])->name('project.fee.langsung.store');
     Route::put('/project/{slug}/fee/termin/create', [ProjectFeeController::class, 'projectTerminStore'])->name('project.fee.termin.store');
     Route::get('/project/{slug}/fee/termin/{termin}', [ProjectFeeController::class, 'projectTerminDetail'])->name('project.fee.termin.detail');
-    Route::put('/project/{slug}/fee/termin/{termin}/create', [ProjectFeeController::class, 'projectTerminDetailStore'])->name('project.fee.termin.detail.store');
+    Route::put('/project/{slug}/fee/termin/{termin}/update', [ProjectFeeController::class, 'projectTerminDetailStore'])->name('project.fee.termin.detail.store');
 
     Route::get('/project/{slug}/invoice', [InvoiceController::class, 'index'])->name('project.invoice');
     Route::post('/project/{slug}/invoice', [InvoiceController::class, 'store'])->name('project.invoice.create');

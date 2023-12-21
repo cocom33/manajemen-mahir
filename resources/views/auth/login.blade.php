@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-    <!-- BEGIN: Head -->
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Login</title>
-        <!-- BEGIN: CSS Assets-->
         <link rel="stylesheet" href="./css/template.css" />
-        <!-- END: CSS Assets-->
-        
+        <link rel="icon" type="image/x-icon" href="{{ asset('icon-mahir.png') }}">
     </head>
     <!-- END: Head -->
     <body class="login">
@@ -24,7 +21,6 @@
                         <div class="-intro-x text-white font-medium text-4xl leading-tight mt-10">
                             Manajemen Project Mahir Techno
                         </div>
-                        <div class="-intro-x mt-5 text-lg text-white">Mengelola project lebih mudah.</div>
                     </div>
                 </div>
                 <!-- END: Login Info -->
