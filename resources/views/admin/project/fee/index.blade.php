@@ -297,7 +297,7 @@
             @endforeach
         @endif
 
-        var fee = document.getElementById('Fee');
+        var fee = document.getElementById('Price');
         fee.addEventListener('keyup', function(e) {
             fee.value = formatRupiah(this.value, 'Rp. ');
         });

@@ -310,27 +310,25 @@
             }
         }
 
-        @foreach ($termin->termin_fee as $item)
-            var price{{ $item->id }} = document.getElementById('inputFee{{ $item->id }}');
-            price{{ $item->id }}.addEventListener('keyup', function(e) {
-                price{{ $item->id }}.value = formatRupiah(this.value, 'Rp. ');
-            });
-        @endforeach
-
+        var price = document.getElementById('Price');
+        price.addEventListener('keyup', function(e) {
+            price.value = formatRupiah(this.value, 'Rp. ');
+        });
+         
         function formatRupiah(number, prefix) {
-            var number_string = number.replace(/[^,\d]/g, '').toString(),
-                split = number_string.split(','),
-                remainder = split[0].length % 3,
-                rupiah = split[0].substr(0, remainder),
-                ribuan = split[0].substr(remainder).match(/\d{3}/gi);
+          var number_string = number.replace(/[^,\d]/g, '').toString(),
+              split = number_string.split(','),
+              remainder = split[0].length % 3,
+              rupiah = split[0].substr(0, remainder),
+              ribuan = split[0].substr(remainder).match(/\d{3}/gi);
 
-            if (ribuan) {
-                separator = remainder ? '.' : '';
-                rupiah += separator + ribuan.join('.');
-            }
+          if (ribuan) {
+              separator = remainder ? '.' : '';
+              rupiah += separator + ribuan.join('.');
+          }
 
-            rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
-            return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+          rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+          return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
         }
     </script>
 @endpush
