@@ -89,16 +89,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('/project/{slug}/lampiran/{id}/update', [PorjectController::class, 'projectLampiranUpdate'])->name('project.lampiran.update');
     Route::delete('/project/{slug}/lampiran/{id}/delete', [PorjectController::class, 'projectLampiranDestroy'])->name('project.lampiran.destroy');
 
-    Route::get('/project/{slug}/fee', [ProjectFeeController::class, 'projectFee'])->name('project.fee');
-    Route::post('/project/{slug}/fee/create', [ProjectFeeController::class, ''])->name('project.fee.create');
-    Route::post('/project/{slug}/fee/create', [ProjectFeeController::class, 'projectFeeStore'])->name('project.fee.create');
+    Route::get('/project/{slug}/pemasukan', [ProjectFeeController::class, 'projectFee'])->name('project.pemasukan');
+    Route::post('/project/{slug}/pemasukan/create', [ProjectFeeController::class, ''])->name('project.pemasukan.create');
+    Route::post('/project/{slug}/pemasukan/create', [ProjectFeeController::class, 'projectFeeStore'])->name('project.pemasukan.create');
 
-    Route::post('/project/{slug}/fee/langsung/create', [ProjectFeeController::class, 'projectFeeLangsungStore'])->name('project.fee.langsung.store');
+    Route::post('/project/{slug}/pemasukan/langsung/create', [ProjectFeeController::class, 'projectFeeLangsungStore'])->name('project.pemasukan.langsung.store');
 
-    Route::put('/project/{slug}/fee/langsung/create', [ProjectFeeController::class, 'projectFeeLangsungStore'])->name('project.fee.langsung.store');
-    Route::put('/project/{slug}/fee/termin/create', [ProjectFeeController::class, 'projectTerminStore'])->name('project.fee.termin.store');
-    Route::get('/project/{slug}/fee/termin/{termin}', [ProjectFeeController::class, 'projectTerminDetail'])->name('project.fee.termin.detail');
-    Route::put('/project/{slug}/fee/termin/{termin}/update', [ProjectFeeController::class, 'projectTerminDetailStore'])->name('project.fee.termin.detail.store');
+    Route::put('/project/{slug}/pemasukan/langsung/create', [ProjectFeeController::class, 'projectFeeLangsungStore'])->name('project.pemasukan.langsung.store');
+    Route::put('/project/{slug}/pemasukan/termin/create', [ProjectFeeController::class, 'projectTerminStore'])->name('project.pemasukan.termin.store');
+    Route::get('/project/{slug}/pemasukan/termin/{termin}', [ProjectFeeController::class, 'projectTerminDetail'])->name('project.pemasukan.termin.detail');
+    Route::put('/project/{slug}/pemasukan/termin/{termin}/update', [ProjectFeeController::class, 'projectTerminDetailStore'])->name('project.pemasukan.termin.detail.store');
+
+    Route::delete('/projects/{slug}/termins/{id}/delete', [ProjectFeeController::class, 'deleteLampiran'])->name('project.lampiran.pemasukan.destroy');
 
     Route::get('/project/{slug}/invoice', [InvoiceController::class, 'index'])->name('project.invoice');
     Route::post('/project/{slug}/invoice', [InvoiceController::class, 'store'])->name('project.invoice.create');

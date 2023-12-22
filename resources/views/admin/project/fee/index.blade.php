@@ -156,7 +156,7 @@
                             </table>
                         </div>
                     @else
-                        <form action="{{ route('project.fee.termin.store', $project->slug) }}" method="post"
+                        <form action="{{ route('project.pemasukan.termin.store', $project->slug) }}" method="post"
                             class="hidden mt-3" id="formTermin">
                             @csrf
                             @method('PUT')
@@ -194,7 +194,8 @@
                                             <td class="border-b">
                                                 <div id="fieldFeeTermin{{ $item->id }}"
                                                     class="font-medium whitespace-no-wrap">{{ $item->name ?? '' }}</div>
-                                                <form action="{{ route('project.fee.termin.store', $project->slug) }}"
+                                                <form
+                                                    action="{{ route('project.pemasukan.termin.store', $project->slug) }}"
                                                     method="POST" id="edit_feeTermin{{ $item->id }}">
                                                     @csrf
                                                     @method('PUT')
@@ -211,7 +212,7 @@
                                             <td class="border-b w-5">
                                                 <div class="flex sm:justify-center items-center">
                                                     <div class="dropdown relative flex items-center gap-1">
-                                                        <button id="buttonEditTermin{{ $item->id }}"
+                                                        {{-- <button id="buttonEditTermin{{ $item->id }}"
                                                             form="edit_feeTermin{{ $item->id }}" type="submit"
                                                             class="hidden button inline-block text-white bg-theme-1 shadow-md">
                                                             <i data-feather="save" class="w-4 h-4 font-bold"></i>
@@ -225,9 +226,9 @@
                                                             onclick="EditFeeTermin{{ $item->id }}()" type="button"
                                                             class="hidden button inline-block text-white bg-theme-6 shadow-md">
                                                             <i data-feather="x" class=" w-4 h-4 font-bold"></i>
-                                                        </a>
+                                                        </a> --}}
                                                         <a id="showTermin{{ $item->id }}"
-                                                            href="{{ route('project.fee.termin.detail', [$project->slug, $item->slug]) }}"
+                                                            href="{{ route('project.pemasukan.termin.detail', [$project->slug, $item->slug]) }}"
                                                             type="button"
                                                             class="button inline-block text-white bg-theme-1 shadow-md">
                                                             <i data-feather="eye" class=" w-4 h-4 font-bold"></i>

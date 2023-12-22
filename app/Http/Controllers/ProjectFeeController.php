@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use App\Models\KeuanganProject;
 use App\Http\Controllers\Controller;
 use App\Models\Pengeluaran;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Storage;
 
 class ProjectFeeController extends Controller
 {
@@ -67,7 +69,6 @@ class ProjectFeeController extends Controller
     public function projectTerminStore(Request $request)
     {
         $termin = Termin::find($request->id);
-        dd($request);
 
         if($termin) {
             $termin->update([
@@ -124,14 +125,49 @@ class ProjectFeeController extends Controller
         // return redirect()->back()->with('success', 'berhasil menambahkan fee kepada team');
 
         $termin = Termin::find($request->id);
+        $oldFile = $termin->lampiran;
 
-        $termin->update([
-            'name' => $request->name,
-            'price' => $request->price,
-            'tanggal' => $request->tanggal,
-            'status' => $request->input('status', 0)
-        ]);
+        if ($request->hasFile('lampiran')) {
+            if (!empty($oldFile) && file_exists(public_path('images/' . $oldFile))) {
+                unlink(public_path('images/' . $oldFile));
+            }
 
-        return redirect()->back()->with('success', 'Berhasil update data!');
+            $image = $request->file('lampiran');
+            $imageName = 'bukti-pembayaran-' . $termin->slug . '.' . $image->extension();
+            $image->move(public_path('images'), $imageName);
+
+            $termin->update([
+                'name' => $request->name,
+                'price' => $request->price,
+                'tanggal' => $request->tanggal,
+                'status' => 1,
+                'lampiran' => $imageName,
+            ]);
+
+            return redirect()->back()->with('success', 'Berhasil update data dan upload gambar!');
+        } else {
+            $termin->update([
+                'name' => $request->name,
+                'price' => $request->price,
+                'tanggal' => $request->tanggal,
+            ]);
+
+            return redirect()->back()->with('success', 'Berhasil update data!');
+        }
+    }
+
+    public function deleteLampiran($slug, $id)
+{
+        $termin = Termin::find($id);
+
+        if ($termin->lampiran) {
+            unlink(public_path('images/' . $termin->lampiran));
+            Storage::delete('images/' . $termin->lampiran);
+        }
+
+        // Update the Termin model to remove the file reference
+        $termin->update(['status' => 0, 'lampiran' => null]);
+
+        return redirect()->back()->with('success', 'Berhasil menghapus file.');
     }
 }
