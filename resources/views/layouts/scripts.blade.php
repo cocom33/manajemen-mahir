@@ -1,5 +1,5 @@
 <!-- BEGIN: JS Assets-->
-<script src="{{ asset('dist/js/app.js')}}"></script>
+<script src="{{ asset('dist/js/app.js') }}"></script>
 <script src="{{ asset('dist/js/iziToast.min.js') }}"></script>
 
 <!-- Sweet Alerts 2 -->
@@ -10,8 +10,8 @@
 {{-- Alert Logout --}}
 <script type="text/javascript">
     $(document).ready(function() {
-        $(document).on('click', '.show-alert-logout-box', function(event){
-            var form =  $(this).closest("form");
+        $(document).on('click', '.show-alert-logout-box', function(event) {
+            var form = $(this).closest("form");
 
             event.preventDefault();
             Swal.fire({
@@ -23,13 +23,13 @@
                 cancelButtonColor: "#d33",
                 confirmButtonText: "Yes!"
             }).then((result) => {
-            if (result.isConfirmed) {
-                Swal.fire({
-                title: "Logout !",
-                icon: "success"
-                });
-                form.submit();
-            }
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: "Logout !",
+                        icon: "success"
+                    });
+                    form.submit();
+                }
             });
         });
     });
@@ -38,8 +38,8 @@
 {{-- Alert Delete : tinggal tambahkan class show-alert-delete-box di button nya! --}}
 <script type="text/javascript">
     $(document).ready(function() {
-        $(document).on('click', '.show-alert-delete-box', function(event){
-            var form =  $(this).closest("form");
+        $(document).on('click', '.show-alert-delete-box', function(event) {
+            var form = $(this).closest("form");
 
             event.preventDefault();
             Swal.fire({
@@ -51,14 +51,14 @@
                 cancelButtonColor: "#d33",
                 confirmButtonText: "Yes, delete it!"
             }).then((result) => {
-            if (result.isConfirmed) {
-                Swal.fire({
-                title: "Deleted!",
-                text: "Your data has been deleted.",
-                icon: "success"
-                });
-                form.submit();
-            }
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: "Deleted!",
+                        text: "Your data has been deleted.",
+                        icon: "success"
+                    });
+                    form.submit();
+                }
             });
         });
     });

@@ -133,8 +133,8 @@
             </div>
 
             <div class="mt-8">
-                <form action="{{ route('project.fee.termin.detail.store', [$project->slug, $termin->id]) }}" method="post"
-                    class="mt-3" id="formTermin">
+                <form action="{{ route('project.pemasukan.termin.detail.store', [$project->slug, $termin->id]) }}"
+                    enctype="multipart/form-data" method="POST" class="mt-3" id="formTermin" x-data="activateImagePreview()">
                     @csrf
                     @method('PUT')
                     <input type="hidden" name="id" value="{{ $termin->id }}">
@@ -146,28 +146,120 @@
                         <x-form-input type="date" label="Tanggal Penagihan" value="{{ $termin->tanggal }}"
                             name="tanggal" />
                     </div>
-                    <div>
-                        <label>Terbayar</label>
-                        <div class="mt-2">
-                            <input type="checkbox" name="status" class="input input--switch border"
-                                value="@if ($termin->status == 1) 0 @else 1 @endif"
-                                @if ($termin->status == 1) checked @endif>
+
+                    @if ($termin->lampiran == null)
+                        <div class="mt-3">
+                            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                                for="single_file">Upload Bukti Pembayaran</label>
+                            <input name="lampiran"
+                                class="block w-full h-10.5 leading-9 rounded overflow-hidden text-sm text-gray-900 bg-gray-50 border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                                id="single_file" accept="image/*" @change="showPreview(event, $refs.previewSingle)"
+                                type="file">
+                            <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">PNG or JPG.</p>
                         </div>
-                    </div>
+                        <div x-ref="previewSingle" class="mt-2">
+                        </div>
+                    @endif
 
                     <div class="flex justify-end">
-                        <button class="button flex align-center text-white bg-theme-1 shadow-md mt-3">
-                            <i data-feather="plus" class=" w-4 h-4 mt-1 font-bold mr-2"></i> <span>Edit</span>
+                        <button type="submit" class="button flex align-center text-white bg-theme-1 shadow-md mt-3">
+                            <i data-feather="plus" class=" w-4 h-4 mt-1 font-bold mr-2"></i> <span>Update</span>
                         </button>
                     </div>
                     <hr class="my-4">
                 </form>
+                @if ($termin->lampiran != null)
+                    <h3 class="font-bold text-xl">
+                        Bukti Pembayaran {{ $termin->name }}
+                    </h3>
+                    <div class="relative inline-block mt-3 shadow-lg border-2 border-gray-500">
+                        <form action="{{ route('project.lampiran.pemasukan.destroy', [$project->slug, $termin->id]) }}"
+                            method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit"
+                                class="show-alert-delete-box absolute cursor-pointer top-0 right-0 px-2 py-1 text-white bg-red-500">&times;</button>
+                        </form>
+                        <img src="{{ asset('images/' . $termin->lampiran) }}" alt="file"
+                            class="aspect-auto h-48 shadow">
+                    </div>
+                @endif
             </div>
         </div>
     </x-card>
 @endsection
 
 @push('scripts')
+    <script>
+        function activateImagePreview() {
+            return {
+                previews: [],
+
+                showPreview(event, previewBox) {
+                    previewBox.replaceChildren();
+                    this.previews = [];
+
+                    for (const i in event.target.files) {
+                        const file = event.target.files[i];
+                        const isImage = file.type.startsWith('image/');
+                        const isPdf = file.type === 'application/pdf';
+
+                        if (isImage || isPdf) {
+                            this.createPreview(file, previewBox);
+                        }
+                    }
+                },
+
+                createPreview(file, previewBox) {
+                    let previewItem = document.createElement('div');
+                    previewItem.className = 'relative inline-block';
+
+                    if (file.type.startsWith('image/')) {
+                        let img = document.createElement('img');
+                        img.className = 'aspect-auto h-32 shadow';
+                        img.src = URL.createObjectURL(file);
+                        previewItem.appendChild(img);
+                    } else if (file.type === 'application/pdf') {
+                        let iframe = document.createElement('iframe');
+                        iframe.className = 'aspect-auto h-32 shadow';
+                        iframe.src = URL.createObjectURL(file);
+                        previewItem.appendChild(iframe);
+                    }
+
+                    let removeButton = document.createElement('button');
+                    removeButton.innerHTML = '&times;';
+                    removeButton.className = 'absolute top-0 right-0 px-2 py-1 text-white bg-red-500';
+                    removeButton.addEventListener('click', () => this.removePreview(previewItem));
+                    previewItem.appendChild(removeButton);
+
+                    previewBox.appendChild(previewItem);
+                    this.previews.push(previewItem);
+                },
+
+                removePreview(previewItem) {
+                    this.previews = this.previews.filter(item => item !== previewItem);
+                    previewItem.remove();
+                }
+            };
+        }
+    </script>
+    <script>
+        // Initialize Dropzone
+        Dropzone.autoDiscover = false;
+        var myDropzone = new Dropzone("#image-upload", {
+            // Your Dropzone configuration options
+        });
+
+        // Handle existing files
+        @if ($termin->lampiran != null)
+            var mockFile = {
+                name: "{{ $termin->lampiran }}",
+            };
+            myDropzone.emit("addedfile", mockFile);
+            myDropzone.emit("thumbnail", mockFile, "{{ asset('images/' . $termin->lampiran) }}");
+            myDropzone.emit("complete", mockFile);
+        @endif
+    </script>
     <script>
         function formTermin() {
             var form = document.getElementById('formTermin');
