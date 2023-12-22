@@ -4,7 +4,40 @@
 @section('content')
 <x-card title="Detail {{ $project->name }}" :project="$detail">
     <x-tab-detail page="team" slug="{{ $project->slug }}" />
+        <div class="mt-5">
+            <div class="w-full flex justify-between align-center">
+                <h3 class="font-bold text-xl">
+                    Detail Team {{$team->name}}
+                </h3>
+            </div>
+
+            <div class="mt-8">
+                <form action="{{ route('project.fee.termin.detail.store', [$project->slug, $team->id]) }}" method="post" class="mt-3" id="formFee">
+                  @csrf 
+                  @method('PUT')
+                  
+                  <input type="hidden" name="id" value="">
+                  
+                  <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                    <x-form-input label="Fee" name="fee" value="" placeholder="masukkan jumlah fee"/>  
+                    <x-form-input type="date" label="Tanggal Pembayaran" value="" name="tanggal"/>
+                  </div>
+                  
+                  <div class="flex justify-end">
+                    <button class="button flex align-center text-white bg-theme-1 shadow-md mt-3">
+                      <i data-feather="plus" class="w-4 h-4 mt-1 font-bold mr-2"></i> 
+                      <span>Edit</span>
+                    </button>
+                  </div>
+                  
+                  <hr class="my-4">
+                  
+                </form>
+              </div>
+        </div>
 </x-card>
+</div>
+
 @endsection
 
 @push('scripts')
