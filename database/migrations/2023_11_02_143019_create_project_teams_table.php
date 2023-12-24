@@ -15,7 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('project_id');
             $table->foreignId('team_id');
-            $table->integer('fee')->nullable();
+            $table->string('photo')->nullable();
+            $table->string('fee')->nullable();
+            $table->date('tanggal_bayar')->nullable();
             $table->boolean('status')->default(1);
 
             $table->softDeletes();

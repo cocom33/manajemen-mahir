@@ -15,4 +15,9 @@ class PorjectTeamFee extends Model
     {
         $this->belongsTo(Pengeluaran::class);
     }
+
+    public function projectTeam() 
+    {
+    return $this->belongsTo(ProjectTeam::class);
+    }
 }
