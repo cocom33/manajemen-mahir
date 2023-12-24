@@ -58,7 +58,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/teams-details/{slug}/{id}', [ProjectTeamsController::class, 'show'])->name('project.teams.show');
     // team
+    // routes/web.php
     Route::resource('teams', TeamController::class);
+
+    Route::put('/projects/{project}/teams/{team}/fees', [ProjectTeamsController::class , 'update'])->name('project.team.fee.update');
+    
+    Route::delete('/projects/{project}/teams/{team}/delete', [ProjectTeamsController::class, 'deletePhoto'])->name('project.team.fee.destroy');
 
 
 
