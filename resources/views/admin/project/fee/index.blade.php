@@ -206,7 +206,8 @@
                                             </td>
                                             <td class="text-center border-b">Rp.
                                                 {{ number_format($item->price, 2, ',', '.') }}</td>
-                                            <td class="text-center border-b">{{ $item->tanggal }}</td>
+                                            <td class="text-center border-b">
+                                                {{ \Carbon\Carbon::parse($item->tanggal)->format('d M Y') }}</td>
                                             <td class="text-center border-b">
                                                 {{ $item->status == 1 ? 'Terbayar' : 'Belum Dibayar' }}</td>
                                             <td class="border-b w-5">
@@ -297,19 +298,10 @@
             @endforeach
         @endif
 
-        var fee = document.getElementById('Fee');
+        var fee = document.getElementById('Price');
         fee.addEventListener('keyup', function(e) {
             fee.value = formatRupiah(this.value, 'Rp. ');
         });
-
-        @if ($project->keuangan_project && $project->keuangan_project->type == 'langsung')
-            @foreach ($fee_langsung as $item)
-                var fee{{ $item->id }} = document.getElementById('inputFee{{ $item->id }}');
-                fee{{ $item->id }}.addEventListener('keyup', function(e) {
-                    fee{{ $item->id }}.value = formatRupiah(this.value, 'Rp. ');
-                });
-            @endforeach
-        @endif
 
         function formatRupiah(number, prefix) {
             var number_string = number.replace(/[^,\d]/g, '').toString(),

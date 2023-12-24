@@ -68,16 +68,18 @@ class ProjectFeeController extends Controller
 
     public function projectTerminStore(Request $request)
     {
-        $termin = Termin::find($request->id);
+        // $termin = Termin::find($request->id);
+        $fee = str_replace("Rp. ", "", $request->price);
+        $price = str_replace(".", "", $fee);
 
-        if($termin) {
-            $termin->update([
-                'name' => $request->name,
-                'price' => $request->price,
-                'tanggal' => $request->tanggal,
-            ]);
-            return redirect()->back()->with('success', 'berhasil merubah nama termin');
-        }
+        // if($termin) {
+        //     $termin->update([
+        //         'name' => $request->name,
+        //         'price' => $price,
+        //         'tanggal' => $request->tanggal,
+        //     ]);
+        //     return redirect()->back()->with('success', 'berhasil merubah nama termin');
+        // }
 
         $data = $request->validate([
             'keuangan_project_id' => 'required',
@@ -86,6 +88,7 @@ class ProjectFeeController extends Controller
             'tanggal' => 'required',
         ]);
 
+        $data['price'] = $price;
         Termin::create($data);
         return redirect()->back()->with('success', 'berhasil menambahkan termin');
     }
@@ -125,20 +128,19 @@ class ProjectFeeController extends Controller
         // return redirect()->back()->with('success', 'berhasil menambahkan fee kepada team');
 
         $termin = Termin::find($request->id);
+        $fee = str_replace("Rp. ", "", $request->price);
+        $price = str_replace(".", "", $fee);
+        // $price = str_replace(, "", $fee);
         $oldFile = $termin->lampiran;
 
         if ($request->hasFile('lampiran')) {
-            if (!empty($oldFile) && file_exists(public_path('images/' . $oldFile))) {
-                unlink(public_path('images/' . $oldFile));
-            }
-
             $image = $request->file('lampiran');
             $imageName = 'bukti-pembayaran-' . $termin->slug . '.' . $image->extension();
             $image->move(public_path('images'), $imageName);
 
             $termin->update([
                 'name' => $request->name,
-                'price' => $request->price,
+                'price' => $price,
                 'tanggal' => $request->tanggal,
                 'status' => 1,
                 'lampiran' => $imageName,
@@ -148,7 +150,7 @@ class ProjectFeeController extends Controller
         } else {
             $termin->update([
                 'name' => $request->name,
-                'price' => $request->price,
+                'price' => $price,
                 'tanggal' => $request->tanggal,
             ]);
 

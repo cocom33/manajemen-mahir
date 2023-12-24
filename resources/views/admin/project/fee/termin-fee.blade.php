@@ -142,7 +142,7 @@
                         <x-form-input label="Nama Termin" name="name" value="{{ $termin->name }}"
                             placeholder="masukkan nama termin" />
                         <x-form-input label="Price" name="price" value="{{ $termin->price }}"
-                            placeholder="masukkan price" />
+                            placeholder="masukkan price" id="inputFee{{ $termin->id }}" />
                         <x-form-input type="date" label="Tanggal Penagihan" value="{{ $termin->tanggal }}"
                             name="tanggal" />
                     </div>
@@ -244,23 +244,6 @@
         }
     </script>
     <script>
-        // Initialize Dropzone
-        Dropzone.autoDiscover = false;
-        var myDropzone = new Dropzone("#image-upload", {
-            // Your Dropzone configuration options
-        });
-
-        // Handle existing files
-        @if ($termin->lampiran != null)
-            var mockFile = {
-                name: "{{ $termin->lampiran }}",
-            };
-            myDropzone.emit("addedfile", mockFile);
-            myDropzone.emit("thumbnail", mockFile, "{{ asset('images/' . $termin->lampiran) }}");
-            myDropzone.emit("complete", mockFile);
-        @endif
-    </script>
-    <script>
         function formTermin() {
             var form = document.getElementById('formTermin');
             form.classList.toggle('hidden')
@@ -310,12 +293,10 @@
             }
         }
 
-        @foreach ($termin->termin_fee as $item)
-            var price{{ $item->id }} = document.getElementById('inputFee{{ $item->id }}');
-            price{{ $item->id }}.addEventListener('keyup', function(e) {
-                price{{ $item->id }}.value = formatRupiah(this.value, 'Rp. ');
-            });
-        @endforeach
+        var fee = document.getElementById('Price');
+        fee.addEventListener('keyup', function(e) {
+            fee.value = formatRupiah(this.value, 'Rp. ');
+        });
 
         function formatRupiah(number, prefix) {
             var number_string = number.replace(/[^,\d]/g, '').toString(),
