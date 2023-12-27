@@ -38,6 +38,7 @@ class ProjectTeamsController extends Controller
      */
     public function store(Request $request)
 {
+    // dd($request->project_id);
     $projectTeam = new ProjectTeam;
     $projectTeam->project_id = $request->project_id;
     $projectTeam->team_id = $request->team_id;
@@ -53,12 +54,14 @@ class ProjectTeamsController extends Controller
     public function show(string $slug, $id)
     {
         $team = Team::find($id);
+        // dd($team->id);
         $project = Project::where('slug', $slug)->first();
         $detail = $this->gaji($project);
+        $show = ProjectTeam::where('team_id', $team->id)->first();
+        // dd($show);
 
         
-        
-        return view('admin.project.team.detail', compact('team', 'project', 'detail'));
+        return view('admin.project.team.detail', compact('team', 'project', 'detail','show'));
         
         
         
@@ -77,11 +80,33 @@ class ProjectTeamsController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $team = Team::find($id);
-        $team->name = $request->name;
-        $team->save();
+        
+        $data = ProjectTeam::find($request->team_id);
+        if ($request->hasFile('photo')) {
+            if (!empty($oldFile) && file_exists(public_path('images/' . $oldFile))) {
+                unlink(public_path('images/' . $oldFile));
+            }
 
-        return redirect('/teams');
+            $image = $request->file('photo');
+            $imageName = 'bukti-pembayaran-' . $data->slug . '.' . $image->extension();
+            $image->move(public_path('images'), $imageName);
+
+            $data->update([
+                'fee' => $request->fee,
+                'tanggal_pembayaran' => $request->tanggal_pembayaran,
+                'photo' => $imageName,
+            ]);
+
+            return redirect()->back()->with('success', 'Berhasil update data dan upload gambar!');
+        } else {
+            $data->update([
+                'fee' => $request->fee,
+                'tanggal_pembayaran' => $request->tanggal_pembayaran,
+                'photo' => $request->photo,
+            ]);
+
+            return redirect()->back()->with('success', 'Berhasil update data!');
+        }
     }
 
     /**

@@ -11,7 +11,7 @@ class ProjectTeam extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $fillable = ['project_id', 'team_id', 'fee', 'status'];
+    protected $fillable = ['project_id', 'team_id', 'fee', 'status','photo', 'tanggal_bayar'];
 
     public function project()
     {
@@ -27,4 +27,5 @@ class ProjectTeam extends Model
     {
         return $this->hasMany(ProjectFee::class);
     }
+
 }
