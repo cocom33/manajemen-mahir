@@ -96,15 +96,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/project/{slug}/pemasukan', [ProjectFeeController::class, 'projectFee'])->name('project.pemasukan');
     Route::post('/project/{slug}/pemasukan/create', [ProjectFeeController::class, ''])->name('project.pemasukan.create');
     Route::post('/project/{slug}/pemasukan/create', [ProjectFeeController::class, 'projectFeeStore'])->name('project.pemasukan.create');
+    Route::delete('/project/{slug}/pemasukan/{id}/delete', [ProjectFeeController::class, 'deleteTipePembayaran'])->name('project.pemasukan.destroy');
 
     Route::post('/project/{slug}/pemasukan/langsung/create', [ProjectFeeController::class, 'projectFeeLangsungStore'])->name('project.pemasukan.langsung.store');
 
     Route::put('/project/{slug}/pemasukan/langsung/create', [ProjectFeeController::class, 'projectFeeLangsungStore'])->name('project.pemasukan.langsung.store');
+    Route::put('/project/{slug}/pemasukan/langsung/update', [ProjectFeeController::class, 'projectFeeLangsungUpdate'])->name('project.pemasukan.langsung.update');
+    Route::delete('/project/{slug}/pemasukan/langsung/{id}/delete', [ProjectFeeController::class, 'deleteLampiranLangsung'])->name('project.pemasukan.langsung.lampiran.destroy');
     Route::put('/project/{slug}/pemasukan/termin/create', [ProjectFeeController::class, 'projectTerminStore'])->name('project.pemasukan.termin.store');
     Route::get('/project/{slug}/pemasukan/termin/{termin}', [ProjectFeeController::class, 'projectTerminDetail'])->name('project.pemasukan.termin.detail');
     Route::put('/project/{slug}/pemasukan/termin/{termin}/update', [ProjectFeeController::class, 'projectTerminDetailStore'])->name('project.pemasukan.termin.detail.store');
 
-    Route::delete('/projects/{slug}/termins/{id}/delete', [ProjectFeeController::class, 'deleteLampiran'])->name('project.lampiran.pemasukan.destroy');
+    Route::delete('/projects/{slug}/termins/{id}/delete', [ProjectFeeController::class, 'deleteLampiranTermin'])->name('project.lampiran.pemasukan.destroy');
 
     Route::get('/project/{slug}/invoice', [InvoiceController::class, 'index'])->name('project.invoice');
     Route::post('/project/{slug}/invoice', [InvoiceController::class, 'store'])->name('project.invoice.create');
