@@ -4,14 +4,26 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Langsung extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    use Sluggable;
 
-    protected $fillable = ['keuangan_project_id', 'project_team_id', 'fee'];
+    protected $fillable = ['keuangan_project_id', 'name', 'slug', 'status', 'tanggal', 'lampiran', 'price'];
+
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'name'
+            ]
+        ];
+    }
+
 
     public function keuangan_project()
     {

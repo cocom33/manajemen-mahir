@@ -20,7 +20,6 @@
                     <tr>
                         <td class="border-b">
                             <div class="font-medium whitespace-no-wrap">{{ $project->name }}</div>
-                            <div class="text-gray-600 text-xs whitespace-no-wrap">{{ $project->name }}</div>
                         </td>
                         <td class="w-40 border-b">
                             <div class="flex items-center sm:justify-center">

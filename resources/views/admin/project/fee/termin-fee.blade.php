@@ -180,7 +180,7 @@
                             <button type="submit"
                                 class="show-alert-delete-box absolute cursor-pointer top-0 right-0 px-2 py-1 text-white bg-red-500">&times;</button>
                         </form>
-                        <img src="{{ asset('images/' . $termin->lampiran) }}" alt="file"
+                        <img src="{{ asset('bukti-pembayaran/' . $termin->lampiran) }}" alt="file"
                             class="aspect-auto h-48 shadow">
                     </div>
                 @endif
