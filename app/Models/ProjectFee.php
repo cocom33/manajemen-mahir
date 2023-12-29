@@ -14,7 +14,7 @@ class ProjectFee extends Model
     protected $fillable = ['project_team_id', 'fee'];
 
     public function team()
-    {
+{
         return $this->belongsTo(ProjectTeam::class);
     }
 }

@@ -9,7 +9,7 @@ class PorjectTeamFee extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['fee', 'photo'];
+    protected $fillable = ['fee', 'total_fee', 'photo', 'tanggal_pembayaran'];
 
     public function pengeluaran()
     {
