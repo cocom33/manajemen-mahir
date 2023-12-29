@@ -30,6 +30,7 @@
                             <th class="border-b-2 whitespace-no-wrap">ID</th>
                             <th class="border-b-2 text-center whitespace-no-wrap">Team Name</th>
                             <th class="border-b-2 text-center whitespace-no-wrap">Team Fee</th>
+                            <th class="border-b-2 text-center whitespace-no-wrap">Total Fee</th>
                             <th class="border-b-2 text-center whitespace-no-wrap">ACTIONS</th>
                         </tr>
                     </thead>
@@ -49,6 +50,7 @@
                                     <input name="fee" id="inputFee{{ $key }}" class="hidden input w-full border" value="{{ $team->fee ?? 0 }}">
                                 </form>
                             </td>
+                            <td class="text-center border-b">{{ $team->total_fee }}  </td>
                             <td class="border-b w-5">
                                 <div class="flex sm:justify-center items-center">
                                     <div class="dropdown relative flex gap-1">
