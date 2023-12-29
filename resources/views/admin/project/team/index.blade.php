@@ -9,7 +9,6 @@
                 @method('PUT')
                 <div class="mt-5 flex flex-wrap sm:flex-no-wrap gap-3 w-full mb-3">
                     <div class="flex flex-col w-full">
-                        {{-- <label for="" class="mb-2">Pilih Team</label> --}}
                         <select data-placeholder="Pilih Team" name="team_id[]" class="select2 w-full border" multiple>
                             @foreach ($teams as $team)
                                 <option value="{{ $team->id }}"> {{ $team->name }} </option>
@@ -29,8 +28,8 @@
                         <tr>
                             <th class="border-b-2 whitespace-no-wrap">ID</th>
                             <th class="border-b-2 text-center whitespace-no-wrap">Team Name</th>
-                            <th class="border-b-2 text-center whitespace-no-wrap">Team Fee</th>
                             <th class="border-b-2 text-center whitespace-no-wrap">Total Fee</th>
+                            <th class="border-b-2 text-center whitespace-no-wrap">Jumlah Dibayar</th>
                             <th class="border-b-2 text-center whitespace-no-wrap">ACTIONS</th>
                         </tr>
                     </thead>
@@ -50,11 +49,11 @@
                                     <input name="fee" id="inputFee{{ $key }}" class="hidden input w-full border" value="{{ $team->fee ?? 0 }}">
                                 </form>
                             </td>
-                            <td class="text-center border-b">{{ $team->total_fee }}  </td>
+                            <td class="text-center border-b">Rp. {{ number_format($team->project_team_fee->sum('fee')) }}  </td>
                             <td class="border-b w-5">
                                 <div class="flex sm:justify-center items-center">
                                     <div class="dropdown relative flex gap-1">
-                                        {{-- <button id="save{{ $key }}" form="formEdit{{ $key }}" type="submit" class="hidden button inline-block bg-theme-1 text-white" type="button" id="actionMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <button id="save{{ $key }}" form="formEdit{{ $key }}" type="submit" class="hidden button inline-block bg-theme-1 text-white" type="button" id="actionMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <i data-feather="save" class="w-4 h-4"></i>
                                         </button>
                                         <button id="x{{ $key }}" onclick="editTeam{{ $key }}()" class="hidden button inline-block text-white bg-theme-6 shadow-md">
@@ -62,8 +61,13 @@
                                         </button>
                                         <button id="editButton{{ $key }}" onclick="editTeam{{ $key }}()" class="button inline-block bg-theme-9 text-white" type="button" id="actionMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <i data-feather="edit-2" class="w-4 h-4"></i>
-                                        </button> --}}
+                                        </button>
                                         <a href="{{ route('project.teams.show', [$project->slug, $team->team_id]) }}">
+                                            <button class="button inline-block bg-theme-10 text-white" type="button" id="actionMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i data-feather="eye" class="w-4 h-4"></i>
+                                            </button>
+                                        </a>
+                                        {{-- <a href="{{ route('project.teams.show', [$project->slug, $team->team_id]) }}">
                                             <button class="button inline-block bg-theme-10 text-white" type="button" id="actionMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 <i data-feather="eye" class="w-4 h-4"></i>
                                             </button>
@@ -75,26 +79,7 @@
                                             <button id="delete{{ $key }}" type="submit" class="button inline-block text-white bg-theme-6 shadow-md show-alert-delete-box" data-toggle="tooltip" title='Delete'>
                                                 <i data-feather="trash" class=" w-4 h-4 font-bold"></i>
                                             </button>
-                                        </form>
-                                        {{-- <div class="dropdown-box mt-10 absolute w-48 top-0 left-0 z-20">
-                                            <div class="dropdown-box__content box p-2">
-                                                <form action="{{route('project.add.team', $project->slug)}}" method="POST">
-                                                    @csrf
-                                                    @method('POST')
-                                                    <div class="mt-5 flex flex-wrap sm:flex-no-wrap">
-                                                        <select data-placeholder="Pilih Team" name="team_id" class="select2 w-full" multiple>
-                                                            @foreach ($teams as $team)
-                                                            @if (!$projectTeams->pluck('team_id')->contains($team->id))
-                                                            <option value="{{ $team->id }}"> {{ $team->name }} </option>
-                                                            @endif
-                                                            @endforeach
-                                                        </select>
-                                                        <button type="submit" class="button bg-theme-1 text-white mx-5">Submit</button>
-                                                    </div>
-                                                </form>
-
-                                            </div>
-                                        </div> --}}
+                                        </form> --}}
                                     </div>
                                 </div>
                             </td>

@@ -28,4 +28,9 @@ class ProjectTeam extends Model
         return $this->hasMany(ProjectFee::class);
     }
 
+    public function project_team_fee()
+    {
+        return $this->hasMany(ProjectTeamFee::class);
+    }
+
 }

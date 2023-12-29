@@ -54,16 +54,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     // end profile
-    Route::get('/teams-fee', [ProjectTeamsController::class])->name('teams.fee');
+    Route::get('/project/teams-fee', [ProjectTeamsController::class])->name('teams.fee');
 
-    Route::get('/teams-details/{slug}/{id}', [ProjectTeamsController::class, 'show'])->name('project.teams.show');
+    Route::get('/project/teams-details/{slug}/{id}', [ProjectTeamsController::class, 'show'])->name('project.teams.show');
     // team
     // routes/web.php
     Route::resource('teams', TeamController::class);
 
     Route::put('/projects/{project}/teams/{team}/fees', [ProjectTeamsController::class , 'update'])->name('project.team.fee.update');
-    
+
     Route::delete('/projects/{project}/teams/{team}/delete', [ProjectTeamsController::class, 'deletePhoto'])->name('project.team.fee.destroy');
+    Route::delete('/project/team-fee/delete/{id}', [ProjectTeamsController::class, 'deleteFee'])->name('project.team-fee-delete');
 
 
 

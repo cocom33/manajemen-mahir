@@ -37,8 +37,7 @@
                                     @csrf
                                     @method('DELETE')
                                     <button
-                                        class="show-alert-change-payment-type button flex align-center text-white bg-theme-6 shadow-md"
-                                        onclick="formTermin()">
+                                        class="show-alert-change-payment-type button flex align-center text-white bg-theme-6 shadow-md">
                                         <i data-feather="edit-2" class=" w-4 h-4 mt-1 font-bold mr-2"></i> <span> Ubah
                                             Tipe Pembayaran</span>
                                     </button>
@@ -50,8 +49,7 @@
                                     @csrf
                                     @method('DELETE')
                                     <button
-                                        class="show-alert-change-payment-type button flex align-center text-white bg-theme-6 shadow-md"
-                                        onclick="formTermin()">
+                                        class="show-alert-change-payment-type button flex align-center text-white bg-theme-6 shadow-md">
                                         <i data-feather="edit-2" class=" w-4 h-4 mt-1 font-bold mr-2"></i> <span> Ubah
                                             Tipe Pembayaran</span>
                                     </button>
