@@ -25,24 +25,8 @@
 
                     <td class="text-center border-b">Rp. {{ number_format($item->harga_asli) }}</td>
                     <td class="text-center border-b">{{ date('d/m/Y', strtotime($item->date_start)) }}</td>
-                    @php
-                        switch ($item->date_type) {
-                            case 'year':
-                                $tempo[$key] = date('d/m/Y', strtotime('+'. $item->date .' year', strtotime($item->date_start)));
-                                break;
-                            case 'month':
-                                $tempo[$key] = date('d/m/Y', strtotime('+'. $item->date .' month', strtotime($item->date_start)));
-                                break;
-                            case 'week':
-                                $tempo[$key] = date('d/m/Y', strtotime('+'. $item->date .' week', strtotime($item->date_start)));
-                                break;
-                            case 'day':
-                                $tempo[$key] = date('d/m/Y', strtotime('+'. $item->date .' day', strtotime($item->date_start)));
-                                break;
-                        }
-                    @endphp
                     <td class="text-center border-b">
-                        {{ $tempo[$key] }}
+                        {{ date('d/m/Y', strtotime($item->date_end)) }}
                     </td>
                     <td class="text-center border-b">
                         @if ($item->is_lunas == 1)

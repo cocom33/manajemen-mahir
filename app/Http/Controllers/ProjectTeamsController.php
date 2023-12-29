@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Pengeluaran;
 use App\Models\Project;
 use App\Models\ProjectTeam;
+use App\Models\ProjectTeamFee;
 use App\Models\Team;
 use Illuminate\Http\Request;
 
@@ -17,7 +19,7 @@ class ProjectTeamsController extends Controller
         $project = Project::where('slug', $slug)->first();
         $teams = Team::all();
         $detail = $this->gaji($project);
-        
+
         return view('admin.project.team.index', compact('teams', 'detail'));
     }
 
@@ -37,15 +39,15 @@ class ProjectTeamsController extends Controller
 
      */
     public function store(Request $request)
-{
-    // dd($request->project_id);
-    $projectTeam = new ProjectTeam;
-    $projectTeam->project_id = $request->project_id;
-    $projectTeam->team_id = $request->team_id;
-    $projectTeam->save();
+    {
+        // dd($request->project_id);
+        $projectTeam = new ProjectTeam;
+        $projectTeam->project_id = $request->project_id;
+        $projectTeam->team_id = $request->team_id;
+        $projectTeam->save();
 
-    return redirect()->back();
-}
+        return redirect()->back();
+    }
 
 
     /**
@@ -53,19 +55,12 @@ class ProjectTeamsController extends Controller
      */
     public function show(string $slug, $id)
     {
-        $team = Team::find($id);
-        // dd($team->id);
-        $project = Project::where('slug', $slug)->first();
-        $detail = $this->gaji($project);
-        $show = ProjectTeam::where('team_id', $team->id)->first();
-        // dd($show);
+        $data['team'] = Team::find($id);
+        $data['project'] = Project::where('slug', $slug)->first();
+        $data['detail'] = $this->gaji($data['project']);
+        $data['show'] = ProjectTeam::where('team_id', $data['team']->id)->first();
 
-        
-        return view('admin.project.team.detail', compact('team', 'project', 'detail','show'));
-        
-        
-        
-        
+        return view('admin.project.team.detail', $data);
     }
 
     /**
@@ -80,33 +75,54 @@ class ProjectTeamsController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        
         $data = ProjectTeam::find($request->team_id);
-        if ($request->hasFile('photo')) {
-            if (!empty($oldFile) && file_exists(public_path('images/' . $oldFile))) {
-                unlink(public_path('images/' . $oldFile));
-            }
 
+        if($request->file('photo')) {
             $image = $request->file('photo');
             $imageName = 'bukti-pembayaran-' . $data->slug . '.' . $image->extension();
             $image->move(public_path('images'), $imageName);
-
-            $data->update([
-                'fee' => $request->fee,
-                'tanggal_pembayaran' => $request->tanggal_pembayaran,
-                'photo' => $imageName,
-            ]);
-
-            return redirect()->back()->with('success', 'Berhasil update data dan upload gambar!');
-        } else {
-            $data->update([
-                'fee' => $request->fee,
-                'tanggal_pembayaran' => $request->tanggal_pembayaran,
-                'photo' => $request->photo,
-            ]);
-
-            return redirect()->back()->with('success', 'Berhasil update data!');
         }
+
+        $fee = str_replace("Rp. ", "", $request->fee);
+        $gaji = str_replace(".", "", $fee);
+
+        $feeteam = ProjectTeamFee::create([
+            'project_team_id' => $data->id,
+            'fee' => $gaji,
+            'photo' => $imageName ?? '',
+        ]);
+
+        Pengeluaran::create([
+            'project_id' => $request->project_id,
+            'title' => 'fee ' . $data->team->name,
+            'date' => date('Y-m-d'),
+            'price' => $gaji,
+            'project_team_fee_id' => $feeteam->id
+        ]);
+
+        return redirect()->back()->with('success', 'Berhasil Menambah data!');
+
+        // $data->update([
+        //     'fee' => $request->fee,
+        //     'tanggal_pembayaran' => $request->tanggal_pembayaran,
+        //     'photo' => $imageName,
+        // ]);
+        // if ($request->hasFile('photo')) {
+        //     if (!empty($oldFile) && file_exists(public_path('images/' . $oldFile))) {
+        //         unlink(public_path('images/' . $oldFile));
+        //     }
+
+
+
+        //     return redirect()->back()->with('success', 'Berhasil update data dan upload gambar!');
+        // } else {
+        //     $data->update([
+        //         'fee' => $request->fee,
+        //         'tanggal_pembayaran' => $request->tanggal_pembayaran,
+        //         'photo' => $request->photo,
+        //     ]);
+
+        // }
     }
 
     /**
@@ -118,5 +134,19 @@ class ProjectTeamsController extends Controller
         $team->delete();
 
         return redirect('/teams');
+    }
+
+    public function deleteFee($id)
+    {
+        $query = ProjectTeamFee::find($id);
+
+        $query2 = Pengeluaran::where('project_team_fee_id', $query->id)->first();
+
+        $query->delete();
+        if ($query2) {
+            $query2->delete();
+        }
+
+        return redirect()->back()->with('success', 'Berhasil menghapus fee');
     }
 }

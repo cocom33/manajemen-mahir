@@ -18,24 +18,61 @@
         @if ($project)
             <div class="flex gap-3 items-center relative">
                 <p class="text-lg font-bold mr-3">Harga Deal : Rp. {{ number_format($project['deal']) }}</p>
-                <p class="text-lg font-bold">Piutang : Rp. {{ number_format($project['sisa']) }}</p>
-                <p class="text-lg font-bold">Pengeluaran : Rp. {{ number_format($project['sisa']) }}</p>
-                <small class="border-2 border-black w-5 h-5 text-center rounded-full cursor-pointer" onclick="Detail()">i</small>
+                <div class="relative flex items-center gap-3">
+                    <p class="text-lg font-bold">Piutang : Rp. {{ number_format($project['piutang']) }}</p>
+                    <small class="border-2 border-black w-5 h-5 text-center rounded-full cursor-pointer" onclick="Piutang()">i</small>
+                    <div id="piutang" class="hidden px-4 py-2 bg-theme-1 text-white right-0 absolute rounded-md" style="top: 35px; min-width: 200px">
+                        {{-- @dd($project) --}}
+                        @if ($project['type_piutang'] == 'termin')
+                            @forelse ($project['termin'] as $item)
+                                <div class="flex">
+                                    <p>{{ $item->name }} : Rp. {{ number_format($item->price) }}</p>
+                                    @if ($item->status == 1) <i data-feather="check" class=" w-4 h-4 font-bold ml-2" style="margin-top: 2px"></i> @endif
+                                </div>
+                            @empty
+                                <div>Belum ada tagihan</div>
+                            @endforelse
+                        @else
+                            <div class="flex">
+                                <p>Piutang : Rp. {{ number_format($piutang ?? 0) }}</p>
+                                @if (true) <i data-feather="check" class=" w-4 h-4 font-bold ml-2" style="margin-top: 2px"></i> @endif
+                            </div>
+                        @endif
+                    </div>
+                </div>
+                <p class="text-lg font-bold">Pengeluaran : Rp. {{ number_format($project['belanja']) }}</p>
+                {{-- <small class="border-2 border-black w-5 h-5 text-center rounded-full cursor-pointer" onclick="Detail()">i</small> --}}
                 <div id="detail" class="hidden px-4 py-2 bg-theme-1 text-white absolute right-0 rounded-md" style="top: 35px">
                     @if ($project['type_pajak'] == 0)
-                        <p>Pajak : Rp. {{ number_format($project['pajak']) }}</p>
+                        <p>Pajak : Rp. {{ number_format($project['pajak'] ?? 0) }}</p>
                     @endif
                     <p>Fee Team : Rp. {{ number_format($project['fee']) }}</p>
-                    <p>Pengeluaran Project : Rp. {{ number_format($project['belanja']) }}</p>
+                    <p>Pengeluaran : Rp. {{ number_format($project['belanja']) }}</p>
                 </div>
             </div>
 
             <script>
                 function Detail() {
-                    document.getElementById("detail").classList.remove('hidden')
-                    setTimeout(() => {
+                    if (document.getElementById("detail").classList.contains('hidden')) {
+                        document.getElementById("detail").classList.remove('hidden')
+
+                        setTimeout(() => {
+                            document.getElementById("detail").classList.add('hidden')
+                        }, 2000);
+                    } else {
                         document.getElementById("detail").classList.add('hidden')
-                    }, 2000);
+                    }
+                }
+                function Piutang() {
+                    if (document.getElementById("piutang").classList.contains('hidden')) {
+                        document.getElementById("piutang").classList.remove('hidden')
+
+                        setTimeout(() => {
+                            document.getElementById("piutang").classList.add('hidden')
+                        }, 2000);
+                    } else {
+                        document.getElementById("piutang").classList.add('hidden')
+                    }
                 }
             </script>
         @endif
