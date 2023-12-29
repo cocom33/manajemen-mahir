@@ -17,7 +17,7 @@ class ProjectTeamsController extends Controller
         $project = Project::where('slug', $slug)->first();
         $teams = Team::all();
         $detail = $this->gaji($project);
-        
+
         return view('admin.project.team.index', compact('teams', 'detail'));
     }
 
@@ -60,12 +60,12 @@ class ProjectTeamsController extends Controller
         $show = ProjectTeam::where('team_id', $team->id)->first();
         // dd($show);
 
-        
+
         return view('admin.project.team.detail', compact('team', 'project', 'detail','show'));
-        
-        
-        
-        
+
+
+
+
     }
 
     /**
@@ -80,20 +80,20 @@ class ProjectTeamsController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        
-        $data = ProjectTeam::find($request->team_id);
+
+        $data = ProjectTeam::with('team', 'project')->where($request->slug)->first();
         if ($request->hasFile('photo')) {
-            if (!empty($oldFile) && file_exists(public_path('images/' . $oldFile))) {
-                unlink(public_path('images/' . $oldFile));
+            if (!empty($oldFile) && file_exists(public_path('bukti-pembayaran-fee/' . $oldFile))) {
+                unlink(public_path('bukti-pembayaran-fee/' . $oldFile));
             }
 
             $image = $request->file('photo');
-            $imageName = 'bukti-pembayaran-' . $data->slug . '.' . $image->extension();
-            $image->move(public_path('images'), $imageName);
+            $imageName = $data->team->name . '-' . $data->project->slug . '.' . $image->extension();
+            $image->move(public_path('bukti-pembayaran-fee'), $imageName);
 
             $data->update([
                 'fee' => $request->fee,
-                'tanggal_pembayaran' => $request->tanggal_pembayaran,
+                'tanggal_bayar' => $request->tanggal_bayar,
                 'photo' => $imageName,
             ]);
 
@@ -101,8 +101,7 @@ class ProjectTeamsController extends Controller
         } else {
             $data->update([
                 'fee' => $request->fee,
-                'tanggal_pembayaran' => $request->tanggal_pembayaran,
-                'photo' => $request->photo,
+                'tanggal_bayar' => $request->tanggal_bayar,
             ]);
 
             return redirect()->back()->with('success', 'Berhasil update data!');
