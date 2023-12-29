@@ -18,8 +18,6 @@ return new class extends Migration
             $table->bigInteger('total_fee');
             $table->date('tanggal_pembayaran');
             $table->string('photo')->nullable();
-
-1
             $table->timestamps();
         });
     }
