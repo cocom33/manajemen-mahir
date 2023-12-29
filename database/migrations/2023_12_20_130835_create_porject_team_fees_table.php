@@ -19,7 +19,7 @@ return new class extends Migration
             $table->date('tanggal_pembayaran');
             $table->string('photo')->nullable();
 
-
+1
             $table->timestamps();
         });
     }
