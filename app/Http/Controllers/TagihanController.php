@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\KeuanganDetail;
+use App\Models\KeuanganPerusahaan;
 use App\Models\Pengeluaran;
 use App\Models\Project;
 use App\Models\Tagihan;
@@ -93,13 +95,15 @@ class TagihanController extends Controller
 
         $tagihan->update($data);
 
-        $pengeluaran = Pengeluaran::where('tagihan_id', $tagihan->id)->first();
-        $pengeluaran->update([
-            'title' => $tagihan->title,
-            'price' => $tagihan->harga_beli,
-            'description' => $tagihan->description,
-            'date' => $tagihan->date_start,
-        ]);
+        // if ($tagihan->project->status == 'deal' || $tagihan->project->status == 'penawaran') {
+        //     $pengeluaran = Pengeluaran::where('tagihan_id', $tagihan->id)->first();
+        //     $pengeluaran->update([
+        //         'title' => $tagihan->title,
+        //         'price' => $tagihan->harga_beli,
+        //         'description' => $tagihan->description,
+        //         'date' => $tagihan->date_start,
+        //     ]);
+        // }
 
         return redirect()->route('project.tagihan', $slug)->with('success', 'Berhasil Merubah Tagihan');
     }
@@ -126,9 +130,17 @@ class TagihanController extends Controller
     {
         $data = Tagihan::find($request->id);
         $pengeluaran = Pengeluaran::where('tagihan_id', $data->id)->first();
+        $keuangan = KeuanganDetail::where('tagihan_id', $data->id)->get();
 
-        $pengeluaran->delete();
         $data->delete();
+        if ($pengeluaran) {
+            $pengeluaran->delete();
+        }
+        if ($keuangan) {
+            foreach($keuangan as $data) {
+                $data->delete;
+            }
+        }
 
         return redirect()->back()->with('success', 'berhasil menghapus tagihan');
     }
@@ -146,6 +158,32 @@ class TagihanController extends Controller
                 'price' => $data->harga_beli,
                 'description' => $data->description,
                 'date' => $data->date_start,
+            ]);
+        } else {
+            $query = KeuanganPerusahaan::where([['tahun', date('Y')], ['bulan', date('m')]])->first();
+            if (!$query) {
+                $query = KeuanganPerusahaan::create([
+                    'tahun' => date('Y'),
+                    'bulan' => date('m'),
+                ]);
+            }
+
+            KeuanganDetail::create([
+                'keuangan_perusahaan_id' => $query->id,
+                'tagihan_id' => $data->id,
+                'description' => 'Tagihan project',
+                'status' => 'pengeluaran',
+                'tanggal' => date('d'),
+                'total' => $data->harga_beli,
+            ]);
+
+            KeuanganDetail::create([
+                'keuangan_perusahaan_id' => $query->id,
+                'tagihan_id' => $data->id,
+                'description' => 'Penjualan ke client',
+                'status' => 'pemasukan',
+                'tanggal' => date('d'),
+                'total' => $data->harga_jual,
             ]);
         }
 

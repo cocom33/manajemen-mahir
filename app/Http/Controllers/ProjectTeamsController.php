@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\KeuanganDetail;
+use App\Models\KeuanganPerusahaan;
 use App\Models\Pengeluaran;
 use App\Models\Project;
 use App\Models\ProjectTeam;
@@ -55,10 +57,9 @@ class ProjectTeamsController extends Controller
      */
     public function show(string $slug, $id)
     {
-        $data['team'] = Team::find($id);
+        $data['team'] = ProjectTeam::find($id);
         $data['project'] = Project::where('slug', $slug)->first();
         $data['detail'] = $this->gaji($data['project']);
-        $data['show'] = ProjectTeam::where('team_id', $data['team']->id)->first();
 
         return view('admin.project.team.detail', $data);
     }
@@ -92,6 +93,23 @@ class ProjectTeamsController extends Controller
             'photo' => $imageName ?? '',
         ]);
 
+        $query = KeuanganPerusahaan::where([['tahun', date('Y')], ['bulan', date('m')]])->first();
+        if (!$query) {
+            $query = KeuanganPerusahaan::create([
+                'tahun' => date('Y'),
+                'bulan' => date('m'),
+            ]);
+        }
+
+        KeuanganDetail::create([
+            'keuangan_perusahaan_id' => $query->id,
+            'project_team_fee_id' => $feeteam->id,
+            'description' => 'fee ' . $data->team->name,
+            'status' => 'pengeluaran',
+            'tanggal' => date('d'),
+            'total' => $gaji,
+        ]);
+
         Pengeluaran::create([
             'project_id' => $request->project_id,
             'title' => 'fee ' . $data->team->name,
@@ -101,28 +119,6 @@ class ProjectTeamsController extends Controller
         ]);
 
         return redirect()->back()->with('success', 'Berhasil Menambah data!');
-
-        // $data->update([
-        //     'fee' => $request->fee,
-        //     'tanggal_pembayaran' => $request->tanggal_pembayaran,
-        //     'photo' => $imageName,
-        // ]);
-        // if ($request->hasFile('photo')) {
-        //     if (!empty($oldFile) && file_exists(public_path('images/' . $oldFile))) {
-        //         unlink(public_path('images/' . $oldFile));
-        //     }
-
-
-
-        //     return redirect()->back()->with('success', 'Berhasil update data dan upload gambar!');
-        // } else {
-        //     $data->update([
-        //         'fee' => $request->fee,
-        //         'tanggal_pembayaran' => $request->tanggal_pembayaran,
-        //         'photo' => $request->photo,
-        //     ]);
-
-        // }
     }
 
     /**
@@ -141,10 +137,14 @@ class ProjectTeamsController extends Controller
         $query = ProjectTeamFee::find($id);
 
         $query2 = Pengeluaran::where('project_team_fee_id', $query->id)->first();
+        $query3 = KeuanganDetail::where('project_team_fee_id', $query->id)->first();
 
         $query->delete();
         if ($query2) {
             $query2->delete();
+        }
+        if ($query3) {
+            $query3->delete();
         }
 
         return redirect()->back()->with('success', 'Berhasil menghapus fee');

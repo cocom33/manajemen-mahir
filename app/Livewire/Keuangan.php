@@ -23,7 +23,8 @@ class Keuangan extends Component
 
     public function render()
     {
-        $data['filtertahun'] = KeuanganPerusahaan::pluck('tahun');
+        $data['all'] = KeuanganPerusahaan::groupBy('tahun')->pluck('tahun');
+        $data['filtertahun'] = KeuanganPerusahaan::groupBy('tahun')->pluck('tahun');
         $data['filterbulan'] = [1,2,3,4,5,6,7,8,9,10,11,12];
 
         if($this->tahun != 'semua') {

@@ -101,7 +101,7 @@
 
                         {{-- <td class="text-center border-b">{{ $project->projectType->name }}</td> --}}
                         <td class="text-center border-b">
-                            @php
+                            {{-- @php
                                 $projectTeam = App\Models\ProjectTeam::where('project_id', $project->id)
                                              ->where('team_id', $team->id)
                                              ->first();
@@ -146,6 +146,20 @@
                                 @endif
                             @else
                                 -
+                            @endif --}}
+                            @php
+                                $data = $team->projectTeam->where('project_id', $project->id)->first();
+                            @endphp
+                            @if($data->fee - $data->project_team_fee->sum('fee') <= 0)
+                                <span class="font-medium text-theme-40">Lunas</span>
+                                <div class="text-gray-600 text-xs whitespace-no-wrap">
+                                    Rp. {{ number_format($data->fee) }}
+                                </div>
+                            @else
+                                <div class="font-medium whitespace-no-wrap text-theme-6">Belum Lunas</div>
+                                <div class="text-gray-600 text-xs whitespace-no-wrap">
+                                    tersisa Rp. {{ number_format($data->fee - $data->project_team_fee->sum('fee')) }} dari {{ number_format($data->fee) }}
+                                </div>
                             @endif
                         </td>
                         <td class="text-center border-b">
