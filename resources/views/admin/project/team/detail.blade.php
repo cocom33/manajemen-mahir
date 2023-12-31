@@ -11,8 +11,8 @@
                 Detail Fee {{ $team->name }}
             </h3>
             <div class="flex">
-                <h4 class="font-bold text-lg mr-5">Total Fee : Rp. {{ number_format($team->projectTeam->fee) }}</h4>
-                <h4 class="font-bold text-lg">Total Dibayar : Rp. {{ number_format($team->projectTeam->project_team_fee->sum('fee')) }}</h4>
+                <h4 class="font-bold text-lg mr-5">Total Fee : Rp. {{ number_format($team->fee) }}</h4>
+                <h4 class="font-bold text-lg">Total Dibayar : Rp. {{ number_format($team->project_team_fee->sum('fee')) }}</h4>
             </div>
         </div>
 
@@ -59,7 +59,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                    @foreach($team->projectTeam->project_team_fee as $key => $team)
+                    @foreach($team->project_team_fee as $key => $team)
                         <tr>
                             <td class="border-b">
                                 <div class="font-medium whitespace-no-wrap">{{ $key + 1 }}</div>

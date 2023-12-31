@@ -76,9 +76,19 @@
                                               <i data-feather="edit-2" class=" w-4 h-4 font-bold"></i>
                                             </a>
                                         @endif
-                                        <a href="{{ route('project.pengeluaran.show', [$project->slug, $item->id]) }}" class="button inline-block text-white bg-theme-1 shadow-md">
-                                          <i data-feather="eye" class=" w-4 h-4 font-bold"></i>
-                                        </a>
+                                        @if ($item->tagihan_id)
+                                            <a href="{{ route('project.tagihan.detail', [$project->slug, $item->tagihan->id]) }}" class="button inline-block text-white bg-theme-1 shadow-md">
+                                              <i data-feather="eye" class=" w-4 h-4 font-bold"></i>
+                                            </a>
+                                        @elseif ($item->project_team_fee_id)
+                                            <a href="{{ route('project.teams.show', [$project->slug, $item->projectTeamFee->projectTeam->team_id]) }}" class="button inline-block text-white bg-theme-1 shadow-md">
+                                              <i data-feather="eye" class=" w-4 h-4 font-bold"></i>
+                                            </a>
+                                        @else
+                                            <a href="{{ route('project.pengeluaran.show', [$project->slug, $item->id]) }}" class="button inline-block text-white bg-theme-1 shadow-md">
+                                              <i data-feather="eye" class=" w-4 h-4 font-bold"></i>
+                                            </a>
+                                        @endif
                                         @if ($item->tagihan_id == null && $item->project_team_fee_id == null)
                                             <form action="{{ route('project.pengeluaran.delete', [$project->slug, $item->id]) }}" method="post">
                                                 @csrf

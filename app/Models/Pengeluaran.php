@@ -15,4 +15,14 @@ class Pengeluaran extends Model
     {
         return $this->belongsTo(Project::class);
     }
+
+    public function tagihan()
+    {
+        return $this->belongsTo(Tagihan::class);
+    }
+
+    public function projectTeamFee()
+    {
+        return $this->belongsTo(ProjectTeamFee::class);
+    }
 }
