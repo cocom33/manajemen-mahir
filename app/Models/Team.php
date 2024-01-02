@@ -20,6 +20,6 @@ class Team extends Model
     }
 
     public function projectTeam(){
-        return $this->belongsTo(ProjectTeam::class);
+        return $this->hasMany(ProjectTeam::class);
     }
 }

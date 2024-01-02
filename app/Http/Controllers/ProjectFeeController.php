@@ -22,14 +22,16 @@ class ProjectFeeController extends Controller
         $data['pengeluaran'] = Pengeluaran::where('project_id', $data['project']->id)->get();
 
         if ($data['project']->keuangan_project && $data['project']->keuangan_project->type == 'langsung') {
-            $data['fee_langsung'] = Langsung::where('keuangan_project_id', $data['project']->keuangan_project->id)->get();
-            $data['project_teams'] = ProjectTeam::whereNotIn('id', $data['fee_langsung']->pluck('project_team_id'))->where([['project_id', $data['project']->id], ['status', 1]])->get();
+            $data['fee_langsung'] = Langsung::where('keuangan_project_id', $data['project']->keuangan_project->id)->first();
+            // $data['project_teams'] = ProjectTeam::whereNotIn('id', $data['fee_langsung']->pluck('project_team_id'))->where([['project_id', $data['project']->id], ['status', 1]])->get();
         }
 
         if ($data['project']->keuangan_project && $data['project']->keuangan_project->type == 'termin') {
             $data['termin'] = Termin::where('keuangan_project_id', $data['project']->keuangan_project->id)->get();
         }
         $data['detail'] = $this->gaji($data['project']);
+
+        // dd($data['fee_langsung']);
 
         return view('admin.project.fee.index', $data);
     }
@@ -44,40 +46,103 @@ class ProjectFeeController extends Controller
 
     public function projectFeeLangsungStore(Request $request)
     {
-        $langsung = Langsung::find($request->id);
-        $fee = str_replace("Rp. ", "", $request->fee);
+        $fee = str_replace("Rp. ", "", $request->price);
         $price = str_replace(".", "", $fee);
 
-        if($langsung) {
-            $langsung->update([
-                'fee'   => $price,
+        if ($request->hasFile('lampiran')) {
+            $image = $request->file('lampiran');
+            $imageName = 'bukti-pembayaran-langsung-project-' . $request->slug . '.' . $image->extension();
+            $image->move(public_path('bukti-pembayaran'), $imageName);
+
+            $data = $request->validate([
+                'keuangan_project_id' => 'required',
+                'name' => 'required',
+                'price' => 'required',
+                'tanggal' => 'required',
             ]);
-            return redirect()->back()->with('success', 'berhasil merubah fee');
+
+            $data['price'] = $price;
+            $data['status'] = 1;
+            $data['lampiran'] = $imageName;
+
+            Langsung::create($data);
+            return redirect()->back()->with('success', 'Berhasil membuat data dan upload bukti pembayaran!');
+        } else {
+            $data = $request->validate([
+                'keuangan_project_id' => 'required',
+                'name' => 'required',
+                'price' => 'required',
+                'tanggal' => 'required',
+            ]);
+
+            $data['price'] = $price;
+
+            Langsung::create($data);
+            return redirect()->back()->with('success', 'Berhasil membuat data!');
         }
 
-        $data = $request->validate([
-            'keuangan_project_id' => 'required',
-            'project_team_id' => 'required',
-            'fee' => 'required',
-        ]);
-        $data['fee'] = $price;
+    }
 
-        Langsung::create($data);
-        return redirect()->back()->with('success', 'berhasil melakukan pembayaran');
+    public function projectFeeLangsungUpdate(Request $request)
+    {
+        $langsung = Langsung::find($request->id);
+        $fee = str_replace("Rp. ", "", $request->price);
+        $price = str_replace(".", "", $fee);
+
+        if ($request->hasFile('lampiran')) {
+            $image = $request->file('lampiran');
+            $imageName = 'bukti-pembayaran-' . $langsung->slug . '.' . $image->extension();
+            $image->move(public_path('bukti-pembayaran'), $imageName);
+
+            $langsung->update([
+                'name' => $request->name,
+                'price' => $price,
+                'tanggal' => $request->tanggal,
+                'status' => 1,
+                'lampiran' => $imageName,
+            ]);
+
+            return redirect()->back()->with('success', 'Berhasil update data dan upload gambar!');
+        } else {
+            $langsung->update([
+                'name' => $request->name,
+                'price' => $price,
+                'tanggal' => $request->tanggal,
+            ]);
+
+            return redirect()->back()->with('success', 'Berhasil update data!');
+        }
+    }
+
+    public function deleteLampiranLangsung($slug, $id)
+    {
+        $langsung = Langsung::find($id);
+
+        if ($langsung->lampiran) {
+            unlink(public_path('bukti-pembayaran/' . $langsung->lampiran));
+            Storage::delete('bukti-pembayaran/' . $langsung->lampiran);
+        }
+
+        $langsung->update(['status' => 0, 'lampiran' => null]);
+
+        return redirect()->back()->with('success', 'Berhasil menghapus file.');
     }
 
     public function projectTerminStore(Request $request)
     {
-        $termin = Termin::find($request->id);
+        // $termin = Termin::find($request->id);
+        $fee = str_replace("Rp. ", "", $request->price);
+        $price = str_replace(".", "", $fee);
 
-        if($termin) {
-            $termin->update([
-                'name' => $request->name,
-                'price' => $request->price,
-                'tanggal' => $request->tanggal,
-            ]);
-            return redirect()->back()->with('success', 'berhasil merubah nama termin');
-        }
+        // if($termin) {
+        //     $termin->update([
+        //         'name' => $request->name,
+        //         'price' => $price,
+        //         'tanggal' => $request->tanggal,
+        //     ]);
+        //     return redirect()->back()->with('success', 'berhasil merubah nama termin');
+        // }
+
 
         $data = $request->validate([
             'keuangan_project_id' => 'required',
@@ -86,6 +151,7 @@ class ProjectFeeController extends Controller
             'tanggal' => 'required',
         ]);
 
+        $data['price'] = $price;
         Termin::create($data);
         return redirect()->back()->with('success', 'berhasil menambahkan termin');
     }
@@ -100,7 +166,7 @@ class ProjectFeeController extends Controller
         return view('admin.project.fee.termin-fee', $data);
     }
 
-    public function projectTerminDetailStore(Request $request)
+    public function projectTerminDetailStore($slug, Request $request)
     {
         // $terminfee = TerminFee::find($request->id);
         // $fee = str_replace("Rp. ", "", $request->fee);
@@ -124,21 +190,20 @@ class ProjectFeeController extends Controller
         // TerminFee::create($data);
         // return redirect()->back()->with('success', 'berhasil menambahkan fee kepada team');
 
+        $project = Project::where('slug', $slug)->first();
         $termin = Termin::find($request->id);
-        $oldFile = $termin->lampiran;
+        $fee = str_replace("Rp. ", "", $request->price);
+        $price = str_replace(".", "", $fee);
+        // $price = str_replace(, "", $fee);
 
         if ($request->hasFile('lampiran')) {
-            if (!empty($oldFile) && file_exists(public_path('images/' . $oldFile))) {
-                unlink(public_path('images/' . $oldFile));
-            }
-
             $image = $request->file('lampiran');
-            $imageName = 'bukti-pembayaran-' . $termin->slug . '.' . $image->extension();
-            $image->move(public_path('images'), $imageName);
+            $imageName = 'bukti-pembayaran-' . $project->slug . '-' . $termin->slug . '.' . $image->extension();
+            $image->move(public_path('bukti-pembayaran'), $imageName);
 
             $termin->update([
                 'name' => $request->name,
-                'price' => $request->price,
+                'price' => $price,
                 'tanggal' => $request->tanggal,
                 'status' => 1,
                 'lampiran' => $imageName,
@@ -148,7 +213,7 @@ class ProjectFeeController extends Controller
         } else {
             $termin->update([
                 'name' => $request->name,
-                'price' => $request->price,
+                'price' => $price,
                 'tanggal' => $request->tanggal,
             ]);
 
@@ -156,18 +221,47 @@ class ProjectFeeController extends Controller
         }
     }
 
-    public function deleteLampiran($slug, $id)
-{
+    public function deleteLampiranTermin($id)
+    {
         $termin = Termin::find($id);
 
         if ($termin->lampiran) {
-            unlink(public_path('images/' . $termin->lampiran));
-            Storage::delete('images/' . $termin->lampiran);
+            unlink(public_path('bukti-pembayaran/' . $termin->lampiran));
+            Storage::delete('bukti-pembayaran/' . $termin->lampiran);
         }
 
-        // Update the Termin model to remove the file reference
         $termin->update(['status' => 0, 'lampiran' => null]);
 
         return redirect()->back()->with('success', 'Berhasil menghapus file.');
+    }
+
+    public function deleteTipePembayaran($slug, $id) {
+        $keuanganProjects = KeuanganProject::where('id', $id)->first();
+
+        if ($keuanganProjects->type == 'termin') {
+            $termins = Termin::where('keuangan_project_id', $keuanganProjects->id)->get();
+            foreach ($termins as $termin) {
+                if ($termin->lampiran) {
+                    unlink(public_path('bukti-pembayaran/' . $termin->lampiran));
+                    Storage::delete('bukti-pembayaran/' . $termin->lampiran);
+                }
+                $termin->forceDelete();
+            }
+        } else {
+            $langsung = Langsung::where('keuangan_project_id', $keuanganProjects->id)->first();
+
+            if ($langsung != null ){
+                if ($langsung->lampiran) {
+                    unlink(public_path('bukti-pembayaran/' . $langsung->lampiran));
+                    Storage::delete('bukti-pembayaran/' . $langsung->lampiran);
+                    $langsung->forceDelete();
+                } else {
+                    $langsung->forceDelete();
+                }
+            }
+        }
+
+        $keuanganProjects->forceDelete();
+        return redirect()->back()->with('success', 'Berhasil menghapus tipe pembayaran.');
     }
 }

@@ -108,6 +108,27 @@ class KeuanganPerusahaanController extends Controller
     {
         $model = KeuanganDetail::where('id', $id)->first();
 
+        if ($request->tanggal) {
+            $tahun = KeuanganPerusahaan::where('tahun', Carbon::parse($request->tanggal)->format('Y'))->get();
+            if(!$tahun) {
+                $query = KeuanganPerusahaan::create([
+                    'tahun' => Carbon::parse($request->tanggal)->format('Y'),
+                    'bulan' => Carbon::parse($request->tanggal)->format('m'),
+                ]);
+            } else {
+                $query = $tahun->where('bulan', Carbon::parse($request->tanggal)->format('m'))->first();
+                if(!$query) {
+                    $query = KeuanganPerusahaan::create([
+                        'tahun' => Carbon::parse($request->tanggal)->format('Y'),
+                        'bulan' => Carbon::parse($request->tanggal)->format('m'),
+                    ]);
+                }
+            }
+
+            $tanggal = Carbon::parse($request->tanggal)->format('d');
+        }
+        // dd($tahun, $query);
+
         $data = $request->validate([
             'description' => 'required',
             'total' => 'required',
@@ -115,11 +136,16 @@ class KeuanganPerusahaanController extends Controller
 
         $total = str_replace("Rp. ", "", $request->total);
         $price = str_replace(".", "", $total);
-
         $data['total'] = $price;
-        $data['keuangan_bulanan_id'] = $request->bulan;
 
-        $model->update($data);
+        if ($request->tanggal) {
+            $data['keuangan_perusahaan_id'] = $query->id;
+            $data['tanggal'] = $tanggal;
+            $model->update($data);
+        } else {
+            $model->update($data);
+        }
+
 
         return redirect()->route('keuangan-umum.index')->with('success', $model->description . ' berhasil diedit!!');
     }

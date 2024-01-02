@@ -8,8 +8,12 @@
     <div class="mt-5">
         <div class="w-full flex justify-between align-center">
             <h3 class="font-bold text-xl">
-                Detail {{ $team->name }}
+                Detail Fee {{ $team->name }}
             </h3>
+            <div class="flex">
+                <h4 class="font-bold text-lg mr-5">Total Fee : Rp. {{ number_format($team->fee) }}</h4>
+                <h4 class="font-bold text-lg">Total Dibayar : Rp. {{ number_format($team->project_team_fee->sum('fee')) }}</h4>
+            </div>
         </div>
 
         <div class="mt-8">
@@ -19,25 +23,9 @@
                 @method('PUT')
                 <input type="hidden" name="team_id" value="{{ $team->id }}">
                 <input type="hidden" name="project_id" value="{{$project->id}}">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-                    {{-- <x-form-input label="Nama team" name="name" value="{{ $team->name }}"
-                        placeholder="masukkan nama team" /> --}}
-                    @if (!$show)
-                    <x-form-input label="fee" name="fee" type="number" 
-                    placeholder="masukkan fee" />
-                    <x-form-input type="date" label="Tanggal Penagihan" 
-                        name="tanggal_bayar" />
-                    @else
-                    <x-form-input label="fee" name="fee" type="number" value="{{$show->fee}}"
-                    placeholder="masukkan fee" />
-                    <x-form-input type="date" label="Tanggal Penagihan" value="{{$show->tanggal_bayar}}"
-                        name="tanggal_bayar" />
-                    @endif
-                   
-                </div>
-
-                @if ($show->photo == null)
-                    <div class="mt-3 ">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <x-form-input label="fee" name="fee" placeholder="masukkan fee" />
+                    <div class="">
                         <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                             for="single_file">Upload Bukti Pembayaran</label>
                         <input name="photo"
@@ -48,38 +36,89 @@
                     </div>
                     <div x-ref="previewSingle" class="mt-2">
                     </div>
-                @endif
+                </div>
 
                 <div class="flex justify-end">
                     <button type="submit" class="button flex align-center text-white bg-theme-1 shadow-md mt-3">
-                        <i data-feather="plus" class=" w-4 h-4 mt-1 font-bold mr-2"></i> <span>Update</span>
+                        <span>Tambah</span>
                     </button>
                 </div>
                 <hr class="my-4">
             </form>
-            @if ($show->photo != null)
-                <h3 class="font-bold text-xl">
-                    Bukti Pembayaran {{ $show->name }}
-                </h3>
-                <div class="relative inline-block mt-3 shadow-lg border-2 border-gray-500">
-                    <form action="{{ route('project.team.fee.destroy', [$project->slug, $team->id]) }}"
-                        method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit"
-                            class="show-alert-delete-box absolute cursor-pointer top-0 right-0 px-2 py-1 text-white bg-red-500">&times;</button>
-                    </form>
-                    <img src="{{ asset('images/' . $show->photo) }}" alt="file"
-                        class="aspect-auto h-48 shadow">
-                </div>
-            @endif
         </div>
+
+        <div class="intro-y datatable-wrapper box p-5 mt-5">
+                <table class="table table-report table-report--bordered display datatable w-full">
+                    <thead>
+                        <tr>
+                            <th class="border-b-2 whitespace-no-wrap">Tahap</th>
+                            <th class="border-b-2 text-center whitespace-no-wrap">Total Fee</th>
+                            <th class="border-b-2 text-center whitespace-no-wrap">Tanggal Dibayar</th>
+                            <th class="border-b-2 text-center whitespace-no-wrap">Photo</th>
+                            <th class="border-b-2 text-center whitespace-no-wrap">ACTIONS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($team->project_team_fee as $key => $team)
+                        <tr>
+                            <td class="border-b">
+                                <div class="font-medium whitespace-no-wrap">{{ $key + 1 }}</div>
+                            </td>
+                            <td class="text-center border-b">Rp. {{ number_format($team->fee) }}  </td>
+                            <td class="text-center border-b">{{ $team->created_at->format('d / m / Y') }}  </td>
+                            <td class="text-center border-b">
+                                @if ($team->photo)
+                                    <a href="{{ asset('images/' . $team->photo) }}" target="_blank" class="button inline-block bg-theme-1 text-white" type="button">
+                                        Lihat Bukti
+                                    </a>
+                                @else
+                                    Tidak ada bukti
+                                @endif
+                            </td>
+                            <td class="border-b w-5">
+                                <div class="flex sm:justify-center items-center">
+                                    <div class="dropdown relative flex gap-1">
+                                        <form action="{{ route('project.team-fee-delete', $team->id) }}" method="post">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="button inline-block text-white bg-theme-6 shadow-md">
+                                                <i data-feather="trash" class=" w-4 h-4 font-bold"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
     </div>
 </x-card>
 @endsection
 
 @push('scripts')
 <script>
+    var fee = document.getElementById('fee');
+    fee.addEventListener('keyup', function(e) {
+        fee.value = formatRupiah(this.value, 'Rp. ');
+    });
+    function formatRupiah(number, prefix) {
+      var number_string = number.replace(/[^,\d]/g, '').toString(),
+          split = number_string.split(','),
+          remainder = split[0].length % 3,
+          rupiah = split[0].substr(0, remainder),
+          ribuan = split[0].substr(remainder).match(/\d{3}/gi);
+
+      if (ribuan) {
+          separator = remainder ? '.' : '';
+          rupiah += separator + ribuan.join('.');
+      }
+
+      rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+      return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+    }
+
     function activateImagePreview() {
         return {
             previews: [],

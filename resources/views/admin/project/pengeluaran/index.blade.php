@@ -44,7 +44,8 @@
                     <thead>
                         <tr>
                             <th class="border-b-2 text-center whitespace-no-wrap">DETAIL NAME</th>
-                            <th class="border-b-2 text-center whitespace-no-wrap">HARGA</th>
+                            <th class="border-b-2 text-center whitespace-no-wrap">BIAYA</th>
+                            <th class="border-b-2 text-center whitespace-no-wrap">STATUS</th>
                             <th class="border-b-2 text-center whitespace-no-wrap">TANGGAL PENGELUARAN</th>
                             <th class="border-b-2 text-center whitespace-no-wrap">ACTIONS</th>
                         </tr>
@@ -57,23 +58,46 @@
                             </td>
 
                             <td class="text-center border-b">Rp. {{ number_format($item->price) }}</td>
+                            <td class="text-center border-b">
+                                @if ($item->tagihan_id)
+                                    Tagihan
+                                @elseif ($item->project_team_fee_id)
+                                    Fee Team
+                                @else
+                                    Pengeluaran
+                                @endif
+                            </td>
                             <td class="text-center border-b">{{ date('d M Y', strtotime($item->date)) }}</td>
                             <td class="border-b w-5">
                                 <div class="flex sm:justify-center items-center">
                                     <div class="dropdown relative flex items-center gap-1">
-                                        <a href="{{ route('project.pengeluaran.edit', [$project->slug, $item->id]) }}" class="button inline-block text-white bg-theme-9 shadow-md">
-                                          <i data-feather="edit-2" class=" w-4 h-4 font-bold"></i>
-                                        </a>
-                                        <a href="{{ route('project.pengeluaran.show', [$project->slug, $item->id]) }}" class="button inline-block text-white bg-theme-1 shadow-md">
-                                          <i data-feather="eye" class=" w-4 h-4 font-bold"></i>
-                                        </a>
-                                        <form action="{{ route('project.pengeluaran.delete', [$project->slug, $item->id]) }}" method="post">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="button inline-block text-white bg-theme-6 shadow-md show-alert-delete-box" data-toggle="tooltip" title='Delete'>
-                                                <i data-feather="trash" class=" w-4 h-4 font-bold"></i>
-                                            </button>
-                                        </form>
+                                        @if ($item->tagihan_id == null && $item->project_team_fee_id  == null)
+                                            <a href="{{ route('project.pengeluaran.edit', [$project->slug, $item->id]) }}" class="button inline-block text-white bg-theme-9 shadow-md">
+                                              <i data-feather="edit-2" class=" w-4 h-4 font-bold"></i>
+                                            </a>
+                                        @endif
+                                        @if ($item->tagihan_id)
+                                            <a href="{{ route('project.tagihan.detail', [$project->slug, $item->tagihan->id]) }}" class="button inline-block text-white bg-theme-1 shadow-md">
+                                              <i data-feather="eye" class=" w-4 h-4 font-bold"></i>
+                                            </a>
+                                        @elseif ($item->project_team_fee_id)
+                                            <a href="{{ route('project.teams.show', [$project->slug, $item->projectTeamFee->projectTeam->team_id]) }}" class="button inline-block text-white bg-theme-1 shadow-md">
+                                              <i data-feather="eye" class=" w-4 h-4 font-bold"></i>
+                                            </a>
+                                        @else
+                                            <a href="{{ route('project.pengeluaran.show', [$project->slug, $item->id]) }}" class="button inline-block text-white bg-theme-1 shadow-md">
+                                              <i data-feather="eye" class=" w-4 h-4 font-bold"></i>
+                                            </a>
+                                        @endif
+                                        @if ($item->tagihan_id == null && $item->project_team_fee_id == null)
+                                            <form action="{{ route('project.pengeluaran.delete', [$project->slug, $item->id]) }}" method="post">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="button inline-block text-white bg-theme-6 shadow-md show-alert-delete-box" data-toggle="tooltip" title='Delete'>
+                                                    <i data-feather="trash" class=" w-4 h-4 font-bold"></i>
+                                                </button>
+                                            </form>
+                                        @endif
                                     </div>
                                 </div>
                             </td>

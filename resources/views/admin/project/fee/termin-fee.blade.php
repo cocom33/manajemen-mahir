@@ -142,7 +142,7 @@
                         <x-form-input label="Nama Termin" name="name" value="{{ $termin->name }}"
                             placeholder="masukkan nama termin" />
                         <x-form-input label="Price" name="price" value="{{ $termin->price }}"
-                            placeholder="masukkan price" />
+                            placeholder="masukkan price" id="inputFee{{ $termin->id }}" />
                         <x-form-input type="date" label="Tanggal Penagihan" value="{{ $termin->tanggal }}"
                             name="tanggal" />
                     </div>
@@ -180,7 +180,7 @@
                             <button type="submit"
                                 class="show-alert-delete-box absolute cursor-pointer top-0 right-0 px-2 py-1 text-white bg-red-500">&times;</button>
                         </form>
-                        <img src="{{ asset('images/' . $termin->lampiran) }}" alt="file"
+                        <img src="{{ asset('bukti-pembayaran/' . $termin->lampiran) }}" alt="file"
                             class="aspect-auto h-48 shadow">
                     </div>
                 @endif
@@ -244,23 +244,6 @@
         }
     </script>
     <script>
-        // Initialize Dropzone
-        Dropzone.autoDiscover = false;
-        var myDropzone = new Dropzone("#image-upload", {
-            // Your Dropzone configuration options
-        });
-
-        // Handle existing files
-        @if ($termin->lampiran != null)
-            var mockFile = {
-                name: "{{ $termin->lampiran }}",
-            };
-            myDropzone.emit("addedfile", mockFile);
-            myDropzone.emit("thumbnail", mockFile, "{{ asset('images/' . $termin->lampiran) }}");
-            myDropzone.emit("complete", mockFile);
-        @endif
-    </script>
-    <script>
         function formTermin() {
             var form = document.getElementById('formTermin');
             form.classList.toggle('hidden')
@@ -310,11 +293,11 @@
             }
         }
 
-        var price = document.getElementById('Price');
-        price.addEventListener('keyup', function(e) {
-            price.value = formatRupiah(this.value, 'Rp. ');
+        var fee = document.getElementById('Price');
+        fee.addEventListener('keyup', function(e) {
+            fee.value = formatRupiah(this.value, 'Rp. ');
         });
-         
+
         function formatRupiah(number, prefix) {
           var number_string = number.replace(/[^,\d]/g, '').toString(),
               split = number_string.split(','),

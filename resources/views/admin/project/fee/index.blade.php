@@ -7,7 +7,7 @@
         <div class="mt-5">
             <div>
                 @if (!$project->keuangan_project)
-                    <form action="{{ route('project.fee.create', $project->slug) }}" method="post">
+                    <form action="{{ route('project.pemasukan.create', $project->slug) }}" method="post">
                         @csrf
                         <div class="w-full">
                             <label for="">Pilih Type Pembayaran</label>
@@ -27,16 +27,33 @@
                 @else
                     <div class="w-full flex justify-between align-center">
                         <h3 class="font-bold text-xl">
-                            pembayaran {{ $project->keuangan_project->type == 'langsung' ? 'langsung' : 'per termin' }}
+                            Pembayaran {{ $project->keuangan_project->type == 'langsung' ? 'Langsung' : 'Per Termin' }}
                         </h3>
-                        <div>
+                        <div class="flex gap-5">
                             @if ($project->keuangan_project->type == 'langsung')
-                                <button class="button flex align-center text-white bg-theme-1 shadow-md"
-                                    onclick="formLangsung()">
-                                    <i data-feather="plus" class=" w-4 h-4 mt-1 font-bold mr-2"></i> <span> Tambah Fee
-                                        Team</span>
-                                </button>
+                                <form
+                                    action="{{ route('project.pemasukan.destroy', [$project->slug, $project->keuangan_project->id]) }}"
+                                    method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button
+                                        class="show-alert-change-payment-type button flex align-center text-white bg-theme-6 shadow-md">
+                                        <i data-feather="edit-2" class=" w-4 h-4 mt-1 font-bold mr-2"></i> <span> Ubah
+                                            Tipe Pembayaran</span>
+                                    </button>
+                                </form>
                             @else
+                                <form
+                                    action="{{ route('project.pemasukan.destroy', [$project->slug, $project->keuangan_project->id]) }}"
+                                    method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button
+                                        class="show-alert-change-payment-type button flex align-center text-white bg-theme-6 shadow-md">
+                                        <i data-feather="edit-2" class=" w-4 h-4 mt-1 font-bold mr-2"></i> <span> Ubah
+                                            Tipe Pembayaran</span>
+                                    </button>
+                                </form>
                                 <button class="button flex align-center text-white bg-theme-1 shadow-md"
                                     onclick="formTermin()">
                                     <i data-feather="plus" class=" w-4 h-4 mt-1 font-bold mr-2"></i> <span> Tambah
@@ -46,7 +63,7 @@
                         </div>
                     </div>
                     @if ($project->keuangan_project->type == 'langsung')
-                        <form action="{{ route('project.fee.langsung.store', $project->slug) }}" method="post"
+                        {{-- <form action="{{ route('project.pemasukan.langsung.store', $project->slug) }}" method="post"
                             class="hidden mt-3" id="form">
                             @csrf
                             <input type="hidden" name="keuangan_project_id" value="{{ $project->keuangan_project->id }}">
@@ -56,7 +73,7 @@
                                     <option value="{{ $item->id }}">{{ $item->team->name }}</option>
                                 @endforeach
                             </select>
-                            <x-form-input label="Fee" name="fee" placeholder="masukkan fee" />
+                            <x-form-input label="Fee" name="langsung" placeholder="masukkan fee" />
 
                             <div class="flex justify-end">
                                 <button class="button flex align-center text-white bg-theme-1 shadow-md mt-3">
@@ -65,7 +82,6 @@
                             </div>
                             <hr class="my-4">
                         </form>
-
                         <div class="mt-8">
                             <table class="table table-report table-report--bordered display datatable w-full">
                                 <thead>
@@ -89,7 +105,8 @@
                                                     class="flex items-center sm:justify-center">
                                                     Rp. {{ number_format($item->fee) }}
                                                 </div>
-                                                <form action="{{ route('project.fee.langsung.store', $project->slug) }}"
+                                                <form
+                                                    action="{{ route('project.pemasukan.langsung.store', $project->slug) }}"
                                                     method="POST" id="edit_fee{{ $item->id }}">
                                                     @csrf
                                                     @method('PUT')
@@ -154,7 +171,101 @@
                                     </tr>
                                 </tbody>
                             </table>
-                        </div>
+                        </div> --}}
+                        @if (!isset($fee_langsung))
+                            <form class="mt-8" action="{{ route('project.pemasukan.langsung.store', $project->slug) }}"
+                                method="post" enctype="multipart/form-data" class="mt-3" id="formLangsung"
+                                x-data="activateImagePreview()">
+                                @csrf
+                                @method('PUT')
+                                <input type="hidden" name="keuangan_project_id"
+                                    value="{{ $project->keuangan_project->id }}">
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                                    <x-form-input label="Nama" name="name" placeholder="masukkan nama" />
+                                    <x-form-input id="inputFee{{ $project->id }}" label="Price" name="price"
+                                        placeholder="masukkan price" />
+                                    <x-form-input type="date" label="Tanggal Penagihan" name="tanggal" />
+                                </div>
+
+                                <div class="mt-3">
+                                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                                        for="single_file">Upload Bukti Pembayaran</label>
+                                    <input name="lampiran"
+                                        class="block w-full h-10.5 leading-9 rounded overflow-hidden text-sm text-gray-900 bg-gray-50 border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                                        id="single_file" accept="image/*" @change="showPreview(event, $refs.previewSingle)"
+                                        type="file">
+                                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">PNG or
+                                        JPG.</p>
+                                </div>
+                                <div x-ref="previewSingle" class="mt-2">
+                                </div>
+
+                                <div class="flex justify-end">
+                                    <button class="button flex align-center text-white bg-theme-1 shadow-md mt-3">
+                                        <i data-feather="plus" class=" w-4 h-4 mt-1 font-bold mr-2"></i> <span>Tambah</span>
+                                    </button>
+                                </div>
+                                <hr class="my-4">
+                            </form>
+                        @else
+                            <form action="{{ route('project.pemasukan.langsung.update', $project->slug) }}"
+                                enctype="multipart/form-data" method="POST" class="mt-3" id="formTermin"
+                                x-data="activateImagePreview()">
+                                @csrf
+                                @method('PUT')
+                                <input type="hidden" name="id" value="{{ $fee_langsung->id }}">
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                                    <x-form-input label="Nama" name="name" value="{{ $fee_langsung->name }}"
+                                        placeholder="masukkan nama" />
+                                    <x-form-input label="Price" name="price" value="{{ $fee_langsung->price }}"
+                                        placeholder="masukkan price" id="inputFee{{ $fee_langsung->id }}" />
+                                    <x-form-input type="date" label="Tanggal Penagihan"
+                                        value="{{ $fee_langsung->tanggal }}" name="tanggal" />
+                                </div>
+
+                                @if ($fee_langsung->lampiran == null)
+                                    <div class="mt-3">
+                                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                                            for="single_file">Upload Bukti Pembayaran</label>
+                                        <input name="lampiran"
+                                            class="block w-full h-10.5 leading-9 rounded overflow-hidden text-sm text-gray-900 bg-gray-50 border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                                            id="single_file" accept="image/*"
+                                            @change="showPreview(event, $refs.previewSingle)" type="file">
+                                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">PNG
+                                            or
+                                            JPG.</p>
+                                    </div>
+                                    <div x-ref="previewSingle" class="mt-2">
+                                    </div>
+                                @endif
+
+                                <div class="flex justify-end">
+                                    <button type="submit"
+                                        class="button flex align-center text-white bg-theme-1 shadow-md mt-3">
+                                        <i data-feather="plus" class=" w-4 h-4 mt-1 font-bold mr-2"></i>
+                                        <span>Update</span>
+                                    </button>
+                                </div>
+                                <hr class="my-4">
+                            </form>
+                            @if ($fee_langsung->lampiran != null)
+                                <h3 class="font-bold text-xl">
+                                    Bukti Pembayaran {{ $fee_langsung->name }}
+                                </h3>
+                                <div class="relative inline-block mt-3 shadow-lg border-2 border-gray-500">
+                                    <form
+                                        action="{{ route('project.pemasukan.langsung.lampiran.destroy', [$project->slug, $fee_langsung->id]) }}"
+                                        method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit"
+                                            class="show-alert-delete-box absolute cursor-pointer top-0 right-0 px-2 py-1 text-white bg-red-500">&times;</button>
+                                    </form>
+                                    <img src="{{ asset('bukti-pembayaran/' . $fee_langsung->lampiran) }}" alt="file"
+                                        class="aspect-auto h-48 shadow">
+                                </div>
+                            @endif
+                        @endif
                     @else
                         <form action="{{ route('project.pemasukan.termin.store', $project->slug) }}" method="post"
                             class="hidden mt-3" id="formTermin">
@@ -206,7 +317,8 @@
                                             </td>
                                             <td class="text-center border-b">Rp.
                                                 {{ number_format($item->price, 2, ',', '.') }}</td>
-                                            <td class="text-center border-b">{{ $item->tanggal }}</td>
+                                            <td class="text-center border-b">
+                                                {{ \Carbon\Carbon::parse($item->tanggal)->format('d M Y') }}</td>
                                             <td class="text-center border-b">
                                                 {{ $item->status == 1 ? 'Terbayar' : 'Belum Dibayar' }}</td>
                                             <td class="border-b w-5">
@@ -250,6 +362,59 @@
 
 @push('scripts')
     <script>
+        function activateImagePreview() {
+            return {
+                previews: [],
+
+                showPreview(event, previewBox) {
+                    previewBox.replaceChildren();
+                    this.previews = [];
+
+                    for (const i in event.target.files) {
+                        const file = event.target.files[i];
+                        const isImage = file.type.startsWith('image/');
+                        const isPdf = file.type === 'application/pdf';
+
+                        if (isImage || isPdf) {
+                            this.createPreview(file, previewBox);
+                        }
+                    }
+                },
+
+                createPreview(file, previewBox) {
+                    let previewItem = document.createElement('div');
+                    previewItem.className = 'relative inline-block';
+
+                    if (file.type.startsWith('image/')) {
+                        let img = document.createElement('img');
+                        img.className = 'aspect-auto h-32 shadow';
+                        img.src = URL.createObjectURL(file);
+                        previewItem.appendChild(img);
+                    } else if (file.type === 'application/pdf') {
+                        let iframe = document.createElement('iframe');
+                        iframe.className = 'aspect-auto h-32 shadow';
+                        iframe.src = URL.createObjectURL(file);
+                        previewItem.appendChild(iframe);
+                    }
+
+                    let removeButton = document.createElement('button');
+                    removeButton.innerHTML = '&times;';
+                    removeButton.className = 'absolute top-0 right-0 px-2 py-1 text-white bg-red-500';
+                    removeButton.addEventListener('click', () => this.removePreview(previewItem));
+                    previewItem.appendChild(removeButton);
+
+                    previewBox.appendChild(previewItem);
+                    this.previews.push(previewItem);
+                },
+
+                removePreview(previewItem) {
+                    this.previews = this.previews.filter(item => item !== previewItem);
+                    previewItem.remove();
+                }
+            };
+        }
+    </script>
+    <script>
         function formLangsung() {
             var form = document.getElementById('form');
             form.classList.toggle('hidden');
@@ -260,23 +425,6 @@
             form.classList.toggle('hidden');
         };
 
-        @if ($project->keuangan_project && $project->keuangan_project->type == 'langsung')
-            @foreach ($fee_langsung as $item)
-                function EditFee{{ $item->id }}() {
-                    var field{{ $item->id }} = document.getElementById('fieldFee{{ $item->id }}');
-                    var input{{ $item->id }} = document.getElementById('inputFee{{ $item->id }}');
-                    var button{{ $item->id }} = document.getElementById('buttonEdit{{ $item->id }}');
-                    var close{{ $item->id }} = document.getElementById('close{{ $item->id }}');
-                    var edit{{ $item->id }} = document.getElementById('edit{{ $item->id }}');
-
-                    input{{ $item->id }}.classList.toggle('hidden');
-                    field{{ $item->id }}.classList.toggle('hidden');
-                    button{{ $item->id }}.classList.toggle('hidden');
-                    close{{ $item->id }}.classList.toggle('hidden');
-                    edit{{ $item->id }}.classList.toggle('hidden');
-                }
-            @endforeach
-        @endif
         @if ($project->keuangan_project && $project->keuangan_project->type == 'termin')
             @foreach ($termin as $item)
                 function EditFeeTermin{{ $item->id }}() {
@@ -302,15 +450,6 @@
             fee.value = formatRupiah(this.value, 'Rp. ');
         });
 
-        @if ($project->keuangan_project && $project->keuangan_project->type == 'langsung')
-            @foreach ($fee_langsung as $item)
-                var fee{{ $item->id }} = document.getElementById('inputFee{{ $item->id }}');
-                fee{{ $item->id }}.addEventListener('keyup', function(e) {
-                    fee{{ $item->id }}.value = formatRupiah(this.value, 'Rp. ');
-                });
-            @endforeach
-        @endif
-
         function formatRupiah(number, prefix) {
             var number_string = number.replace(/[^,\d]/g, '').toString(),
                 split = number_string.split(','),
@@ -326,5 +465,33 @@
             rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
             return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
         }
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $(document).on('click', '.show-alert-change-payment-type', function(event) {
+                var form = $(this).closest("form");
+
+                event.preventDefault();
+                Swal.fire({
+                    title: "Apakah kamu yakin ingin mengubah Tipe Pembayaran?",
+                    text: "Jika iya maka semua data yang ada akan terhapus.",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Ya, ubah saja!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Swal.fire({
+                            title: "Berhasil!",
+                            text: "Data pembayaran sudah bisa di atur kembali.",
+                            icon: "success"
+                        });
+                        form.submit();
+                    }
+                });
+            });
+        });
     </script>
 @endpush

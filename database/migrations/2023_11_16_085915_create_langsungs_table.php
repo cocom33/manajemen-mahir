@@ -14,8 +14,14 @@ return new class extends Migration
         Schema::create('langsungs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('keuangan_project_id');
-            $table->foreignId('project_team_id');
-            $table->bigInteger('fee');
+            // $table->foreignId('project_team_id');
+            // $table->bigInteger('fee');
+            $table->string('name');
+            $table->string('slug');
+            $table->string('price');
+            $table->date('tanggal');
+            $table->boolean('status')->default(0);
+            $table->string('lampiran')->nullable();
 
             $table->softDeletes();
             $table->timestamps();
