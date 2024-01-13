@@ -76,7 +76,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Skill
     Route::resource('skill', SkillController::class);
-    Route::post('ckeditor/upload', [SkillController::class, 'upload'])->name('ckeditor.upload');
     // end Skill
 
     // project

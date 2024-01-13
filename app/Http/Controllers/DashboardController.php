@@ -20,7 +20,7 @@ class DashboardController extends Controller
         $clients = Client::get();
         $teams = Team::get();
         $clientsLoad = Client::latest()->paginate(4);
-        $tagihansLoad = Tagihan::latest()->paginate(4);
+        $tagihansLoad = Tagihan::where('is_lunas', 0)->with('project')->latest()->paginate(4);
         $piutangsLoad = Termin::with('keuangan_project')->latest()->paginate(4);
 
         $keuangan = KeuanganDetail::selectRaw('MONTH(created_at) as month, SUM(total) as total')
