@@ -11,10 +11,10 @@
     <!-- END: Breadcrumb -->
     <!-- BEGIN: Search -->
     <div class="intro-x relative mr-3 sm:mr-6">
-        <div class="search hidden sm:block">
+        {{-- <div class="search hidden sm:block">
             <input type="text" class="search__input input placeholder-theme-13" placeholder="Search...">
             <i data-feather="search" class="search__icon"></i>
-        </div>
+        </div> --}}
         <a class="notification sm:hidden" href=""> <i data-feather="search" class="notification__icon"></i> </a>
         <div class="search-result">
             <div class="search-result__content">
@@ -50,7 +50,7 @@
     </div>
     <!-- END: Search -->
     <!-- BEGIN: Notifications -->
-    <div class="intro-x dropdown relative mr-auto sm:mr-6">
+    {{-- <div class="intro-x dropdown relative mr-auto sm:mr-6">
         <div class="dropdown-toggle notification notification--bullet cursor-pointer"> <i data-feather="bell" class="notification__icon"></i> </div>
         <div class="notification-content dropdown-box mt-8 absolute top-0 left-0 sm:left-auto sm:right-0 z-20 -ml-10 sm:ml-0">
             <div class="notification-content__box dropdown-box__content box">
@@ -122,7 +122,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     <!-- END: Notifications -->
     <!-- BEGIN: Account Menu -->
     <div class="intro-x dropdown w-8 h-8 relative">

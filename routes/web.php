@@ -18,6 +18,7 @@ use App\Http\Controllers\ProjectTeamsController;
 use App\Http\Controllers\ProjectTypeController;
 use App\Http\Controllers\TagihanController;
 use App\Http\Controllers\SkillController;
+use App\Http\Controllers\TagihanClientController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\UserController;
 use App\Models\KeuanganUmum;
@@ -143,11 +144,21 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/project/{slug}/pengeluaran/store', [PengeluaranController::class, 'store'])->name('project.pengeluaran.store');
     Route::put('/project/{slug}/pengeluaran/update/{id}', [PengeluaranController::class, 'update'])->name('project.pengeluaran.update');
     Route::delete('/project/{slug}/pengeluaran/{id}', [PengeluaranController::class, 'delete'])->name('project.pengeluaran.delete');
+
+    Route::get('/project/{slug}/laporan', [PengeluaranController::class, 'laporan'])->name('project.laporan');
     // end project
 
     // tagihan
     Route::get('/tagihan', [TagihanController::class, 'list'])->name('tagihan');
-    // Route::get('/tagihan/{id}', [TagihanController::class, 'show'])->name('tagihan.show');
+    Route::get('/tagihan/create', [TagihanClientController::class, 'form'])->name('tagihan.create');
+    Route::post('/tagihan/store', [TagihanClientController::class, 'store'])->name('tagihan.store');
+    Route::get('/tagihan/{id}', [TagihanClientController::class, 'show'])->name('tagihan.show');
+    Route::get('/tagihan/{id}/edit', [TagihanClientController::class, 'form'])->name('tagihan.edit');
+    Route::put('/tagihan/update/{id}', [TagihanClientController::class, 'update'])->name('tagihan.update');
+    Route::delete('/tagihan/{id}', [TagihanClientController::class, 'delete'])->name('tagihan.delete');
+    Route::put('/tagihan/{id}/lunas', [TagihanClientController::class, 'lunas'])->name('tagihan.lunas');
+    Route::put('/tagihan/{id}/clone', [TagihanClientController::class, 'clone'])->name('tagihan.clone');
+    Route::put('/tagihan/{id}/non-aktif', [TagihanController::class, 'nonAktif'])->name('tagihan.non-aktif');
     // end tagihan
 
     // project type

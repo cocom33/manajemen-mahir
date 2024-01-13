@@ -25,7 +25,7 @@ class PorjectController extends Controller
 {
     public function index()
     {
-        $data['projects'] = Project::get();
+        $data['projects'] = Project::orderBy('id', 'desc')->get();
 
         return view('admin.project.index', $data);
     }
@@ -69,10 +69,13 @@ class PorjectController extends Controller
             'type_pajak' => 'sometimes',
         ]);
 
-        if($request->pajak) {
-            $pajak = str_replace("Rp. ", "", $request->pajak);
-            $data['pajak'] = str_replace(".", "", $pajak);
+        if($request->type_pajak == 2) {
+            $data['pajak'] = null;
+            $data['type_pajak'] = null;
         }
+        // else {
+        //     $data['pajak'] = $request->harga_deal * $request->pajak / 100;
+        // }
 
         if($request->harga_penawaran) {
             $harga_penawaran = str_replace("Rp. ", "", $request->harga_penawaran);
@@ -106,10 +109,13 @@ class PorjectController extends Controller
             'type_pajak' => 'sometimes',
         ]);
 
-        if($request->pajak) {
-            $pajak = str_replace("Rp. ", "", $request->pajak);
-            $data['pajak'] = str_replace(".", "", $pajak);
+        if($request->type_pajak == 2) {
+            $data['pajak'] = null;
+            $data['type_pajak'] = null;
         }
+        // else {
+        //     $data['pajak'] = $request->harga_deal * $request->pajak / 100;
+        // }
 
         if($request->harga_penawaran) {
             $harga_penawaran = str_replace("Rp. ", "", $request->harga_penawaran);

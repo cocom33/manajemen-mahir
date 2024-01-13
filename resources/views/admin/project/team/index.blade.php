@@ -90,15 +90,15 @@
                                 <div class="font-medium whitespace-no-wrap">{{ $projectTeams->count() + 1 }}</div>
                             </td>
                             <td class="text-center border-b">Perusahaan </td>
+                            <td class="text-center border-b"> - </td>
                             <td class="text-center border-b">
                                 @if ($project->harga_deal)
-                                    Rp. {{ $project->harga_deal - $detail['belanja'] }}
+                                    Rp. {{ number_format($project->harga_deal - $detail['belanja']) }}
                                 @else
                                     -
                                 @endif
                             </td>
-                            <td class="text-center border-b">-</td>
-                            <td class="border-b w-5"></td>
+                            <td class="border-b w-5 text-center">-</td>
                         </tr>
                     </tbody>
                 </table>
