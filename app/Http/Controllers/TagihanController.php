@@ -14,7 +14,7 @@ class TagihanController extends Controller
 {
     public function list()
     {
-        $data['tagihan'] = Tagihan::get();
+        $data['tagihan'] = Tagihan::latest()->get();
 
         return view('admin.tagihan.index', $data);
     }
@@ -59,16 +59,16 @@ class TagihanController extends Controller
 
         $query = Tagihan::create($data);
 
-        // if($project->status == 'penawaran' || $project->status == 'deal') {
-        //     Pengeluaran::create([
-        //         'project_id' => $request->project_id,
-        //         'tagihan_id' => $query->id,
-        //         'title' => $query->title,
-        //         'price' => $query->harga_beli,
-        //         'description' => $query->description,
-        //         'date' => $query->date_start,
-        //     ]);
-        // }
+        if($project->status == 'penawaran' || $project->status == 'deal') {
+            Pengeluaran::create([
+                'project_id' => $request->project_id,
+                'tagihan_id' => $query->id,
+                'title' => $query->title,
+                'price' => $query->harga_beli,
+                'description' => $query->description,
+                'date' => $query->date_start,
+            ]);
+        }
 
         return redirect()->route('project.tagihan', $slug)->with('success', 'Berhasil Membuat Tagihan');
     }
@@ -95,15 +95,15 @@ class TagihanController extends Controller
 
         $tagihan->update($data);
 
-        // if ($tagihan->project->status == 'deal' || $tagihan->project->status == 'penawaran') {
-        //     $pengeluaran = Pengeluaran::where('tagihan_id', $tagihan->id)->first();
-        //     $pengeluaran->update([
-        //         'title' => $tagihan->title,
-        //         'price' => $tagihan->harga_beli,
-        //         'description' => $tagihan->description,
-        //         'date' => $tagihan->date_start,
-        //     ]);
-        // }
+        if ($tagihan->project->status == 'deal' || $tagihan->project->status == 'penawaran') {
+            $pengeluaran = Pengeluaran::where('tagihan_id', $tagihan->id)->first();
+            $pengeluaran->update([
+                'title' => $tagihan->title,
+                'price' => $tagihan->harga_beli,
+                'description' => $tagihan->description,
+                'date' => $tagihan->date_start,
+            ]);
+        }
 
         return redirect()->route('project.tagihan', $slug)->with('success', 'Berhasil Merubah Tagihan');
     }
@@ -151,14 +151,14 @@ class TagihanController extends Controller
         $data->update(['is_lunas' => 1]);
 
         if($data->project->status == 'penawaran' || $data->project->status == 'deal') {
-            Pengeluaran::create([
-                'tagihan_id' => $data->id,
-                'project_id' => $data->project->id,
-                'title' => $data->title,
-                'price' => $data->harga_beli,
-                'description' => $data->description,
-                'date' => $data->date_start,
-            ]);
+            // Pengeluaran::create([
+            //     'tagihan_id' => $data->id,
+            //     'project_id' => $data->project->id,
+            //     'title' => $data->title,
+            //     'price' => $data->harga_beli,
+            //     'description' => $data->description,
+            //     'date' => $data->date_start,
+            // ]);
         } else {
             $query = KeuanganPerusahaan::where([['tahun', date('Y')], ['bulan', date('m')]])->first();
             if (!$query) {
@@ -171,7 +171,7 @@ class TagihanController extends Controller
             KeuanganDetail::create([
                 'keuangan_perusahaan_id' => $query->id,
                 'tagihan_id' => $data->id,
-                'description' => 'Tagihan project',
+                'description' => 'Tagihan ' . explode(" ", $data->title)[0],
                 'status' => 'pengeluaran',
                 'tanggal' => date('d'),
                 'total' => $data->harga_beli,
@@ -180,7 +180,7 @@ class TagihanController extends Controller
             KeuanganDetail::create([
                 'keuangan_perusahaan_id' => $query->id,
                 'tagihan_id' => $data->id,
-                'description' => 'Penjualan ke client',
+                'description' => 'Tagihan ' . explode(" ", $data->title)[0],
                 'status' => 'pemasukan',
                 'tanggal' => date('d'),
                 'total' => $data->harga_jual,
@@ -213,9 +213,21 @@ class TagihanController extends Controller
         $data['is_finish'] = 0;
         unset($data['id']);
 
-        Tagihan::create($data);
+        $tagihan = Tagihan::create($data);
 
-        return redirect()->route('project.tagihan', $slug)->with('success', 'Berhasil Merubah Status Tagihan');
+        if ($tagihan->project->status == 'deal' || $tagihan->project->status == 'penawaran') {
+            Pengeluaran::create([
+                'tagihan_id' => $tagihan->id,
+                'project_id' => $tagihan->project->id,
+                'title' => $tagihan->title,
+                'price' => $tagihan->harga_beli,
+                'description' => $tagihan->description,
+                'date' => $tagihan->date_start,
+            ]);
+        } else {
+        }
+
+        return redirect()->route('project.tagihan', $slug)->with('success', 'Berhasil Clone Tagihan');
     }
 
     public function nonAktif(Request $request)

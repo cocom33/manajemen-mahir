@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('tagihans', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('project_id');
+            $table->foreignId('project_id')->nullable();
+            $table->foreignId('client_id')->nullable();
             $table->string('title');
             $table->text('description');
             $table->bigInteger('harga_beli');
