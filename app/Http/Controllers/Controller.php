@@ -35,7 +35,9 @@ class Controller extends BaseController
 
         $data['deal'] = $project->harga_deal;
         if ($project->type_pajak == 1) {
-            $data['deal'] = $project->harga_deal + $project->pajak;
+            $data['deal'] = $project->harga_deal + ($project->pajak * $project->harga_deal / 100);
+        } else if ($project->type_pajak == 0) {
+            $data['deal'] = $project->harga_deal - ($project->pajak * $project->harga_deal / 100);
         }
 
         $data['type_pajak'] = $project->type_pajak;

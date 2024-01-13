@@ -56,8 +56,13 @@
                         <td class="border-b">
                             <div class="flex  items-center">
                                 @if ($data->tagihan_id)
-                                    <a class="flex items-center mr-3 text-theme-1"
-                                        href="{{ route('project.tagihan.detail', [$data->tagihan->project->slug, $data->tagihan->id]) }}">
+                                    @php
+                                        $route = route('tagihan.show', $data->id);
+                                        if ($data->tagihan->project_id) {
+                                            $route = route('project.tagihan.detail', [$data->tagihan->project->slug, $data->tagihan->id]);
+                                        }
+                                    @endphp
+                                    <a class="flex items-center mr-3 text-theme-1" href="{{ $route }}">
                                         <i data-feather="eye" class="w-4 h-4 mr-1"></i> Lihat
                                     </a>
                                 @elseif ($data->project_team_fee_id)

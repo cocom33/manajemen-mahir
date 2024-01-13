@@ -14,11 +14,21 @@ class PengeluaranController extends Controller
     public function index($slug)
     {
         $data['project'] = Project::where('slug', $slug)->first();
-        $data['pengeluaran'] = Pengeluaran::where('project_id', $data['project']->id)->get();
+        $data['pengeluaran'] = Pengeluaran::where('project_id', $data['project']->id)->latest()->get();
 
         $data['detail'] = $this->gaji($data['project']);
 
         return view('admin.project.pengeluaran.index', $data);
+    }
+
+    public function laporan($slug)
+    {
+        $data['project'] = Project::where('slug', $slug)->first();
+        $data['pengeluaran'] = Pengeluaran::where('project_id', $data['project']->id)->latest()->get();
+
+        $data['detail'] = $this->gaji($data['project']);
+
+        return view('admin.project.laporan.index', $data);
     }
 
     /**
