@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Skill;
 use App\Models\Team;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class SkillController extends Controller
@@ -31,8 +32,11 @@ class SkillController extends Controller
     public function store(Request $request)
     {
         $validate = $request->validate([
-            'name' => 'required'
+            'name' => 'required',
+            'content' => 'nullable'
         ]);
+
+        // dd($request);
 
         Skill::create($validate);
 
@@ -73,7 +77,8 @@ class SkillController extends Controller
     public function update(Request $request, string $id)
     {
         $validate = $request->validate([
-            'name' => 'required'
+            'name' => 'required',
+
         ]);
 
         $dt = Skill::find($id);
@@ -93,5 +98,21 @@ class SkillController extends Controller
         $dt->delete();
 
         return redirect()->route('skill.index')->with('error', $dt->name .' deleted successfully!');
+    }
+
+    public function upload(Request $request): JsonResponse
+    {
+        if ($request->hasFile('upload')) {
+            $originName = $request->file('upload')->getClientOriginalName();
+            $fileName = pathinfo($originName, PATHINFO_FILENAME);
+            $extension = $request->file('upload')->getClientOriginalExtension();
+            $fileName = $fileName . '_' . time() . '.' . $extension;
+
+            $request->file('upload')->move(public_path('media'), $fileName);
+
+            $url = asset('media/' . $fileName);
+
+            return response()->json(['fileName' => $fileName, 'uploaded'=> 1, 'url' => $url]);
+        }
     }
 }
