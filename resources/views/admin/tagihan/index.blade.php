@@ -3,17 +3,17 @@
 @section('content')
  <!-- BEGIN: Content -->
 <x-card title="List Tagihan" >
-    <div class="intro-y datatable-wrapper box p-5 mt-5">
-        <table class="table table-report table-report--bordered display datatable w-full">
+    <div class="mt-5  intro-y datatable-wrapper box">
+        <table class="table w-full table-report table-report--bordered display datatable">
             <thead>
                 <tr>
-                    <th class="border-b-2 text-center whitespace-no-wrap">NAME</th>
-                    <th class="border-b-2 text-center whitespace-no-wrap">HARGA</th>
-                    <th class="border-b-2 text-center whitespace-no-wrap">TANGGAL DIBELI</th>
-                    <th class="border-b-2 text-center whitespace-no-wrap">JATUH TEMPO</th>
-                    <th class="border-b-2 text-center whitespace-no-wrap">PEMBAYARAN</th>
-                    <th class="border-b-2 text-center whitespace-no-wrap">STATUS</th>
-                    <th class="border-b-2 text-center whitespace-no-wrap">ACTIONS</th>
+                    <th class="text-center whitespace-no-wrap border-b-2">NAME</th>
+                    <th class="text-center whitespace-no-wrap border-b-2">HARGA</th>
+                    <th class="text-center whitespace-no-wrap border-b-2">TANGGAL DIBELI</th>
+                    <th class="text-center whitespace-no-wrap border-b-2">JATUH TEMPO</th>
+                    <th class="text-center whitespace-no-wrap border-b-2">PEMBAYARAN</th>
+                    <th class="text-center whitespace-no-wrap border-b-2">STATUS</th>
+                    <th class="text-center whitespace-no-wrap border-b-2">ACTIONS</th>
                 </tr>
             </thead>
             <tbody>
@@ -23,7 +23,7 @@
                         <div class="font-medium whitespace-no-wrap">{{ $item->title ?? '' }}</div>
                     </td>
 
-                    <td class="text-center border-b">Rp. {{ number_format($item->harga_asli) }}</td>
+                    <td class="text-center border-b">Rp. {{ number_format($item->harga_jual) }}</td>
                     <td class="text-center border-b">{{ date('d/m/Y', strtotime($item->date_start)) }}</td>
                     <td class="text-center border-b">
                         {{ date('d/m/Y', strtotime($item->date_end)) }}
@@ -42,11 +42,11 @@
                             <span class="text-theme-6">Tidak Aktif</span>
                         @endif
                     </td>
-                    <td class="border-b w-5">
-                        <div class="flex sm:justify-center items-center">
-                            <div class="p-2 flex items-center gap-1">
-                                <a href="{{ route('project.tagihan.detail', [$item->project->slug, $item->id]) }}" class="button inline-block text-white bg-theme-1 shadow-md">
-                                  <i data-feather="eye" class=" w-4 h-4 font-bold"></i>
+                    <td class="w-5 border-b">
+                        <div class="flex items-center sm:justify-center">
+                            <div class="flex items-center gap-1 p-2">
+                                <a href="{{ route('project.tagihan.detail', [$item->project->slug, $item->id]) }}" class="inline-block text-white shadow-md button bg-theme-1">
+                                  <i data-feather="eye" class="w-4 h-4 font-bold "></i>
                                 </a>
                             </div>
                         </div>
