@@ -18,14 +18,15 @@
                 <input type="hidden" name="tagihan_id" value="{{ $tagihan->id }}">
                 <x-form-input label="Nama" name="title" placeholder="masukkan nama" value="{{ $tagihan->title }}" />
                 <div class="flex w-full gap-3">
-                    <x-form-input label="Harga Awal" name="harga_awal" placeholder="masukkan jumlah uang" addon="w-full" value="{{ $tagihan->harga_awal }}" />
-                    <x-form-input label="Harga Asli" name="harga_asli" placeholder="masukkan jumlah uang" addon="w-full" value="{{ $tagihan->harga_asli }}" />
+                    <x-form-input label="Harga Jual" name="harga_jual" placeholder="masukkan jumlah uang" addon="w-full" value="{{ $tagihan->harga_jual }}" />
+                    <x-form-input label="Harga Beli" name="harga_beli" placeholder="masukkan jumlah uang" addon="w-full" value="{{ $tagihan->harga_beli }}" />
                     <x-form-input label="Masukkan Jumlah" name="total" placeholder="masukkan total barang" type="number" addon="w-full" value="{{ $tagihan->total }}" />
                 </div>
 
                 <div class="flex w-full gap-3">
-                    <x-form-input label="Masukkan waktu Pembelian" name="date_start" type="date" placeholder="ex: 1" addon="w-full" value="{{ $tagihan->date_start }}" />
-                    <x-form-input label="Masukkan Lama waktu" name="date" placeholder="ex: 1" addon="w-full" value="{{ $tagihan->date }}" />
+                    <x-form-input label="Masukkan waktu Pembelian" name="date_start" type="date" addon="w-full" value="{{ $tagihan->date_start }}" />
+                    <x-form-input label="Masukkan waktu Jatuh Tempo" name="date_end" type="date" addon="w-full" value="{{ $tagihan->date_start }}" />
+                    {{-- <x-form-input label="Masukkan Lama waktu" name="date" placeholder="ex: 1" addon="w-full" value="{{ $tagihan->date }}" />
                     <div class="w-full">
                         <label for="date_type">Pilih Type Tanggal</label>
                         <select name="date_type" id="date_type" class="input w-full border mt-2">
@@ -34,7 +35,7 @@
                             <option value="week" {{ $tagihan->date_type == 'week' ? 'selected' : '' }}>mingguan</option>
                             <option value="day" {{ $tagihan->date_type == 'day' ? 'selected' : '' }}>harian</option>
                         </select>
-                    </div>
+                    </div> --}}
                 </div>
 
                 <div class="mt-3">
@@ -58,12 +59,12 @@
 
 @push('scripts')
     <script>
-        var fee = document.getElementById('Harga Awal');
+        var fee = document.getElementById('Harga Jual');
         fee.addEventListener('keyup', function(e) {
             fee.value = formatRupiah(this.value, 'Rp. ');
         });
 
-        var asli = document.getElementById('Harga Asli');
+        var asli = document.getElementById('Harga Beli');
         asli.addEventListener('keyup', function(e) {
             asli.value = formatRupiah(this.value, 'Rp. ');
         });

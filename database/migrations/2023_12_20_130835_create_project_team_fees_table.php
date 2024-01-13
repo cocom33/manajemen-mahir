@@ -11,15 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('porject_team_fees', function (Blueprint $table) {
+        Schema::create('project_team_fees', function (Blueprint $table) {
             $table->id();
-            $table->string('project_teams_id');
+            $table->foreignId('project_team_id');
             $table->bigInteger('fee');
-            $table->bigInteger('total_fee');
-            $table->date('tanggal_pembayaran');
             $table->string('photo')->nullable();
-
-
             $table->timestamps();
         });
     }

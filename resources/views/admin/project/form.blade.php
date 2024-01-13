@@ -96,15 +96,19 @@
                     'value' => $val ?? '',
                 ]"
                 :options="[
-                    '0' => 'pengurangan', '1' => 'penambahan'
+                    '2' => 'tidak ada', '0' => 'pengurangan', '1' => 'penambahan'
                 ]"
                 required="false"
             />
             <x-form-input
-                label="Harga Pajak"
+                label="Rasio Pajak"
                 name="pajak"
+                type="number"
+                max="100"
+                min="0"
                 value="{{ ($model->pajak ?? null) }}"
                 required="false"
+                pesan="Masukkan persen"
             />
             <div class="flex justify-end">
                 <button class="button text-white bg-theme-1 shadow-md">@if ($model) Edit @else Tambah @endif Data</button>
@@ -123,10 +127,6 @@
         deal.addEventListener('keyup', function(e) {
             deal.value = formatRupiah(this.value, 'Rp. ');
         });
-        var pajak = document.getElementById('Harga Pajak');
-        pajak.addEventListener('keyup', function(e) {
-            pajak.value = formatRupiah(this.value, 'Rp. ');
-        });
 
         function formatRupiah(number, prefix) {
           var number_string = number.replace(/[^,\d]/g, '').toString(),
@@ -143,21 +143,6 @@
           rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
           return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
         }
-
-        // function formatRupiah(number, prefix) {
-        //     var number_string = number.replace(/[^,\d]/g, '').toString(),
-        //         split = number_string.split(','),
-        //         rupiah = split[0].replace(/^0+/, ''),
-        //         ribuan = rupiah.match(/\d{1,3}/g);
-
-        //     if (ribuan) {
-        //         separator = ',';
-        //         rupiah = ribuan.join(separator);
-        //     }
-
-        //     rupiah = split[1] !== undefined ? rupiah + ',' + split[1] : rupiah;
-        //     return prefix === undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
-        // }
 
     </script>
 @endpush

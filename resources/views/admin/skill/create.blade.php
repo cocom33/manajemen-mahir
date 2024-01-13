@@ -1,25 +1,25 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="intro-y flex items-center mt-8">
-    <h2 class="text-lg font-medium mr-auto">Add New Skill</h2>
+<div class="flex items-center mt-8 intro-y">
+    <h2 class="mr-auto text-lg font-medium">Add New Skill</h2>
 </div>
 <div class="grid grid-cols-12 gap-6 mt-5">
-    <div class="intro-y col-span-12 lg:col-span-6">
+    <div class="col-span-12 intro-y lg:col-span-6">
         <!-- BEGIN: Form Layout -->
-        <div class="intro-y box p-5">
+        <div class="p-5 intro-y box">
             <form method="post" action="{{ route('skill.store') }}">
                 @csrf
                 <div>
                     <label>Name</label>
                     <input type="text" name="name" class="input w-full border mt-2 @error('name') border-theme-6 @enderror" placeholder="Input text">
                     @error('name')
-                        <div class="text-theme-6 mt-2">{{ $message }}</div>
+                        <div class="mt-2 text-theme-6">{{ $message }}</div>
                     @enderror
                 </div>
-                <div class="text-right mt-5">
-                    <a href="{{ route('category-project.index') }}"><button type="button" class="button w-24 border text-gray-700 mr-1">Cancel</button></a>
-                    <button type="submit" class="button w-24 bg-theme-1 text-white">Save</button>
+                <div class="mt-5 text-right">
+                    <a href="{{ route('category-project.index') }}"><button type="button" class="w-24 mr-1 text-gray-700 border button">Cancel</button></a>
+                    <button type="submit" class="w-24 text-white button bg-theme-1">Save</button>
                 </div>
             </form>
         </div>

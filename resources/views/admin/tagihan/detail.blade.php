@@ -1,9 +1,8 @@
 @extends('layouts.app')
-@section('title', $project->name)
+@section('title', 'Detail Tagihan')
 
 @section('content')
-    <x-card title="Detail {{ $project->name }}" :project="$detail">
-        <x-tab-detail page="tagihan" slug="{{ $project->slug }}" />
+    <x-card title="Detail Tagihan">
         <div class="mt-5">
             <div class="w-full flex justify-between align-center">
                 <div>
@@ -13,7 +12,7 @@
 
                 <div class="flex gap-2">
                     @if ($tagihan->is_finish == 0)
-                        <form action="{{ route('project.tagihan.non-aktif', $project->slug) }}" method="post">
+                        <form action="{{ route('tagihan.non-aktif', $tagihan->id) }}" method="post">
                             @csrf
                             @method('PUT')
                             <input type="hidden" name="tagihan_id" value="{{ $tagihan->id }}">
@@ -28,7 +27,7 @@
                             @endif
                         </form>
                         @if ($tagihan->is_active && $tagihan->is_lunas)
-                        <form action="{{ route('project.tagihan.clone', $project->slug) }}" method="post">
+                        <form action="{{ route('tagihan.clone', $tagihan->id) }}" method="post">
                             @csrf
                             @method('PUT')
                             <input type="hidden" name="tagihan_id" value="{{ $tagihan->id }}">
@@ -38,7 +37,7 @@
                         </form>
                         @endif
                         @if (!$tagihan->is_lunas && $tagihan->is_active)
-                            <form action="{{ route('project.tagihan.lunas', $project->slug) }}" method="post">
+                            <form action="{{ route('tagihan.lunas', $tagihan->id) }}" method="post">
                                 @csrf
                                 @method('PUT')
                                 <input type="hidden" name="tagihan_id" value="{{ $tagihan->id }}">
@@ -62,28 +61,6 @@
                 <div class="flex w-full gap-3">
                     <x-form-input label="Tanggal Pembelian" name="" addon="w-full" value="{{ date('d / m / Y', strtotime($tagihan->date_start)) }}" readonly="readonly" required="false" />
                     <x-form-input label="Jatuh Tempo" name="" addon="w-full" value="{{ date('d / m / Y', strtotime($tagihan->date_end)) }}" readonly="readonly" required="false" />
-                    {{-- @php
-                        switch ($tagihan->date_type) {
-                            case 'year':
-                                $tempo = date('d / m / Y', strtotime('+'. $tagihan->date .' year', strtotime($tagihan->date_start)));
-                                $jarak = 'tahun';
-                                break;
-                            case 'month':
-                                $tempo = date('d / m / Y', strtotime('+'. $tagihan->date .' month', strtotime($tagihan->date_start)));
-                                $jarak = 'bulan';
-                                break;
-                            case 'week':
-                                $tempo = date('d / m / Y', strtotime('+'. $tagihan->date .' week', strtotime($tagihan->date_start)));
-                                $jarak = 'minggu';
-                                break;
-                            case 'day':
-                                $tempo = date('d / m / Y', strtotime('+'. $tagihan->date .' day', strtotime($tagihan->date_start)));
-                                $jarak = 'hari';
-                                break;
-                        }
-                    @endphp
-                    <x-form-input label="Lama Waktu" name="" addon="w-full" value="{{ $tagihan->date . ' ' . $jarak }}" readonly="readonly" required="false" />
-                    <x-form-input label="Jatuh Tempo" name="" addon="w-full" value="{{ $tempo }}" readonly="readonly" required="false" /> --}}
                 </div>
 
                 <div class="mt-3">
@@ -92,10 +69,10 @@
                 </div>
             </div>
             <div class="flex justify-end gap-2 mt-3">
-                <a href="{{ route('project.tagihan.edit', [$project->slug, $tagihan->id]) }}" class="button flex align-center text-white bg-theme-9 shadow-md">
+                <a href="{{ route('tagihan.edit', $tagihan->id) }}" class="button flex align-center text-white bg-theme-9 shadow-md">
                   <i data-feather="edit-2" class=" w-4 h-4 mt-1 font-bold mr-2"></i> Edit
                 </a>
-                <form action="{{ route('project.tagihan.delete', [$project->slug, $tagihan->id]) }}" method="post">
+                <form action="{{ route('tagihan.delete', $tagihan->id) }}" method="post">
                     @csrf
                     @method('DELETE')
                     <input type="hidden" name="id" value="{{ $tagihan->id }}">

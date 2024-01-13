@@ -5,7 +5,7 @@
             <div class="mt-2">
                 <select class="input w-full border-2" wire:model="tahun">
                     <option wire:click="changeb('semua')" value="semua" selected> Semua</option>
-                    @forelse ($filtertahun as $item)
+                    @forelse ($all as $item)
                         <option wire:click="changet({{ $item }})" value="{{ $item }}">{{ $item }}</option>
                     @empty
                         <option class="hidden" value="{{ date('Y') }}">{{ Date('Y') }}</option>
@@ -55,14 +55,31 @@
                         <td class=" border-b">{{ $data->tanggal }} / {{ $data->keuanganPerusahaan->bulan }} / {{ $data->keuanganPerusahaan->tahun }}</td>
                         <td class="border-b">
                             <div class="flex  items-center">
-                                <a class="flex items-center mr-3" href="{{ route('keuangan-umum.edit', $data->id) }}">
-                                    <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Edit
-                                </a>
-                                <form method="POST" action="{{ route('keuangan-umum.destroy', $data->id) }}">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="flex items-center text-theme-6 show-alert-delete-box" data-toggle="tooltip" title='Delete'><i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Delete</button>
-                                </form>
+                                @if ($data->tagihan_id)
+                                    @php
+                                        $route = route('tagihan.show', $data->id);
+                                        if ($data->tagihan->project_id) {
+                                            $route = route('project.tagihan.detail', [$data->tagihan->project->slug, $data->tagihan->id]);
+                                        }
+                                    @endphp
+                                    <a class="flex items-center mr-3 text-theme-1" href="{{ $route }}">
+                                        <i data-feather="eye" class="w-4 h-4 mr-1"></i> Lihat
+                                    </a>
+                                @elseif ($data->project_team_fee_id)
+                                    <a class="flex items-center mr-3 text-theme-1"
+                                        href="{{ route('project.teams.show', [$data->project_team_fee->projectTeam->project->slug, $data->project_team_fee->id]) }}">
+                                        <i data-feather="eye" class="w-4 h-4 mr-1"></i> Lihat
+                                    </a>
+                                @else
+                                    <a class="flex items-center mr-3" href="{{ route('keuangan-umum.edit', $data->id) }}">
+                                        <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Edit
+                                    </a>
+                                    <form method="POST" action="{{ route('keuangan-umum.destroy', $data->id) }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="flex items-center text-theme-6 show-alert-delete-box" data-toggle="tooltip" title='Delete'><i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Delete</button>
+                                    </form>
+                                @endif
                             </div>
                         </td>
                     </tr>
