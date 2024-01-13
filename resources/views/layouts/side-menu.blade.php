@@ -55,6 +55,12 @@
             'icon'   => 'user',
             'name'   => 'client',
         ],
+        'note' =>  [
+            'title'  => 'Note',
+            'url'    => route('note.index'),
+            'icon'   => 'file-text',
+            'name'   => 'note',
+        ],
         'devider',
         'profile' =>  [
             'title'  => 'Profile',

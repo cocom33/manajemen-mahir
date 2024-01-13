@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\NoteController;
 use App\Http\Controllers\PorjectController;
 use App\Http\Controllers\ContohController;
 use App\Http\Controllers\KeuanganPerusahaanController;
@@ -59,6 +60,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/project/teams-details/{slug}/{id}', [ProjectTeamsController::class, 'show'])->name('project.teams.show');
     // team
     // routes/web.php
+    
     Route::resource('teams', TeamController::class);
 
     Route::put('/projects/{project}/teams/{team}/fees', [ProjectTeamsController::class , 'update'])->name('project.team.fee.update');
@@ -66,6 +68,23 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/projects/{project}/teams/{team}/delete', [ProjectTeamsController::class, 'deletePhoto'])->name('project.team.fee.destroy');
     Route::delete('/project/team-fee/delete/{id}', [ProjectTeamsController::class, 'deleteFee'])->name('project.team-fee-delete');
 
+    //Notes
+    Route::get('/notes', [NoteController::class, 'index'])->name('note.index');
+
+    Route::get('/notes/create', [NoteController::class, 'create'])->name('notes.create'); 
+
+    Route::post('/notes', [NoteController::class, 'store'])->name('notes.store');
+
+    Route::get('/notes/{note}', [NoteController::class, 'show'])->name('notes.show');
+
+    Route::get('/notes/{note}/edit', [NoteController::class, 'edit'])->name('notes.edit');
+
+// routes/web.php
+    Route::get('/notes/{note}', [NoteController::class, 'show'])->name('note.show');
+
+    Route::put('/notes/{note}', [NoteController::class, 'update'])->name('notes.update');
+
+    Route::delete('/notes/{note}', [NoteController::class, 'destroy'])->name('notes.destroy');
 
 
     // end team
