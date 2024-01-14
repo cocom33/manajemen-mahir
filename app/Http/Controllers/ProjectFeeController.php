@@ -5,11 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Termin;
 use App\Models\Project;
 use App\Models\Langsung;
-use App\Models\TerminFee;
 use App\Models\ProjectTeam;
 use Illuminate\Http\Request;
 use App\Models\KeuanganProject;
 use App\Http\Controllers\Controller;
+use App\Models\KeuanganDetail;
+use App\Models\KeuanganPerusahaan;
 use App\Models\Pengeluaran;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Storage;
@@ -64,8 +65,28 @@ class ProjectFeeController extends Controller
             $data['price'] = $price;
             $data['status'] = 1;
             $data['lampiran'] = $imageName;
+            $langsung = Langsung::create($data);
 
-            Langsung::create($data);
+            $keuangan = KeuanganDetail::where('langsung_id', $langsung->id)->first();
+            if (!$keuangan) {
+                $query = KeuanganPerusahaan::where([['tahun', date('Y')], ['bulan', date('m')]])->first();
+                if (!$query) {
+                    $query = KeuanganPerusahaan::create([
+                        'tahun' => date('Y'),
+                        'bulan' => date('m'),
+                    ]);
+                }
+
+                KeuanganDetail::create([
+                    'keuangan_perusahaan_id' => $query->id,
+                    'langsung_id' => $langsung->id,
+                    'description' => 'Pemasukan Project',
+                    'status' => 'pemasukan',
+                    'tanggal' => date('d'),
+                    'total' => $price,
+                ]);
+            }
+
             return redirect()->back()->with('success', 'Berhasil membuat data dan upload bukti pembayaran!');
         } else {
             $data = $request->validate([
@@ -101,6 +122,26 @@ class ProjectFeeController extends Controller
                 'status' => 1,
                 'lampiran' => $imageName,
             ]);
+
+            $keuangan = KeuanganDetail::where('termin_id', $langsung->id)->first();
+            if (!$keuangan) {
+                $query = KeuanganPerusahaan::where([['tahun', date('Y')], ['bulan', date('m')]])->first();
+                if (!$query) {
+                    $query = KeuanganPerusahaan::create([
+                        'tahun' => date('Y'),
+                        'bulan' => date('m'),
+                    ]);
+                }
+
+                KeuanganDetail::create([
+                    'keuangan_perusahaan_id' => $query->id,
+                    'langsung_id' => $langsung->id,
+                    'description' => 'Pemasukan Project',
+                    'status' => 'pemasukan',
+                    'tanggal' => date('d'),
+                    'total' => $price,
+                ]);
+            }
 
             return redirect()->back()->with('success', 'Berhasil update data dan upload gambar!');
         } else {
@@ -168,33 +209,10 @@ class ProjectFeeController extends Controller
 
     public function projectTerminDetailStore($slug, Request $request)
     {
-        // $terminfee = TerminFee::find($request->id);
-        // $fee = str_replace("Rp. ", "", $request->fee);
-        // $price = str_replace(".", "", $fee);
-
-        // if ($terminfee) {
-        //     $terminfee->update([
-        //         'fee' => $price,
-        //     ]);
-
-        //     return redirect()->back()->with('success', 'berhasil update fee team');
-        // }
-
-        // $data = $request->validate([
-        //     'project_team_id' => 'required',
-        //     'termin_id' => 'required',
-        //     'fee' => 'required',
-        // ]);
-        // $data['fee'] = $price;
-
-        // TerminFee::create($data);
-        // return redirect()->back()->with('success', 'berhasil menambahkan fee kepada team');
-
         $project = Project::where('slug', $slug)->first();
         $termin = Termin::find($request->id);
         $fee = str_replace("Rp. ", "", $request->price);
         $price = str_replace(".", "", $fee);
-        // $price = str_replace(, "", $fee);
 
         if ($request->hasFile('lampiran')) {
             $image = $request->file('lampiran');
@@ -208,6 +226,26 @@ class ProjectFeeController extends Controller
                 'status' => 1,
                 'lampiran' => $imageName,
             ]);
+
+            $keuangan = KeuanganDetail::where('termin_id', $termin->id)->first();
+            if (!$keuangan) {
+                $query = KeuanganPerusahaan::where([['tahun', date('Y')], ['bulan', date('m')]])->first();
+                if (!$query) {
+                    $query = KeuanganPerusahaan::create([
+                        'tahun' => date('Y'),
+                        'bulan' => date('m'),
+                    ]);
+                }
+
+                KeuanganDetail::create([
+                    'keuangan_perusahaan_id' => $query->id,
+                    'termin_id' => $termin->id,
+                    'description' => 'Pemasukan Project',
+                    'status' => 'pemasukan',
+                    'tanggal' => date('d'),
+                    'total' => $price,
+                ]);
+            }
 
             return redirect()->back()->with('success', 'Berhasil update data dan upload gambar!');
         } else {
@@ -246,6 +284,7 @@ class ProjectFeeController extends Controller
                     Storage::delete('bukti-pembayaran/' . $termin->lampiran);
                 }
                 $termin->forceDelete();
+                KeuanganDetail::where('termin_id', $termin->id)->first()->forceDelete();
             }
         } else {
             $langsung = Langsung::where('keuangan_project_id', $keuanganProjects->id)->first();
@@ -255,8 +294,10 @@ class ProjectFeeController extends Controller
                     unlink(public_path('bukti-pembayaran/' . $langsung->lampiran));
                     Storage::delete('bukti-pembayaran/' . $langsung->lampiran);
                     $langsung->forceDelete();
+                    KeuanganDetail::where('langsung_id', $langsung->id)->first()->forceDelete();
                 } else {
                     $langsung->forceDelete();
+                    KeuanganDetail::where('langsung_id', $langsung->id)->first()->forceDelete();
                 }
             }
         }
