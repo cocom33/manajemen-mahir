@@ -16,6 +16,8 @@ return new class extends Migration
             $table->foreignId('keuangan_perusahaan_id');
             $table->foreignId('tagihan_id')->nullable();
             $table->foreignId('project_team_fee_id')->nullable();
+            $table->foreignId('termin_id')->nullable();
+            $table->foreignId('langsung_id')->nullable();
             $table->string('tanggal');
             $table->string('description');
             $table->enum('status', ['pemasukan', 'pengeluaran']);
