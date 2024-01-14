@@ -8,7 +8,7 @@
                         {{ \Carbon\Carbon::parse($tagihan->created_at)->format('j F Y') }}
                     </div>
                 </div>
-                <div class="px-2 py-1 text-xs font-medium text-white rounded-full cursor-pointer bg-theme-9">
+                <div class="px-2 py-1 text-xs font-medium text-white rounded-full cursor-pointer bg-theme-6">
                     @if ($tagihan->is_lunas == 1)
                         Lunas
                     @else

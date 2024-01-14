@@ -21,7 +21,7 @@ class DashboardController extends Controller
         $teams = Team::get();
         $clientsLoad = Client::latest()->paginate(4);
         $tagihansLoad = Tagihan::where('is_lunas', 0)->with('project')->latest()->paginate(4);
-        $piutangsLoad = Termin::with('keuangan_project')->latest()->paginate(4);
+        $piutangsLoad = Termin::with('keuangan_project')->orderByRaw('ABS(DATEDIFF(tanggal, CURDATE()))')->paginate(5);
 
         $keuangan = KeuanganDetail::selectRaw('MONTH(created_at) as month, SUM(total) as total')
                     ->whereYear('created_at', date('Y'))
