@@ -31,6 +31,12 @@
         //     'name'   => 'keuangan-umum',
         // ],
         'devider',
+        'note' =>  [
+            'title'  => 'Note',
+            'url'    => route('note.index'),
+            'icon'   => 'file-text',
+            'name'   => 'note',
+        ],
         'teams' =>  [
             'title'  => 'Teams',
             'url'    => route('teams.index'),
@@ -54,12 +60,6 @@
             'url'    => route('client.index'),
             'icon'   => 'user',
             'name'   => 'client',
-        ],
-        'note' =>  [
-            'title'  => 'Note',
-            'url'    => route('note.index'),
-            'icon'   => 'file-text',
-            'name'   => 'note',
         ],
         'devider',
         'profile' =>  [

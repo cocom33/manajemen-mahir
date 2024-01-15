@@ -86,6 +86,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::delete('/notes/{note}', [NoteController::class, 'destroy'])->name('notes.destroy');
 
+    Route::post('ckeditor/upload', [NoteController::class, 'upload'])->name('ckeditor.upload');
 
     // end team
 
@@ -95,7 +96,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Skill
     Route::resource('skill', SkillController::class);
-    Route::post('ckeditor/upload', [SkillController::class, 'upload'])->name('ckeditor.upload');
+    // Route::post('ckeditor/upload', [SkillController::class, 'upload'])->name('ckeditor.upload');
     // end Skill
 
     // project
