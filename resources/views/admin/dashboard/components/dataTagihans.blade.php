@@ -1,5 +1,13 @@
 @foreach ($tagihansLoad as $tagihan)
-    <a href="{{ route('project.tagihan.detail', [$tagihan->project->slug, $tagihan->id]) }}">
+    @php
+        if ($tagihan->project_id) {
+            $route = route('project.tagihan.detail', [$tagihan->project->slug, $tagihan->id]);
+        } else {
+            $route = route('tagihan.show', $tagihan->id);
+        }
+    @endphp
+
+    <a href="{{ $route }}">
         <div class="intro-y">
             <div class="flex items-center px-4 py-4 mb-3 box zoom-in">
                 <div class="ml-4 mr-auto">

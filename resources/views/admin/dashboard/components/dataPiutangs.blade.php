@@ -3,8 +3,9 @@
         <div class="flex items-center px-4 py-4 mb-3 box zoom-in">
             <div class="ml-4 mr-auto">
                 @php
-                    $projects = \App\Models\Project::where('id', $piutang->keuangan_project->id)->first();
+                    $projects = \App\Models\Project::where('id', $piutang->keuangan_project->project_id)->first();
                 @endphp
+                @dump($piutang)
                 <a href="{{ route('project.pemasukan.termin.detail', [$projects->slug, $piutang->slug]) }}">
                     <div class="font-medium hover:text-blue-600 a">{{ $piutang->name }} <small>( {{ $projects->name }} )</small></div>
                 </a>

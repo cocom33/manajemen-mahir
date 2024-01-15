@@ -31,11 +31,6 @@
     </div>
 
     <div class="intro-y datatable-wrapper box p-5 mt-5">
-        {{-- @if ($tahun) --}}
-            <livewire:keuangan />
-        {{-- @else
-            <h4 class="text-md   text-center">Tidak ada data, silahkan buat dahulu</h4>
-        @endif --}}
+        <livewire:keuangan />
     </div>
-
 @endsection
