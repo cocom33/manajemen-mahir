@@ -70,7 +70,7 @@ class TagihanController extends Controller
             ]);
         }
 
-        return redirect()->route('project.tagihan', $slug)->with('success', 'Berhasil Membuat Tagihan');
+        return redirect()->back()->with('success', 'Berhasil Membuat Tagihan');
     }
 
     public function update(Request $request, $slug)
@@ -105,7 +105,7 @@ class TagihanController extends Controller
             ]);
         }
 
-        return redirect()->route('project.tagihan', $slug)->with('success', 'Berhasil Merubah Tagihan');
+        return redirect()->route('project.pengeluaran', $slug)->with('success', 'Berhasil Merubah Tagihan');
     }
 
     public function detail($slug, $id)
@@ -126,7 +126,7 @@ class TagihanController extends Controller
         return view('admin.project.tagihan.edit', $data);
     }
 
-    public function delete(Request $request)
+    public function delete(Request $request, $slug)
     {
         $data = Tagihan::find($request->id);
         $pengeluaran = Pengeluaran::where('tagihan_id', $data->id)->first();
@@ -142,7 +142,7 @@ class TagihanController extends Controller
             }
         }
 
-        return redirect()->back()->with('success', 'berhasil menghapus tagihan');
+        return redirect()->route('project.pengeluaran', $slug)->with('success', 'berhasil menghapus tagihan');
     }
 
     public function lunas(Request $request)
