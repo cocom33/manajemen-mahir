@@ -5,7 +5,6 @@
                 @php
                     $projects = \App\Models\Project::where('id', $piutang->keuangan_project->project_id)->first();
                 @endphp
-                @dump($piutang)
                 <a href="{{ route('project.pemasukan.termin.detail', [$projects->slug, $piutang->slug]) }}">
                     <div class="font-medium hover:text-blue-600 a">{{ $piutang->name }} <small>( {{ $projects->name }} )</small></div>
                 </a>
