@@ -1,13 +1,5 @@
 @extends('layouts.app')
 
-    @push('styles')
-        <style>
-            .ck-editor__editable_inline {
-                min-height: 300px;
-            }
-        </style>
-    @endpush
-
 @section('content')
 <div class="flex items-center mt-8 intro-y">
     <h2 class="mr-auto text-lg font-medium">Add New Skill</h2>
