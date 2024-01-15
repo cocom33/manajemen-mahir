@@ -1,11 +1,19 @@
 @extends('layouts.app')
 
+    @push('styles')
+        <style>
+            .ck-editor__editable_inline {
+                min-height: 300px;
+            }
+        </style>
+    @endpush
+
 @section('content')
 <div class="flex items-center mt-8 intro-y">
     <h2 class="mr-auto text-lg font-medium">Add New Skill</h2>
 </div>
 <div class="grid grid-cols-12 gap-6 mt-5">
-    <div class="col-span-12 intro-y lg:col-span-6">
+    <div class="col-span-12 intro-y lg:col-span-12">
         <!-- BEGIN: Form Layout -->
         <div class="p-5 intro-y box">
             <form method="post" action="{{ route('skill.store') }}">
@@ -17,6 +25,10 @@
                         <div class="mt-2 text-theme-6">{{ $message }}</div>
                     @enderror
                 </div>
+                <div class="mt-5 form-group">
+                    <label>Body:</label>
+                    <textarea name="content" id="editor"></textarea>
+                </div>
                 <div class="mt-5 text-right">
                     <a href="{{ route('category-project.index') }}"><button type="button" class="w-24 mr-1 text-gray-700 border button">Cancel</button></a>
                     <button type="submit" class="w-24 text-white button bg-theme-1">Save</button>
@@ -27,3 +39,18 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script src="https://cdn.ckeditor.com/ckeditor5/34.2.0/classic/ckeditor.js"></script>
+    <script>
+    ClassicEditor
+        .create( document.querySelector( '#editor' ),{
+            ckfinder: {
+                uploadUrl: '{{route('ckeditor.upload').'?_token='.csrf_token()}}',
+            }
+        })
+        .catch( error => {
+
+        } );
+</script>
+@endpush
