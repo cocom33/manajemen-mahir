@@ -12,7 +12,7 @@ class KeuanganDetail extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $fillable = ['keuangan_perusahaan_id', 'tagihan_id', 'project_team_fee_id', 'description', 'total', 'status', 'tanggal'];
+    protected $fillable = ['keuangan_perusahaan_id', 'tagihan_id', 'langsung_id', 'termin_fee_id', 'project_team_fee_id', 'description', 'total', 'status', 'tanggal'];
 
     /**
      * Get the bulan that owns the KeuanganDetail
@@ -40,5 +40,15 @@ class KeuanganDetail extends Model
     public function project_team_fee()
     {
         return $this->belongsTo(ProjectTeamFee::class);
+    }
+
+    public function langsung()
+    {
+        return $this->belongsTo(Langsung::class);
+    }
+
+    public function termin()
+    {
+        return $this->belongsTo(Termin::class);
     }
 }

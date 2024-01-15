@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Skill;
 use App\Models\Team;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class SkillController extends Controller
@@ -32,11 +31,8 @@ class SkillController extends Controller
     public function store(Request $request)
     {
         $validate = $request->validate([
-            'name' => 'required',
-            'content' => 'nullable'
+            'name' => 'required'
         ]);
-
-        // dd($request);
 
         Skill::create($validate);
 
@@ -77,8 +73,7 @@ class SkillController extends Controller
     public function update(Request $request, string $id)
     {
         $validate = $request->validate([
-            'name' => 'required',
-
+            'name' => 'required'
         ]);
 
         $dt = Skill::find($id);

@@ -62,7 +62,7 @@
                                         <button id="editButton{{ $key }}" onclick="editTeam{{ $key }}()" class="button inline-block bg-theme-9 text-white" type="button" id="actionMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <i data-feather="edit-2" class="w-4 h-4"></i>
                                         </button>
-                                        <a href="{{ route('project.teams.show', [$project->slug, $team->team_id]) }}">
+                                        <a href="{{ route('project.teams.show', [$project->slug, $team->id]) }}">
                                             <button class="button inline-block bg-theme-10 text-white" type="button" id="actionMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 <i data-feather="eye" class="w-4 h-4"></i>
                                             </button>
@@ -90,15 +90,15 @@
                                 <div class="font-medium whitespace-no-wrap">{{ $projectTeams->count() + 1 }}</div>
                             </td>
                             <td class="text-center border-b">Perusahaan </td>
+                            <td class="text-center border-b"> - </td>
                             <td class="text-center border-b">
                                 @if ($project->harga_deal)
-                                    Rp. {{ $project->harga_deal - $detail['belanja'] }}
+                                    Rp. {{ number_format($project->harga_deal - $detail['belanja']) }}
                                 @else
                                     -
                                 @endif
                             </td>
-                            <td class="text-center border-b">-</td>
-                            <td class="border-b w-5"></td>
+                            <td class="border-b w-5 text-center">-</td>
                         </tr>
                     </tbody>
                 </table>

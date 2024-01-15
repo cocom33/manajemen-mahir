@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\ClientController;
-use App\Http\Controllers\NoteController;
 use App\Http\Controllers\PorjectController;
 use App\Http\Controllers\ContohController;
 use App\Http\Controllers\KeuanganPerusahaanController;
@@ -19,6 +18,7 @@ use App\Http\Controllers\ProjectTeamsController;
 use App\Http\Controllers\ProjectTypeController;
 use App\Http\Controllers\TagihanController;
 use App\Http\Controllers\SkillController;
+use App\Http\Controllers\TagihanClientController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\UserController;
 use App\Models\KeuanganUmum;
@@ -60,7 +60,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/project/teams-details/{slug}/{id}', [ProjectTeamsController::class, 'show'])->name('project.teams.show');
     // team
     // routes/web.php
-    
     Route::resource('teams', TeamController::class);
 
     Route::put('/projects/{project}/teams/{team}/fees', [ProjectTeamsController::class , 'update'])->name('project.team.fee.update');
@@ -68,25 +67,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/projects/{project}/teams/{team}/delete', [ProjectTeamsController::class, 'deletePhoto'])->name('project.team.fee.destroy');
     Route::delete('/project/team-fee/delete/{id}', [ProjectTeamsController::class, 'deleteFee'])->name('project.team-fee-delete');
 
-    //Notes
-    Route::get('/notes', [NoteController::class, 'index'])->name('note.index');
 
-    Route::get('/notes/create', [NoteController::class, 'create'])->name('notes.create'); 
-
-    Route::post('/notes', [NoteController::class, 'store'])->name('notes.store');
-
-    Route::get('/notes/{note}', [NoteController::class, 'show'])->name('notes.show');
-
-    Route::get('/notes/{note}/edit', [NoteController::class, 'edit'])->name('notes.edit');
-
-// routes/web.php
-    Route::get('/notes/{note}', [NoteController::class, 'show'])->name('note.show');
-
-    Route::put('/notes/{note}', [NoteController::class, 'update'])->name('notes.update');
-
-    Route::delete('/notes/{note}', [NoteController::class, 'destroy'])->name('notes.destroy');
-
-    Route::post('ckeditor/upload', [NoteController::class, 'upload'])->name('ckeditor.upload');
 
     // end team
 
@@ -96,7 +77,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Skill
     Route::resource('skill', SkillController::class);
-    // Route::post('ckeditor/upload', [SkillController::class, 'upload'])->name('ckeditor.upload');
     // end Skill
 
     // project
@@ -163,11 +143,21 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/project/{slug}/pengeluaran/store', [PengeluaranController::class, 'store'])->name('project.pengeluaran.store');
     Route::put('/project/{slug}/pengeluaran/update/{id}', [PengeluaranController::class, 'update'])->name('project.pengeluaran.update');
     Route::delete('/project/{slug}/pengeluaran/{id}', [PengeluaranController::class, 'delete'])->name('project.pengeluaran.delete');
+
+    Route::get('/project/{slug}/laporan', [PengeluaranController::class, 'laporan'])->name('project.laporan');
     // end project
 
     // tagihan
     Route::get('/tagihan', [TagihanController::class, 'list'])->name('tagihan');
-    // Route::get('/tagihan/{id}', [TagihanController::class, 'show'])->name('tagihan.show');
+    Route::get('/tagihan/create', [TagihanClientController::class, 'form'])->name('tagihan.create');
+    Route::post('/tagihan/store', [TagihanClientController::class, 'store'])->name('tagihan.store');
+    Route::get('/tagihan/{id}', [TagihanClientController::class, 'show'])->name('tagihan.show');
+    Route::get('/tagihan/{id}/edit', [TagihanClientController::class, 'form'])->name('tagihan.edit');
+    Route::put('/tagihan/update/{id}', [TagihanClientController::class, 'update'])->name('tagihan.update');
+    Route::delete('/tagihan/{id}', [TagihanClientController::class, 'delete'])->name('tagihan.delete');
+    Route::put('/tagihan/{id}/lunas', [TagihanClientController::class, 'lunas'])->name('tagihan.lunas');
+    Route::put('/tagihan/{id}/clone', [TagihanClientController::class, 'clone'])->name('tagihan.clone');
+    Route::put('/tagihan/{id}/non-aktif', [TagihanController::class, 'nonAktif'])->name('tagihan.non-aktif');
     // end tagihan
 
     // project type

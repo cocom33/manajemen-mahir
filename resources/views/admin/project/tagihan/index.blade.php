@@ -30,17 +30,6 @@
                 <div class="flex w-full gap-3">
                     <x-form-input label="Masukkan waktu Pembelian" name="date_start" type="date" addon="w-full" />
                     <x-form-input label="Masukkan waktu Jatuh Tempo" name="date_end" type="date" addon="w-full" />
-                    {{-- <x-form-input label="Masukkan Lama waktu" name="date" placeholder="ex: 1" addon="w-full" />
-                    <div class="w-full">
-                        <label for="date_type">Pilih Type Tanggal</label>
-                        <select name="date_type" id="date_type" class="input w-full border mt-2">
-                            <option class="hidden" selected></option>
-                            <option value="year">tahunan</option>
-                            <option value="month">bulanan</option>
-                            <option value="week">mingguan</option>
-                            <option value="day">harian</option>
-                        </select>
-                    </div> --}}
                 </div>
 
                 <div class="mt-3">

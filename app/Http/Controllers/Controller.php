@@ -28,14 +28,16 @@ class Controller extends BaseController
             $data['type_piutang'] = 'termin';
         }
         if ($project->keuangan_project && $project->keuangan_project->type == 'langsung') {
-            $data['piutang'] = $project->keuangan_project->langsung->sum('fee');
-            $data['fee'] = $project->keuangan_project->langsung->sum('fee');
+            $data['piutang'] = $project->keuangan_project->langsung->sum('price');
+            $data['fee'] = $project->keuangan_project->langsung->sum('price');
             $data['type_piutang'] = 'langsung';
         }
 
         $data['deal'] = $project->harga_deal;
         if ($project->type_pajak == 1) {
-            $data['deal'] = $project->harga_deal + $project->pajak;
+            $data['deal'] = $project->harga_deal + ($project->pajak * $project->harga_deal / 100);
+        } else if ($project->type_pajak == 0) {
+            $data['deal'] = $project->harga_deal - ($project->pajak * $project->harga_deal / 100);
         }
 
         $data['type_pajak'] = $project->type_pajak;

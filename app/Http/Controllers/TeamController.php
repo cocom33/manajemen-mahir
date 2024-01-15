@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PorjectTeamFee;
 use App\Models\Project;
 use App\Models\ProjectFee;
 use App\Models\ProjectTeam;
@@ -57,7 +58,7 @@ class TeamController extends Controller
     public function show(Team $team)
     {
         $skills = Skill::get();
-        
+
         $teamSkillsId = json_decode($team->skill, true);
 
         $skill_team = Skill::find($teamSkillsId);
@@ -66,13 +67,17 @@ class TeamController extends Controller
 
         $projectId = $projectsTeams->pluck('project_id')->toArray();
 
-        $projects = Project::with('keuangan_project')->whereIn('id', $projectId)->get();
+        $projects = Project::with('projectTeams')->whereIn('id', $projectId)->get();
+
+        // $projectsTeamFees = PorjectTeamFee::get();
+
+        // dd($projectsTeamFees);
 
         if ($projects->isEmpty()) {
             return view('admin.team.show', compact('team', 'skill_team'))->with('projects', null);
         }
 
-        return view('admin.team.show', compact('team', 'skill_team', 'projects'));
+        return view('admin.team.show', compact('team', 'skill_team', 'projects', 'projectsTeams'));
     }
 
 

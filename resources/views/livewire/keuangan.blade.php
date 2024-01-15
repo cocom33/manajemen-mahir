@@ -56,13 +56,28 @@
                         <td class="border-b">
                             <div class="flex  items-center">
                                 @if ($data->tagihan_id)
-                                    <a class="flex items-center mr-3 text-theme-1"
-                                        href="{{ route('project.tagihan.detail', [$data->tagihan->project->slug, $data->tagihan->id]) }}">
+                                    @php
+                                        $route = route('tagihan.show', $data->id);
+                                        if ($data->tagihan->project_id) {
+                                            $route = route('project.tagihan.detail', [$data->tagihan->project->slug, $data->tagihan->id]);
+                                        }
+                                    @endphp
+                                    <a class="flex items-center mr-3 text-theme-1" href="{{ $route }}">
                                         <i data-feather="eye" class="w-4 h-4 mr-1"></i> Lihat
                                     </a>
                                 @elseif ($data->project_team_fee_id)
                                     <a class="flex items-center mr-3 text-theme-1"
-                                        href="{{ route('project.teams.show', [$data->project_team_fee->projectTeam->project->slug, $data->project_team_fee->id]) }}">
+                                        href="{{ route('project.teams.show', [$data->project_team_fee->projectTeam->project->slug, $data->project_team_fee->project_team_id]) }}">
+                                        <i data-feather="eye" class="w-4 h-4 mr-1"></i> Lihat
+                                    </a>
+                                @elseif ($data->langsung_id)
+                                    <a class="flex items-center mr-3 text-theme-1"
+                                        href="{{ route('project.pemasukan', $data->langsung->keuangan_project->project->slug) }}">
+                                        <i data-feather="eye" class="w-4 h-4 mr-1"></i> Lihat
+                                    </a>
+                                @elseif ($data->termin_id)
+                                    <a class="flex items-center mr-3 text-theme-1"
+                                        href="{{ route('project.pemasukan.termin.detail', [$data->termin->keuangan_project->project->slug, $data->termin->slug]) }}">
                                         <i data-feather="eye" class="w-4 h-4 mr-1"></i> Lihat
                                     </a>
                                 @else

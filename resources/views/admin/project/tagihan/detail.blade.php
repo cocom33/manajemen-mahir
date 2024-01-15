@@ -91,6 +91,19 @@
                     <textarea name="description" id="description" rows="8" class="mt-3 input w-full border" readonly>{{ $tagihan->description }}</textarea>
                 </div>
             </div>
+            <div class="flex justify-end gap-2 mt-3">
+                <a href="{{ route('project.tagihan.edit', [$project->slug, $tagihan->id]) }}" class="button flex align-center text-white bg-theme-9 shadow-md">
+                  <i data-feather="edit-2" class=" w-4 h-4 mt-1 font-bold mr-2"></i> Edit
+                </a>
+                <form action="{{ route('project.tagihan.delete', [$project->slug, $tagihan->id]) }}" method="post">
+                    @csrf
+                    @method('DELETE')
+                    <input type="hidden" name="id" value="{{ $tagihan->id }}">
+                    <button type="submit" class="button flex align-center text-white bg-theme-6 shadow-md show-alert-delete-box" data-toggle="tooltip" title='Delete'>
+                        <i data-feather="trash" class=" w-4 h-4 mt-1 font-bold mr-2"></i> Hapus
+                    </button>
+                </form>
+            </div>
         </div>
     </x-card>
 @endsection

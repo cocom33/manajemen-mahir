@@ -22,11 +22,18 @@
             <span>Pemasukan</span>
         </div>
     </a>
-    <a href="{{ route('project.tagihan', $slug) }}"
+    {{-- <a href="{{ route('project.tagihan', $slug) }}"
         class="flex justify-center w-full rounded-md py-3  @if ($page == 'tagihan') {{ $active }} @endif">
         <div class="flex items-center m-auto">
             <i data-feather="alert-triangle" class="w-5 h-5 mr-2"></i>
             <span>Tagihan</span>
+        </div>
+    </a> --}}
+    <a href="{{ route('project.pengeluaran', $slug) }}"
+        class="flex justify-center w-full rounded-md py-3  @if ($page == 'pengeluaran') {{ $active }} @endif">
+        <div class="flex items-center m-auto">
+            <i data-feather="activity" class="w-5 h-5 mr-2"></i>
+            <span>Pengeluaran</span>
         </div>
     </a>
     <a href="{{ route('project.lampiran', $slug) }}"
@@ -36,11 +43,11 @@
             <span>Lampiran</span>
         </div>
     </a>
-    <a href="{{ route('project.pengeluaran', $slug) }}"
-        class="flex justify-center w-full rounded-md py-3  @if ($page == 'pengeluaran') {{ $active }} @endif">
+    <a href="{{ route('project.laporan', $slug) }}"
+        class="flex justify-center w-full rounded-md py-3  @if ($page == 'laporan') {{ $active }} @endif">
         <div class="flex items-center m-auto">
             <i data-feather="activity" class="w-5 h-5 mr-2"></i>
-            <span>Pengeluaran</span>
+            <span>Laporan</span>
         </div>
     </a>
 </div>
