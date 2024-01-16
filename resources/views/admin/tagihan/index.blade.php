@@ -26,7 +26,8 @@
                         <td class="text-center border-b">
                             @if ($item->project_id)
                                 <div class="font-medium text-xs whitespace-no-wrap">
-                                    Project <br>{{ explode(" ", $item->title)[0] }} {{ explode(" ", $item->title)[1] }}
+                                    Project <br>{{ explode(" ", $item->project->name)[0] }}
+                                    @if (count(explode(" ", $item->project->name)) > 1) {{ explode(" ", $item->project->name)[1] }} @endif
                                 </div>
                             @elseif ($item->client_id)
                                 <div class="font-medium text-xs whitespace-no-wrap">
