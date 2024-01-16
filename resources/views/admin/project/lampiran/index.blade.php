@@ -40,7 +40,7 @@
                 </tr>
             </thead>
             <tbody>
-            @foreach($lampiran->where('project_id', $project->id) as $item)
+            @foreach($lampiran as $item)
                 <tr>
                     <td class="border-b">{{ $item->name }}</td>
                     <td class="text-center border-b">

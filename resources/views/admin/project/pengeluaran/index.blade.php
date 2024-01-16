@@ -85,13 +85,10 @@
                         </tr>
                     </thead>
                     <tbody>
-                    @foreach($pengeluaran as $item)
+                    @foreach($pengeluaran as $key => $item)
                         <tr>
-                            <td class="border-b hidden">
-                                <div class="font-medium whitespace-no-wrap">{{ $item->id }}</div>
-                            </td>
                             <td class="border-b">
-                                <div class="font-medium whitespace-no-wrap">{{ $item->title }}</div>
+                                <div class="font-medium whitespace-no-wrap"><span class="hidden">{{ $key }}</span>{{ $item->title }}</div>
                             </td>
                             <td class="text-center border-b">
                                 @if ($item->tagihan_id)

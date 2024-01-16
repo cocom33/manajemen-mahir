@@ -12,6 +12,7 @@ use App\Http\Controllers\PorjectTypeController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\NoteController;
 use App\Http\Controllers\PengeluaranController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectFeeController;
@@ -181,6 +182,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // project type
     Route::resource('category-project', ProjectTypeController::class);
     // end project type
+
+    // note
+    Route::resource('note', NoteController::class);
+    // end note
 
     // project type
     Route::resource('users', UserController::class);

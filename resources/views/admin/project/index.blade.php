@@ -16,12 +16,9 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($projects as $project)
+                @foreach ($projects as $key => $project)
                     <tr>
-                        {{-- <td class="border-b hidden">
-                            <div class="font-medium whitespace-no-wrap">{{ $project->id }}</div>
-                        </td> --}}
-                        <td class="border-b">
+                        <td class="border-b"><span class="hidden">{{ $key }}</span>
                             <a class="font-medium whitespace-no-wrap" href="{{ route('project.detail', $project->slug) }}">{{ $project->name }}</a>
                         </td>
                         <td class="w-40 border-b">

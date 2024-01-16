@@ -35,10 +35,10 @@
             </tr>
         </thead>
         <tbody>
-        @foreach($teams as $team)
+        @foreach($teams as $key => $team)
             <tr>
                 <td class="border-b">
-                    <div class="font-medium whitespace-no-wrap">{{ $team->name }}</div>
+                    <div class="font-medium whitespace-no-wrap"><span class="hidden">{{ $key }}</span>{{ $team->name }}</div>
                     <div class="text-gray-600 text-xs whitespace-no-wrap">{{ $team->name }}</div>
                 </td>
                 <td class="w-40 border-b">
