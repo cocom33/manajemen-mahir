@@ -10,16 +10,16 @@
     <table class="table table-report table-report--bordered display datatable w-full">
       <thead>
         <tr>
-          <th class="border-b-2 whitespace-no-wrap">Title</th> 
+          <th class="border-b-2 whitespace-no-wrap">Title</th>
           <th class="border-b-2 text-center whitespace-no-wrap">Created At</th>
           <th class="border-b-2 text-center whitespace-no-wrap">Actions</th>
         </tr>
       </thead>
-      
+
       <tbody>
-        @foreach ($notes as $note)
+        @foreach ($notes as $key => $note)
           <tr>
-            <td class="border-b">{{ $note->title }}</td>
+            <td class="border-b"><span class="hidden">{{ $key }}</span>{{ $note->title }}</td>
             <td class="border-b">{{ $note->created_at }}</td>
             <td class="border-b">
               <div class="flex justify-center gap-2">
@@ -40,7 +40,7 @@
             </td>
           </tr>
         @endforeach
-      </tbody>  
+      </tbody>
     </table>
 
   </x-card>

@@ -9,7 +9,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Str;
 
-class NoteController extends Controller 
+class NoteController extends Controller
 {
 
   public function index()
@@ -18,7 +18,7 @@ class NoteController extends Controller
     return view('admin.note.index', compact('notes'));
   }
 
-  public function create() 
+  public function create()
   {
     return view('admin.note.create');
   }
@@ -27,33 +27,33 @@ class NoteController extends Controller
     {
       // dd($request);
         $description = $request->description;
- 
+
         $dom = new DOMDocument();
         $description = $description ?: '';
         $dom->loadHTML($description);
- 
+
         $images = $dom->getElementsByTagName('img');
-      
+
         foreach ($images as $key => $img) {
             $data = base64_decode(explode(',',explode(';',$img->getAttribute('src'))[1])[1]);
             $image_name = "/upload/" . time(). $key.'.png';
             file_put_contents(public_path().$image_name,$data);
- 
+
             $img->removeAttribute('src');
             $img->setAttribute('src',$image_name);
         }
         $description = $dom->saveHTML();
- 
+
         Note::create([
             'title' => $request->title,
             'description' => $description
         ]);
- 
-        return redirect('note.index');
+
+        return redirect()->route('note.index');
     }
   // NoteController
 
-public function show(Note $note) 
+public function show(Note $note)
 {
   return view('admin.note.show', compact('note'));
 }
@@ -61,68 +61,68 @@ public function show(Note $note)
 public function edit($id)
 {
   $note = Note::find($id);
-  return view('admin.note.edit', compact('note')); 
+  return view('admin.note.edit', compact('note'));
 }
 
 public function update(Request $request, $id)
     {
         $note = Note::find($id);
- 
+
         $description = $request->description;
- 
+
         $dom = new DOMDocument();
         $dom->loadHTML($description,9);
- 
+
         $images = $dom->getElementsByTagName('img');
- 
+
         foreach ($images as $key => $img) {
- 
+
             // Check if the image is a new one
             if (strpos($img->getAttribute('src'),'data:image/') ===0) {
-               
+
                 $data = base64_decode(explode(',',explode(';',$img->getAttribute('src'))[1])[1]);
                 $image_name = "/upload/" . time(). $key.'.png';
                 file_put_contents(public_path().$image_name,$data);
-                 
+
                 $img->removeAttribute('src');
                 $img->setAttribute('src',$image_name);
             }
- 
+
         }
         $description = $dom->saveHTML();
- 
+
         $note->update([
             'title' => $request->title,
             'description' => $description
         ]);
- 
-        return redirect('note.index');
- 
+
+        return redirect()->route('note.index');
+
     }
 
     public function destroy($id)
     {
         $note = Note::find($id);
-         
+
         $dom= new DOMDocument();
         $dom->loadHTML($note->description,9);
         $images = $dom->getElementsByTagName('img');
- 
+
         foreach ($images as $key => $img) {
-             
+
             $src = $img->getAttribute('src');
             $path = Str::of($src)->after('/');
- 
- 
+
+
             if (File::exists($path)) {
                 File::delete($path);
-                
+
             }
         }
- 
+
         $note->delete();
         return redirect()->back();
- 
+
     }
 
   public function upload(Request $request): JsonResponse
