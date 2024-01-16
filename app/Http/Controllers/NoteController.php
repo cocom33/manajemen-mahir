@@ -95,7 +95,8 @@ public function update(Request $request, $id)
             'description' => $description
         ]);
 
-        return redirect('note.index');
+        return redirect()->route('notes.index')->with('success', 'Notes edited successfully');
+
 
     }
 
