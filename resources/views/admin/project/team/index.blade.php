@@ -26,7 +26,7 @@
                 <table class="table table-report table-report--bordered display datatable w-full">
                     <thead>
                         <tr>
-                            <th class="border-b-2 whitespace-no-wrap">ID</th>
+                            <th class="border-b-2 whitespace-no-wrap">No</th>
                             <th class="border-b-2 text-center whitespace-no-wrap">Team Name</th>
                             <th class="border-b-2 text-center whitespace-no-wrap">Total Fee</th>
                             <th class="border-b-2 text-center whitespace-no-wrap">Jumlah Dibayar</th>

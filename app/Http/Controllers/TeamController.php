@@ -17,7 +17,7 @@ class TeamController extends Controller
      */
     public function index()
     {
-        $teams = Team::all();
+        $teams = Team::orderBy('id', 'desc')->get();
         return view('admin.team.index', compact('teams'));
     }
 

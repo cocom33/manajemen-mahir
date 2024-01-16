@@ -28,7 +28,7 @@ class ProjectFeeController extends Controller
         }
 
         if ($data['project']->keuangan_project && $data['project']->keuangan_project->type == 'termin') {
-            $data['termin'] = Termin::where('keuangan_project_id', $data['project']->keuangan_project->id)->get();
+            $data['termin'] = Termin::where('keuangan_project_id', $data['project']->keuangan_project->id)->orderBy('id', 'desc')->get();
         }
         $data['detail'] = $this->gaji($data['project']);
 

@@ -18,9 +18,9 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($datas as $data)
+            @foreach ($datas as $key => $data)
                 <tr>
-                    <td class="border-b">{{ $data->name }}</td>
+                    <td class="border-b"><span class="hidden">{{ $key }}</span>{{ $data->name }}</td>
                     <td class="border-b w-5">
                         <div class="flex sm:justify-center items-center">
                             <a class="flex items-center mr-3" href="{{ route('skill.edit', $data->id) }}">
