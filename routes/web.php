@@ -70,26 +70,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/project/team-fee/delete/{id}', [ProjectTeamsController::class, 'deleteFee'])->name('project.team-fee-delete');
 
     //Notes
-    Route::get('/notes', [NoteController::class, 'index'])->name('note.index');
+    // Route::get('/notes', [NoteController::class, 'index'])->name('note.index');
 
-    Route::get('/notes/create', [NoteController::class, 'create'])->name('notes.create');
+    // Route::get('/notes/create', [NoteController::class, 'create'])->name('notes.create');
 
-    Route::post('/notes', [NoteController::class, 'store'])->name('notes.store');
+    // Route::post('/notes', [NoteController::class, 'store'])->name('notes.store');
 
-    Route::get('/notes/{note}', [NoteController::class, 'show'])->name('notes.show');
+    // Route::get('/notes/{note}', [NoteController::class, 'show'])->name('notes.show');
 
-    Route::get('/notes/{note}/edit', [NoteController::class, 'edit'])->name('notes.edit');
+    // Route::get('/notes/{note}/edit', [NoteController::class, 'edit'])->name('notes.edit');
+    Route::resource('notes', NoteController::class);
 
-// routes/web.php
-    Route::get('/notes/{note}', [NoteController::class, 'show'])->name('note.show');
-
-    Route::put('/notes/{note}', [NoteController::class, 'update'])->name('notes.update');
-
-    Route::delete('/notes/{note}', [NoteController::class, 'destroy'])->name('notes.destroy');
-
-    Route::post('ckeditor/upload', [NoteController::class, 'upload'])->name('ckeditor.upload');
-
-    // end team
 
     // client
     Route::resource('client', ClientController::class);
