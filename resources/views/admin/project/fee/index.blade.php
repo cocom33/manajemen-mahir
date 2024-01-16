@@ -307,11 +307,11 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($termin as $item)
+                                    @foreach ($termin as $key => $item)
                                         <tr>
                                             <td class="border-b">
                                                 <div id="fieldFeeTermin{{ $item->id }}"
-                                                    class="font-medium whitespace-no-wrap">{{ $item->name ?? '' }}</div>
+                                                    class="font-medium whitespace-no-wrap"><span class="hidden">{{ $key }}</span>{{ $item->name ?? '' }}</div>
                                                 <form
                                                     action="{{ route('project.pemasukan.termin.store', $project->slug) }}"
                                                     method="POST" id="edit_feeTermin{{ $item->id }}">

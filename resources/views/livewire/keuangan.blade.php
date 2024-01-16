@@ -33,17 +33,18 @@
         <table class="table table-report table-report--bordered display datatable w-full">
             <thead>
                 <tr>
+                    {{-- <th class="border-b-2 whitespace-no-wrap hidden">id</th> --}}
                     <th class="border-b-2 whitespace-no-wrap">TITLE</th>
-                    <th class="border-b-2  whitespace-no-wrap">STATUS</th>
-                    <th class="border-b-2  whitespace-no-wrap">TOTAL</th>
-                    <th class="border-b-2  whitespace-no-wrap">TANGGAL</th>
-                    <th class="border-b-2  whitespace-no-wrap">ACTIONS</th>
+                    <th class="border-b-2 whitespace-no-wrap">STATUS</th>
+                    <th class="border-b-2 whitespace-no-wrap">TOTAL</th>
+                    <th class="border-b-2 whitespace-no-wrap">TANGGAL</th>
+                    <th class="border-b-2 whitespace-no-wrap">ACTIONS</th>
                 </tr>
             </thead>
             <tbody>
-                @forelse ($detail as $data)
+                @forelse ($detail as $key => $data)
                     <tr>
-                        <td class="border-b">{{ $data->description }}</td>
+                        <td class="border-b"><span class="hidden">{{ $key }}</span>{{ $data->description }}</td>
                         <td class=" border-b">
                             @if ($data->status == 'pemasukan')
                             <div class="flex items-center text-theme-9"> <i data-feather="check-square" class="w-4 h-4 mr-2"></i> Pemasukan </div>

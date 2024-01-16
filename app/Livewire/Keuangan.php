@@ -37,7 +37,7 @@ class Keuangan extends Component
 
         $master = KeuanganPerusahaan::whereIn('tahun', $data['filtertahun'])->whereIn('bulan', $data['filterbulan'])->pluck('id');
 
-        $data['detail'] = KeuanganDetail::whereIn('keuangan_perusahaan_id', $master)->get();
+        $data['detail'] = KeuanganDetail::whereIn('keuangan_perusahaan_id', $master)->orderBy('created_at', 'desc')->get();
 
         return view('livewire.keuangan', $data);
     }
