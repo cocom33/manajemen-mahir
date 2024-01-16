@@ -10,12 +10,12 @@
     <table class="table table-report table-report--bordered display datatable w-full">
       <thead>
         <tr>
-          <th class="border-b-2 whitespace-no-wrap">Title</th> 
+          <th class="border-b-2 whitespace-no-wrap">Title</th>
           <th class="border-b-2 text-center whitespace-no-wrap">Created At</th>
           <th class="border-b-2 text-center whitespace-no-wrap">Actions</th>
         </tr>
       </thead>
-      
+
       <tbody>
         @foreach ($notes as $note)
           <tr>
@@ -23,7 +23,7 @@
             <td class="border-b">{{ $note->created_at }}</td>
             <td class="border-b">
               <div class="flex justify-center gap-2">
-                <a href="{{ route('note.show', $note) }}" class="button inline-block text-white bg-theme-1 shadow-md">
+                <a href="{{ route('notes.show', $note) }}" class="button inline-block text-white bg-theme-1 shadow-md">
                   <i data-feather="eye" class=" w-4 h-4 font-bold"></i>
                 </a>
                 <a href="{{ route('notes.edit', $note) }}" class="button inline-block text-white bg-theme-9 shadow-md">
@@ -32,7 +32,7 @@
                 <form action="{{ route('notes.destroy', $note) }}" method="POST">
                   @csrf
                   @method('DELETE')
-                  <button type="submit" class="button inline-block text-white bg-theme-6 shadow-md show-alert-delete-box" onclick="return confirm('Are you sure?')">
+                  <button type="submit" class="button inline-block text-white bg-theme-6 shadow-md show-alert-delete-box">
                     <i data-feather="trash" class=" w-4 h-4 font-bold"></i>
                   </button>
                 </form>
@@ -40,7 +40,7 @@
             </td>
           </tr>
         @endforeach
-      </tbody>  
+      </tbody>
     </table>
 
   </x-card>

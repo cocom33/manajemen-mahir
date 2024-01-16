@@ -33,7 +33,7 @@
         'devider',
         'note' =>  [
             'title'  => 'Note',
-            'url'    => route('note.index'),
+            'url'    => route('notes.index'),
             'icon'   => 'file-text',
             'name'   => 'note',
         ],
