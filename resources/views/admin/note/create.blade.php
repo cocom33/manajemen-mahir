@@ -24,7 +24,7 @@
                 </div>
                 <div class="mt-5 form-group">
                     <label>Content</label>
-                    <div class="relative z-50" id="summernote"></div>
+                    <textarea class="relative z-50" id="summernote" name="description"></textarea>
                 </div>
                 <div class="mt-5 text-right">
                     <a href="{{ route('note.index') }}"><button type="button" class="w-24 mr-1 text-gray-700 border button">Cancel</button></a>

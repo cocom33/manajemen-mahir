@@ -25,13 +25,15 @@ class NoteController extends Controller
 
   public function store(Request $request)
     {
+      // dd($request);
         $description = $request->description;
  
         $dom = new DOMDocument();
-        $dom->loadHTML($description,9);
+        $description = $description ?: '';
+        $dom->loadHTML($description);
  
         $images = $dom->getElementsByTagName('img');
- 
+      
         foreach ($images as $key => $img) {
             $data = base64_decode(explode(',',explode(';',$img->getAttribute('src'))[1])[1]);
             $image_name = "/upload/" . time(). $key.'.png';
