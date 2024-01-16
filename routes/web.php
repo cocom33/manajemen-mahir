@@ -174,10 +174,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('category-project', ProjectTypeController::class);
     // end project type
 
-    // note
-    Route::resource('note', NoteController::class);
-    // end note
-
     // project type
     Route::resource('users', UserController::class);
     // end project type

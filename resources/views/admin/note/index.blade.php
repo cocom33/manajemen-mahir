@@ -17,9 +17,9 @@
       </thead>
 
       <tbody>
-        @foreach ($notes as $note)
+        @foreach ($notes as $key => $note)
           <tr>
-            <td class="border-b">{{ $note->title }}</td>
+            <td class="border-b"><span class="hidden">{{ $key }}</span>{{ $note->title }}</td>
             <td class="border-b">{{ $note->created_at }}</td>
             <td class="border-b">
               <div class="flex justify-center gap-2">

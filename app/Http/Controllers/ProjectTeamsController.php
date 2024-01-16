@@ -80,7 +80,7 @@ class ProjectTeamsController extends Controller
 
         if($request->file('photo')) {
             $image = $request->file('photo');
-            $imageName = 'bukti-pembayaran-' . $data->slug . '.' . $image->extension();
+            $imageName = 'bukti-pembayaran-' . $data->slug . '-'. date('d-m-Y') . '.' . $image->extension();
             $image->move(public_path('images'), $imageName);
         }
 
