@@ -12,7 +12,7 @@ class Team extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $fillable = ['name', 'status', 'skill', 'wa', 'email', 'alamat'];
+    protected $fillable = ['name', 'status', 'skill', 'wa', 'email', 'alamat','nasabah','no_rekening', 'nama_rekening', 'foto_ktp', 'pas_foto', 'cv'];
 
     public function skill(): BelongsToMany
     {

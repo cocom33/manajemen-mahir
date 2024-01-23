@@ -19,11 +19,12 @@ return new class extends Migration
         $table->string('wa');
         $table->string('email');
         $table->string('alamat');
-        $table->string('nama_rekening')->nullable();
+        $table->string('nasabah')->nullable();
         $table->string('no_rekening')->nullable();
-        $table->string('foto_ktp')->nullable();
-        $table->string('pas_foto')->nullable();
-        $table->string('cv')->nullable();
+        $table->string('nama_rekening')->nullable();
+        $table->longText('foto_ktp')->nullable();
+        $table->longText('pas_foto')->nullable();
+        $table->longText('cv')->nullable();
 
         $table->softDeletes();
         $table->timestamps();

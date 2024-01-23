@@ -27,9 +27,18 @@
                         <span class="font-semibold">Phone</span>
                         <p class="mt-3">{{ $team->wa }}</p>
                     </div>
-                    <a href="{{ route('teams.index') }}"><button class="mt-5 text-white button bg-theme-1">Back</button></a>
-                </div>
-                <div>
+                    <div class="mb-6">
+                        <span class="font-semibold">Alamat</span>
+                        <p class="mt-3">{{ $team->alamat }}</p>
+                    </div>
+                    <div class="mb-6">
+                        <span class="font-semibold">Nasabah Bank</span>
+                        <p class="mt-3">{{ $team->nasabah ?? "-" }}</p>
+                    </div>
+                    <div class="mb-6">
+                        <span class="font-semibold">Nomor Rekening</span>
+                        <p class="mt-3">{{ $team->no_rekening ?? "-" }}</p>
+                    </div>
                     <div class="mb-6">
                         <span class="font-semibold">Status</span>
                         <div class="mt-3">
@@ -37,6 +46,9 @@
                                 class="inline-flex items-center px-2 py-1 text-xs font-medium text-green-700 bg-green-200 rounded-md ring-1 ring-inset ring-green-600/20">{{ $team->status }}</span>
                         </div>
                     </div>
+                    <a href="{{ route('teams.index') }}"><button class="mt-5 text-white button bg-theme-1">Back</button></a>
+                </div>
+                <div>
                     <div class="mb-6">
                         <span class="font-semibold">Skill</span>
                         <div class="flex flex-wrap gap-2">
@@ -61,9 +73,42 @@
 
                     </div>
                     <div class="mb-6">
-                        <span class="font-semibold">Alamat</span>
-                        <p class="mt-3">{{ $team->alamat }}</p>
+                        <span class="font-semibold">Nama Rekening</span>
+                        <p class="mt-3">{{ $team->nama_rekening ?? "-" }}</p>
                     </div>
+                    <div class="mb-6">
+                        <span class="font-semibold">Foto KTP</span>
+                        <p class="mt-3">{{ $team->foto_ktp ?? "-" }}</p>
+                        
+                        @if($team->foto_ktp)
+                            <br>
+                            <a href="{{ asset('foto_ktp/'.$team->foto_ktp) }}" class="button w-24 mr-1 mb-2 bg-theme-1 text-white" download>Download</a> 
+                        @endif
+                      
+                      </div>
+                      
+                      <div class="mb-6">
+                        <span class="font-semibold">Pas Foto</span>
+                        <p class="mt-3">{{ $team->pas_foto ?? "-" }}</p>
+                      
+                        @if($team->pas_foto)
+                            <br>
+                            <a href="{{ asset('pas_foto/'.$team->pas_foto) }}" class="button w-24 mr-1 mb-2 bg-theme-1 text-white" download>Download</a>
+                        @endif
+                        
+                      </div>
+                      
+                      <div class="mb-6">
+                        <span class="font-semibold">CV</span>
+                        <p class="mt-3">{{ $team->cv ?? "-" }}</p>
+                      
+                        @if($team->cv)
+                        <br>
+                          <a href="{{ asset('cv/'.$team->cv) }}" class="button w-24 mr-1 mb-2 bg-theme-1 text-white" download>Download</a>
+                        @endif
+                      
+                      </div>
+
                 </div>
             </div>
         </div>
