@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\NoteController;
+use App\Http\Controllers\PerusahaanController;
 use App\Http\Controllers\PorjectController;
 use App\Http\Controllers\ContohController;
 use App\Http\Controllers\KeuanganPerusahaanController;
@@ -79,15 +80,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Route::get('/notes/{note}/edit', [NoteController::class, 'edit'])->name('notes.edit');
     Route::resource('notes', NoteController::class);
-
-
+    
+    
     // client
     Route::resource('client', ClientController::class);
     // end client
-
+    
     // Skill
     Route::resource('skill', SkillController::class);
     // end Skill
+    
+    // Perusahaan
+    Route::resource('perusahaan', PerusahaanController::class);
+    // End Perusahaan
 
     // project
     Route::get('/projects', [PorjectController::class, 'index'])->name('projects');
@@ -155,6 +160,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/project/{slug}/pengeluaran/{id}', [PengeluaranController::class, 'delete'])->name('project.pengeluaran.delete');
 
     Route::get('/project/{slug}/laporan', [PengeluaranController::class, 'laporan'])->name('project.laporan');
+
     // end project
 
     // tagihan
