@@ -43,18 +43,22 @@
                     <label for="description">Masukkan deskripsi/catatan Tagihan</label>
                     <textarea name="description" id="description" rows="8" class="mt-3 input w-full border">{{ $tagihan->description ?? '' }}</textarea>
                 </div>
+                <div class="flex items-center mt-3 justify-end">
+                    <input type="checkbox" name="lunas" id="lunas" class="mr-1">
+                    <label for="lunas">Tandai Lunas</label>
+                </div>
 
-                <div class="flex justify-end gap-2">
+                <div class="flex justify-end gap-2 mt-3">
                     @php
                         $route = route('tagihan');
                         if ($tagihan) {
                             $route = route('tagihan.show', $tagihan->id);
                         }
                     @endphp
-                    <a href="{{ $route }}" class="button flex align-center text-white {{ $tagihan ? 'bg-theme-1' : 'bg-theme-9' }} shadow-md mt-3">
+                    <a href="{{ $route }}" class="button flex align-center text-white {{ $tagihan ? 'bg-theme-1' : 'bg-theme-9' }} shadow-md ">
                         <span>Kembali</span>
                     </a>
-                    <button class="button flex align-center text-white {{ $tagihan ? 'bg-theme-9' : 'bg-theme-1' }} shadow-md mt-3">
+                    <button class="button flex align-center text-white {{ $tagihan ? 'bg-theme-9' : 'bg-theme-1' }} shadow-md ">
                         <i data-feather="edit-2" class=" w-4 h-4 mt-1 font-bold mr-2"></i> <span>{{ $tagihan ? 'Edit' : 'Buat' }}</span>
                     </button>
                 </div>

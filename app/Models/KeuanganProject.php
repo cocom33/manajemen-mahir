@@ -20,7 +20,7 @@ class KeuanganProject extends Model
 
     public function langsung()
     {
-        return $this->hasMany(Langsung::class);
+        return $this->hasOne(Langsung::class);
     }
 
     public function termin()

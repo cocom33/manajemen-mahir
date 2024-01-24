@@ -58,8 +58,8 @@
                             <div class="flex  items-center">
                                 @if ($data->tagihan_id)
                                     @php
-                                        $route = route('tagihan.show', $data->id);
-                                        if ($data->tagihan->project_id) {
+                                        $route = route('tagihan.show', $data->tagihan_id);
+                                        if ($data->tagihan && $data->tagihan->project) {
                                             $route = route('project.tagihan.detail', [$data->tagihan->project->slug, $data->tagihan->id]);
                                         }
                                     @endphp
