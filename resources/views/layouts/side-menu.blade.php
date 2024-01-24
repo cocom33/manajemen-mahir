@@ -61,6 +61,12 @@
             'icon'   => 'user',
             'name'   => 'client',
         ],
+        'perusahaan' =>  [
+            'title'  => 'Perusahaan',
+            'url'    => route('perusahaan.index'),
+            'icon'   => 'trello',
+            'name'   => 'perusahaan',
+        ],
         'bank' =>  [
             'title'  => 'Bank',
             'url'    => route('banks.index'),
