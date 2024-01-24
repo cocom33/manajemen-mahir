@@ -20,16 +20,14 @@
             <tbody>
                 @foreach($tagihan as $key => $item)
                     <tr>
-                        {{-- <td class="hidden border-b">
-                            <div class="font-medium whitespace-no-wrap">{{ $item->id }}</div>
-                        </td> --}}
                         <td class="border-b">
-                            <div class="font-medium whitespace-no-wrap">{{ $item->title }}</div>
+                            <div class="font-medium whitespace-no-wrap"><span class="hidden">{{ $key }}</span>{{ $item->title }}</div>
                         </td>
                         <td class="text-center border-b">
                             @if ($item->project_id)
                                 <div class="text-xs font-medium whitespace-no-wrap">
-                                    Project <br>{{ explode(" ", $item->title)[0] }} {{ explode(" ", $item->title)[1] }}
+                                    Project <br>{{ explode(" ", $item->project->name)[0] }}
+                                    @if (count(explode(" ", $item->project->name)) > 1) {{ explode(" ", $item->project->name)[1] }} @endif
                                 </div>
                             @elseif ($item->client_id)
                                 <div class="text-xs font-medium whitespace-no-wrap">

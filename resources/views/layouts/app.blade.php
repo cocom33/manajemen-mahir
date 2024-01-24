@@ -13,6 +13,7 @@
     <!-- BEGIN: CSS Assets-->
     @livewireStyles
     @stack('styles')
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('dist/css/app.css') }}" />
     <link rel="stylesheet" href="{{ asset('dist/css/iziToast.min.css') }}" />
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.9.0/dist/sweetalert2.min.css" rel="stylesheet">

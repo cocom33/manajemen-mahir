@@ -28,7 +28,7 @@ class ProjectFeeController extends Controller
         }
 
         if ($data['project']->keuangan_project && $data['project']->keuangan_project->type == 'termin') {
-            $data['termin'] = Termin::where('keuangan_project_id', $data['project']->keuangan_project->id)->get();
+            $data['termin'] = Termin::where('keuangan_project_id', $data['project']->keuangan_project->id)->orderBy('id', 'desc')->get();
         }
         $data['detail'] = $this->gaji($data['project']);
 
@@ -52,7 +52,7 @@ class ProjectFeeController extends Controller
 
         if ($request->hasFile('lampiran')) {
             $image = $request->file('lampiran');
-            $imageName = 'bukti-pembayaran-langsung-project-' . $request->slug . '.' . $image->extension();
+            $imageName = 'bukti-pembayaran-langsung-project-' . $request->slug . '-'. date('d-m-Y') . '.' . $image->extension();
             $image->move(public_path('bukti-pembayaran'), $imageName);
 
             $data = $request->validate([
@@ -112,7 +112,7 @@ class ProjectFeeController extends Controller
 
         if ($request->hasFile('lampiran')) {
             $image = $request->file('lampiran');
-            $imageName = 'bukti-pembayaran-' . $langsung->slug . '.' . $image->extension();
+            $imageName = 'bukti-pembayaran-' . $langsung->slug . '-'. date('d-m-Y') . '.' . $image->extension();
             $image->move(public_path('bukti-pembayaran'), $imageName);
 
             $langsung->update([
@@ -216,7 +216,7 @@ class ProjectFeeController extends Controller
 
         if ($request->hasFile('lampiran')) {
             $image = $request->file('lampiran');
-            $imageName = 'bukti-pembayaran-' . $project->slug . '-' . $termin->slug . '.' . $image->extension();
+            $imageName = 'bukti-pembayaran-' . $project->slug . '-' . $termin->slug . '-'. date('d-m-Y') . '.' . $image->extension();
             $image->move(public_path('bukti-pembayaran'), $imageName);
 
             $termin->update([

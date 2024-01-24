@@ -2,7 +2,7 @@
 @section('title', 'Create Note')
 
 @push('styles')
-    <link href="{{ asset('dist/css/summernote-lite.min.css') }}s" rel="stylesheet">
+    <link href="{{ asset('dist/css/summernote-lite.min.css') }}" rel="stylesheet">
 @endpush
 
 @section('content')

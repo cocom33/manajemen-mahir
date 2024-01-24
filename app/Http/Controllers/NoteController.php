@@ -25,6 +25,7 @@ class NoteController extends Controller
 
   public function store(Request $request)
     {
+      // dd($request);
         $description = $request->description;
 
         $dom = new DOMDocument();
@@ -94,7 +95,8 @@ public function update(Request $request, $id)
             'description' => $description
         ]);
 
-        return redirect('note.index');
+        return redirect()->route('notes.index')->with('success', 'Notes edited successfully');
+
 
     }
 

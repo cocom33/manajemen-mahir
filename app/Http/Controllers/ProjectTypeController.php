@@ -12,7 +12,7 @@ class ProjectTypeController extends Controller
      */
     public function index()
     {
-        $datas = ProjectType::all();
+        $datas = ProjectType::orderBy('id', 'desc')->get();
         return view('admin.project-type.index', compact('datas'));
     }
 

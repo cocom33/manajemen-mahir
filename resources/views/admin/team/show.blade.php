@@ -27,9 +27,18 @@
                         <span class="font-semibold">Phone</span>
                         <p class="mt-3">{{ $team->wa }}</p>
                     </div>
-                    <a href="{{ route('teams.index') }}"><button class="mt-5 text-white button bg-theme-1">Back</button></a>
-                </div>
-                <div>
+                    <div class="mb-6">
+                        <span class="font-semibold">Alamat</span>
+                        <p class="mt-3">{{ $team->alamat }}</p>
+                    </div>
+                    <div class="mb-6">
+                        <span class="font-semibold">Nasabah Bank</span>
+                        <p class="mt-3">{{ $team->nasabah ?? "-" }}</p>
+                    </div>
+                    <div class="mb-6">
+                        <span class="font-semibold">Nomor Rekening</span>
+                        <p class="mt-3">{{ $team->no_rekening ?? "-" }}</p>
+                    </div>
                     <div class="mb-6">
                         <span class="font-semibold">Status</span>
                         <div class="mt-3">
@@ -37,6 +46,9 @@
                                 class="inline-flex items-center px-2 py-1 text-xs font-medium text-green-700 bg-green-200 rounded-md ring-1 ring-inset ring-green-600/20">{{ $team->status }}</span>
                         </div>
                     </div>
+                    <a href="{{ route('teams.index') }}"><button class="mt-5 text-white button bg-theme-1">Back</button></a>
+                </div>
+                <div>
                     <div class="mb-6">
                         <span class="font-semibold">Skill</span>
                         <div class="flex flex-wrap gap-2">
@@ -61,9 +73,42 @@
 
                     </div>
                     <div class="mb-6">
-                        <span class="font-semibold">Alamat</span>
-                        <p class="mt-3">{{ $team->alamat }}</p>
+                        <span class="font-semibold">Nama Rekening</span>
+                        <p class="mt-3">{{ $team->nama_rekening ?? "-" }}</p>
                     </div>
+                    <div class="mb-6">
+                        <span class="font-semibold">Foto KTP</span>
+                        <p class="mt-3">{{ $team->foto_ktp ?? "-" }}</p>
+                        
+                        @if($team->foto_ktp)
+                            <br>
+                            <a href="{{ asset('foto_ktp/'.$team->foto_ktp) }}" class="button w-24 mr-1 mb-2 bg-theme-1 text-white" download>Download</a> 
+                        @endif
+                      
+                      </div>
+                      
+                      <div class="mb-6">
+                        <span class="font-semibold">Pas Foto</span>
+                        <p class="mt-3">{{ $team->pas_foto ?? "-" }}</p>
+                      
+                        @if($team->pas_foto)
+                            <br>
+                            <a href="{{ asset('pas_foto/'.$team->pas_foto) }}" class="button w-24 mr-1 mb-2 bg-theme-1 text-white" download>Download</a>
+                        @endif
+                        
+                      </div>
+                      
+                      <div class="mb-6">
+                        <span class="font-semibold">CV</span>
+                        <p class="mt-3">{{ $team->cv ?? "-" }}</p>
+                      
+                        @if($team->cv)
+                        <br>
+                          <a href="{{ asset('cv/'.$team->cv) }}" class="button w-24 mr-1 mb-2 bg-theme-1 text-white" download>Download</a>
+                        @endif
+                      
+                      </div>
+
                 </div>
             </div>
         </div>
@@ -102,127 +147,54 @@
                                         </div>
                                     </td>
 
-                        {{-- <td class="text-center border-b">{{ $project->projectType->name }}</td> --}}
-                        <td class="text-center border-b">
-                            {{-- @php
-                                $projectTeam = App\Models\ProjectTeam::where('project_id', $project->id)
-                                             ->where('team_id', $team->id)
-                                             ->first();
-                                $langsung = App\Models\Langsung::where('project_team_id', $projectTeam->id)->get();
-                                $termin = App\Models\TerminFee::where('project_team_id', $projectTeam->id)->get();
-
-                                $totalFeeLangsung = 0;
-                                $totalFeeTermin = 0;
-
-                                foreach ($langsung as $item) {
-                                    $totalFeeLangsung += $item->fee;
-                                }
-
-                                foreach ($termin as $item) {
-                                    $totalFeeTermin += $item->fee;
-                                }
-                            @endphp --}}
-
-                            @if($project->keuangan_project->type == 'langsung')
-                                @if($projectTeam->fee - $totalFeeLangsung <= 0)
-                                    <span class="font-medium text-theme-40">Lunas</span>
-                                    <div class="text-xs text-gray-600 whitespace-no-wrap">
-                                        Rp. {{ number_format($projectTeam->fee) }}
-                                    </div>
-                                @else
-                                    <div class="font-medium whitespace-no-wrap text-theme-6">Belum Lunas</div>
-                                    <div class="text-xs text-gray-600 whitespace-no-wrap">
-                                        tersisa Rp. {{ number_format($projectTeam->fee - $totalFeeLangsung) }} dari {{ number_format($projectTeam->fee) }}
-                                    </div>
-                                @endif
-                            @elseif($project->keuangan_project->type == 'termin')
-                                @if($projectTeam->fee - $totalFeeTermin <= 0)
-                                    <span class="font-medium text-theme-40">Lunas</span>
-                                    <div class="text-xs text-gray-600 whitespace-no-wrap">
-                                        Rp. {{ number_format($projectTeam->fee) }}
-                                    </div>
-                                @else
-                                    <div class="font-medium whitespace-no-wrap text-theme-6">Belum Lunas</div>
-                                    <div class="text-xs text-gray-600 whitespace-no-wrap">
-                                        tersisa Rp. {{ number_format($projectTeam->fee - $totalFeeTermin) }} dari {{ number_format($projectTeam->fee) }}
-                                    </div>
-                                @endif
-                            @else
-                                -
-                            @endif --}}
-                            @php
-                                $data = $team->projectTeam->where('project_id', $project->id)->first();
-                            @endphp
-                            @if($data->fee - $data->project_team_fee->sum('fee') <= 0)
-                                <span class="font-medium text-theme-40">Lunas</span>
-                                <div class="text-xs text-gray-600 whitespace-no-wrap">
-                                    Rp. {{ number_format($data->fee) }}
-                                </div>
-                            @else
-                                <div class="font-medium whitespace-no-wrap text-theme-6">Belum Lunas</div>
-                                <div class="text-xs text-gray-600 whitespace-no-wrap">
-                                    tersisa Rp. {{ number_format($data->fee - $data->project_team_fee->sum('fee')) }} dari {{ number_format($data->fee) }}
-                                </div>
-                            @endif
-                        </td>
-                        <td class="text-center border-b">
-                            @switch($project->status)
-                                @case('penawaran')
-                                    <span class="text-theme-12">{{ $project->status }}</span>
-                                    @break
-                                @case('deal')
-                                    <span class="text-theme-40">{{ $project->status }}</span>
-                                    @break
-                                @case('finish')
-                                    <span class="text-theme-9">{{ $project->status }}</span>
-                                    @break
-                                @case('cancel')
-                                    <span class="text-theme-6">{{ $project->status }}</span>
-                                    @break
-                            @endswitch
-                        </td>
-                        <td class="w-5 border-b">
-                            <a class="flex items-center mr-3 text-theme-3" href="{{ route('project.detail', $project->slug) }}">
-                                <i data-feather="eye" class="w-4 h-4 mr-1"></i> Show
-                            </a>
-                        </td>
-                    </tr>
-                @endforeach
-            @else
-
+                                    <td class="text-center border-b">
+                                        @php
+                                            $projectTeam = $project->projectTeams->where('team_id', $team->id)->first();
                                         @endphp
-                                        @dd($projectTeamFees)
-
-                                        @if ($project->projectTeams->where('team_id', $team->id)->first()->fee != null)
-                                            <span>{{ $project->projectTeams->where('team_id', $team->id)->first()->fee }}</span>
+                                        @if($projectTeam->fee - $projectTeam->project_team_fee->sum('fee') <= 0)
+                                            <span class="font-medium text-theme-40">Lunas</span>
+                                            <div class="text-xs text-gray-600 whitespace-no-wrap">
+                                                Rp. {{ number_format($projectTeam->fee) }}
+                                            </div>
+                                        @endif
+                                        @php
+                                            $data = $team->projectTeam->where('project_id', $project->id)->first();
+                                        @endphp
+                                        @if($data->fee - $data->project_team_fee->sum('fee') <= 0)
+                                            <span class="font-medium text-theme-40">Lunas</span>
+                                            <div class="text-xs text-gray-600 whitespace-no-wrap">
+                                                Rp. {{ number_format($data->fee) }}
+                                            </div>
                                         @else
-                                            -
+                                            <div class="font-medium whitespace-no-wrap text-theme-6">Belum Lunas</div>
+                                            <div class="text-xs text-gray-600 whitespace-no-wrap">
+                                                tersisa Rp. {{ number_format($data->fee - $data->project_team_fee->sum('fee')) }} dari {{ number_format($data->fee) }}
+                                            </div>
                                         @endif
                                     </td>
                                     <td class="text-center border-b">
                                         @switch($project->status)
                                             @case('penawaran')
                                                 <span class="text-theme-12">{{ $project->status }}</span>
-                                            @break
-
+                                                @break
                                             @case('deal')
                                                 <span class="text-theme-40">{{ $project->status }}</span>
-                                            @break
-
+                                                @break
                                             @case('finish')
                                                 <span class="text-theme-9">{{ $project->status }}</span>
-                                            @break
-
+                                                @break
                                             @case('cancel')
                                                 <span class="text-theme-6">{{ $project->status }}</span>
-                                            @break
+                                                @break
                                         @endswitch
                                     </td>
-                                    <td class="w-5 border-b">
-                                        <a class="flex items-center mr-3 text-theme-3"
-                                            href="{{ route('project.detail', $project->slug) }}">
-                                            <i data-feather="eye" class="w-4 h-4 mr-1"></i> Show
-                                        </a>
+                                    <td class="border-b">
+                                        <div class="flex sm:justify-center items-center">
+                                            <a class="flex items-center mr-3 text-theme-3"
+                                                href="{{ route('project.detail', $project->slug) }}">
+                                                <i data-feather="eye" class="w-4 h-4 mr-1"></i> Show
+                                            </a>
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach
@@ -231,6 +203,17 @@
                     </tbody>
                 </table>
             </div>
+        </div>
+    </div>
+
+    <div class="mt-5 intro-y box">
+        <div class="flex flex-col items-center p-5 border-b border-gray-200 sm:flex-row">
+            <h2 class="mr-auto text-base font-medium">
+                List Keuangan Team
+            </h2>
+        </div>
+        <div class="p-5" id="vertical-form">
+                <livewire:keuangan-team id="{{ $team->id }}" />
         </div>
     </div>
     <!-- END: Vertical Form -->

@@ -9,7 +9,7 @@
     <h2 class="mr-auto text-lg font-medium">Add New Skill</h2>
 </div>
 <div class="grid grid-cols-12 gap-6 mt-5">
-    <div class="col-span-12 intro-y lg:col-span-6">
+    <div class="col-span-12 intro-y lg:col-span-12">
         <!-- BEGIN: Form Layout -->
         <div class="p-5 intro-y box">
             <form method="post" action="{{ route('skill.store') }}">
@@ -21,7 +21,10 @@
                         <div class="mt-2 text-theme-6">{{ $message }}</div>
                     @enderror
                 </div>
-                <div id="summernote"></div>
+                <div class="mt-5 form-group">
+                    <label>Body:</label>
+                    <textarea name="content" id="editor"></textarea>
+                </div>
                 <div class="mt-5 text-right">
                     <a href="{{ route('category-project.index') }}"><button type="button" class="w-24 mr-1 text-gray-700 border button">Cancel</button></a>
                     <button type="submit" class="w-24 text-white button bg-theme-1">Save</button>

@@ -67,6 +67,39 @@
                         <div class="text-theme-6 mt-2">{{ $message }}</div>
                     @enderror
                 </div>
+                <div class="mt-3">
+                    <label>Nasabah Bank</label>
+                    <input type="text" name="nasabah" value="{{ $team->nasabah}}" class="input w-full border mt-2" placeholder="Nasabah Bank">
+                </div>
+                <div class="mt-3">
+                    <label>Nomor Rekening</label>
+                    <input type="number" min="0" name="no_rekening" value="{{ $team->no_rekening}}" class="input w-full border mt-2" placeholder="Nomor Rekening">
+                </div>
+                <div class="mt-3">
+                    <label>Atas Nama Rekening</label>
+                    <input type="text" name="nama_rekening" value="{{ $team->nama_rekening }}" class="input w-full border mt-2" placeholder="Atas Nama Rekening">
+                </div>
+                <div class="mt-3">
+                    <label>Foto KTP</label>
+                    <input type="file" name="foto_ktp" value="{{ $team->foto_ktp }}" class="input w-full border mt-2 @error('foto_ktp') border-theme-6 @enderror" placeholder="Foto KTP"></input>
+                    @error('foto_ktp')
+                        <div class="text-theme-6 mt-2">{{ $message }}</div>
+                    @enderror
+                </div>
+                <div class="mt-3">
+                    <label>Pas Foto</label>
+                    <input type="file" name="pas_foto" value="{{ $team->pas_foto }}" class="input w-full border mt-2 @error('pas_foto') border-theme-6 @enderror" placeholder="Pas Foto"></input>
+                    @error('pas_foto')
+                        <div class="text-theme-6 mt-2">{{ $message }}</div>
+                    @enderror
+                </div>
+                <div class="mt-3">
+                    <label>CV</label>
+                    <input type="file" name="cv" value="{{ $team->cv }}" class="input w-full border mt-2 @error('cv') border-theme-6 @enderror" placeholder="File CV"></input>
+                    @error('cv')
+                        <div class="text-theme-6 mt-2">{{ $message }}</div>
+                    @enderror
+                </div>
                 <button type="submit" class="button bg-theme-1 text-white mt-5">Submit</button>
             </div>
         </form>
