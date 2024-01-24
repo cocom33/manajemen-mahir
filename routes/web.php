@@ -11,6 +11,7 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\PorjectTeamController;
 use App\Http\Controllers\PorjectTypeController;
 use App\Http\Controllers\Auth\PasswordController;
+use App\Http\Controllers\BankController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\PengeluaranController;
@@ -20,10 +21,12 @@ use App\Http\Controllers\ProjectTeamsController;
 use App\Http\Controllers\ProjectTypeController;
 use App\Http\Controllers\TagihanController;
 use App\Http\Controllers\SkillController;
+use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\TagihanClientController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\UserController;
 use App\Models\KeuanganUmum;
+use App\Models\Supplier;
 use Illuminate\Support\Facades\Route;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
@@ -180,9 +183,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('category-project', ProjectTypeController::class);
     // end project type
 
-    // project type
+    // bank
+    Route::resource('banks', BankController::class);
+    // end bank
+
+    // suppliers
+    Route::resource('suppliers', SupplierController::class);
+    // end suppliers
+
+    // users
     Route::resource('users', UserController::class);
-    // end project type
+    // end users
 
     // keuangan umum
     Route::resource('keuangan-umum', KeuanganPerusahaanController::class);

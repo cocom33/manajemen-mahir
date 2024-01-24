@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use App\Models\KeuanganDetail;
 use App\Models\Project;
+use App\Models\ProjectTeam;
+use App\Models\ProjectTeamFee;
 use App\Models\Tagihan;
 use App\Models\Team;
 use App\Models\Termin;
@@ -19,23 +21,27 @@ class DashboardController extends Controller
         $projects = Project::get();
         $clients = Client::get();
         $teams = Team::get();
-        $clientsLoad = Client::latest()->paginate(4);
-        $tagihansLoad = Tagihan::where('is_lunas', 0)->with('project')->latest()->paginate(4);
+        $clientsLoad = Project::with('client')->where('status', 'deal')->paginate(4);
+        $tagihansLoad = Tagihan::where('is_lunas', 0)->with('project')->orderBy('date_end', 'asc')->paginate(4);
         $piutangsLoad = Termin::with('keuangan_project')->orderByRaw('ABS(DATEDIFF(tanggal, CURDATE()))')->paginate(5);
+        $projectFees = ProjectTeam::paginate(10);
 
-        $keuangan = KeuanganDetail::selectRaw('MONTH(created_at) as month, SUM(total) as total')
-                    ->whereYear('created_at', date('Y'))
-                    ->where('status', 'pengeluaran')
-                    ->groupBy('month')
-                    ->orderBy('month')
-                    ->get();
+        $sisaFeeLoad = [];
 
-        $pemasukan = KeuanganDetail::selectRaw('MONTH(created_at) as month, SUM(total) as total')
-                    ->whereYear('created_at', date('Y'))
-                    ->where('status', 'pemasukan')
-                    ->groupBy('month')
-                    ->orderBy('month')
-                    ->get();
+        foreach ($projectFees as $projectFee) {
+            $paid = ProjectTeamFee::where('project_team_id', $projectFee->team_id)->sum('fee');
+            if (($projectFee->fee - $paid) != 0) {
+                $sisaFeeLoad[] = [
+                    'team_id' => $projectFee->team_id,
+                    'project_id' => $projectFee->project_id,
+                    'owing' => $projectFee->fee - $paid
+                ];
+            }
+        }
+
+        $keuangan = KeuanganDetail::selectRaw('MONTH(created_at) as month, SUM(total) as total')->whereYear('created_at', date('Y'))->where('status', 'pengeluaran')->groupBy('month')->orderBy('month')->get();
+
+        $pemasukan = KeuanganDetail::selectRaw('MONTH(created_at) as month, SUM(total) as total')->whereYear('created_at', date('Y'))->where('status', 'pemasukan')->groupBy('month')->orderBy('month')->get();
 
         $labels = [];
         $dataPengeluaran = [];
@@ -93,12 +99,10 @@ class DashboardController extends Controller
             $clientsLoad = view('admin.dashboard.components.dataClients', compact('clientsLoad'))->render();
             $tagihansLoad = view('admin.dashboard.components.dataTagihans', compact('tagihansLoad'))->render();
             $piutangsLoad = view('admin.dashboard.components.dataPiutangs', compact('piutangsLoad'))->render();
+            $sisaFeeLoad = view('admin.dashboard.components.dataSisaFee', compact('sisaFeeLoad'))->render();
 
-            return response()->json(['client' => $clientsLoad, 'tagihan' => $tagihansLoad, 'piutang' => $piutangsLoad]);
+            return response()->json(['client' => $clientsLoad, 'tagihan' => $tagihansLoad, 'piutang' => $piutangsLoad, 'fee' => $sisaFeeLoad]);
         }
-
-
-
-        return view('admin.dashboard.dashboard', compact('datasets','labels' ,'projects', 'clients', 'teams', 'clientsLoad', 'tagihansLoad', 'piutangsLoad', 'keuangan'));
+        return view('admin.dashboard.dashboard', compact('datasets','labels' ,'projects', 'clients', 'teams', 'clientsLoad', 'tagihansLoad', 'piutangsLoad', 'sisaFeeLoad', 'keuangan'));
     }
 }
