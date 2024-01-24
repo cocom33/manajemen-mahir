@@ -61,11 +61,17 @@
             'icon'   => 'user',
             'name'   => 'client',
         ],
-        'perusahaan' =>  [
-            'title'  => 'Perusahaan',
-            'url'    => route('perusahaan.index'),
-            'icon'   => 'trello',
-            'name'   => 'perusahaan',
+        'bank' =>  [
+            'title'  => 'Bank',
+            'url'    => route('banks.index'),
+            'icon'   => 'book-open',
+            'name'   => 'bank',
+        ],
+        'supplier' =>  [
+            'title'  => 'Supplier',
+            'url'    => route('suppliers.index'),
+            'icon'   => 'truck',
+            'name'   => 'supplier',
         ],
         'devider',
         'profile' =>  [
@@ -104,14 +110,14 @@
 
 <!-- BEGIN: Side Menu -->
 <nav class="side-nav" id="side-menu">
-    <a href="" class="intro-x flex items-center pl-5 pt-4">
+    <a href="" class="flex items-center pt-4 pl-5 intro-x">
         <img alt="logo" class="w-24" src="{{ asset('dist/images/mahir-logo.png') }}">
     </a>
-    <div class="side-nav__devider my-6"></div>
+    <div class="my-6 side-nav__devider"></div>
     <ul>
         @foreach ($menus as $index => $menu)
             @if ($menu == 'devider')
-                <div class="side-nav__devider my-6"></div>
+                <div class="my-6 side-nav__devider"></div>
             @else
                 @if (empty($menu['children']))
                     <li>
@@ -140,7 +146,7 @@
                 @endif
             @endif
         @endforeach
-        <li class="side-nav__devider my-6"></li>
+        <li class="my-6 side-nav__devider"></li>
     </ul>
 </nav>
 <!-- END: Side Menu -->

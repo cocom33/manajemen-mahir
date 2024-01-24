@@ -18,4 +18,9 @@ class Client extends Model
         'alamat',
         'sumber',
     ];
+
+    public function project()
+    {
+        return $this->hasMany(Project::class);
+    }
 }
