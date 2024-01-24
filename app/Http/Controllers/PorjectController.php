@@ -208,59 +208,6 @@ class PorjectController extends Controller
         return redirect()->route('project.lampiran', $slug)->with('error', 'Lampiran ' .  $data->name .' deleted successfully!');
     }
 
-
-    public function projectTeam($slug)
-    {
-        $data['project'] = Project::where('slug', $slug)->first();
-        $data['projectTeams'] = ProjectTeam::where([['project_id', $data['project']->id], ['status', '1']])->get();
-        $data['teams'] = Team::whereNotIn('id', $data['projectTeams']->pluck('team_id'))->get();
-        $data['detail'] = $this->gaji($data['project']);
-
-        return view('admin.project.team.index', $data);
-
-    }
-
-    public function projectEditTeam(Request $request, $slug)
-    {
-        $fee = str_replace("Rp. ", "", $request->fee);
-        $price = str_replace(".", "", $fee);
-
-        $data = ProjectTeam::find($request->id);
-        $data->update(['fee' => $price]);
-        return redirect()->back()->with('success', 'berhasil merubah fee team');
-    }
-
-    public function projectAddTeam(Request $request, $slug)
-    {
-        $project = Project::where('slug', $slug)->first();
-        $request->validate([
-            'team_id' => 'required'
-        ]);
-
-
-        foreach ($request->team_id as $key => $value) {
-            $data = ProjectTeam::where([['team_id', $value], ['project_id', $project->id]])->first();
-            if($data) {
-                $data->update(['status' => 1]);
-            } else {
-                ProjectTeam::create([
-                    'project_id' => $project->id,
-                    'team_id' => $value,
-                ]);
-            }
-        }
-
-        return redirect()->back()->with('success', 'berhasil menambahkan tim');
-    }
-
-    public function projectDeleteTeam($slug, $id)
-    {
-        $data = ProjectTeam::find($id);
-        $data->update(['status' => 0]);
-
-        return redirect()->back()->with('success', 'berhasil menghapus tim');
-    }
-
     public function projectInvoice($slug)
     {
         $data['project'] = Project::where('slug', $slug)->first();

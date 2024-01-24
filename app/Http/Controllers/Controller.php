@@ -14,22 +14,17 @@ class Controller extends BaseController
 
     public function gaji($project)
     {
-        $data['fee'] = 0;
         $data['piutang'] = 0;
         $data['termin'] = [];
         $data['type_piutang'] = '';
         $data['belanja'] = $project->pengeluaran->sum('price');
         if ($project->keuangan_project && $project->keuangan_project->type == 'termin') {
-            foreach ($project->keuangan_project->termin as $value) {
-                $data['fee'] = $data['fee'] + $value->termin_fee->sum('fee');
-            }
             $data['termin'] = $project->keuangan_project->termin;
             $data['piutang'] = $data['termin']->sum('price') - $data['termin']->where('status', 1)->sum('price');
             $data['type_piutang'] = 'termin';
         }
         if ($project->keuangan_project && $project->keuangan_project->type == 'langsung') {
             $data['piutang'] = $project->keuangan_project->langsung->sum('price');
-            $data['fee'] = $project->keuangan_project->langsung->sum('price');
             $data['type_piutang'] = 'langsung';
         }
 
