@@ -56,6 +56,9 @@ class TagihanController extends Controller
         $data['project_id'] = $request->project_id;
         $data['is_active'] = 1;
         $data['is_lunas'] = 0;
+        if ($request->lunas) {
+            $data['is_lunas'] = 1;
+        }
 
         $query = Tagihan::create($data);
 

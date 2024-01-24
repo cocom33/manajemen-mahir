@@ -43,7 +43,39 @@ class TagihanClientController extends Controller
         $harga_jual = str_replace("Rp. ", "", $request->harga_jual);
         $data['harga_jual'] = str_replace(".", "", $harga_jual);
 
-        Tagihan::create($data);
+        if ($request->lunas) {
+            $data['is_lunas'] = 1;
+        }
+
+        $tagihan = Tagihan::create($data);
+
+        if ($request->lunas) {
+            $query = KeuanganPerusahaan::where([['tahun', date('Y')], ['bulan', date('m')]])->first();
+            if (!$query) {
+                $query = KeuanganPerusahaan::create([
+                    'tahun' => date('Y'),
+                    'bulan' => date('m'),
+                ]);
+            }
+
+            KeuanganDetail::create([
+                'keuangan_perusahaan_id' => $query->id,
+                'tagihan_id' => $tagihan->id,
+                'description' => 'Tagihan ' . explode(" ", $tagihan->title)[0],
+                'status' => 'pengeluaran',
+                'tanggal' => date('d'),
+                'total' => $tagihan->harga_beli,
+            ]);
+
+            KeuanganDetail::create([
+                'keuangan_perusahaan_id' => $query->id,
+                'tagihan_id' => $tagihan->id,
+                'description' => 'Tagihan ' . explode(" ", $tagihan->title)[0],
+                'status' => 'pemasukan',
+                'tanggal' => date('d'),
+                'total' => $tagihan->harga_jual,
+            ]);
+        }
 
         return redirect()->route('tagihan')->with('Berhasil membuat Tagihan');
     }

@@ -65,8 +65,12 @@
                     <textarea name="description" id="description" rows="8" class="mt-3 input w-full border"></textarea>
                 </div>
 
-                <div class="flex justify-end">
-                    <button class="button flex align-center text-white bg-theme-1 shadow-md mt-3">
+                <div class="flex justify-end items-center gap-2 mt-3">
+                    <div class="flex items-center mr-3">
+                        <input type="checkbox" name="lunas" id="lunas" class="mr-1">
+                        <label for="lunas">Tandai Lunas</label>
+                    </div>
+                    <button class="button flex align-center text-white bg-theme-1 shadow-md ">
                         <i data-feather="plus" class=" w-4 h-4 mt-1 font-bold mr-2"></i> <span>Tambah</span>
                     </button>
                 </div>
@@ -107,9 +111,13 @@
                                         <span class="text-xs whitespace-no-wrap">status : <span class="text-theme-1">lunas</span></span>
                                     @endif
                                 @elseif ($item->project_team_fee_id)
-                                    Fee Team
+                                    <div class="font-medium">
+                                        Fee Team
+                                    </div>
                                 @else
-                                    Pengeluaran
+                                    <div class="font-medium">
+                                        Pengeluaran
+                                    </div>
                                 @endif
                             </td>
                             <td class="text-center border-b">

@@ -169,21 +169,15 @@ class ProjectFeeController extends Controller
         return redirect()->back()->with('success', 'Berhasil menghapus file.');
     }
 
-    public function projectTerminStore(Request $request)
+    public function projectTerminStore(Request $request, $slug)
     {
-        // $termin = Termin::find($request->id);
-        $fee = str_replace("Rp. ", "", $request->price);
-        $price = str_replace(".", "", $fee);
-
-        // if($termin) {
-        //     $termin->update([
-        //         'name' => $request->name,
-        //         'price' => $price,
-        //         'tanggal' => $request->tanggal,
-        //     ]);
-        //     return redirect()->back()->with('success', 'berhasil merubah nama termin');
-        // }
-
+        if ($request->type == 'harga') {
+            $fee = str_replace("Rp. ", "", $request->price);
+            $price = str_replace(".", "", $fee);
+        } else {
+            $project = Project::where('slug', $slug)->first();
+            $price = $project->harga_deal * $request->price / 100;
+        }
 
         $data = $request->validate([
             'keuangan_project_id' => 'required',
