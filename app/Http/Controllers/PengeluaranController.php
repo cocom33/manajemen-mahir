@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Pengeluaran;
 use App\Models\Project;
+use App\Models\Supplier;
 use Illuminate\Http\Request;
 
 class PengeluaranController extends Controller
@@ -15,6 +16,7 @@ class PengeluaranController extends Controller
     {
         $data['project'] = Project::where('slug', $slug)->first();
         $data['pengeluaran'] = Pengeluaran::where('project_id', $data['project']->id)->latest()->get();
+        $data['suppliers'] = Supplier::get();
 
         $data['detail'] = $this->gaji($data['project']);
 

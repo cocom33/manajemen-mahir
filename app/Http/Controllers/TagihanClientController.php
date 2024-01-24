@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use App\Models\KeuanganDetail;
 use App\Models\KeuanganPerusahaan;
+use App\Models\Supplier;
 use App\Models\Tagihan;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -14,6 +15,8 @@ class TagihanClientController extends Controller
     public function form($tagihan = null)
     {
         $data['clients'] = Client::get();
+        $data['suppliers'] = Supplier::get();
+
         $data['tagihan'] = $tagihan;
         $data['route'] = route('tagihan.store');
         if($tagihan) {
@@ -28,6 +31,7 @@ class TagihanClientController extends Controller
     {
         $data = $request->validate([
             'client_id' => 'required',
+            'supplier_id' => 'nullable',
             'title' => 'required',
             'harga_jual' => 'required',
             'harga_beli' => 'required',

@@ -58,6 +58,17 @@
                 <div class="flex w-full gap-3">
                     <x-form-input label="Masukkan waktu Pembelian" name="date_start" type="date" addon="w-full" />
                     <x-form-input label="Masukkan waktu Jatuh Tempo" name="date_end" type="date" addon="w-full" />
+                    <div class="w-full">
+                        <label for="supp">Pilih Supplier</label>
+                        <select name="supplier_id" id="supp" class="input w-full border mt-2">
+                            <option value="" class="hidden"></option>
+                            @foreach ($suppliers as $item)
+                                <option value="{{ $item->id }}">
+                                    {{ $item->name }} - Rp. {{ number_format($item->price) }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
 
                 <div class="mt-3">

@@ -3,7 +3,7 @@
 
 @section('content')
     <x-card title="Detail {{ $project->name }}" :project="$detail">
-        <x-tab-detail page="tagihan" slug="{{ $project->slug }}" />
+        <x-tab-detail page="pengeluaran" slug="{{ $project->slug }}" />
         <div class="mt-5">
             <div class="w-full flex justify-between align-center">
                 <h3 class="font-bold text-xl">
@@ -26,16 +26,17 @@
                 <div class="flex w-full gap-3">
                     <x-form-input label="Masukkan waktu Pembelian" name="date_start" type="date" addon="w-full" value="{{ $tagihan->date_start }}" />
                     <x-form-input label="Masukkan waktu Jatuh Tempo" name="date_end" type="date" addon="w-full" value="{{ $tagihan->date_start }}" />
-                    {{-- <x-form-input label="Masukkan Lama waktu" name="date" placeholder="ex: 1" addon="w-full" value="{{ $tagihan->date }}" />
                     <div class="w-full">
-                        <label for="date_type">Pilih Type Tanggal</label>
-                        <select name="date_type" id="date_type" class="input w-full border mt-2">
-                            <option value="year" {{ $tagihan->date_type == 'year' ? 'selected' : '' }}>tahunan</option>
-                            <option value="month" {{ $tagihan->date_type == 'month' ? 'selected' : '' }}>bulanan</option>
-                            <option value="week" {{ $tagihan->date_type == 'week' ? 'selected' : '' }}>mingguan</option>
-                            <option value="day" {{ $tagihan->date_type == 'day' ? 'selected' : '' }}>harian</option>
+                        <label for="supp">Pilih Supplier</label>
+                        <select name="supplier_id" id="supp" class="input w-full border mt-2">
+                            <option value="{{ $tagihan->supplier_id }}" class="hidden">{{ $tagihan->supplier->name }} - Rp. {{ number_format($tagihan->supplier->price) }}</option>
+                            @foreach ($suppliers as $item)
+                                <option value="{{ $item->id }}">
+                                    {{ $item->name }} - Rp. {{ number_format($item->price) }}
+                                </option>
+                            @endforeach
                         </select>
-                    </div> --}}
+                    </div>
                 </div>
 
                 <div class="mt-3">

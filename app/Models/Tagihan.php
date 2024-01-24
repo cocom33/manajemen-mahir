@@ -10,7 +10,7 @@ class Tagihan extends Model
     use HasFactory;
 
     protected $fillable = [
-        'project_id','client_id',
+        'project_id','client_id','supplier_id',
         'title', 'description',
         'harga_jual', 'harga_beli',
         'total', 'date_start',
@@ -25,5 +25,10 @@ class Tagihan extends Model
     public function client()
     {
         return $this->belongsTo(Client::class);
+    }
+
+    public function supplier()
+    {
+        return $this->belongsTo(Supplier::class);
     }
 }

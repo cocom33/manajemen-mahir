@@ -41,28 +41,9 @@
                 </div>
             </div>
             <p class="text-lg font-bold">Pengeluaran : Rp. {{ number_format($project['belanja']) }}</p>
-            {{-- <small class="border-2 border-black w-5 h-5 text-center rounded-full cursor-pointer" onclick="Detail()">i</small> --}}
-            <div id="detail" class="hidden px-4 py-2 bg-theme-1 text-white absolute right-0 rounded-md" style="top: 35px">
-                @if ($project['type_pajak'] == 0)
-                    <p>Pajak : Rp. {{ number_format($project['pajak'] ?? 0) }}</p>
-                @endif
-                <p>Fee Team : Rp. {{ number_format($project['fee']) }}</p>
-                <p>Pengeluaran : Rp. {{ number_format($project['belanja']) }}</p>
-            </div>
         </div>
 
         <script>
-            function Detail() {
-                if (document.getElementById("detail").classList.contains('hidden')) {
-                    document.getElementById("detail").classList.remove('hidden')
-
-                    setTimeout(() => {
-                        document.getElementById("detail").classList.add('hidden')
-                    }, 2000);
-                } else {
-                    document.getElementById("detail").classList.add('hidden')
-                }
-            }
             function Piutang() {
                 if (document.getElementById("piutang").classList.contains('hidden')) {
                     document.getElementById("piutang").classList.remove('hidden')

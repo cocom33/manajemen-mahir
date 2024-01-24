@@ -13,6 +13,101 @@ use Illuminate\Http\Request;
 
 class ProjectTeamsController extends Controller
 {
+
+    public function projectTeam($slug)
+    {
+        $data['project'] = Project::where('slug', $slug)->first();
+        $data['projectTeams'] = ProjectTeam::where([['project_id', $data['project']->id], ['status', '1']])->get();
+        $data['teams'] = Team::whereNotIn('id', $data['projectTeams']->pluck('team_id'))->get();
+        $data['detail'] = $this->gaji($data['project']);
+
+        return view('admin.project.team.index', $data);
+
+    }
+
+    public function projectEditTeam(Request $request, $slug)
+    {
+        $fee = str_replace("Rp. ", "", $request->fee);
+        $price = str_replace(".", "", $fee);
+
+        $data = ProjectTeam::find($request->id);
+        $data->update(['fee' => $price]);
+        return redirect()->back()->with('success', 'berhasil merubah fee team');
+    }
+
+    public function projectAddTeam(Request $request, $slug)
+    {
+        $project = Project::where('slug', $slug)->first();
+        $request->validate([
+            'team_id' => 'required'
+        ]);
+
+
+        foreach ($request->team_id as $key => $value) {
+            $data = ProjectTeam::where([['team_id', $value], ['project_id', $project->id]])->first();
+            if($data) {
+                $data->update(['status' => 1]);
+            } else {
+                ProjectTeam::create([
+                    'project_id' => $project->id,
+                    'team_id' => $value,
+                ]);
+            }
+        }
+
+        return redirect()->back()->with('success', 'berhasil menambahkan tim');
+    }
+
+    public function projectDeleteTeam($slug, $id)
+    {
+        $data = ProjectTeam::find($id);
+        $data->update(['status' => 0]);
+
+        return redirect()->back()->with('success', 'berhasil menghapus tim');
+    }
+
+    public function projectTeamLunas(Request $request, $slug, $id)
+    {
+        if($request->file('photo')) {
+            $image = $request->file('photo');
+            $imageName = 'bukti-pembayaran-' . $slug . '-'. date('d-m-Y') . '.' . $image->extension();
+            $image->move(public_path('images'), $imageName);
+        }
+
+        $data = ProjectTeamFee::find($id);
+        $data->update([
+            'status' => 1,
+            'photo' => $imageName ?? '',
+        ]);
+
+        $query = KeuanganPerusahaan::where([['tahun', date('Y')], ['bulan', date('m')]])->first();
+        if (!$query) {
+            $query = KeuanganPerusahaan::create([
+                'tahun' => date('Y'),
+                'bulan' => date('m'),
+            ]);
+        }
+
+        KeuanganDetail::create([
+            'keuangan_perusahaan_id' => $query->id,
+            'project_team_fee_id' => $data->id,
+            'description' => 'fee ' . $data->projectTeam->team->name,
+            'status' => 'pengeluaran',
+            'tanggal' => date('d'),
+            'total' => $data->fee,
+        ]);
+
+        Pengeluaran::create([
+            'project_id' => $request->project_id,
+            'title' => 'fee ' . $data->projectTeam->team->name,
+            'date' => date('Y-m-d'),
+            'price' => $data->fee,
+            'project_team_fee_id' => $data->id
+        ]);
+
+        return redirect()->back()->with('success', 'berhasil melunasi fee team');
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -60,6 +155,7 @@ class ProjectTeamsController extends Controller
         $data['team'] = ProjectTeam::find($id);
         $data['project'] = Project::where('slug', $slug)->first();
         $data['detail'] = $this->gaji($data['project']);
+        $data['fee'] = $data['team']->project_team_fee;
 
         return view('admin.project.team.detail', $data);
     }
@@ -86,37 +182,45 @@ class ProjectTeamsController extends Controller
 
         $fee = str_replace("Rp. ", "", $request->fee);
         $gaji = str_replace(".", "", $fee);
+        $status = 0;
+        if ($request->lunas) {
+            $status = 1;
+        }
 
         $feeteam = ProjectTeamFee::create([
             'project_team_id' => $data->id,
             'fee' => $gaji,
+            'status' => $status,
+            'tenggat' => $request->tenggat,
             'photo' => $imageName ?? '',
         ]);
 
-        $query = KeuanganPerusahaan::where([['tahun', date('Y')], ['bulan', date('m')]])->first();
-        if (!$query) {
-            $query = KeuanganPerusahaan::create([
-                'tahun' => date('Y'),
-                'bulan' => date('m'),
+        if ($request->lunas) {
+            $query = KeuanganPerusahaan::where([['tahun', date('Y')], ['bulan', date('m')]])->first();
+            if (!$query) {
+                $query = KeuanganPerusahaan::create([
+                    'tahun' => date('Y'),
+                    'bulan' => date('m'),
+                ]);
+            }
+
+            KeuanganDetail::create([
+                'keuangan_perusahaan_id' => $query->id,
+                'project_team_fee_id' => $feeteam->id,
+                'description' => 'fee ' . $data->team->name,
+                'status' => 'pengeluaran',
+                'tanggal' => date('d'),
+                'total' => $gaji,
+            ]);
+
+            Pengeluaran::create([
+                'project_id' => $request->project_id,
+                'title' => 'fee ' . $data->team->name,
+                'date' => date('Y-m-d'),
+                'price' => $gaji,
+                'project_team_fee_id' => $feeteam->id
             ]);
         }
-
-        KeuanganDetail::create([
-            'keuangan_perusahaan_id' => $query->id,
-            'project_team_fee_id' => $feeteam->id,
-            'description' => 'fee ' . $data->team->name,
-            'status' => 'pengeluaran',
-            'tanggal' => date('d'),
-            'total' => $gaji,
-        ]);
-
-        Pengeluaran::create([
-            'project_id' => $request->project_id,
-            'title' => 'fee ' . $data->team->name,
-            'date' => date('Y-m-d'),
-            'price' => $gaji,
-            'project_team_fee_id' => $feeteam->id
-        ]);
 
         return redirect()->back()->with('success', 'Berhasil Menambah data!');
     }
