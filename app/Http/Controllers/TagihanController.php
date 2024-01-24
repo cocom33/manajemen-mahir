@@ -6,6 +6,7 @@ use App\Models\KeuanganDetail;
 use App\Models\KeuanganPerusahaan;
 use App\Models\Pengeluaran;
 use App\Models\Project;
+use App\Models\Supplier;
 use App\Models\Tagihan;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -32,6 +33,7 @@ class TagihanController extends Controller
         $project = Project::where('slug', $slug)->first();
 
         $data = $request->validate([
+            'supplier_id' => 'nullable',
             'title' => 'required',
             'harga_beli' => 'required',
             'harga_jual' => 'required',
@@ -81,6 +83,7 @@ class TagihanController extends Controller
         $tagihan = Tagihan::where('id', $request->tagihan_id)->first();
 
         $data = $request->validate([
+            'supplier_id' => 'nullable',
             'title' => 'required',
             'harga_beli' => 'required',
             'harga_jual' => 'required',
@@ -124,6 +127,7 @@ class TagihanController extends Controller
     {
         $data['project'] = Project::where('slug', $slug)->first();
         $data['tagihan'] = Tagihan::find($id);
+        $data['suppliers'] = Supplier::get();
         $data['detail'] = $this->gaji($data['project']);
 
         return view('admin.project.tagihan.edit', $data);

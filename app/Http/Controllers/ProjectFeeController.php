@@ -172,7 +172,7 @@ class ProjectFeeController extends Controller
     public function projectTerminStore(Request $request, $slug)
     {
         if ($request->type == 'harga') {
-            $fee = str_replace("Rp. ", "", $request->price);
+            $fee = str_replace("Rp. ", "", $request->harga);
             $price = str_replace(".", "", $fee);
         } else {
             $project = Project::where('slug', $slug)->first();
@@ -182,7 +182,7 @@ class ProjectFeeController extends Controller
         $data = $request->validate([
             'keuangan_project_id' => 'required',
             'name' => 'required',
-            'price' => 'required',
+            'price' => 'sometimes',
             'tanggal' => 'required',
         ]);
 

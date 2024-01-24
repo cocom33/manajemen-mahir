@@ -60,16 +60,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     // end profile
-    Route::get('/project/teams-fee', [ProjectTeamsController::class])->name('teams.fee');
 
-    Route::get('/project/teams-details/{slug}/{id}', [ProjectTeamsController::class, 'show'])->name('project.teams.show');
-    // team
     // routes/web.php
     Route::resource('teams', TeamController::class);
 
-    Route::put('/projects/{project}/teams/{team}/fees', [ProjectTeamsController::class , 'update'])->name('project.team.fee.update');
+    Route::get('/project/{slug}/team', [ProjectTeamsController::class, 'projectTeam'])->name('project.team');
+    Route::get('/project/teams-detail/{slug}/{id}', [ProjectTeamsController::class, 'show'])->name('project.teams.show');
+    Route::put('/project/{slug}/team-store', [ProjectTeamsController::class, 'projectAddTeam'])->name('project.add.team');
+    Route::put('/project/{slug}/team-edit', [ProjectTeamsController::class, 'projectEditTeam'])->name('project.edit.team');
+    Route::delete('/project/{slug}/team-destroy/{id}', [ProjectTeamsController::class, 'projectDeleteTeam'])->name('project.delete.team');
 
-    Route::delete('/projects/{project}/teams/{team}/delete', [ProjectTeamsController::class, 'deletePhoto'])->name('project.team.fee.destroy');
+    Route::put('/project/{slug}/team-lunas/{id}', [ProjectTeamsController::class, 'projectTeamLunas'])->name('project.team.lunas');
+
+    Route::put('/projects/{project}/teams/{team}/fees', [ProjectTeamsController::class , 'update'])->name('project.team.fee.update');
     Route::delete('/project/team-fee/delete/{id}', [ProjectTeamsController::class, 'deleteFee'])->name('project.team-fee-delete');
 
     //Notes
@@ -83,16 +86,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Route::get('/notes/{note}/edit', [NoteController::class, 'edit'])->name('notes.edit');
     Route::resource('notes', NoteController::class);
-    
-    
+
+
     // client
     Route::resource('client', ClientController::class);
     // end client
-    
+
     // Skill
     Route::resource('skill', SkillController::class);
     // end Skill
-    
+
     // Perusahaan
     Route::resource('perusahaan', PerusahaanController::class);
     // End Perusahaan
@@ -106,11 +109,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/project/{slug}', [PorjectController::class, 'delete'])->name('project.delete');
 
     Route::get('/project/{slug}', [PorjectController::class, 'projectDetail'])->name('project.detail');
-
-    Route::get('/project/{slug}/team', [PorjectController::class, 'projectTeam'])->name('project.team');
-    Route::put('/project/{slug}/team-store', [PorjectController::class, 'projectAddTeam'])->name('project.add.team');
-    Route::put('/project/{slug}/team-edit', [PorjectController::class, 'projectEditTeam'])->name('project.edit.team');
-    Route::delete('/project/{slug}/team-destroy/{id}', [PorjectController::class, 'projectDeleteTeam'])->name('project.delete.team');
 
     Route::get('/project/{slug}/lampiran', [PorjectController::class, 'projectLampiran'])->name('project.lampiran');
     Route::post('/project/{slug}/add-lampiran', [PorjectController::class, 'projectLampiranStore'])->name('project.lampiran.upload');

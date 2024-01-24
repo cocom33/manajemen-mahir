@@ -28,9 +28,4 @@ class Termin extends Model
     {
         return $this->belongsTo(KeuanganProject::class);
     }
-
-    public function termin_fee()
-    {
-        return $this->hasMany(TerminFee::class);
-    }
 }

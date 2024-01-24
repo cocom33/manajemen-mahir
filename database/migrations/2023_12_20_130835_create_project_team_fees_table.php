@@ -16,6 +16,8 @@ return new class extends Migration
             $table->foreignId('project_team_id');
             $table->bigInteger('fee');
             $table->string('photo')->nullable();
+            $table->date('tenggat');
+            $table->boolean('status')->default(0);
             $table->timestamps();
         });
     }
