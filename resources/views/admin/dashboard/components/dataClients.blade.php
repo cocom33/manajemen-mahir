@@ -5,15 +5,15 @@
                     <img alt="Midone Tailwind HTML Admin Template" src="dist/images/profile-14.jpg">
                 </div> --}}
             <div class="ml-4 mr-auto">
-                <a href="{{ route('client.show', $client->id) }}">
+                <a href="{{ route('project.detail', $client->slug) }}">
                     <div class="font-medium">{{ $client->name }}</div>
                 </a>
                 <div class="text-xs text-gray-600">
-                    {{ \Carbon\Carbon::parse($client->created_at)->format('j F Y') }}
+                    Deadline: {{ $client->deadline_date ? \Carbon\Carbon::parse($client->deadline_date)->format('j F Y') : 'Belum Di Set Up'}}
                 </div>
             </div>
             <div class="px-2 py-1 text-xs font-medium text-white rounded-full cursor-pointer bg-theme-9">
-                {{  \App\Models\Project::where('client_id', $client->id)->get()->count() }} Project
+                {{  Str::limit($client->client->name, 13) }}
             </div>
         </div>
     </div>

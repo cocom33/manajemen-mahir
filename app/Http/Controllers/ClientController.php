@@ -10,7 +10,8 @@ class ClientController extends Controller
 {
     public function index()
     {
-        $clients = Client::all();
+        $clients = Client::with('project')->latest()->get();
+
         return view('admin.client.index', compact('clients'));
     }
 

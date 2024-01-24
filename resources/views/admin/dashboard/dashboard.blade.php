@@ -61,11 +61,11 @@
                 </div>
             </div>
             <!-- END: General Report -->
-            <!-- BEGIN: Weekly Best Sellers -->
+            <!-- BEGIN: List Ongoing Project -->
             <div class="col-span-12 mt-8 xl:col-span-4">
                 <div class="flex items-center h-10 intro-y">
                     <h2 class="mr-5 text-lg font-medium truncate">
-                        List Client
+                        List Ongoing Project
                     </h2>
                 </div>
                 <div class="mt-5">
@@ -80,19 +80,11 @@
 
                     <!-- Data Loader -->
                     <div class="flex justify-center auto-load-client" style="display: none;">
-                        <svg version="1.1" id="L9" xmlns="http://www.w3.org/2000/svg"
-                            xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" height="60" viewBox="0 0 100 100"
-                            enable-background="new 0 0 0 0" xml:space="preserve">
-                            <path fill="#000"
-                                d="M73,50c0-12.7-10.3-23-23-23S27,37.3,27,50 M30.9,50c0-10.5,8.5-19.1,19.1-19.1S69.1,39.5,69.1,50">
-                                <animateTransform attributeName="transform" attributeType="XML" type="rotate"
-                                    dur="1s" from="0 50 50" to="360 50 50" repeatCount="indefinite" />
-                            </path>
-                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" height="60"><circle fill="#20B7FF" stroke="#20B7FF" stroke-width="15" r="15" cx="40" cy="100"><animate attributeName="opacity" calcMode="spline" dur="2" values="1;0;1;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="-.4"></animate></circle><circle fill="#20B7FF" stroke="#20B7FF" stroke-width="15" r="15" cx="100" cy="100"><animate attributeName="opacity" calcMode="spline" dur="2" values="1;0;1;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="-.2"></animate></circle><circle fill="#20B7FF" stroke="#20B7FF" stroke-width="15" r="15" cx="160" cy="100"><animate attributeName="opacity" calcMode="spline" dur="2" values="1;0;1;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="0"></animate></circle></svg>
                     </div>
                 </div>
             </div>
-            <!-- END: Weekly Best Sellers -->
+            <!-- END: List Ongoing Project -->
             <!-- BEGIN: Data Tagihan -->
             <div class="col-span-12 mt-8 xl:col-span-4">
                 <div class="flex items-center h-10 intro-y">
@@ -141,6 +133,30 @@
                 </div>
             </div>
             <!-- END: Data Piutang -->
+            <!-- BEGIN: Data Fee -->
+            <div class="col-span-12 mt-8 xl:col-span-4">
+                <div class="flex items-center h-10 intro-y">
+                    <h2 class="mr-5 text-lg font-medium truncate">
+                        List Fee Belum Terbayar
+                    </h2>
+                </div>
+                <div class="mt-5">
+                    <div id="data-wrapper-fee">
+                        @if ($sisaFeeLoad > 0)
+                            @include('admin.dashboard.components.dataSisaFee')
+                        @endif
+                    </div>
+
+                    <button @if ($sisaFeeLoad <= 0) disabled @endif
+                        class="block w-full py-4 text-center border border-dotted rounded-md intro-y border-theme-15 text-theme-16 load-more-data-fee">@if ($sisaFeeLoad <= 0) Tidak Ada Data @else View More @endif</button>
+
+                    <!-- Data Loader -->
+                    <div class="flex justify-center auto-load-fee" style="display: none;">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" height="60"><circle fill="#20B7FF" stroke="#20B7FF" stroke-width="15" r="15" cx="40" cy="100"><animate attributeName="opacity" calcMode="spline" dur="2" values="1;0;1;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="-.4"></animate></circle><circle fill="#20B7FF" stroke="#20B7FF" stroke-width="15" r="15" cx="100" cy="100"><animate attributeName="opacity" calcMode="spline" dur="2" values="1;0;1;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="-.2"></animate></circle><circle fill="#20B7FF" stroke="#20B7FF" stroke-width="15" r="15" cx="160" cy="100"><animate attributeName="opacity" calcMode="spline" dur="2" values="1;0;1;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="0"></animate></circle></svg>
+                    </div>
+                </div>
+            </div>
+            <!-- END: Data Fee -->
         </div>
         <!-- BEGIN: Chart Keuangan -->
         <div class="col-span-12 mt-6">
@@ -163,9 +179,9 @@
 @endsection
 
 @push('scripts')`
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Skrip untuk memuat data client -->
+    <!-- Skrip untuk memuat data ongoing project -->
     <script>
         var CLIENT_ENDPOINT = "{{ route('dashboard') }}";
         var clientPage = 1;
@@ -187,9 +203,9 @@
                 .done(function(response) {
                     if (response[dataType] == '') {
                         iziToast.error({
-                            title: 'List Client',
+                            title: 'List Ongoing Project',
                             position: 'topRight',
-                            message: 'Tidak ada lagi data client yang tersedia :(',
+                            message: 'Tidak ada lagi project yg sedang berlangsung :(',
                         });
                         $(autoLoadClass).hide();
                         return;
@@ -266,6 +282,44 @@
                             title: 'List Piutang',
                             position: 'topRight',
                             message: 'Tidak ada lagi data piutang yang tersedia :(',
+                        });
+                        $(autoLoadClass).hide();
+                        return;
+                    }
+                    $(autoLoadClass).hide();
+                    $(dataWrapperId).append(response[dataType]);
+                })
+                .fail(function(jqXHR, ajaxOptions, thrownError) {
+                    console.log('Server error occurred');
+                });
+        }
+    </script>
+
+    <!-- Skrip untuk memuat data sisa Fee -->
+    <script>
+        var FEE_ENDPOINT = "{{ route('dashboard') }}";
+        var feePage = 1;
+
+        $(".load-more-data-fee").click(function() {
+            feePage++;
+            loadMoreDataFee(feePage, FEE_ENDPOINT, 'fee', '.auto-load-fee', '#data-wrapper-fee');
+        });
+
+        function loadMoreDataPiutang(page, endpoint, dataType, autoLoadClass, dataWrapperId) {
+            $.ajax({
+                    url: endpoint + "?page=" + page,
+                    datatype: dataType,
+                    type: "get",
+                    beforeSend: function() {
+                        $(autoLoadClass).show();
+                    }
+                })
+                .done(function(response) {
+                    if (response[dataType] == '') {
+                        iziToast.error({
+                            title: 'List Fee',
+                            position: 'topRight',
+                            message: 'Tidak ada lagi data fee yang tersedia :)',
                         });
                         $(autoLoadClass).hide();
                         return;
