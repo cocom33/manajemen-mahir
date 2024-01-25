@@ -21,23 +21,13 @@ class DashboardController extends Controller
         $projects = Project::get();
         $clients = Client::get();
         $teams = Team::get();
-        $clientsLoad = Project::with('client')->where('status', 'deal')->paginate(4);
-        $tagihansLoad = Tagihan::where('is_lunas', 0)->with('project')->orderBy('date_end', 'asc')->paginate(4);
+        $clientsLoad = Project::with('client')->where('status', 'deal')->paginate(5);
+        $tagihansLoad = Tagihan::where('is_lunas', 0)->with('project')->orderBy('date_end', 'asc')->paginate(5);
         $piutangsLoad = Termin::with('keuangan_project')->orderByRaw('ABS(DATEDIFF(tanggal, CURDATE()))')->paginate(5);
-        $projectFees = ProjectTeam::paginate(10);
-
-        $sisaFeeLoad = [];
-
-        foreach ($projectFees as $projectFee) {
-            $paid = ProjectTeamFee::where('project_team_id', $projectFee->team_id)->sum('fee');
-            if (($projectFee->fee - $paid) != 0) {
-                $sisaFeeLoad[] = [
-                    'team_id' => $projectFee->team_id,
-                    'project_id' => $projectFee->project_id,
-                    'owing' => $projectFee->fee - $paid
-                ];
-            }
-        }
+        $feeteamsLoad = ProjectTeamFee::with('projectTeam')->where('tenggat', '<=', date('Y-m-d', strtotime('+2 weeks')))->where('status', 0)->orderBy('tenggat')->paginate(5);
+        // foreach ($feeteamsLoad as $item){
+        //     dd($item->projectTeam->project_id);
+        // };
 
         $keuangan = KeuanganDetail::selectRaw('MONTH(created_at) as month, SUM(total) as total')->whereYear('created_at', date('Y'))->where('status', 'pengeluaran')->groupBy('month')->orderBy('month')->get();
 
@@ -99,10 +89,10 @@ class DashboardController extends Controller
             $clientsLoad = view('admin.dashboard.components.dataClients', compact('clientsLoad'))->render();
             $tagihansLoad = view('admin.dashboard.components.dataTagihans', compact('tagihansLoad'))->render();
             $piutangsLoad = view('admin.dashboard.components.dataPiutangs', compact('piutangsLoad'))->render();
-            $sisaFeeLoad = view('admin.dashboard.components.dataSisaFee', compact('sisaFeeLoad'))->render();
+            $feeteamsLoad = view('admin.dashboard.components.dataSisaFee', compact('feeteamsLoad'))->render();
 
-            return response()->json(['client' => $clientsLoad, 'tagihan' => $tagihansLoad, 'piutang' => $piutangsLoad, 'fee' => $sisaFeeLoad]);
+            return response()->json(['client' => $clientsLoad, 'tagihan' => $tagihansLoad, 'piutang' => $piutangsLoad, 'feeteam' => $feeteamsLoad]);
         }
-        return view('admin.dashboard.dashboard', compact('datasets','labels' ,'projects', 'clients', 'teams', 'clientsLoad', 'tagihansLoad', 'piutangsLoad', 'sisaFeeLoad', 'keuangan'));
+        return view('admin.dashboard.dashboard', compact('datasets','labels' ,'projects', 'clients', 'teams', 'clientsLoad', 'tagihansLoad', 'piutangsLoad', 'feeteamsLoad', 'keuangan'));
     }
 }
