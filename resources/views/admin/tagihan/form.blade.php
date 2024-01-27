@@ -55,10 +55,12 @@
                     <label for="description">Masukkan deskripsi/catatan Tagihan</label>
                     <textarea name="description" id="description" rows="8" class="mt-3 input w-full border">{{ $tagihan->description ?? '' }}</textarea>
                 </div>
-                <div class="flex items-center mt-3 justify-end">
-                    <input type="checkbox" name="lunas" id="lunas" class="mr-1">
-                    <label for="lunas">Tandai Lunas</label>
-                </div>
+                @if (!$tagihan)
+                    <div class="flex items-center mt-3 justify-end">
+                        <input type="checkbox" name="lunas" id="lunas" class="mr-1">
+                        <label for="lunas">Tandai Lunas</label>
+                    </div>
+                @endif
 
                 <div class="flex justify-end gap-2 mt-3">
                     @php
