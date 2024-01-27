@@ -62,6 +62,21 @@
                 <div class="flex w-full gap-3">
                     <x-form-input label="Tanggal Pembelian" name="" addon="w-full" value="{{ date('d / m / Y', strtotime($tagihan->date_start)) }}" readonly="readonly" required="false" />
                     <x-form-input label="Jatuh Tempo" name="" addon="w-full" value="{{ date('d / m / Y', strtotime($tagihan->date_end)) }}" readonly="readonly" required="false" />
+                    <div class="w-full">
+                        <div class="flex justify-between">
+                            <label for="supp">Supplier</label>
+                            @if ($tagihan->supplier_id)
+                                <a href="{{ route('suppliers.show', $tagihan->supplier->id) }}" class="border-b text-theme-1">Lihat Detail</a>
+                            @endif
+                        </div>
+                        <input type="text" class="input w-full border mt-3" readonly
+                            @if ($tagihan->supplier_id)
+                                value="{{ $tagihan->supplier->name }} - {{ number_format($tagihan->supplier->price) }}"
+                            @else
+                                value="-"
+                            @endif
+                        >
+                    </div>
                 </div>
 
                 <div class="mt-3">
