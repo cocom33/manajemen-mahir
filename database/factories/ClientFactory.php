@@ -22,6 +22,9 @@ class ClientFactory extends Factory
             'wa' => $this->faker->phoneNumber(),
             'email' => $this->faker->email(),
             'alamat' => $this->faker->address(),
+            'nomor_rekening' => $this->faker->randomNumber(),
+            'nama_rekening' => $this->faker->name(),
+            'nasabah_bank' => $this->faker->name(),
         ];
     }
 }

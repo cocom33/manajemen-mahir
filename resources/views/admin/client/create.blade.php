@@ -62,7 +62,28 @@
                                 @endforeach
                             </select>
                         </div>
-                        @error('skills')
+                        @error('nama_perusahaan')
+                            <div class="text-theme-6 mt-2">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="mt-3">
+                        <label>Nomor Rekening</label>
+                        <input type="number" min="0" name="nomor_rekening" class="input w-full border mt-2 @error('nomor_rekening') border-theme-6 @enderror" placeholder="Alamat">
+                        @error('nomor_rekening')
+                            <div class="text-theme-6 mt-2">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="mt-3">
+                        <label>Pemilik Rekening</label>
+                        <input type="text" name="nama_rekening" class="input w-full border mt-2 @error('nama_rekening') border-theme-6 @enderror" placeholder="Alamat">
+                        @error('nama_rekening')
+                            <div class="text-theme-6 mt-2">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="mt-3">
+                        <label>Nasabah Bank</label>
+                        <input type="text" name="nasabah_bank" class="input w-full border mt-2 @error('nasabah_bank') border-theme-6 @enderror" placeholder="Alamat">
+                        @error('nasabah_bank')
                             <div class="text-theme-6 mt-2">{{ $message }}</div>
                         @enderror
                     </div>
