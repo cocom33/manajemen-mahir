@@ -28,9 +28,8 @@ class PerusahaanController extends Controller
     {
     $validateData = $request->validate([
         'pemilik' => 'nullable',
-            'nama_perusahaan' => 'required',
-            'email' => 'nullable',
-            'alamat' => 'required'  
+        'nama_perusahaan' => 'required', 
+        'alamat' => 'required',
     ]);
 
     Perusahaan::create($validateData);

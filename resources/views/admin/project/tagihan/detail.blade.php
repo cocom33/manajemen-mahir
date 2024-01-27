@@ -3,7 +3,7 @@
 
 @section('content')
     <x-card title="Detail {{ $project->name }}" :project="$detail">
-        <x-tab-detail page="tagihan" slug="{{ $project->slug }}" />
+        <x-tab-detail page="pengeluaran" slug="{{ $project->slug }}" />
         <div class="mt-5">
             <div class="w-full flex justify-between align-center">
                 <div>
@@ -62,28 +62,15 @@
                 <div class="flex w-full gap-3">
                     <x-form-input label="Tanggal Pembelian" name="" addon="w-full" value="{{ date('d / m / Y', strtotime($tagihan->date_start)) }}" readonly="readonly" required="false" />
                     <x-form-input label="Jatuh Tempo" name="" addon="w-full" value="{{ date('d / m / Y', strtotime($tagihan->date_end)) }}" readonly="readonly" required="false" />
-                    {{-- @php
-                        switch ($tagihan->date_type) {
-                            case 'year':
-                                $tempo = date('d / m / Y', strtotime('+'. $tagihan->date .' year', strtotime($tagihan->date_start)));
-                                $jarak = 'tahun';
-                                break;
-                            case 'month':
-                                $tempo = date('d / m / Y', strtotime('+'. $tagihan->date .' month', strtotime($tagihan->date_start)));
-                                $jarak = 'bulan';
-                                break;
-                            case 'week':
-                                $tempo = date('d / m / Y', strtotime('+'. $tagihan->date .' week', strtotime($tagihan->date_start)));
-                                $jarak = 'minggu';
-                                break;
-                            case 'day':
-                                $tempo = date('d / m / Y', strtotime('+'. $tagihan->date .' day', strtotime($tagihan->date_start)));
-                                $jarak = 'hari';
-                                break;
-                        }
-                    @endphp
-                    <x-form-input label="Lama Waktu" name="" addon="w-full" value="{{ $tagihan->date . ' ' . $jarak }}" readonly="readonly" required="false" />
-                    <x-form-input label="Jatuh Tempo" name="" addon="w-full" value="{{ $tempo }}" readonly="readonly" required="false" /> --}}
+                    <div class="w-full">
+                        <div class="flex justify-between">
+                            <label for="supp">Supplier</label>
+                            <a href="{{ route('suppliers.show', $tagihan->supplier->id) }}" class="border-b text-theme-1">Lihat Detail</a>
+                        </div>
+                        <select name="supplier_id" id="supp" class="input w-full border mt-2" readonly>
+                            <option >{{ $tagihan->supplier->name }} - {{ number_format($tagihan->supplier->price) }}</option>
+                        </select>
+                    </div>
                 </div>
 
                 <div class="mt-3">

@@ -12,7 +12,7 @@
             </h3>
             <div class="flex">
                 <h4 class="mr-5 text-lg font-bold">Total Fee : Rp. {{ number_format($team->fee) }}</h4>
-                <h4 class="text-lg font-bold">Total Dibayar : Rp. {{ number_format($team->project_team_fee->sum('fee')) }}</h4>
+                <h4 class="text-lg font-bold">Total Dibayar : Rp. {{ number_format($team->project_team_fee->where('status', 1)->sum('fee')) }}</h4>
             </div>
         </div>
 
@@ -23,8 +23,9 @@
                 @method('PUT')
                 <input type="hidden" name="team_id" value="{{ $team->id }}">
                 <input type="hidden" name="project_id" value="{{$project->id}}">
-                <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
+                <div class="grid grid-cols-1 gap-5 md:grid-cols-3">
                     <x-form-input label="fee" name="fee" placeholder="masukkan fee" />
+                    <x-form-input label="Tanggal Pemberian" name="tenggat" type="date" placeholder="" />
                     <div class="">
                         <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                             for="single_file">Upload Bukti Pembayaran</label>
@@ -36,8 +37,12 @@
                     </div>
                 </div>
 
-                <div class="flex justify-end">
-                    <button type="submit" class="flex mt-3 text-white shadow-md button align-center bg-theme-1">
+                <div class="flex justify-end mt-3">
+                    <div class="flex items-center mr-3 justify-end">
+                        <input type="checkbox" name="lunas" id="lunas" class="mr-1">
+                        <label for="lunas">Tandai Lunas</label>
+                    </div>
+                    <button type="submit" class="flex text-white shadow-md button align-center bg-theme-1">
                         <span>Tambah</span>
                     </button>
                 </div>
@@ -51,7 +56,8 @@
                     <tr>
                         <th class="whitespace-no-wrap border-b-2">Tahap</th>
                         <th class="text-center whitespace-no-wrap border-b-2">Total Fee</th>
-                        <th class="text-center whitespace-no-wrap border-b-2">Tanggal Dibayar</th>
+                        <th class="text-center whitespace-no-wrap border-b-2">Tanggal Pemberian</th>
+                        <th class="text-center whitespace-no-wrap border-b-2">Status</th>
                         <th class="text-center whitespace-no-wrap border-b-2">Photo</th>
                         <th class="text-center whitespace-no-wrap border-b-2">ACTIONS</th>
                     </tr>
@@ -63,19 +69,38 @@
                             <div class="font-medium whitespace-no-wrap">{{ $key + 1 }}</div>
                         </td>
                         <td class="text-center border-b">Rp. {{ number_format($team->fee) }}  </td>
-                        <td class="text-center border-b">{{ $team->created_at->format('d / m / Y') }}  </td>
+                        <td class="text-center border-b">{{ $team->tenggat }}  </td>
+                        <td class="text-center border-b">{{ $team->status == 1 ? 'Lunas' : 'Belum Lunas' }}  </td>
                         <td class="text-center border-b">
-                            @if ($team->photo)
-                                <a href="{{ asset('images/' . $team->photo) }}" target="_blank" class="inline-block text-white button bg-theme-1" type="button">
-                                    Lihat Bukti
-                                </a>
+                            @if ($team->status)
+                                @if ($team->photo)
+                                    <a href="{{ asset('images/' . $team->photo) }}" target="_blank" class="inline-block text-white button bg-theme-1" type="button">
+                                        Lihat Bukti
+                                    </a>
+                                @else
+                                    Tidak ada bukti
+                                @endif
                             @else
-                                Tidak ada bukti
+                                <span id="none{{ $team->id }}">-</span>
+                                <form action="{{ route('project.team.lunas', [$project->slug, $team->id]) }}" id="formLunas{{ $team->id }}" enctype="multipart/form-data" style="max-width: 140px" class="hidden" method="post">
+                                    @csrf
+                                    @method('PUT')
+                                    <input type="hidden" name="project_id" value="{{ $project->id }}">
+                                    <input type="file" name="photo" id="image{{ $team->id }}" accept="image/png, image/jpeg, image/jpg, image/gif" class="block w-full h-10.5 leading-9 rounded overflow-hidden text-sm text-gray-900 bg-gray-50 border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400">
+                                </form>
                             @endif
                         </td>
                         <td class="w-5 border-b">
                             <div class="flex items-center sm:justify-center">
                                 <div class="relative flex gap-1 dropdown">
+                                    @if (!$team->status)
+                                        <a id="key{{ $team->id }}" onclick="showForm{{ $team->id }}()" class="inline-block text-white shadow-md button bg-theme-1">
+                                            <i data-feather="key" class="w-4 h-4 font-bold "></i>
+                                        </a>
+                                        <button id="store{{ $team->id }}" class="hidden inline-block text-white shadow-md button bg-theme-1" form="formLunas{{ $team->id }}">
+                                            <i data-feather="check" class="w-4 h-4 font-bold "></i>
+                                        </button>
+                                    @endif
                                     <form action="{{ route('project.team-fee-delete', $team->id) }}" method="post">
                                         @csrf
                                         @method('DELETE')
@@ -116,6 +141,15 @@
       rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
       return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
     }
+
+    @foreach($fee as $key => $team)
+        function showForm{{ $team->id }}() {
+            document.getElementById("store{{ $team->id }}").classList.remove('hidden')
+            document.getElementById("key{{ $team->id }}").classList.add('hidden')
+            document.getElementById("none{{ $team->id }}").classList.add('hidden')
+            document.getElementById("formLunas{{ $team->id }}").classList.remove('hidden')
+        }
+    @endforeach
 
     function activateImagePreview() {
         return {

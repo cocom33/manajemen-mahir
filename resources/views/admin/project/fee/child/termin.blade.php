@@ -8,7 +8,7 @@
         <x-form-input label="Nama Termin" name="name" placeholder="masukkan nama termin" />
         <div>
             <div id="harga">
-                <x-form-input label="Price" name="price" placeholder="masukkan price" required="false" />
+                <x-form-input label="Price" name="harga" placeholder="masukkan price" required="false" />
             </div>
             <div id="persen" class="hidden">
                 <x-form-input label="Persen" name="price" placeholder="masukkan persenan" required="false" />

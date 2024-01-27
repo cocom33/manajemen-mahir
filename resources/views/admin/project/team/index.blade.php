@@ -49,7 +49,7 @@
                                     <input name="fee" id="inputFee{{ $key }}" class="hidden input w-full border" value="{{ $team->fee ?? 0 }}">
                                 </form>
                             </td>
-                            <td class="text-center border-b">Rp. {{ number_format($team->project_team_fee->sum('fee')) }}  </td>
+                            <td class="text-center border-b">Rp. {{ number_format($team->project_team_fee->where('status', 1)->sum('fee')) }}  </td>
                             <td class="border-b w-5">
                                 <div class="flex sm:justify-center items-center">
                                     <div class="dropdown relative flex gap-1">

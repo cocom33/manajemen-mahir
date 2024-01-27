@@ -142,13 +142,13 @@
                 </div>
                 <div class="mt-5">
                     <div id="data-wrapper-fee">
-                        @if ($sisaFeeLoad > 0)
+                        @if ($feeteamsLoad->count() > 0)
                             @include('admin.dashboard.components.dataSisaFee')
                         @endif
                     </div>
 
-                    <button @if ($sisaFeeLoad <= 0) disabled @endif
-                        class="block w-full py-4 text-center border border-dotted rounded-md intro-y border-theme-15 text-theme-16 load-more-data-fee">@if ($sisaFeeLoad <= 0) Tidak Ada Data @else View More @endif</button>
+                    <button @if ($feeteamsLoad->count() <= 0) disabled @endif
+                        class="block w-full py-4 text-center border border-dotted rounded-md intro-y border-theme-15 text-theme-16 load-more-data-fee">@if ($feeteamsLoad->count() <= 0) Tidak Ada Data @else View More @endif</button>
 
                     <!-- Data Loader -->
                     <div class="flex justify-center auto-load-fee" style="display: none;">
@@ -302,10 +302,10 @@
 
         $(".load-more-data-fee").click(function() {
             feePage++;
-            loadMoreDataFee(feePage, FEE_ENDPOINT, 'fee', '.auto-load-fee', '#data-wrapper-fee');
+            loadMoreDataFee(feePage, FEE_ENDPOINT, 'feeteam', '.auto-load-fee', '#data-wrapper-fee');
         });
 
-        function loadMoreDataPiutang(page, endpoint, dataType, autoLoadClass, dataWrapperId) {
+        function loadMoreDataFee(page, endpoint, dataType, autoLoadClass, dataWrapperId) {
             $.ajax({
                     url: endpoint + "?page=" + page,
                     datatype: dataType,

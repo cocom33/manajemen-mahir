@@ -37,16 +37,30 @@
                 <div class="flex w-full gap-3">
                     <x-form-input label="Masukkan waktu Pembelian" name="date_start" type="date" addon="w-full" value="{{ $tagihan->date_start ?? '' }}" />
                     <x-form-input label="Masukkan waktu Jatuh Tempo" name="date_end" type="date" addon="w-full" value="{{ $tagihan->date_start ?? '' }}" />
+                    <div class="w-full">
+                        <label for="supp">Pilih Supplier</label>
+                        <select name="supplier_id" id="supp" class="input w-full border mt-2">
+                            <option value="" class="hidden"></option>
+                            @foreach ($suppliers as $item)
+                                <option value="{{ $item->id }}">
+                                    {{ $item->name }} - Rp. {{ number_format($item->price) }}
+                                </option>
+                            @endforeach
+                        </select>
+                        <small>bisa dikosongkan</small>
+                    </div>
                 </div>
 
                 <div class="mt-3">
                     <label for="description">Masukkan deskripsi/catatan Tagihan</label>
                     <textarea name="description" id="description" rows="8" class="mt-3 input w-full border">{{ $tagihan->description ?? '' }}</textarea>
                 </div>
-                <div class="flex items-center mt-3 justify-end">
-                    <input type="checkbox" name="lunas" id="lunas" class="mr-1">
-                    <label for="lunas">Tandai Lunas</label>
-                </div>
+                @if (!$tagihan)
+                    <div class="flex items-center mt-3 justify-end">
+                        <input type="checkbox" name="lunas" id="lunas" class="mr-1">
+                        <label for="lunas">Tandai Lunas</label>
+                    </div>
+                @endif
 
                 <div class="flex justify-end gap-2 mt-3">
                     @php

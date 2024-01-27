@@ -42,7 +42,7 @@
 
             <div class="mb-5">
                 <label>Alamat Perusahaan</label>
-                <textarea type="text" name="alamat" class="input w-full border mt-2 @error('alamat') border-theme-6 @enderror" placeholder="Alamat"></textarea>
+                <textarea type="text" name="alamat" value="{{ $data->alamat}}" class="input w-full border mt-2 @error('alamat') border-theme-6 @enderror" placeholder="Alamat"></textarea>
                 @error('alamat')
                     <div class="text-theme-6 mt-2">{{ $message }}</div>
                 @enderror
