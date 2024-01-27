@@ -20,7 +20,7 @@ return new class extends Migration
             $table->enum('sumber', ['iklan', 'teman', 'wa'])->nullable();
             $table->string('nama_rekening')->nullable();
             $table->string('nomer_rekening')->nullable();
-
+            $table->string('nama_perusahaan')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

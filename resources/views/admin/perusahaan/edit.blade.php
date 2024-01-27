@@ -32,6 +32,15 @@
             </div>
 
             <div class="mb-5">
+                <label class="block text-gray-700 font-medium mb-2">Email Perusahaan</label>
+                <input type="text" name="email" value="{{ $data->email }}" class="input w-full border mt-2 @error('email') border-theme-6 @enderror" placeholder="Input Nama Email Perusahaan">
+                
+                @error('email')
+                    <div class="mt-2 text-theme-6">{{ $message }}</div>
+                @enderror
+                </div>
+
+            <div class="mb-5">
                 <label>Alamat Perusahaan</label>
                 <textarea type="text" name="alamat" class="input w-full border mt-2 @error('alamat') border-theme-6 @enderror" placeholder="Alamat"></textarea>
                 @error('alamat')

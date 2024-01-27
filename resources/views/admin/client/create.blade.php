@@ -52,6 +52,20 @@
                             <div class="text-theme-6 mt-2">{{ $message }}</div>
                         @enderror
                     </div>
+                    <div class="mt-3">
+                        <label>Perusahaan</label>
+                        <div class="mt-2">
+                            <select name="nama_perusahaan" data-hide-search="true" class="select2 w-full border-theme-6">
+                                <option disabled>Pilih Perusahaan</option>
+                                @foreach ($perusahaans as $perusahaan)
+                                <option value="{{ $perusahaan->id }}">{{ $perusahaan->nama_perusahaan }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        @error('skills')
+                            <div class="text-theme-6 mt-2">{{ $message }}</div>
+                        @enderror
+                    </div>
                     <button type="submit" class="button bg-theme-1 text-white mt-5">Submit</button>
                 </div>
             </form>

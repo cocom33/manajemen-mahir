@@ -27,8 +27,10 @@ class PerusahaanController extends Controller
     public function store(Request $request)
     {
     $validateData = $request->validate([
-        'nama_perusahaan' => 'required', 
-        'alamat' => 'required',
+        'pemilik' => 'nullable',
+            'nama_perusahaan' => 'required',
+            'email' => 'nullable',
+            'alamat' => 'required'  
     ]);
 
     Perusahaan::create($validateData);
@@ -60,8 +62,9 @@ class PerusahaanController extends Controller
     public function update(Request $request, string $id)
     {
         $validate = $request->validate([
-            'name',
+            'pemilik' => 'nullable',
             'nama_perusahaan' => 'required',
+            'email' => 'nullable',
             'alamat' => 'required'
         ]);
 

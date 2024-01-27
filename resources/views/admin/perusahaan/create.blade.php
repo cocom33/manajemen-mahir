@@ -17,15 +17,22 @@
                 @csrf
                 <div class="my-5">
                     <label>Nama Pemilik</label>
-                    <input type="text" name="pemilik" class="input w-full border mt-2 @error('pemilik') border-theme-6 @enderror" placeholder="Input pemilik">
+                    <input type="text" name="pemilik" class="input w-full border mt-2 @error('pemilik') border-theme-6 @enderror" placeholder="Input Nama Pemilik">
                     @error('pemilik')
                         <div class="mt-2 text-theme-6">{{ $message }}</div>
                     @enderror
                 </div>
                 <div class="my-5">
-                    <label>Perusahaan</label>
+                    <label>Nama Perusahaan</label>
                     <input type="text" name="nama_perusahaan" class="input w-full border mt-2 @error('nama_perusahaan') border-theme-6 @enderror" placeholder="Input Nama Perusahaan">
                     @error('nama_perusahaan')
+                        <div class="mt-2 text-theme-6">{{ $message }}</div>
+                    @enderror   
+                </div>
+                <div class="my-5">
+                    <label>Email Perusahaan</label>
+                    <input type="email" name="email" class="input w-full border mt-2 @error('email') border-theme-6 @enderror" placeholder="Input Email Perusahaan">
+                    @error('email')
                         <div class="mt-2 text-theme-6">{{ $message }}</div>
                     @enderror   
                 </div>
