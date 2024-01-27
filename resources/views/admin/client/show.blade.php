@@ -42,6 +42,10 @@
                         <span class="font-semibold">Alamat</span>
                         <p class="mt-3">{{ $client->alamat }}</p>
                     </div>
+                    <div class="mb-6">
+                        <span class="font-semibold">Perusahaan</span>
+                        <p class="mt-3">{{ $perusahaan_client->nama_perusahaan }}</p>
+                    </div>
                 </div>
         </div>
     </div>

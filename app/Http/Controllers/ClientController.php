@@ -47,8 +47,15 @@ class ClientController extends Controller
     public function show(Client $client)
     {
         $projects = Project::where('client_id', $client->id)->get();
+        $clients = Perusahaan::get();
 
-        return view('admin.client.show', compact('client', 'projects'));
+        $perusahaanClientId = json_decode($client->nama_perusahaan, true);
+        
+        $perusahaan_client = Perusahaan::find($perusahaanClientId);
+        
+        // dd($perusahaan_client);
+        
+        return view('admin.client.show', compact('client', 'projects', 'perusahaan_client'));
     }
 
     public function edit(Client $client)
