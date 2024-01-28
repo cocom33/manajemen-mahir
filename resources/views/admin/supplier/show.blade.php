@@ -21,10 +21,10 @@
                     </div>
                     <div class="mb-6">
                         <span class="font-semibold">Price</span>
-                        <p class="mt-3">{{ $data->price }}</p>
+                        <p class="mt-3">Rp. {{ number_format($data->price) }}</p>
                     </div>
                     <div class="mb-6">
-                        <span class="font-semibold">Phone</span>
+                        <span class="font-semibold">Link</span>
                         <p class="mt-3">{{ $data->link }}</p>
                     </div>
                     <a href="{{ route('suppliers.index') }}"><button class="mt-5 text-white button bg-theme-1">Back</button></a>
