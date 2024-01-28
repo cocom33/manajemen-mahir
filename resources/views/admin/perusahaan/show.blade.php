@@ -39,7 +39,36 @@
       </div>
     </div>
 
-    
-
   </div>
+  <div class="intro-y box mt-5">
+    <div class="flex flex-col sm:flex-row items-center p-5 border-b border-gray-200">
+        <h2 class="font-medium text-base mr-auto">
+            List Project Clien
+        </h2>
+    </div>
+    <div class="p-5" id="vertical-form">
+        <div class="intro-y datatable-wrapper box p-5">
+        <table class="table table-report table-report--bordered display datatable w-full">
+            <thead>
+                <tr>
+                    <th class="border-b-2 whitespace-no-wrap">CLIENT NAME</th>
+                </tr>
+            </thead>
+            <tbody>
+            {{-- @if (!$client == null) --}}
+                @foreach($clients->where('nama_perusahaan', $perusahaan->id) as $project)
+                    <tr>
+                        <td class="border-b">
+                            <div class="font-medium whitespace-no-wrap">{{ $project->name }}</div>
+                        </td>
+                    </tr>
+                @endforeach
+            {{-- @else
+
+            @endif --}}
+            </tbody>
+        </table>
+        </div>
+    </div>
+</div>
 @endsection

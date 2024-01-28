@@ -28,8 +28,8 @@ class Client extends Model
         return $this->hasMany(Project::class);
     }
 
-    public function perusahaan(): BelongsToMany
+    public function perusahaan()
     {
-        return $this->belongsToMany(Perusahaan::class);
+        return $this->BelongsTo(Perusahaan::class, 'nama_perusahaan', 'id');
     }
 }

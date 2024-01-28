@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Client;
 use App\Models\Perusahaan;
 use Illuminate\Http\Request;
 
@@ -29,6 +30,7 @@ class PerusahaanController extends Controller
     $validateData = $request->validate([
         'pemilik' => 'nullable',
         'nama_perusahaan' => 'required', 
+        'email' => 'nullable',
         'alamat' => 'required',
     ]);
 
@@ -43,7 +45,9 @@ class PerusahaanController extends Controller
      */
     public function show(Perusahaan $perusahaan)
     {
-    return view('admin.perusahaan.show', compact('perusahaan'));
+        $clients = Client::get();
+        
+        return view('admin.perusahaan.show', compact('perusahaan','clients'));
     }
 
     /**
