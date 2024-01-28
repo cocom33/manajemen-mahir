@@ -65,10 +65,16 @@
                     <div class="w-full">
                         <div class="flex justify-between">
                             <label for="supp">Supplier</label>
-                            <a href="{{ route('suppliers.show', $tagihan->supplier->id) }}" class="border-b text-theme-1">Lihat Detail</a>
+                            @if ($tagihan->supplier_id)
+                                <a href="{{ route('suppliers.show', $tagihan->supplier->id) }}" class="border-b text-theme-1">Lihat Detail</a>
+                            @endif
                         </div>
                         <select name="supplier_id" id="supp" class="input w-full border mt-2" readonly>
-                            <option >{{ $tagihan->supplier->name }} - {{ number_format($tagihan->supplier->price) }}</option>
+                            @if ($tagihan->supplier_id)
+                                <option >{{ $tagihan->supplier->name }}</option>
+                            @else
+                                <option>-</option>
+                            @endif
                         </select>
                     </div>
                 </div>

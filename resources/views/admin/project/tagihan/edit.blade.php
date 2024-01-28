@@ -29,10 +29,10 @@
                     <div class="w-full">
                         <label for="supp">Pilih Supplier</label>
                         <select name="supplier_id" id="supp" class="input w-full border mt-2">
-                            <option value="{{ $tagihan->supplier_id }}" class="hidden">{{ $tagihan->supplier->name }} - Rp. {{ number_format($tagihan->supplier->price) }}</option>
+                            <option value="{{ $tagihan->supplier_id ?? '' }}" class="hidden">{{ $tagihan->supplier->name ?? '' }}</option>
                             @foreach ($suppliers as $item)
                                 <option value="{{ $item->id }}">
-                                    {{ $item->name }} - Rp. {{ number_format($item->price) }}
+                                    {{ $item->name }}
                                 </option>
                             @endforeach
                         </select>
