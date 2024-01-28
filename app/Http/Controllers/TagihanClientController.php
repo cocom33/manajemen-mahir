@@ -97,6 +97,7 @@ class TagihanClientController extends Controller
 
         $data = $request->validate([
             'client_id' => 'required',
+            'supplier_id' => 'nullable',
             'title' => 'required',
             'harga_jual' => 'required',
             'harga_beli' => 'required',

@@ -71,7 +71,7 @@
                         </div>
                         <input type="text" class="input w-full border mt-3" readonly
                             @if ($tagihan->supplier_id)
-                                value="{{ $tagihan->supplier->name }} - {{ number_format($tagihan->supplier->price) }}"
+                                value="{{ $tagihan->supplier->name }}"
                             @else
                                 value="-"
                             @endif

@@ -64,7 +64,7 @@
                             <option value="" class="hidden"></option>
                             @foreach ($suppliers as $item)
                                 <option value="{{ $item->id }}">
-                                    {{ $item->name }} - Rp. {{ number_format($item->price) }}
+                                    {{ $item->name }}
                                 </option>
                             @endforeach
                         </select>
