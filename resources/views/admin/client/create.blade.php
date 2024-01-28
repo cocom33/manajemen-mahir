@@ -52,6 +52,41 @@
                             <div class="text-theme-6 mt-2">{{ $message }}</div>
                         @enderror
                     </div>
+                    <div class="mt-3">
+                        <label>Perusahaan</label>
+                        <div class="mt-2">
+                            <select name="nama_perusahaan" data-hide-search="true" class="select2 w-full border-theme-6">
+                                <option disabled>Pilih Perusahaan</option>
+                                @foreach ($perusahaans as $perusahaan)
+                                <option value="{{ $perusahaan->id }}">{{ $perusahaan->nama_perusahaan }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        @error('nama_perusahaan')
+                            <div class="text-theme-6 mt-2">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="mt-3">
+                        <label>Nomor Rekening</label>
+                        <input type="number" min="0" name="nomor_rekening" class="input w-full border mt-2 @error('nomor_rekening') border-theme-6 @enderror" placeholder="Alamat">
+                        @error('nomor_rekening')
+                            <div class="text-theme-6 mt-2">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="mt-3">
+                        <label>Pemilik Rekening</label>
+                        <input type="text" name="nama_rekening" class="input w-full border mt-2 @error('nama_rekening') border-theme-6 @enderror" placeholder="Alamat">
+                        @error('nama_rekening')
+                            <div class="text-theme-6 mt-2">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="mt-3">
+                        <label>Nasabah Bank</label>
+                        <input type="text" name="nasabah_bank" class="input w-full border mt-2 @error('nasabah_bank') border-theme-6 @enderror" placeholder="Alamat">
+                        @error('nasabah_bank')
+                            <div class="text-theme-6 mt-2">{{ $message }}</div>
+                        @enderror
+                    </div>
                     <button type="submit" class="button bg-theme-1 text-white mt-5">Submit</button>
                 </div>
             </form>

@@ -149,71 +149,71 @@ class TeamController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, Team $team)
-{
+    {
 
-  $validated = $request->validate([
-    'name' => 'required',
-    'wa' => 'required',
-    'status' => 'required',
-    'skill' => 'required',
-    'email' => 'required',
-    'alamat' => 'required',
-  ]);
+      $validated = $request->validate([
+        'name' => 'required',
+        'wa' => 'required',
+        'status' => 'required',
+        'skill' => 'required',
+        'email' => 'required',
+        'alamat' => 'required',
+      ]);
 
-  // Foto KTP
-  if($request->hasFile('foto_ktp')) {
+      // Foto KTP
+      if($request->hasFile('foto_ktp')) {
 
-    $image = $request->file('foto_ktp');
-    $fileName = 'foto_ktp_' . time() . '.' . $image->extension();
-    $folder = public_path('foto_ktp');
-    $image->move($folder, $fileName);
+        $image = $request->file('foto_ktp');
+        $fileName = 'foto_ktp_' . time() . '.' . $image->extension();
+        $folder = public_path('foto_ktp');
+        $image->move($folder, $fileName);
 
-    $validated['foto_ktp'] = $fileName;
+        $validated['foto_ktp'] = $fileName;
 
-  } else if($request->old_foto_ktp) {
+      } else if($request->old_foto_ktp) {
 
-    $validated['foto_ktp'] = $request->old_foto_ktp;
-  
-  }
+        $validated['foto_ktp'] = $request->old_foto_ktp;
+      
+      }
 
-  // Pas Foto
-  if($request->hasFile('pas_foto')) {
+      // Pas Foto
+      if($request->hasFile('pas_foto')) {
 
-    $image = $request->file('pas_foto');
-    $fileName = 'pas_foto_' . time() . '.' . $image->extension();
-    $folder = public_path('pas_foto');
-    $image->move($folder, $fileName);
+        $image = $request->file('pas_foto');
+        $fileName = 'pas_foto_' . time() . '.' . $image->extension();
+        $folder = public_path('pas_foto');
+        $image->move($folder, $fileName);
 
-    $validated['pas_foto'] = $fileName;
+        $validated['pas_foto'] = $fileName;
 
-  } else if($request->old_pas_foto) {
+      } else if($request->old_pas_foto) {
 
-    $validated['pas_foto'] = $request->old_pas_foto;
-  
-  }
+        $validated['pas_foto'] = $request->old_pas_foto;
+      
+      }
 
-  // CV
-  if($request->hasFile('cv')) {
+      // CV
+      if($request->hasFile('cv')) {
 
-    $file = $request->file('cv');
-    $fileName = 'cv_' . time() . '.' . $file->extension();
-    $folder = public_path('cv');
-    $file->move($folder, $fileName);
+        $file = $request->file('cv');
+        $fileName = 'cv_' . time() . '.' . $file->extension();
+        $folder = public_path('cv');
+        $file->move($folder, $fileName);
 
-    $validated['cv'] = $fileName;
+        $validated['cv'] = $fileName;
 
-  } else if($request->old_cv) {
+      } else if($request->old_cv) {
 
-    $validated['cv'] = $request->old_cv;
-  
-  }
+        $validated['cv'] = $request->old_cv;
+      
+      }
 
-  $team->update($validated);
+      $team->update($validated);
 
-  return redirect()->route('teams.index')->with('success', 'Team '. $request->name .' created successfully!');
+      return redirect()->route('teams.index')->with('success', 'Team '. $request->name .' created successfully!');
 
 
-}
+    }
 
     /**
      * Remove the specified resource from storage.

@@ -27,9 +27,6 @@
                         <span class="font-semibold">Phone</span>
                         <p class="mt-3">{{ $client->wa }}</p>
                     </div>
-                    <a href="{{ route('client.index') }}"><button class="button bg-theme-1 text-white mt-5">Back</button></a>
-                </div>
-                <div>
                     <div class="mb-6">
                         <span class="font-semibold">Sumber</span>
                         <div class="mt-3">
@@ -37,10 +34,29 @@
                                 {{ $client->sumber ? $client->sumber : 'Belum di isi' }}
                             </span>
                         </div>
+                        <a href="{{ route('client.index') }}"><button class="button bg-theme-1 text-white mt-5">Back</button></a>
                     </div>
+                </div>
+                <div>
                     <div class="mb-6">
                         <span class="font-semibold">Alamat</span>
                         <p class="mt-3">{{ $client->alamat }}</p>
+                    </div>
+                    <div class="mb-6">
+                        <span class="font-semibold">Perusahaan</span>
+                        <p class="mt-3">{{ $perusahaan_client->nama_perusahaan ?? '<- TIDAK MEMILIKI PERUSAHAAN ->' }}</p>
+                    </div>
+                    <div class="mb-6">
+                        <span class="font-semibold">Nomor Rekening</span>
+                        <p class="mt-3">{{ $client->nomor_rekening }}</p>
+                    </div>
+                    <div class="mb-6">
+                        <span class="font-semibold">Nasabah Bank</span>
+                        <p class="mt-3">{{ $client->nasabah_bank }}</p>
+                    </div>
+                    <div class="mb-6">
+                        <span class="font-semibold">Pemilik Rekening</span>
+                        <p class="mt-3">{{ $client->nama_rekening }}</p>
                     </div>
                 </div>
         </div>

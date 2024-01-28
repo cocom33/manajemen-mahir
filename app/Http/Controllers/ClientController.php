@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use App\Models\Perusahaan;
 use App\Models\Project;
 use Illuminate\Http\Request;
 
@@ -16,7 +17,8 @@ class ClientController extends Controller
 
     public function create()
     {
-        return view('admin.client.create');
+        $perusahaans = Perusahaan::get();
+        return view('admin.client.create', compact('perusahaans'));
     }
 
     public function store(Request $request)
@@ -26,6 +28,10 @@ class ClientController extends Controller
             'wa' => 'required',
             'email' => 'required',
             'alamat' => 'required',
+            'nomor_rekening' => 'required',
+            'nama_rekening' => 'required',
+            'nasabah_bank' => 'required',
+            'nama_perusahaan' => 'nullable',
         ]);
 
         $dt = New Client();
@@ -34,6 +40,11 @@ class ClientController extends Controller
         $dt->email = $request->email;
         $dt->alamat = $request->alamat;
         $dt->sumber = $request->sumber;
+        $dt->nomor_rekening = $request->nomor_rekening;
+        $dt->nama_rekening = $request->nama_rekening;
+        $dt->nasabah_bank = $request->nasabah_bank;
+        $dt->nama_perusahaan = $request->nama_perusahaan;
+
         $dt->save();
 
         return redirect()->route('client.index')->with('success', 'Client '. $dt->name .' created successfully!');
@@ -42,24 +53,38 @@ class ClientController extends Controller
     public function show(Client $client)
     {
         $projects = Project::where('client_id', $client->id)->get();
+        $clients = Perusahaan::get();
 
-        return view('admin.client.show', compact('client', 'projects'));
+        $perusahaanClientId = json_decode($client->nama_perusahaan, true);
+        
+        $perusahaan_client = Perusahaan::find($perusahaanClientId);
+        
+        // dd($perusahaan_client);
+        
+        return view('admin.client.show', compact('client', 'projects', 'perusahaan_client'));
     }
 
     public function edit(Client $client)
     {
-        return view('admin.client.edit', compact('client'));
+        $perusahaans = Perusahaan::all();
+        return view('admin.client.edit', compact('client', 'perusahaans'));
     }
 
     public function update(Request $request, String $id)
     {
         $dt = Client::where('id', $id)->first();
 
+        $nama_perusahaan = Perusahaan::get();
+
         $request->validate([
             'name' => 'required',
             'wa' => 'required',
             'email' => 'required',
             'alamat' => 'required',
+            'nomor_rekening' => 'required',
+            'nama_rekening' => 'required',
+            'nasabah_bank' => 'required',
+            'nama_perusahaan' => 'required',
         ]);
 
         $dt->name = $request->name;
@@ -67,6 +92,10 @@ class ClientController extends Controller
         $dt->email = $request->email;
         $dt->alamat = $request->alamat;
         $dt->sumber = $request->sumber;
+        $dt->nomor_rekening = $request->nomor_rekening;
+        $dt->nama_rekening = $request->nama_rekening;
+        $dt->nasabah_bank = $request->nasabah_bank;
+        $dt->nama_perusahaan = $request->nama_perusahaan;
         $dt->update();
 
         return redirect()->route('client.index')->with('success', 'Client '. $dt->name .' updated successfully!');

@@ -17,10 +17,19 @@ class Client extends Model
         'email',
         'alamat',
         'sumber',
+        'nomor_rekening',
+        'nama_rekening',
+        'nasabah_bank',
+        'nama_perusahaan',
     ];
 
     public function project()
     {
         return $this->hasMany(Project::class);
+    }
+
+    public function perusahaan(): BelongsToMany
+    {
+        return $this->belongsToMany(Perusahaan::class);
     }
 }

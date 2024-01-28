@@ -9,6 +9,6 @@ class Perusahaan extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['pemilik', 'nama_perusahaan', 'alamat'];
+    protected $fillable = ['pemilik', 'nama_perusahaan', 'email', 'alamat'];
 
 }

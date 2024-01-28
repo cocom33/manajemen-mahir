@@ -19,10 +19,16 @@
             <div class="font-medium text-gray-600">Nama Perusahaan</div>
             <div class="ml-auto">{{ $perusahaan->nama_perusahaan }}</div>
         </div>
+
+        <div class="flex items-center py-5">
+          <i data-feather="clock" class="w-4 h-4 mr-2"></i>
+          <div class="font-medium text-gray-600">Email Perusahaan</div>
+          <div class="ml-auto">{{ $perusahaan->email ?? "-" }}</div>
+      </div>
         
         <div class="flex items-center py-5">
             <i data-feather="clock" class="w-4 h-4 mr-2"></i>  
-            <div class="font-medium text-gray-600">Alamat</div>
+            <div class="font-medium text-gray-600">Alamat Perusahaan</div>
             <div class="ml-auto">{{ $perusahaan->alamat }}</div>
         </div>
         

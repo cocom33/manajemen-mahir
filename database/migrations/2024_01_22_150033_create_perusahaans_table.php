@@ -16,6 +16,7 @@ return new class extends Migration
             $table->timestamps();
             $table->string('pemilik')->nullable();
             $table->string('nama_perusahaan');
+            $table->string('email')->nullable();
             $table->string('alamat');
         });
     }

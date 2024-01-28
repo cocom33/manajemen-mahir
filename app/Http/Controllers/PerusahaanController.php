@@ -63,6 +63,7 @@ class PerusahaanController extends Controller
         $validate = $request->validate([
             'pemilik' => 'nullable',
             'nama_perusahaan' => 'required',
+            'email' => 'nullable',
             'alamat' => 'required'
         ]);
 

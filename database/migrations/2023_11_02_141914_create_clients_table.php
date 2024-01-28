@@ -18,9 +18,10 @@ return new class extends Migration
             $table->string('email');
             $table->string('alamat');
             $table->enum('sumber', ['iklan', 'teman', 'wa'])->nullable();
-            $table->string('nama_rekening')->nullable();
-            $table->string('nomer_rekening')->nullable();
-
+            $table->string('nama_rekening');
+            $table->string('nomor_rekening');
+            $table->string('nasabah_bank');
+            $table->string('nama_perusahaan')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
