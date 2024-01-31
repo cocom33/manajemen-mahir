@@ -44,19 +44,19 @@
                     </div>
                     <div class="mb-6">
                         <span class="font-semibold">Perusahaan</span>
-                        <p class="mt-3">{{ $perusahaan_client->nama_perusahaan ?? '<- TIDAK MEMILIKI PERUSAHAAN ->' }}</p>
+                        <p class="mt-3">{{ $perusahaan_client->nama_perusahaan ?? '<- Tidak Memiliki Perusahaan ->' }}</p>
                     </div>
                     <div class="mb-6">
                         <span class="font-semibold">Nomor Rekening</span>
-                        <p class="mt-3">{{ $client->nomor_rekening }}</p>
+                        <p class="mt-3">{{ $client->nomor_rekening ?? '<- Belum Ada Nomor Rekening ->' }}</p>
                     </div>
                     <div class="mb-6">
                         <span class="font-semibold">Nasabah Bank</span>
-                        <p class="mt-3">{{ $client->nasabah_bank }}</p>
+                        <p class="mt-3">{{ $client->nasabah_bank ?? '<- Belum Ada Bank ->' }}</p>
                     </div>
                     <div class="mb-6">
                         <span class="font-semibold">Pemilik Rekening</span>
-                        <p class="mt-3">{{ $client->nama_rekening }}</p>
+                        <p class="mt-3">{{ $client->nama_rekening ?? '<- Belum Ada Nama Rekening ->' }}</p>
                     </div>
                 </div>
         </div>
