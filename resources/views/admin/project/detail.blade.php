@@ -22,7 +22,7 @@
             <x-form-input class="font-bold" label="harga penawaran" name="" value="{{ number_format($project->harga_penawaran ?? '0') }}" readonly="readonly" required="false" />
             <x-form-input class="font-bold" label="harga deal" name="" value="{{ number_format($project->harga_deal ?? '0') }}" readonly="readonly" required="false" />
 
-            @if ($project->type_pajak != null)
+            @if ($project->type_pajak == 1 || $project->type_pajak == 0)
                 <x-form-input class="font-bold" label="harga Pajak" name="" value="{{ number_format($project->pajak * $project->harga_deal / 100) }}   //   {{ $project->pajak }}%" readonly="readonly" required="false" />
                 @if ($project->type_pajak == 1)
                     <small>pajak menambahkan harga deal</small>

@@ -195,7 +195,6 @@ class ProjectFeeController extends Controller
     {
         $data['project'] = Project::where('slug', $slug)->first();
         $data['termin'] = Termin::where('slug', $termin)->first();
-        $data['teams'] = ProjectTeam::whereNotIn('id', $data['termin']->termin_fee->pluck('project_team_id'))->where([['project_id', $data['project']->id], ['status', 1]])->get();
         $data['detail'] = $this->gaji($data['project']);
 
         return view('admin.project.fee.termin-fee', $data);

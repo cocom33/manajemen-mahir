@@ -93,7 +93,13 @@
                             <td class="text-center border-b"> - </td>
                             <td class="text-center border-b">
                                 @if ($project->harga_deal)
-                                    Rp. {{ number_format($project->harga_deal - $detail['belanja']) }}
+                                    @if ($project->type_pajak === 0)
+                                        Rp. {{ number_format($project->harga_deal - $detail['belanja'] - ($project->pajak * $project->harga_deal / 100)) }}
+                                    @elseif ($project->type_pajak === 1)
+                                        Rp. {{ number_format($project->harga_deal - $detail['belanja'] + ($project->pajak * $project->harga_deal / 100)) }}
+                                    @else
+                                        Rp. {{ number_format($project->harga_deal - $detail['belanja']) }}
+                                    @endif
                                 @else
                                     -
                                 @endif

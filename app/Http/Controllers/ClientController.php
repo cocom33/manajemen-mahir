@@ -28,9 +28,9 @@ class ClientController extends Controller
             'wa' => 'required',
             'email' => 'required',
             'alamat' => 'required',
-            'nomor_rekening' => 'required',
-            'nama_rekening' => 'required',
-            'nasabah_bank' => 'required',
+            'nomor_rekening' => 'nullable',
+            'nama_rekening' => 'nullable',
+            'nasabah_bank' => 'nullable',
             'nama_perusahaan' => 'nullable',
         ]);
 
@@ -56,11 +56,11 @@ class ClientController extends Controller
         $clients = Perusahaan::get();
 
         $perusahaanClientId = json_decode($client->nama_perusahaan, true);
-        
+
         $perusahaan_client = Perusahaan::find($perusahaanClientId);
-        
+
         // dd($perusahaan_client);
-        
+
         return view('admin.client.show', compact('client', 'projects', 'perusahaan_client'));
     }
 
@@ -81,10 +81,10 @@ class ClientController extends Controller
             'wa' => 'required',
             'email' => 'required',
             'alamat' => 'required',
-            'nomor_rekening' => 'required',
-            'nama_rekening' => 'required',
-            'nasabah_bank' => 'required',
-            'nama_perusahaan' => 'required',
+            'nomor_rekening' => 'nullable',
+            'nama_rekening' => 'nullable',
+            'nasabah_bank' => 'nullable',
+            'nama_perusahaan' => 'nullable',
         ]);
 
         $dt->name = $request->name;

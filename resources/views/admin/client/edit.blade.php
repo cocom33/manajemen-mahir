@@ -57,7 +57,7 @@
                         <label>Perusahaan</label>
                         <div class="mt-2">
                             <select name="nama_perusahaan" value="{{$client->nama_perusahaan}}" data-hide-search="true" class="select2 w-full border-theme-6">
-                                <option disabled>Pilih Perusahaan</option>
+                                <option value="{{ $client->nama_perusahaan ?? '' }}">{{ $client->nama_perusahaan->nama_perusahaan ?? '' }}</option>
                                 @foreach ($perusahaans as $perusahaan)
                                 <option value="{{ $perusahaan->id }}">{{ $perusahaan->nama_perusahaan }}</option>
                                 @endforeach
@@ -69,21 +69,21 @@
                     </div>
                     <div class="mt-3">
                         <label>Nomor Rekening</label>
-                        <input type="number" min="0" name="nomor_rekening" value="{{$client->nomor_rekening}}" class="input w-full border mt-2 @error('nomor_rekening') border-theme-6 @enderror" placeholder="Alamat">
+                        <input type="number" min="0" name="nomor_rekening" value="{{$client->nomor_rekening}}" class="input w-full border mt-2 @error('nomor_rekening') border-theme-6 @enderror" placeholder="Nomor Rekening">
                         @error('nomor_rekening')
                             <div class="text-theme-6 mt-2">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="mt-3">
                         <label>Pemilik Rekening</label>
-                        <input type="text" name="nama_rekening" value="{{$client->nama_rekening}}" class="input w-full border mt-2 @error('nama_rekening') border-theme-6 @enderror" placeholder="Alamat">
+                        <input type="text" name="nama_rekening" value="{{$client->nama_rekening}}" class="input w-full border mt-2 @error('nama_rekening') border-theme-6 @enderror" placeholder="Nama Rekening">
                         @error('nama_rekening')
                             <div class="text-theme-6 mt-2">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="mt-3">
                         <label>Nasabah Bank</label>
-                        <input type="text" name="nasabah_bank" value="{{$client->nasabah_bank}}" class="input w-full border mt-2 @error('nasabah_bank') border-theme-6 @enderror" placeholder="Alamat">
+                        <input type="text" name="nasabah_bank" value="{{$client->nasabah_bank}}" class="input w-full border mt-2 @error('nasabah_bank') border-theme-6 @enderror" placeholder="Nasabah Bank">
                         @error('nasabah_bank')
                             <div class="text-theme-6 mt-2">{{ $message }}</div>
                         @enderror
