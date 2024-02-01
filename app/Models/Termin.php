@@ -13,7 +13,7 @@ class Termin extends Model
     use SoftDeletes;
     use sluggable;
 
-    protected $fillable = ['keuangan_project_id', 'name', 'slug', 'status', 'tanggal', 'lampiran', 'price'];
+    protected $fillable = ['keuangan_project_id', 'bank_id', 'name', 'slug', 'status', 'tanggal', 'lampiran', 'price'];
 
     public function sluggable(): array
     {

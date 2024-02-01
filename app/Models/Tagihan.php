@@ -10,7 +10,7 @@ class Tagihan extends Model
     use HasFactory;
 
     protected $fillable = [
-        'project_id','client_id','supplier_id',
+        'project_id', 'client_id', 'supplier_id', 'bank_id',
         'title', 'description',
         'harga_jual', 'harga_beli',
         'total', 'date_start',

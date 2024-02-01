@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('project_id')->nullable();
             $table->foreignId('client_id')->nullable();
             $table->foreignId('supplier_id')->nullable();
+            $table->foreignId('bank_id')->nullable();
             $table->string('title');
             $table->text('description');
             $table->bigInteger('harga_beli');
