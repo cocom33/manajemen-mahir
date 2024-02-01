@@ -21,6 +21,7 @@ class DashboardController extends Controller
         $projects = Project::get();
         $clients = Client::get();
         $teams = Team::get();
+
         $clientsLoad = Project::with('client')->where('status', 'deal')->paginate(5);
         $tagihansLoad = Tagihan::where('is_lunas', 0)->with('project')->orderBy('date_end', 'asc')->paginate(5);
         $piutangsLoad = Termin::with('keuangan_project')->orderByRaw('ABS(DATEDIFF(tanggal, CURDATE()))')->paginate(5);
@@ -37,21 +38,24 @@ class DashboardController extends Controller
         $dataPengeluaran = [];
         $dataPemasukan = [];
 
-        for ($i = 1; $i < 13; $i++) {
-            $month = date('F', mktime(0, 0, 0, $i + 0));
+        $month = [
+        'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'
+        ];
+        for ($i = 1; $i < 12; $i++) {
+            // $month = date('F', mktime(0, 0, 0, $i + 1));
             $count = 0;
 
             foreach ($keuangan as $item) {
                 if ($item->month == $i) {
                     $count = $item->total;
-                    // dd($count);
                     break;
                 }
             }
-
-            array_push($labels, $month);
+            // array_push($labels, $month);
             array_push($dataPengeluaran, $count);
         }
+        $labels = $month;
+        // dd($labels);
 
         for ($i = 1; $i < 13; $i++) {
             $count = 0;
@@ -59,7 +63,6 @@ class DashboardController extends Controller
             foreach ($pemasukan as $item) {
                 if ($item->month == $i) {
                     $count = $item->total;
-                    // dd($count);
                     break;
                 }
             }

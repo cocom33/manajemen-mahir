@@ -62,7 +62,7 @@
             </div>
             <!-- END: General Report -->
             <!-- BEGIN: List Ongoing Project -->
-            <div class="col-span-12 mt-8 xl:col-span-4">
+            <div class="col-span-12 mt-8 xl:col-span-6">
                 <div class="flex items-center h-10 intro-y">
                     <h2 class="mr-5 text-lg font-medium truncate">
                         List Ongoing Project
@@ -86,7 +86,7 @@
             </div>
             <!-- END: List Ongoing Project -->
             <!-- BEGIN: Data Tagihan -->
-            <div class="col-span-12 mt-8 xl:col-span-4">
+            <div class="col-span-12 mt-8 xl:col-span-6">
                 <div class="flex items-center h-10 intro-y">
                     <h2 class="mr-5 text-lg font-medium truncate">
                         List Tagihan
@@ -110,7 +110,7 @@
             </div>
             <!-- END: Data Tagihan -->
             <!-- BEGIN: Data Piutang -->
-            <div class="col-span-12 mt-8 xl:col-span-4">
+            <div class="col-span-12 mt-8 xl:col-span-6">
                 <div class="flex items-center h-10 intro-y">
                     <h2 class="mr-5 text-lg font-medium truncate">
                         List Piutang
@@ -134,7 +134,7 @@
             </div>
             <!-- END: Data Piutang -->
             <!-- BEGIN: Data Fee -->
-            <div class="col-span-12 mt-8 xl:col-span-4">
+            <div class="col-span-12 mt-8 xl:col-span-6">
                 <div class="flex items-center h-10 intro-y">
                     <h2 class="mr-5 text-lg font-medium truncate">
                         List Fee Belum Terbayar
