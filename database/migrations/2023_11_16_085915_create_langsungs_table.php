@@ -14,8 +14,7 @@ return new class extends Migration
         Schema::create('langsungs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('keuangan_project_id');
-            // $table->foreignId('project_team_id');
-            // $table->bigInteger('fee');
+            $table->foreignId('bank_id')->nullable();
             $table->string('name');
             $table->string('slug');
             $table->string('price');

@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('project_team_fees', function (Blueprint $table) {
             $table->id();
             $table->foreignId('project_team_id');
+            $table->bigInteger('bank_id')->nullable();
+            $table->bigInteger('bank')->nullable();
             $table->bigInteger('fee');
             $table->string('photo')->nullable();
             $table->date('tenggat');

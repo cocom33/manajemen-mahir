@@ -67,12 +67,12 @@
             'icon'   => 'trello',
             'name'   => 'perusahaan',
         ],
-        // 'bank' =>  [
-        //     'title'  => 'Bank',
-        //     'url'    => route('banks.index'),
-        //     'icon'   => 'book-open',
-        //     'name'   => 'bank',
-        // ],
+        'bank' =>  [
+            'title'  => 'Bank',
+            'url'    => route('banks.index'),
+            'icon'   => 'book-open',
+            'name'   => 'bank',
+        ],
         'supplier' =>  [
             'title'  => 'Supplier',
             'url'    => route('suppliers.index'),

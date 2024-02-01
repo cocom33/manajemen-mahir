@@ -12,7 +12,7 @@ class KeuanganDetail extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $fillable = ['keuangan_perusahaan_id', 'tagihan_id', 'termin_id', 'langsung_id', 'termin_fee_id', 'project_team_fee_id', 'description', 'total', 'status', 'tanggal'];
+    protected $fillable = ['keuangan_perusahaan_id', 'tagihan_id', 'termin_id', 'langsung_id', 'termin_fee_id', 'project_team_fee_id', 'supplier_id', 'bank_id', 'description', 'total', 'status', 'tanggal'];
 
     /**
      * Get the bulan that owns the KeuanganDetail

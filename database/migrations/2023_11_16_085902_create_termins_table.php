@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('termins', function (Blueprint $table) {
             $table->id();
             $table->foreignId('keuangan_project_id');
+            $table->foreignId('bank_id')->nullable();
             $table->string('name');
             $table->string('slug');
             $table->string('price');
