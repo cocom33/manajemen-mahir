@@ -24,7 +24,11 @@ class Controller extends BaseController
             $data['type_piutang'] = 'termin';
         }
         if ($project->keuangan_project && $project->keuangan_project->type == 'langsung') {
-            $data['piutang'] = $project->keuangan_project->langsung->sum('price');
+            if ($project->keuangan_project->langsung) {
+                $data['piutang'] = $project->harga_deal - $project->keuangan_project->langsung->price;
+            } else {
+                $data['piutang'] = 0;
+            }
             $data['type_piutang'] = 'langsung';
         }
 

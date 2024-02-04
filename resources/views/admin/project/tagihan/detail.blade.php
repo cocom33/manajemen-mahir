@@ -52,7 +52,14 @@
             </div>
 
             <div class="mt-3">
-                <x-form-input label="Nama" name="" value="{{ $tagihan->title }}" readonly="readonly" required="false" />
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <div class="col-span-2">
+                        <x-form-input label="Nama" name="title" placeholder="masukkan nama" value="{{ $tagihan->title }}" readonly="readonly" required="false" />
+                    </div>
+                    <div>
+                        <x-form-input label="Bank" name="title" placeholder="masukkan nama" value="{{ $tagihan->bank->name }}" readonly="readonly" required="false" />
+                    </div>
+                </div>
                 <div class="flex w-full gap-3">
                     <x-form-input label="Harga Jual" name="" addon="w-full" value="Rp. {{ number_format($tagihan->harga_jual) }}" readonly="readonly" required="false" />
                     <x-form-input label="Harga Beli" name="" addon="w-full" value="Rp. {{ number_format($tagihan->harga_beli) }}" readonly="readonly" required="false" />
@@ -69,13 +76,7 @@
                                 <a href="{{ route('suppliers.show', $tagihan->supplier->id) }}" class="border-b text-theme-1">Lihat Detail</a>
                             @endif
                         </div>
-                        <select name="supplier_id" id="supp" class="input w-full border mt-2" readonly>
-                            @if ($tagihan->supplier_id)
-                                <option >{{ $tagihan->supplier->name }}</option>
-                            @else
-                                <option>-</option>
-                            @endif
-                        </select>
+                        <input type="text" class="input w-full border mt-2" value="{{ $tagihan->supplier->name ?? '-' }}" readonly>
                     </div>
                 </div>
 

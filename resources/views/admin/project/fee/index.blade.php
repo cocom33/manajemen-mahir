@@ -54,11 +54,11 @@
                                             Tipe Pembayaran</span>
                                     </button>
                                 </form>
-                                <button class="button flex align-center text-white bg-theme-1 shadow-md"
-                                    onclick="formTermin()">
-                                    <i data-feather="plus" class=" w-4 h-4 mt-1 font-bold mr-2"></i> <span> Tambah
-                                        Termin</span>
-                                </button>
+                                @if ($project->harga_deal >= 0 && $termin->sum('price') < $project->harga_deal)
+                                    <button class="button flex align-center text-white bg-theme-1 shadow-md" onclick="formTermin()">
+                                        <i data-feather="plus" class=" w-4 h-4 mt-1 font-bold mr-2"></i> <span> Tambah Termin</span>
+                                    </button>
+                                @endif
                             @endif
                         </div>
                     </div>

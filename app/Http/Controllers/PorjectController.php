@@ -72,10 +72,13 @@ class PorjectController extends Controller
         if($request->type_pajak == 2) {
             $data['pajak'] = null;
             $data['type_pajak'] = null;
+        } else {
+            $data['pajak'] = str_replace("%", "", $request->pajak);
+
+            if($request->pajak > 100) {
+                return back()->with('error', 'Pajak tidak boleh lebih dari 100%');
+            }
         }
-        // else {
-        //     $data['pajak'] = $request->harga_deal * $request->pajak / 100;
-        // }
 
         if($request->harga_penawaran) {
             $harga_penawaran = str_replace("Rp. ", "", $request->harga_penawaran);
@@ -112,10 +115,13 @@ class PorjectController extends Controller
         if($request->type_pajak == 2) {
             $data['pajak'] = null;
             $data['type_pajak'] = null;
+        } else {
+            $data['pajak'] = str_replace("%", "", $request->pajak);
+
+            if($request->pajak > 100) {
+                return back()->with('error', 'Pajak tidak boleh lebih dari 100%');
+            }
         }
-        // else {
-        //     $data['pajak'] = $request->harga_deal * $request->pajak / 100;
-        // }
 
         if($request->harga_penawaran) {
             $harga_penawaran = str_replace("Rp. ", "", $request->harga_penawaran);

@@ -12,7 +12,7 @@ class KeuanganDetail extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $fillable = ['keuangan_perusahaan_id', 'tagihan_id', 'termin_id', 'langsung_id', 'termin_fee_id', 'project_team_fee_id', 'supplier_id', 'bank_id', 'description', 'total', 'status', 'tanggal'];
+    protected $fillable = ['keuangan_perusahaan_id', 'tagihan_id', 'pengeluaran_id', 'termin_id', 'langsung_id', 'termin_fee_id', 'project_team_fee_id', 'supplier_id', 'bank_id', 'description', 'total', 'status', 'tanggal'];
 
     /**
      * Get the bulan that owns the KeuanganDetail
@@ -50,5 +50,15 @@ class KeuanganDetail extends Model
     public function termin()
     {
         return $this->belongsTo(Termin::class);
+    }
+
+    public function bank()
+    {
+        return $this->belongsTo(Bank::class);
+    }
+
+    public function pengeluaran()
+    {
+        return $this->belongsTo(Pengeluaran::class);
     }
 }

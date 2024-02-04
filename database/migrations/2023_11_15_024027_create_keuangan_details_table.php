@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('termin_id')->nullable();
             $table->foreignId('langsung_id')->nullable();
             $table->foreignId('supplier_id')->nullable();
+            $table->foreignId('pengeluaran_id')->nullable();
             $table->foreignId('bank_id')->nullable();
             $table->string('tanggal');
             $table->string('description');

@@ -13,15 +13,26 @@
             <x-form-input type="date" label="Tanggal Penagihan" name="tanggal" />
         </div>
 
-        <div class="mt-3">
-            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                for="single_file">Upload Bukti Pembayaran</label>
-            <input name="lampiran"
-                class="block w-full h-10.5 leading-9 rounded overflow-hidden text-sm text-gray-900 bg-gray-50 border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                id="single_file" accept="image/*" @change="showPreview(event, $refs.previewSingle)"
-                type="file">
-            <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">PNG or
-                JPG.</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-3">
+            <div>
+                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                    for="single_file">Upload Bukti Pembayaran</label>
+                <input name="lampiran"
+                    class="block w-full h-10.5 leading-9 rounded overflow-hidden text-sm text-gray-900 bg-gray-50 border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                    id="single_file" accept="image/*" @change="showPreview(event, $refs.previewSingle)"
+                    type="file">
+                <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">PNG or
+                    JPG.</p>
+            </div>
+            <div>
+                <label for="bank">Pilih Bank*</label>
+                <select name="bank_id" id="bank" class="input w-full border mt-2" required>
+                    <option value=""></option>
+                    @foreach ($banks as $bank)
+                        <option value="{{ $bank->id }}">{{ $bank->name }}</option>
+                    @endforeach
+                </select>
+            </div>
         </div>
         <div x-ref="previewSingle" class="mt-2">
         </div>
@@ -50,21 +61,32 @@
                 value="{{ $fee_langsung->tanggal }}" name="tanggal" />
         </div>
 
-        @if ($fee_langsung->lampiran == null)
-            <div class="mt-3">
-                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                    for="single_file">Upload Bukti Pembayaran</label>
-                <input name="lampiran"
-                    class="block w-full h-10.5 leading-9 rounded overflow-hidden text-sm text-gray-900 bg-gray-50 border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                    id="single_file" accept="image/*"
-                    @change="showPreview(event, $refs.previewSingle)" type="file">
-                <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">PNG
-                    or
-                    JPG.</p>
+        <div class="mt-3 gap-5 grid grid-flow-col auto-cols-max">
+            @if ($fee_langsung->lampiran == null)
+                <div class="col">
+                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                        for="single_file">Upload Bukti Pembayaran</label>
+                    <input name="lampiran"
+                        class="block w-full h-10.5 leading-9 rounded overflow-hidden text-sm text-gray-900 bg-gray-50 border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                        id="single_file" accept="image/*"
+                        @change="showPreview(event, $refs.previewSingle)" type="file">
+                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">PNG
+                        or
+                        JPG.</p>
+                </div>
+            @endif
+            <div class="col-auto">
+                <label for="bank">Pilih Bank*</label>
+                <select name="bank_id" id="bank" class="input w-full border mt-2" required>
+                    <option value="{{ $fee_langsung->bank_id }}">{{ $fee_langsung->bank->name }}</option>
+                    @foreach ($banks as $bank)
+                        <option value="{{ $bank->id }}">{{ $bank->name }}</option>
+                    @endforeach
+                </select>
             </div>
-            <div x-ref="previewSingle" class="mt-2">
-            </div>
-        @endif
+        </div>
+        <div x-ref="previewSingle" class="mt-2">
+        </div>
 
         <div class="flex justify-end">
             <button type="submit"

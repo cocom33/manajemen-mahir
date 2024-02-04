@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bank;
 use App\Models\Invoice;
 use App\Models\InvoiceSystem;
 use App\Models\KeuanganBulanan;
 use App\Models\KeuanganDetail;
 use App\Models\KeuanganPerusahaan;
+use App\Models\Supplier;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -25,7 +27,10 @@ class KeuanganPerusahaanController extends Controller
      */
     public function create()
     {
-        return view('admin.keuangan-umum.create');
+        $data['banks'] = Bank::get();
+        $data['suppliers'] = Supplier::get();
+
+        return view('admin.keuangan-umum.create', $data);
     }
 
     /**
@@ -33,6 +38,14 @@ class KeuanganPerusahaanController extends Controller
      */
     public function store(Request $request)
     {
+        $data = $request->validate([
+            'status' => 'required',
+            'description' => 'required',
+            'bank_id' => 'required',
+            'supplier_id' => 'nullable',
+            'total' => 'required',
+        ]);
+
         if ($request->tanggal) {
             $tahun = KeuanganPerusahaan::where('tahun', Carbon::parse($request->tanggal)->format('Y'))->get();
             if(!$tahun) {
@@ -62,12 +75,6 @@ class KeuanganPerusahaanController extends Controller
             $tanggal = date('d');
         }
 
-        $data = $request->validate([
-            'status' => 'required',
-            'description' => 'required',
-            'total' => 'required',
-        ]);
-
         $total = str_replace("Rp. ", "", $request->total);
         $price = str_replace(".", "", $total);
 
@@ -85,7 +92,9 @@ class KeuanganPerusahaanController extends Controller
      */
     public function show(string $id)
     {
+        $data = KeuanganDetail::findOrFail($id);
 
+        return view('admin.keuangan-umum.show', $data);
     }
 
     /**
@@ -94,11 +103,13 @@ class KeuanganPerusahaanController extends Controller
     public function edit(string $id)
     {
         $data = KeuanganDetail::findOrFail($id);
+        $banks = Bank::get();
+        $suppliers = Supplier::get();
         $bulans = KeuanganBulanan::get();
         $tanggal = $data->tanggal .'/'. $data->keuanganPerusahaan->bulan .'/'. $data->keuanganPerusahaan->tahun;
         // dd($bulans);
 
-        return view('admin.keuangan-umum.edit', compact('bulans', 'data', 'tanggal'));
+        return view('admin.keuangan-umum.edit', compact('bulans', 'data', 'tanggal', 'suppliers', 'banks'));
     }
 
     /**
@@ -109,27 +120,20 @@ class KeuanganPerusahaanController extends Controller
         $model = KeuanganDetail::where('id', $id)->first();
 
         if ($request->tanggal) {
-            $tahun = KeuanganPerusahaan::where('tahun', Carbon::parse($request->tanggal)->format('Y'))->get();
+            $tahun = KeuanganPerusahaan::where([['tahun', Carbon::parse($request->tanggal)->format('Y')], ['bulan', Carbon::parse($request->tanggal)->format('m')]])->get();
             if(!$tahun) {
                 $query = KeuanganPerusahaan::create([
                     'tahun' => Carbon::parse($request->tanggal)->format('Y'),
                     'bulan' => Carbon::parse($request->tanggal)->format('m'),
                 ]);
-            } else {
-                $query = $tahun->where('bulan', Carbon::parse($request->tanggal)->format('m'))->first();
-                if(!$query) {
-                    $query = KeuanganPerusahaan::create([
-                        'tahun' => Carbon::parse($request->tanggal)->format('Y'),
-                        'bulan' => Carbon::parse($request->tanggal)->format('m'),
-                    ]);
-                }
             }
 
             $tanggal = Carbon::parse($request->tanggal)->format('d');
         }
-        // dd($tahun, $query);
 
         $data = $request->validate([
+            'bank_id' => 'required',
+            'supplier_id' => 'nullable',
             'description' => 'required',
             'total' => 'required',
         ]);
@@ -157,6 +161,7 @@ class KeuanganPerusahaanController extends Controller
     {
         $data = KeuanganDetail::findOrFail($id);
         $data->delete();
+
 
         return redirect()->back()->with('error', 'Berhasil menghapus detail pengeluaran perusahaan!');
     }

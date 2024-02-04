@@ -87,6 +87,10 @@
                     $type = 'pengurangan';
                     $val = 0;
                 }
+                if ($model && $model->type_pajak == null) {
+                    $type = '';
+                    $val = 2;
+                }
             @endphp
             <x-form-select
                 label="Type Pajak"
@@ -103,10 +107,7 @@
             <x-form-input
                 label="Rasio Pajak"
                 name="pajak"
-                type="number"
-                max="100"
-                min="0"
-                value="{{ ($model->pajak ?? null) }}"
+                value="{{ ($model->pajak ?? '') }}"
                 required="false"
                 pesan="Masukkan persen"
             />
@@ -119,6 +120,13 @@
 
 @push('scripts')
     <script>
+        document.getElementById('Rasio Pajak').oninput = function(e) {
+          this.value = this.value.replace(/[^\d\.]/g, '') + '%';
+          let end = this.value.length;
+          this.setSelectionRange(end, end-1);
+          this.focus();
+        }
+
         var penawaran = document.getElementById('Harga Penawaran');
         penawaran.addEventListener('keyup', function(e) {
             penawaran.value = formatRupiah(this.value, 'Rp. ');
