@@ -38,7 +38,7 @@
         @foreach($teams as $key => $team)
             <tr>
                 <td class="border-b">
-                    <div class="font-medium whitespace-no-wrap"><span class="hidden">{{ $key }}</span>{{ $team->name }}</div>
+                    <a href="{{ route('teams.show', $team) }}" class="font-medium whitespace-no-wrap"><span class="hidden">{{ $key }}</span>{{ $team->name }}</a>
                     <div class="text-xs text-gray-600 whitespace-no-wrap">{{ $team->name }}</div>
                 </td>
                 <td class="w-40 border-b">

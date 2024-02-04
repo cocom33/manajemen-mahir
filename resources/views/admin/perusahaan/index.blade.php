@@ -11,7 +11,8 @@
       <thead>
         <tr>
           <th class="border-b-2 whitespace-no-wrap">ID</th>
-          <th class="border-b-2 text-center whitespace-no-wrap">Nama Perusahaan</th>
+          <th class="border-b-2 whitespace-no-wrap">Nama Perusahaan</th>
+          <th class="border-b-2 text-center whitespace-no-wrap">Jumlah Karyawan</th>
           <th class="border-b-2 text-center whitespace-no-wrap">Actions</th>
         </tr>
       </thead>
@@ -21,6 +22,7 @@
           <tr>
             <td class="border-b"><span class="hidden"></span>{{ $perusahaans->id }}</td>
             <td class="border-b">{{ $perusahaans->nama_perusahaan }}</td>
+            <td class="border-b text-center">{{ $perusahaans->clients->count() ?? 0 }}</td>
             <td class="border-b">
               <div class="flex justify-center gap-2">
                 <a href="{{ route('perusahaan.show', $perusahaans) }}" class="button inline-block text-white bg-theme-1 shadow-md">
@@ -29,13 +31,15 @@
                 <a href="{{ route('perusahaan.edit', $perusahaans) }}" class="button inline-block text-white bg-theme-9 shadow-md">
                   <i data-feather="edit" class=" w-4 h-4 font-bold"></i>
                 </a>
-                <form action="{{ route('perusahaan.destroy', $perusahaans) }}" method="POST">
-                  @csrf
-                  @method('DELETE')
-                  <button type="submit" class="button inline-block text-white bg-theme-6 shadow-md show-alert-delete-box">
-                    <i data-feather="trash" class=" w-4 h-4 font-bold"></i>
-                  </button>
-                </form>
+                @if ($perusahaans->clients->count() < 1)
+                    <form action="{{ route('perusahaan.destroy', $perusahaans) }}" method="POST">
+                      @csrf
+                      @method('DELETE')
+                      <button type="submit" class="button inline-block text-white bg-theme-6 shadow-md show-alert-delete-box">
+                        <i data-feather="trash" class=" w-4 h-4 font-bold"></i>
+                      </button>
+                    </form>
+                @endif
               </div>
             </td>
           </tr>

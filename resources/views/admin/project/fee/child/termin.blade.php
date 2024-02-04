@@ -48,7 +48,10 @@
                         <div class="font-medium whitespace-no-wrap"><span class="hidden">{{ $key }}</span>{{ $item->name ?? '' }}</div>
                     </td>
                     <td class="text-center border-b">Rp.
-                        {{ number_format($item->price, 2, ',', '.') }} / {{ $item->price * 100 / $project->harga_deal }}%</td>
+                        {{ number_format($item->price, 2, ',', '.') }}
+                        @if ($project->harga_deal)
+                             / {{ $item->price * 100 / $project->harga_deal }}%</td>
+                        @endif
                     <td class="text-center border-b">
                         {{ \Carbon\Carbon::parse($item->tanggal)->format('d M Y') }}</td>
                     <td class="text-center border-b">

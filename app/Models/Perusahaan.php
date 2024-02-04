@@ -9,10 +9,10 @@ class Perusahaan extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['pemilik', 'nama_perusahaan', 'email', 'alamat', 'list_client'];
+    protected $fillable = ['pemilik', 'nama_perusahaan', 'email', 'alamat'];
 
-    public function clients() 
+    public function clients()
     {
-        return $this->hasMany(Client::class);
+        return $this->hasMany(Client::class, 'nama_perusahaan', 'id');
     }
 }

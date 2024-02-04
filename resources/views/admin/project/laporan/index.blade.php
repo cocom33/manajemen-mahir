@@ -40,8 +40,9 @@
                 @endif
             </div>
 
-            <div class="mt-8">
-                <h2 class="font-semibold text-lg">Pemasukan</h2>
+            <hr class="mt-4">
+            <div class="mt-4">
+                <h2 class="font-semibold text-lg mb-2">Pemasukan</h2>
                 <table class="table table-report table-report--bordered display datatable w-full">
                     <thead>
                         <tr>
@@ -101,8 +102,9 @@
                 </table>
             </div>
 
-            <div class="mt-8">
-                <h2 class="font-semibold text-lg">Pengeluaran</h2>
+            <hr class="mt-4">
+            <div class="mt-4">
+                <h2 class="font-semibold text-lg mb-3">Pengeluaran</h2>
                 <table class="table table-report table-report--bordered display datatable w-full">
                     <thead>
                         <tr>
