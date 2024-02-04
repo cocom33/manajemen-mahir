@@ -34,4 +34,9 @@ class Langsung extends Model
     {
         return $this->belongsTo(ProjectTeam::class);
     }
+
+    public function bank()
+    {
+        return $this->belongsTo(Bank::class);
+    }
 }

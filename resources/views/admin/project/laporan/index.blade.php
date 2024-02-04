@@ -18,10 +18,17 @@
                         </div>
                         <div>
                             {{-- $project->tagihan->where('is_lunas', 1)->sum('harga_jual') --}}
+                            @php
+                                $penjualan = $project->tagihan->where('is_lunas', 1)->sum('harga_jual');
+                            @endphp
                             @if($project->keuangan_project->type == 'termin')
-                                <p class="font-bold text-lg">: Rp. {{ number_format($project->keuangan_project->termin->where('status', 1)->sum('price')) }}</p>
+                                <p class="font-bold text-lg">: Rp. {{ number_format($project->keuangan_project->termin->where('status', 1)->sum('price') + $penjualan) }}</p>
                             @elseif($project->keuangan_project->type == 'langsung')
-                                <p class="font-bold text-lg">: Rp. {{ number_format($project->keuangan_project->langsung->where('status', 1)->sum('price')) }}</p>
+                                @if ($project->keuangan_project->langsung)
+                                    <p class="font-bold text-lg">: Rp. {{ number_format($project->keuangan_project->langsung->where('status', 1)->sum('price') + $penjualan) }}</p>
+                                @else
+                                    <p class="font-bold text-lg">: 0</p>
+                                @endif
                             @else
                                 <p class="font-bold text-lg">: 0</p>
                             @endif
@@ -29,9 +36,13 @@
                             <p class="font-bold text-lg">: Rp. {{ number_format($pengeluaran->sum('price')) }}</p>
 
                             @if($project->keuangan_project->type == 'termin')
-                                <p class="font-bold text-lg">: Rp. {{ number_format($project->keuangan_project->termin->where('status', 1)->sum('price') - $pengeluaran->sum('price')) }}</p>
+                                <p class="font-bold text-lg">: Rp. {{ number_format($project->keuangan_project->termin->where('status', 1)->sum('price') + $penjualan - $pengeluaran->sum('price')) }}</p>
                             @elseif($project->keuangan_project->type == 'langsung')
-                                <p class="font-bold text-lg">: Rp. {{ number_format($project->keuangan_project->langsung->where('status', 1)->sum('price') - $pengeluaran->sum('price')) }}</p>
+                                @if ($project->keuangan_project->langsung)
+                                    <p class="font-bold text-lg">: Rp. {{ number_format($project->keuangan_project->langsung->where('status', 1)->sum('price') + $penjualan - $pengeluaran->sum('price')) }}</p>
+                                @else
+                                    <p class="font-bold text-lg">: 0</p>
+                                @endif
                             @else
                                 <p class="font-bold text-lg">: 0</p>
                             @endif
@@ -49,7 +60,8 @@
                             <th class="border-b-2 text-center whitespace-no-wrap">DETAIL NAME</th>
                             <th class="border-b-2 text-center whitespace-no-wrap">BIAYA</th>
                             <th class="border-b-2 text-center whitespace-no-wrap">STATUS</th>
-                            <th class="border-b-2 text-center whitespace-no-wrap">TANGGAL PENGELUARAN</th>
+                            <th class="border-b-2 text-center whitespace-no-wrap">BANK</th>
+                            <th class="border-b-2 text-center whitespace-no-wrap">TANGGAL MASUK</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -77,11 +89,14 @@
                                         </span>
                                     </td>
                                     <td class="text-center border-b">
+                                        {{ $item->bank->name }}
+                                    </td>
+                                    <td class="text-center border-b">
                                         {{ date('d M Y', strtotime($item->tanggal)) }}
                                     </td>
                                 </tr>
                             @endforeach
-                        @elseif ($project->keuangan_project->type == 'langsung')
+                        @elseif ($project->keuangan_project->type == 'langsung' && $project->keuangan_project->langsung)
                             <tr>
                                 <td class="border-b">
                                     <div class="font-medium whitespace-no-wrap">Piutang</div>
@@ -91,6 +106,9 @@
                                 </td>
                                 <td class="text-center border-b">
                                     <span class="whitespace-no-wrap text-theme-1">lunas</span>
+                                </td>
+                                <td class="text-center border-b">
+                                    <span class="whitespace-no-wrap text-theme-1">{{ $project->keuangan_project->langsung->bank->name }}</span>
                                 </td>
                                 <td class="text-center border-b">
                                        {{ date('d M Y', strtotime($project->keuangan_project->langsung->created_at)) }}
@@ -111,6 +129,7 @@
                             <th class="border-b-2 text-center whitespace-no-wrap">DETAIL NAME</th>
                             <th class="border-b-2 text-center whitespace-no-wrap">BIAYA</th>
                             <th class="border-b-2 text-center whitespace-no-wrap">STATUS</th>
+                            <th class="border-b-2 text-center whitespace-no-wrap">BANK</th>
                             <th class="border-b-2 text-center whitespace-no-wrap">TANGGAL PENGELUARAN</th>
                         </tr>
                     </thead>
@@ -145,6 +164,9 @@
                                         Pengeluaran
                                     </div>
                                 @endif
+                            </td>
+                            <td class="text-center border-b">
+                                {{ $item->bank->name }}
                             </td>
                             <td class="text-center border-b">
                                 @if ($item->tagihan_id)

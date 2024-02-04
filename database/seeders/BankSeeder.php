@@ -2,18 +2,19 @@
 
 namespace Database\Seeders;
 
-use App\Models\Client;
-use Database\Factories\ClientFactory;
+use App\Models\Bank;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class ClientSeeder extends Seeder
+class BankSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Client::factory()->count(3)->create();
+        Bank::create([
+            'name' => 'cash',
+        ]);
     }
 }

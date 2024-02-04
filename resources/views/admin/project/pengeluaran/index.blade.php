@@ -25,9 +25,20 @@
 
                 <input type="hidden" name="project_id" value="{{ $project->id }}">
                 <x-form-input label="Deskripsi" name="title" placeholder="masukkan nama" />
-                <div class="flex w-full gap-3">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                     <x-form-input label="Harga" name="price" placeholder="masukkan jumlah uang" addon="w-full" />
                     <x-form-input label="Masukkan Tanggal" name="date" type="date" addon="w-full" />
+                    <div>
+                        <label for="bank_id">Pilih Bank*</label>
+                        <select name="bank_id" id="bank_id" class="input w-full border mt-2">
+                            <option value="" class="hidden"></option>
+                            @foreach ($banks as $bank)
+                                <option value="{{ $bank->id }}">
+                                    {{ $bank->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
 
                 <div class="mb-3">
@@ -48,7 +59,22 @@
                 <h3 class="font-bold text-lg mb-3">Buat Tagihan</h3>
 
                 <input type="hidden" name="project_id" value="{{ $project->id }}">
-                <x-form-input label="Nama" name="title" placeholder="masukkan nama" />
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <div class="col-span-2">
+                        <x-form-input label="Nama" name="title" placeholder="masukkan nama" />
+                    </div>
+                    <div>
+                        <label for="bank_id">Pilih Bank*</label>
+                        <select name="bank_id" id="bank_id" class="input w-full border mt-2">
+                            <option value="" class="hidden"></option>
+                            @foreach ($banks as $bank)
+                                <option value="{{ $bank->id }}">
+                                    {{ $bank->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
                 <div class="flex w-full gap-3">
                     <x-form-input label="Harga Jual" name="harga_jual" placeholder="masukkan jumlah uang" addon="w-full" pesan="jumlah harga yang diberikan ke client" />
                     <x-form-input label="Harga Beli" name="harga_beli" placeholder="masukkan jumlah uang" addon="w-full" pesan="jumlah harga yang dikeluarkan" />

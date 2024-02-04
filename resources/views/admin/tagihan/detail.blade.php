@@ -52,7 +52,14 @@
 
             <div class="mt-3">
                 <x-form-input label="Nama" name="" value="{{ $tagihan->title }}" readonly="readonly" required="false" />
-                <x-form-input label="Client" name="" value="{{ $tagihan->client->name }}" readonly="readonly" required="false" />
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <div class="col-span-2">
+                        <x-form-input label="Client" name="" value="{{ $tagihan->client->name }}" readonly="readonly" required="false" />
+                    </div>
+                    <div>
+                        <x-form-input label="Bank" name="" value="{{ $tagihan->bank->name }}" readonly="readonly" required="false" />
+                    </div>
+                </div>
                 <div class="flex w-full gap-3">
                     <x-form-input label="Harga Jual" name="" addon="w-full" value="Rp. {{ number_format($tagihan->harga_jual) }}" readonly="readonly" required="false" />
                     <x-form-input label="Harga Beli" name="" addon="w-full" value="Rp. {{ number_format($tagihan->harga_beli) }}" readonly="readonly" required="false" />

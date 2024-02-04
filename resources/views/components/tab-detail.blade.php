@@ -1,5 +1,4 @@
 @props(['page', 'slug', 'active' => 'bg-theme-40 text-white shadow-md font-bold'])
-
 <div class="flex w-full justify-between rounded-md border-2">
     <a href="{{ route('project.detail', $slug) }}"
         class="flex justify-center w-full rounded-md py-3 @if ($page == 'detail') {{ $active }} @endif ">

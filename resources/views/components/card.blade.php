@@ -34,7 +34,7 @@
                         @endforelse
                     @else
                         <div class="flex">
-                            <p>Piutang : Rp. {{ number_format($piutang ?? 0) }}</p>
+                            <p>Piutang : Rp. {{ number_format($project['piutang'] ?? 0) }}</p>
                             @if (true) <i data-feather="check" class=" w-4 h-4 font-bold ml-2" style="margin-top: 2px"></i> @endif
                         </div>
                     @endif

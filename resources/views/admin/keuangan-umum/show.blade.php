@@ -16,55 +16,28 @@
                 <div class="preview">
                     <div class="mt-3">
                         <label>Description</label>
-                        <input type="text" name="description" value="{{ $data->description }}" class="input w-full border mt-2 @error('description') border-theme-6 @enderror">
-                        @error('description')
-                            <div class="text-theme-6 mt-2">{{ $message }}</div>
-                        @enderror
+                        <input type="text" name="description" value="{{ $data->description }}" class="input w-full border mt-2">
                     </div>
 
                     <div class="mt-3">
                         <label>Total</label>
-                        <input id="total" name="total" value="{{ $data->total }}" class="input w-full border mt-2 @error('total') border-theme-6 @enderror">
-                        @error('total')
-                            <div class="text-theme-6 mt-2">{{ $message }}</div>
-                        @enderror
+                        <input name="total" value="{{ number_format($data->total) }}" class="input w-full border mt-2">
                     </div>
 
                     <div class="mt-3">
                         <label for="supplier_id">Pilih Supplier</label>
-                        <select name="supplier_id" id="supplier_id" class="input w-full border mt-2">
-                            <option value="{{ $data->supplier_id ?? '' }}" class="hidden">{{ $data->supplier->name ?? '' }}</option>
-                            @foreach ($suppliers as $supplier)
-                                <option value="{{ $supplier->id }}">
-                                    {{ $supplier->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                        <small>boleh dikosongkan</small>
+                        <input type="text" name="description" value="{{ $data->supplier->name }}" class="input w-full border mt-2">
                     </div>
 
                     <div class="mt-3">
                         <label for="bank_id">Pilih Bank</label>
-                        <select name="bank_id" id="bank_id" class="input w-full border mt-2">
-                            <option value="{{ $data->bank_id }}" class="hidden">{{ $data->bank->name }}</option>
-                            @foreach ($banks as $bank)
-                                <option value="{{ $bank->id }}">
-                                    {{ $bank->name }}
-                                </option>
-                            @endforeach
-                            @error('bank_id')
-                                <div class="text-theme-6 mt-2">{{ $message }}</div>
-                            @enderror
-                        </select>
+                        <input type="text" name="description" value="{{ $data->bank->name }}" class="input w-full border mt-2">
                     </div>
 
                     <div class="mt-3">
                         <label>Tanggal</label>
-                        <input type="date" name="tanggal" value="{{ $tanggal }}" class="input w-full border mt-2 @error('tanggal') border-theme-6 @enderror">
+                        <input name="tanggal" value="{{ $tanggal }}" class="input w-full border mt-2">
                         <small>Bisa dikosongkan</small>
-                        @error('tanggal')
-                            <div class="text-theme-6 mt-2">{{ $message }}</div>
-                        @enderror
                     </div>
                     <button type="submit" class="button bg-theme-1 text-white mt-5">Save</button>
                 </div>

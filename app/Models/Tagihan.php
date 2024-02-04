@@ -31,4 +31,9 @@ class Tagihan extends Model
     {
         return $this->belongsTo(Supplier::class);
     }
+
+    public function bank()
+    {
+        return $this->belongsTo(Bank::class);
+    }
 }
