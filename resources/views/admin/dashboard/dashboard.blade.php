@@ -62,7 +62,7 @@
             </div>
             <!-- END: General Report -->
             <!-- BEGIN: List Ongoing Project -->
-            <div class="col-span-12 mt-8 xl:col-span-4">
+            <div class="col-span-12 mt-8 xl:col-span-6">
                 <div class="flex items-center h-10 intro-y">
                     <h2 class="mr-5 text-lg font-medium truncate">
                         List Ongoing Project
@@ -86,7 +86,7 @@
             </div>
             <!-- END: List Ongoing Project -->
             <!-- BEGIN: Data Tagihan -->
-            <div class="col-span-12 mt-8 xl:col-span-4">
+            <div class="col-span-12 mt-8 xl:col-span-6">
                 <div class="flex items-center h-10 intro-y">
                     <h2 class="mr-5 text-lg font-medium truncate">
                         List Tagihan
@@ -110,7 +110,7 @@
             </div>
             <!-- END: Data Tagihan -->
             <!-- BEGIN: Data Piutang -->
-            <div class="col-span-12 mt-8 xl:col-span-4">
+            <div class="col-span-12 mt-8 xl:col-span-6">
                 <div class="flex items-center h-10 intro-y">
                     <h2 class="mr-5 text-lg font-medium truncate">
                         List Piutang
@@ -134,7 +134,7 @@
             </div>
             <!-- END: Data Piutang -->
             <!-- BEGIN: Data Fee -->
-            <div class="col-span-12 mt-8 xl:col-span-4">
+            <div class="col-span-12 mt-8 xl:col-span-6">
                 <div class="flex items-center h-10 intro-y">
                     <h2 class="mr-5 text-lg font-medium truncate">
                         List Fee Belum Terbayar
@@ -164,9 +164,18 @@
                 <h2 class="mr-5 text-lg font-medium truncate">
                     Keuangan Umum
                 </h2>
-                <div class="flex items-center mt-3 sm:ml-auto sm:mt-0">
+                <div class="flex items-center gap-3 mt-3 sm:ml-auto sm:mt-0">
                     <a href="{{ route('keuangan-umum.index') }}"><button class="flex items-center text-gray-700 button box"> <i data-feather="file-text"
                             class="hidden w-4 h-4 mr-2 sm:block"></i> Detail Keuangan </button></a>
+                    <form method="get" action="{{ route('dashboard', $request) }}">
+                        <select name="year" id="year" class="w-full select2">
+                            <option value="" selected disabled>Filter Tahun</option>
+                            @for ($i = date('Y'); $i >= 2023; $i--)
+                                <option value="{{ $i }}" {{ $i == request('year') ? 'selected' : '' }}>{{ $i }}</option>
+                            @endfor
+                        </select>
+                        <button type="submit" class="text-white shadow-md w-19 button bg-theme-7">Filter</button>
+                    </form>
                 </div>
             </div>
             <div class="p-5 mt-12 intro-y box sm:mt-5">
@@ -337,7 +346,7 @@
         const ctx = document.getElementById('pengeluaranPemasukan');
 
         new Chart(ctx, {
-            type: 'line',
+            type: 'bar',
             data: {
                 labels: {!! json_encode($labels) !!},
                 datasets: {!! json_encode($datasets) !!}

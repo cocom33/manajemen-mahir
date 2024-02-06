@@ -73,15 +73,9 @@ class SupplierController extends Controller
     {
         $data = $request->validate([
             'name' =>'required',
-            'price' =>'required',
             'link' =>'required',
             'note' =>'nullable',
         ]);
-
-        if($request->price) {
-            $price = str_replace("Rp. ", "", $request->price);
-            $data['price'] = str_replace(".", "", $price);
-        }
 
         Supplier::findOrFail($id)->update($data);
 
