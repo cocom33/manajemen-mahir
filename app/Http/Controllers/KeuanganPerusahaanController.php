@@ -15,9 +15,85 @@ class KeuanganPerusahaanController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('admin.keuangan-umum.index');
+        $year = now();
+
+        if ($request->has('year')) {
+            $year = $request->input('year', now()->year);
+        };
+
+        $keuangan = KeuanganDetail::selectRaw('MONTH(created_at) as month, SUM(total) as total')->whereYear('created_at', date($year))->where('status', 'pengeluaran')->groupBy('month')->orderBy('month')->get();
+        $pemasukan = KeuanganDetail::selectRaw('MONTH(created_at) as month, SUM(total) as total')->whereYear('created_at', date($year))->where('status', 'pemasukan')->groupBy('month')->orderBy('month')->get();
+
+        $labels = [];
+        $dataPengeluaran = [];
+        $dataPemasukan = [];
+        $dataKeuntungan = [];
+
+        $month = [
+        'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'
+        ];
+        for ($i = 1; $i < 12; $i++) {
+            $count = 0;
+
+            foreach ($keuangan as $item) {
+                if ($item->month == $i) {
+                    $count = $item->total;
+                    break;
+                }
+            }
+            array_push($dataPengeluaran, $count);
+        }
+        $labels = $month;
+
+        for ($i = 1; $i < 13; $i++) {
+            $count = 0;
+
+            foreach ($pemasukan as $item) {
+                if ($item->month == $i) {
+                    $count = $item->total;
+                    break;
+                }
+            }
+
+            array_push($dataPemasukan, $count);
+        }
+
+
+        for ($i = 0; $i < 12; $i++) {
+            $income = isset($dataPemasukan[$i]) ? $dataPemasukan[$i] : 0;
+            $expenses = isset($dataPengeluaran[$i]) ? $dataPengeluaran[$i] : 0;
+
+            $profit = $income - $expenses;
+            array_push($dataKeuntungan, $profit);
+        }
+
+        $datasets = [
+            [
+                'label' => 'Pemasukan',
+                'data' => $dataPemasukan,
+                'backgroundColor' => 'rgba(54, 162, 235, 0.2)',
+                'borderColor' => 'rgb(54, 162, 235)',
+                'borderWidth' => 1,
+            ],
+            [
+                'label' => 'Pengeluaran',
+                'data' => $dataPengeluaran,
+                'backgroundColor' => 'rgba(255, 99, 132, 0.2)',
+                'borderColor' => 'rgba(255,99,132,1)',
+                'borderWidth' => 1
+            ],
+            [
+                'label' => 'Keuntungan',
+                'data' => $dataKeuntungan,
+                'backgroundColor' => 'rgba(55, 230, 87, 0.2)',
+                'borderColor' => 'rgb(55, 230, 87)',
+                'borderWidth' => 1
+            ]
+        ];
+
+        return view('admin.keuangan-umum.index', compact('datasets','labels' , 'keuangan'))->with('request');
     }
 
     /**
@@ -96,7 +172,6 @@ class KeuanganPerusahaanController extends Controller
         $data = KeuanganDetail::findOrFail($id);
         $bulans = KeuanganBulanan::get();
         $tanggal = $data->tanggal .'/'. $data->keuanganPerusahaan->bulan .'/'. $data->keuanganPerusahaan->tahun;
-        // dd($bulans);
 
         return view('admin.keuangan-umum.edit', compact('bulans', 'data', 'tanggal'));
     }
