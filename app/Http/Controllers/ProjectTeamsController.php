@@ -212,11 +212,12 @@ class ProjectTeamsController extends Controller
                 'fee' => $gaji,
                 'status' => $status,
                 'tenggat' => $request->tenggat,
+                'nasabah_team' => $team->projectTeamFee->nasabah,
                 'nasabah_kantor' => $request->nasabah_kantor,
-                'nasabah_team' => $team->nasabah,
                 'photo' => $imageName ?? '',
             ]);
         }
+
 
 
         if ($request->lunas) {
