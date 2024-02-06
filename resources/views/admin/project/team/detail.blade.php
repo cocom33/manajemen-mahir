@@ -22,6 +22,7 @@
                 @csrf
                 @method('PUT')
                 <input type="hidden" name="team_id" value="{{ $team->id }}">
+                <input type="hidden" name="detail_team_id" value="{{ $team->team_id }}">
                 <input type="hidden" name="project_id" value="{{$project->id}}">
                 <div class="grid grid-cols-1 gap-5 md:grid-cols-3">
                     <x-form-input label="fee" name="fee" placeholder="masukkan fee" />
@@ -67,6 +68,8 @@
                         <th class="text-center whitespace-no-wrap border-b-2">Total Fee</th>
                         <th class="text-center whitespace-no-wrap border-b-2">Tanggal Pemberian</th>
                         <th class="text-center whitespace-no-wrap border-b-2">Status</th>
+                        <th class="text-center whitespace-no-wrap border-b-2">Nasabah Kantor</th>
+                        <th class="text-center whitespace-no-wrap border-b-2">Nasabah Team</th>
                         <th class="text-center whitespace-no-wrap border-b-2">Photo</th>
                         <th class="text-center whitespace-no-wrap border-b-2">ACTIONS</th>
                     </tr>
@@ -80,6 +83,8 @@
                         <td class="text-center border-b">Rp. {{ number_format($team->fee) }}  </td>
                         <td class="text-center border-b">{{ $team->tenggat }}  </td>
                         <td class="text-center border-b">{{ $team->status == 1 ? 'Lunas' : 'Belum Lunas' }}  </td>
+                        <td class="text-center border-b">{{ $team->nasabah_kantor }}  </td>
+                        <td class="text-center border-b">{{ $team->nasbah_team }}  </td>
                         <td class="text-center border-b">
                             @if ($team->status)
                                 @if ($team->photo)

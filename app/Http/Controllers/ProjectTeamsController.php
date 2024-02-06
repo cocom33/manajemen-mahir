@@ -176,7 +176,7 @@ class ProjectTeamsController extends Controller
     {
         // dd($request);
         $data = ProjectTeam::find($request->team_id);
-        $team = Team::find($request->team_id);
+        $team = Team::find($request->detail_team_id);
 
         // dd($team);
 
