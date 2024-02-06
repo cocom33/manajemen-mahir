@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bank;
 use App\Models\Client;
 use App\Models\KeuanganDetail;
 use App\Models\KeuanganPerusahaan;
@@ -16,6 +17,7 @@ class TagihanClientController extends Controller
     {
         $data['clients'] = Client::get();
         $data['suppliers'] = Supplier::get();
+        $data['banks'] = Bank::get();
 
         $data['tagihan'] = $tagihan;
         $data['route'] = route('tagihan.store');
@@ -35,6 +37,7 @@ class TagihanClientController extends Controller
             'title' => 'required',
             'harga_jual' => 'required',
             'harga_beli' => 'required',
+            'bank_id' => 'required',
             'date_start' => 'required',
             'date_end' => 'required',
             'total' => 'required',
@@ -53,24 +56,24 @@ class TagihanClientController extends Controller
 
         $tagihan = Tagihan::create($data);
 
-        if ($request->lunas) {
-            $query = KeuanganPerusahaan::where([['tahun', date('Y')], ['bulan', date('m')]])->first();
-            if (!$query) {
-                $query = KeuanganPerusahaan::create([
-                    'tahun' => date('Y'),
-                    'bulan' => date('m'),
-                ]);
-            }
-
-            KeuanganDetail::create([
-                'keuangan_perusahaan_id' => $query->id,
-                'tagihan_id' => $tagihan->id,
-                'description' => 'Tagihan ' . explode(" ", $tagihan->title)[0],
-                'status' => 'pengeluaran',
-                'tanggal' => date('d'),
-                'total' => $tagihan->harga_beli,
+        $query = KeuanganPerusahaan::where([['tahun', date('Y')], ['bulan', date('m')]])->first();
+        if (!$query) {
+            $query = KeuanganPerusahaan::create([
+                'tahun' => date('Y'),
+                'bulan' => date('m'),
             ]);
+        }
 
+        KeuanganDetail::create([
+            'keuangan_perusahaan_id' => $query->id,
+            'tagihan_id' => $tagihan->id,
+            'description' => 'Tagihan ' . explode(" ", $tagihan->title)[0],
+            'status' => 'pengeluaran',
+            'tanggal' => date('d'),
+            'total' => $tagihan->harga_beli,
+        ]);
+
+        if ($request->lunas) {
             KeuanganDetail::create([
                 'keuangan_perusahaan_id' => $query->id,
                 'tagihan_id' => $tagihan->id,
@@ -101,6 +104,7 @@ class TagihanClientController extends Controller
             'title' => 'required',
             'harga_jual' => 'required',
             'harga_beli' => 'required',
+            'bank_id' => 'required',
             'date_start' => 'required',
             'date_end' => 'required',
             'total' => 'required',
@@ -114,6 +118,23 @@ class TagihanClientController extends Controller
         $data['harga_jual'] = str_replace(".", "", $harga_jual);
 
         $query->update($data);
+
+        $keuangan = KeuanganDetail::where('tagihan_id', $query->id)->get();
+        $keluar = $keuangan->where('status', 'pengeluaran')->first();
+        $keluar->update([
+            'bank_id' => $query->bank_id,
+            'description' => 'Tagihan ' . explode(" ", $query->title)[0],
+            'total' => $query->harga_beli,
+        ]);
+
+        $masuk = $keuangan->where('status', 'pemasukan')->first();
+        if ($masuk) {
+            $masuk->update([
+                'bank_id' => $query->bank_id,
+                'description' => 'Tagihan ' . explode(" ", $query->title)[0],
+                'total' => $query->harga_jual,
+            ]);
+        }
 
         return redirect()->route('tagihan.show', $id)->with('Berhasil Merubah Tagihan');
     }
@@ -147,15 +168,6 @@ class TagihanClientController extends Controller
                 'bulan' => date('m'),
             ]);
         }
-
-        KeuanganDetail::create([
-            'keuangan_perusahaan_id' => $query->id,
-            'tagihan_id' => $data->id,
-            'description' => 'Tagihan ' . explode(" ", $data->title)[0],
-            'status' => 'pengeluaran',
-            'tanggal' => date('d'),
-            'total' => $data->harga_beli,
-        ]);
 
         KeuanganDetail::create([
             'keuangan_perusahaan_id' => $query->id,
@@ -198,6 +210,23 @@ class TagihanClientController extends Controller
         unset($data['id']);
 
         $tagihan = Tagihan::create($data);
+
+        $query = KeuanganPerusahaan::where([['tahun', date('Y')], ['bulan', date('m')]])->first();
+        if (!$query) {
+            $query = KeuanganPerusahaan::create([
+                'tahun' => date('Y'),
+                'bulan' => date('m'),
+            ]);
+        }
+
+        KeuanganDetail::create([
+            'keuangan_perusahaan_id' => $query->id,
+            'tagihan_id' => $tagihan->id,
+            'description' => 'Tagihan ' . explode(" ", $tagihan->title)[0],
+            'status' => 'pengeluaran',
+            'tanggal' => date('d'),
+            'total' => $tagihan->harga_beli,
+        ]);
 
         return redirect()->route('tagihan.show', $tagihan->id)->with('success', 'Berhasil Clone Tagihan');
     }

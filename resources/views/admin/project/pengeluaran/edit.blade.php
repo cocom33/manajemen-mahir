@@ -16,9 +16,20 @@
                 @method('PUT')
 
                 <x-form-input label="Deskripsi" name="title" value="{{ $pengeluaran->title ?? '-' }}" />
-                <div class="flex w-full gap-3">
-                    <x-form-input label="Harga" name="price" addon="w-full" value="{{ $pengeluaran->price ?? '-' }}" />
-                    <x-form-input label="Masukkan Tanggal" name="date" addon="w-full" value="{{ $pengeluaran->date ?? '-' }}" />
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <x-form-input label="Harga" name="price" placeholder="masukkan jumlah uang" addon="w-full" value="{{ $pengeluaran->price }}" />
+                    <x-form-input label="Masukkan Tanggal" name="date" type="date" addon="w-full" value="{{ $pengeluaran->date }}" />
+                    <div>
+                        <label for="bank_id">Pilih Bank*</label>
+                        <select name="bank_id" id="bank_id" class="input w-full border mt-2">
+                            <option value="{{ $pengeluaran->bank_id }}" class="hidden">{{ $pengeluaran->bank->name }}</option>
+                            @foreach ($banks as $bank)
+                                <option value="{{ $bank->id }}">
+                                    {{ $bank->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
 
                 <div class="mb-3">

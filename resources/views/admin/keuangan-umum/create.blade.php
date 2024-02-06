@@ -20,6 +20,7 @@
                             <div class="text-theme-6 mt-2">{{ $message }}</div>
                         @enderror
                     </div>
+
                     <div class="mt-3">
                         <label>Total</label>
                         <input id="total" name="total" class="input w-full border mt-2 @error('total') border-theme-6 @enderror">
@@ -27,6 +28,7 @@
                             <div class="text-theme-6 mt-2">{{ $message }}</div>
                         @enderror
                     </div>
+
                     <div class="mt-3">
                         <label class="pb-3">Status</label>
                         <select name="status" id="status" class="select2  w-full">
@@ -37,6 +39,35 @@
                             <div class="text-theme-6 mt-2">{{ $message }}</div>
                         @enderror
                     </div>
+
+                    <div class="mt-3">
+                        <label for="supplier_id">Pilih Supplier</label>
+                        <select name="supplier_id" id="supplier_id" class="input w-full border mt-2">
+                            <option value="" class="hidden"></option>
+                            @foreach ($suppliers as $supplier)
+                                <option value="{{ $supplier->id }}">
+                                    {{ $supplier->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                        <small>boleh dikosongkan</small>
+                    </div>
+
+                    <div class="mt-3">
+                        <label for="bank_id">Pilih Bank</label>
+                        <select name="bank_id" id="bank_id" class="input w-full border mt-2">
+                            <option value="" class="hidden"></option>
+                            @foreach ($banks as $bank)
+                                <option value="{{ $bank->id }}">
+                                    {{ $bank->name }}
+                                </option>
+                            @endforeach
+                            @error('bank_id')
+                                <div class="text-theme-6 mt-2">{{ $message }}</div>
+                            @enderror
+                        </select>
+                    </div>
+
                     <div class="mt-3">
                         <label>Tanggal</label>
                         <input type="date" name="tanggal" class="input w-full border mt-2 @error('tanggal') border-theme-6 @enderror">

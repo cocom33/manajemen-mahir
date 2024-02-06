@@ -17,13 +17,22 @@
                     @csrf
                     @method('PUT')
                     <input type="hidden" name="id" value="{{ $termin->id }}">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-3">
                         <x-form-input label="Nama Termin" name="name" value="{{ $termin->name }}"
                             placeholder="masukkan nama termin" />
                         <x-form-input label="Price" name="price" value="{{ $termin->price }}"
                             placeholder="masukkan price" id="inputFee{{ $termin->id }}" />
                         <x-form-input type="date" label="Tanggal Penagihan" value="{{ $termin->tanggal }}"
                             name="tanggal" />
+                        <div>
+                            <label for="bank">Pilih Bank*</label>
+                            <select name="bank_id" id="bank" class="input w-full border mt-2" required>
+                                <option value="{{ $termin->bank_id }}">{{ $termin->bank->name }}</option>
+                                @foreach ($banks as $bank)
+                                    <option value="{{ $bank->id }}">{{ $bank->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
 
                     @if ($termin->lampiran == null)
@@ -40,11 +49,13 @@
                         </div>
                     @endif
 
-                    <div class="flex justify-end">
-                        <button type="submit" class="button flex align-center text-white bg-theme-1 shadow-md mt-3">
-                            <i data-feather="plus" class=" w-4 h-4 mt-1 font-bold mr-2"></i> <span>Update</span>
-                        </button>
-                    </div>
+                    @if ($termin->status == 0)
+                        <div class="flex justify-end">
+                            <button type="submit" class="button flex align-center text-white bg-theme-1 shadow-md mt-3">
+                                <i data-feather="plus" class=" w-4 h-4 mt-1 font-bold mr-2"></i> <span>Update</span>
+                            </button>
+                        </div>
+                    @endif
                     <hr class="my-4">
                 </form>
                 @if ($termin->lampiran != null)

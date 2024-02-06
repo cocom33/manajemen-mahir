@@ -18,16 +18,31 @@
 
                 <input type="hidden" name="tagihan_id" value="{{ $tagihan->id ?? '' }}">
                 <x-form-input label="Nama" name="title" placeholder="masukkan nama" value="{{ $tagihan->title ?? '' }}" />
-                <x-form-select
-                    label="Client"
-                    name="client_id"
-                    placeholder="Pilih Client"
-                    :default="[
-                        'value' => $tagihan->client_id ?? '',
-                        'label' => $tagihan->client->name ?? '',
-                    ]"
-                    :options="$clients"
-                />
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <div class="col-span-2">
+                        <x-form-select
+                            label="Client"
+                            name="client_id"
+                            placeholder="Pilih Client"
+                            :default="[
+                                'value' => $tagihan->client_id ?? '',
+                                'label' => $tagihan->client->name ?? '',
+                            ]"
+                            :options="$clients"
+                        />
+                    </div>
+                    <div>
+                        <label for="bank_id">Pilih Bank*</label>
+                        <select name="bank_id" id="bank_id" class="input w-full border">
+                            <option value="{{ $tagihan->bank_id ?? '' }}" class="hidden">{{ $tagihan->bank->name ?? '' }}</option>
+                            @foreach ($banks as $bank)
+                                <option value="{{ $bank->id }}">
+                                    {{ $bank->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
                 <div class="flex w-full gap-3">
                     <x-form-input label="Harga Jual" name="harga_jual" placeholder="masukkan jumlah uang" addon="w-full" value="{{ $tagihan->harga_jual ?? '' }}" />
                     <x-form-input label="Harga Beli" name="harga_beli" placeholder="masukkan jumlah uang" addon="w-full" value="{{ $tagihan->harga_beli ?? '' }}" />

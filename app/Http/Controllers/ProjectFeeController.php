@@ -9,6 +9,7 @@ use App\Models\ProjectTeam;
 use Illuminate\Http\Request;
 use App\Models\KeuanganProject;
 use App\Http\Controllers\Controller;
+use App\Models\Bank;
 use App\Models\KeuanganDetail;
 use App\Models\KeuanganPerusahaan;
 use App\Models\Pengeluaran;
@@ -20,6 +21,7 @@ class ProjectFeeController extends Controller
     public function projectFee($slug)
     {
         $data['project'] = Project::where('slug', $slug)->first();
+        $data['banks'] = Bank::get();
         $data['pengeluaran'] = Pengeluaran::where('project_id', $data['project']->id)->get();
 
         if ($data['project']->keuangan_project && $data['project']->keuangan_project->type == 'langsung') {
@@ -45,10 +47,15 @@ class ProjectFeeController extends Controller
         return redirect()->back()->with('success', 'berhasil membuat type pembayaran');
     }
 
-    public function projectFeeLangsungStore(Request $request)
+    public function projectFeeLangsungStore(Request $request, $slug)
     {
+        $project = Project::where('slug', $slug)->first();
         $fee = str_replace("Rp. ", "", $request->price);
         $price = str_replace(".", "", $fee);
+
+        if ($price > $project->harga_deal) {
+            return redirect()->back()->with('error', 'gagal, harap masukkan harga dengan benar');
+        }
 
         if ($request->hasFile('lampiran')) {
             $image = $request->file('lampiran');
@@ -59,6 +66,7 @@ class ProjectFeeController extends Controller
                 'keuangan_project_id' => 'required',
                 'name' => 'required',
                 'price' => 'required',
+                'bank_id' => 'required',
                 'tanggal' => 'required',
                 'nasabah_kantor' => 'required',
                 'nasabah_team' => 'nullable',
@@ -82,6 +90,7 @@ class ProjectFeeController extends Controller
                 KeuanganDetail::create([
                     'keuangan_perusahaan_id' => $query->id,
                     'langsung_id' => $langsung->id,
+                    'bank_id' => $langsung->bank_id,
                     'description' => 'Pemasukan Project',
                     'status' => 'pemasukan',
                     'tanggal' => date('d'),
@@ -94,6 +103,7 @@ class ProjectFeeController extends Controller
             $data = $request->validate([
                 'keuangan_project_id' => 'required',
                 'name' => 'required',
+                'bank_id' => 'required',
                 'price' => 'required',
                 'tanggal' => 'required',
             ]);
@@ -106,11 +116,16 @@ class ProjectFeeController extends Controller
 
     }
 
-    public function projectFeeLangsungUpdate(Request $request)
+    public function projectFeeLangsungUpdate(Request $request, $slug)
     {
+        $project = Project::where('slug', $slug)->first();
         $langsung = Langsung::find($request->id);
         $fee = str_replace("Rp. ", "", $request->price);
         $price = str_replace(".", "", $fee);
+
+        if ($price > $project->harga_deal) {
+            return redirect()->back()->with('error', 'gagal, harap masukkan harga dengan benar');
+        }
 
         if ($request->hasFile('lampiran')) {
             $image = $request->file('lampiran');
@@ -120,12 +135,13 @@ class ProjectFeeController extends Controller
             $langsung->update([
                 'name' => $request->name,
                 'price' => $price,
+                'bank_id' => $request->bank_id,
                 'tanggal' => $request->tanggal,
                 'status' => 1,
                 'lampiran' => $imageName,
             ]);
 
-            $keuangan = KeuanganDetail::where('termin_id', $langsung->id)->first();
+            $keuangan = KeuanganDetail::where('langsung_id', $langsung->id)->first();
             if (!$keuangan) {
                 $query = KeuanganPerusahaan::where([['tahun', date('Y')], ['bulan', date('m')]])->first();
                 if (!$query) {
@@ -139,8 +155,13 @@ class ProjectFeeController extends Controller
                     'keuangan_perusahaan_id' => $query->id,
                     'langsung_id' => $langsung->id,
                     'description' => 'Pemasukan Project',
+                    'bank_id' => $request->bank_id,
                     'status' => 'pemasukan',
                     'tanggal' => date('d'),
+                    'total' => $price,
+                ]);
+            } else {
+                $keuangan->update([
                     'total' => $price,
                 ]);
             }
@@ -149,6 +170,7 @@ class ProjectFeeController extends Controller
         } else {
             $langsung->update([
                 'name' => $request->name,
+                'bank_id' => $request->bank_id,
                 'price' => $price,
                 'tanggal' => $request->tanggal,
             ]);
@@ -173,12 +195,18 @@ class ProjectFeeController extends Controller
 
     public function projectTerminStore(Request $request, $slug)
     {
+        $project = Project::where('slug', $slug)->first();
+
         if ($request->type == 'harga') {
             $fee = str_replace("Rp. ", "", $request->harga);
             $price = str_replace(".", "", $fee);
         } else {
-            $project = Project::where('slug', $slug)->first();
             $price = $project->harga_deal * $request->price / 100;
+        }
+
+        $total = $project->keuangan_project->termin->sum('price') + $price;
+        if ($total > $project->harga_deal) {
+            return redirect()->back()->with('error', 'gagal, harap masukkan harga dengan benar');
         }
 
         $data = $request->validate([
@@ -186,6 +214,7 @@ class ProjectFeeController extends Controller
             'name' => 'required',
             'price' => 'sometimes',
             'tanggal' => 'required',
+            'bank_id' => 'required',
         ]);
 
         $data['price'] = $price;
@@ -197,6 +226,7 @@ class ProjectFeeController extends Controller
     {
         $data['project'] = Project::where('slug', $slug)->first();
         $data['termin'] = Termin::where('slug', $termin)->first();
+        $data['banks'] = Bank::get();
         $data['detail'] = $this->gaji($data['project']);
 
         return view('admin.project.fee.termin-fee', $data);
@@ -209,6 +239,11 @@ class ProjectFeeController extends Controller
         $fee = str_replace("Rp. ", "", $request->price);
         $price = str_replace(".", "", $fee);
 
+        $total = $project->keuangan_project->termin->sum('price') + $price;
+        if ($total > $project->harga_deal) {
+            return redirect()->back()->with('error', 'gagal, harap masukkan harga dengan benar');
+        }
+
         if ($request->hasFile('lampiran')) {
             $image = $request->file('lampiran');
             $imageName = 'bukti-pembayaran-' . $project->slug . '-' . $termin->slug . '-'. date('d-m-Y') . '.' . $image->extension();
@@ -218,6 +253,7 @@ class ProjectFeeController extends Controller
                 'name' => $request->name,
                 'price' => $price,
                 'tanggal' => $request->tanggal,
+                'bank_id' => $request->bank_id,
                 'status' => 1,
                 'lampiran' => $imageName,
             ]);
@@ -235,6 +271,7 @@ class ProjectFeeController extends Controller
                 KeuanganDetail::create([
                     'keuangan_perusahaan_id' => $query->id,
                     'termin_id' => $termin->id,
+                    'bank_id' => $request->bank_id,
                     'description' => 'Pemasukan Project',
                     'status' => 'pemasukan',
                     'tanggal' => date('d'),
@@ -246,6 +283,7 @@ class ProjectFeeController extends Controller
         } else {
             $termin->update([
                 'name' => $request->name,
+                'bank_id' => $request->bank_id,
                 'price' => $price,
                 'tanggal' => $request->tanggal,
             ]);
@@ -273,27 +311,29 @@ class ProjectFeeController extends Controller
 
         if ($keuanganProjects->type == 'termin') {
             $termins = Termin::where('keuangan_project_id', $keuanganProjects->id)->get();
+            $detail = KeuanganDetail::whereIn('termin_id', $termins->pluck('id'))->get();
+
             foreach ($termins as $termin) {
                 if ($termin->lampiran) {
                     unlink(public_path('bukti-pembayaran/' . $termin->lampiran));
                     Storage::delete('bukti-pembayaran/' . $termin->lampiran);
                 }
                 $termin->forceDelete();
-                KeuanganDetail::where('termin_id', $termin->id)->first()->forceDelete();
+                $detail->where('termin_id', $termin->id)->first()->forceDelete();
             }
         } else {
             $langsung = Langsung::where('keuangan_project_id', $keuanganProjects->id)->first();
+            $detail = KeuanganDetail::where('langsung_id', $langsung->id)->get();
 
             if ($langsung != null ){
                 if ($langsung->lampiran) {
                     unlink(public_path('bukti-pembayaran/' . $langsung->lampiran));
                     Storage::delete('bukti-pembayaran/' . $langsung->lampiran);
                     $langsung->forceDelete();
-                    KeuanganDetail::where('langsung_id', $langsung->id)->first()->forceDelete();
                 } else {
                     $langsung->forceDelete();
-                    KeuanganDetail::where('langsung_id', $langsung->id)->first()->forceDelete();
                 }
+                $detail->where('langsung_id', $langsung->id)->first()->forceDelete();
             }
         }
 
