@@ -38,11 +38,17 @@
                     </div>
                     <div class="mb-4">
                         <label for="nasabah_kantor" class="block text-gray-700 font-medium mb-2">Nasabah Kantor</label>
-                        <input type="text" id="nasabah_kantor" name="nasabah_kantor" class="border border-gray-400 p-2 w-full rounded">
+                        {{-- <input type="text" id="nasabah_kantor" name="nasabah_kantor" class="border border-gray-400 p-2 w-full rounded"> --}}
+                        <select name="nasabah_kantor" data-hide-search="true" class="select2 w-full border-theme-6">
+                            <option disabled>Pilih Nasabah</option>
+                            @foreach ($banks as $skill)
+                            <option value="{{ $skill->id }}">{{ $skill->name }}</option>
+                            @endforeach
+                        </select>
                       </div>
-                  
+
                       <div class="mb-4">
-                        <label for="nasabah_team" class="block text-gray-700 font-medium mb-2">Nasabah Team</label>  
+                        <label for="nasabah_team" class="block text-gray-700 font-medium mb-2">Nasabah Team</label>
                         <input type="text" id="nasabah_team" name="nasabah_team" class="border border-gray-400 p-2 w-full rounded">
                       </div>
                 </div>
@@ -83,7 +89,7 @@
                         <td class="text-center border-b">Rp. {{ number_format($team->fee) }}  </td>
                         <td class="text-center border-b">{{ $team->tenggat }}  </td>
                         <td class="text-center border-b">{{ $team->status == 1 ? 'Lunas' : 'Belum Lunas' }}  </td>
-                        <td class="text-center border-b">{{ $team->nasabah_kantor }}  </td>
+                        <td class="text-center border-b">{{ optional(App\Models\Bank::find($team->nasabah_kantor))->name }}</td>
                         <td class="text-center border-b">{{ $team->nasbah_team }}  </td>
                         <td class="text-center border-b">
                             @if ($team->status)

@@ -9,6 +9,7 @@ use App\Models\Project;
 use App\Models\ProjectTeam;
 use App\Models\ProjectTeamFee;
 use App\Models\Team;
+use App\Models\Bank;
 use Illuminate\Http\Request;
 
 class ProjectTeamsController extends Controller
@@ -158,6 +159,7 @@ class ProjectTeamsController extends Controller
         $data['project'] = Project::where('slug', $slug)->first();
         $data['detail'] = $this->gaji($data['project']);
         $data['fee'] = $data['team']->project_team_fee;
+        $data['banks'] = Bank::get();
 
         return view('admin.project.team.detail', $data);
     }
@@ -202,7 +204,7 @@ class ProjectTeamsController extends Controller
                 'nasabah_team' => $request->nasabah_team,
                 'nasabah_kantor' => $request->nasabah_kantor,
                 'photo' => $imageName ?? '',
-                
+
             ]);
         } else {
             $feeteam = ProjectTeamFee::create([
@@ -210,12 +212,13 @@ class ProjectTeamsController extends Controller
                 'fee' => $gaji,
                 'status' => $status,
                 'tenggat' => $request->tenggat,
+                'nasabah_team' => $team->projectTeamFee->nasabah,
                 'nasabah_kantor' => $request->nasabah_kantor,
-                'nasabah_team' => $team->nasabah,
                 'photo' => $imageName ?? '',
             ]);
         }
-        
+
+
 
         if ($request->lunas) {
             $query = KeuanganPerusahaan::where([['tahun', date('Y')], ['bulan', date('m')]])->first();

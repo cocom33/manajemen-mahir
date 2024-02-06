@@ -22,4 +22,10 @@ class Team extends Model
     public function projectTeam(){
         return $this->hasMany(ProjectTeam::class);
     }
+// Team model
+    public function projectTeamFee()
+    {
+        return $this->hasOne(ProjectTeamFee::class);
+    }
+
 }
