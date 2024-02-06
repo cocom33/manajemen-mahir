@@ -60,6 +60,8 @@ class ProjectFeeController extends Controller
                 'name' => 'required',
                 'price' => 'required',
                 'tanggal' => 'required',
+                'nasabah_kantor' => 'required',
+                'nasabah_team' => 'nullable',
             ]);
 
             $data['price'] = $price;

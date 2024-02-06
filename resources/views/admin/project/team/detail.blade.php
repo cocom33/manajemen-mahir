@@ -35,6 +35,15 @@
                             type="file">
                         <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">PNG or JPG.</p>
                     </div>
+                    <div class="mb-4">
+                        <label for="nasabah_kantor" class="block text-gray-700 font-medium mb-2">Nasabah Kantor</label>
+                        <input type="text" id="nasabah_kantor" name="nasabah_kantor" class="border border-gray-400 p-2 w-full rounded">
+                      </div>
+                  
+                      <div class="mb-4">
+                        <label for="nasabah_team" class="block text-gray-700 font-medium mb-2">Nasabah Team</label>  
+                        <input type="text" id="nasabah_team" name="nasabah_team" class="border border-gray-400 p-2 w-full rounded">
+                      </div>
                 </div>
 
                 <div class="flex justify-end mt-3">
