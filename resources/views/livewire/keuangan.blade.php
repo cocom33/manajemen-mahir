@@ -1,4 +1,19 @@
 <div>
+    <div class="flex justify-around items-center">
+        <div class="text-center">
+            <h4 class="text-md">Pemasukan</h4>
+            <p class="font-bold text-lg">{{ number_format($detail->where('status', 'pemasukan')->sum('total')) }}</p>
+        </div>
+        <div class="text-center">
+            <h4 class="text-md">Pengeluaran</h4>
+            <p class="font-bold text-lg">{{ number_format($detail->where('status', 'pengeluaran')->sum('total')) }}</p>
+        </div>
+        <div class="text-center">
+            <h4 class="text-md">Kas</h4>
+            <p class="font-bold text-lg">{{ number_format($kas->where('status', 'pemasukan')->sum('total') - $kas->where('status', 'pengeluaran')->sum('total')) }}</p>
+        </div>
+    </div>
+
     <div class="intro-y datatable-wrapper box p-5 mt-5 flex gap-6">
         <div class="w-full">
             <label>Tahun</label>
@@ -133,7 +148,7 @@
     </div>
     <div wire:loading>
 
-    @push('scripts')
+    {{-- @push('scripts')
         <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
         <script>
             $(document).ready(function() {
@@ -144,5 +159,5 @@
                 });
             });
         </script>
-    @endpush
+    @endpush --}}
 </div>

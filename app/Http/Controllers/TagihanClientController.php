@@ -71,6 +71,7 @@ class TagihanClientController extends Controller
             'status' => 'pengeluaran',
             'tanggal' => date('d'),
             'total' => $tagihan->harga_beli,
+            'bank_id' => $tagihan->bank_id,
         ]);
 
         if ($request->lunas) {
@@ -81,6 +82,7 @@ class TagihanClientController extends Controller
                 'status' => 'pemasukan',
                 'tanggal' => date('d'),
                 'total' => $tagihan->harga_jual,
+                'bank_id' => $tagihan->bank_id,
             ]);
         }
 
@@ -176,6 +178,7 @@ class TagihanClientController extends Controller
             'status' => 'pemasukan',
             'tanggal' => date('d'),
             'total' => $data->harga_jual,
+            'bank_id' => $data->bank_id,
         ]);
 
         return redirect()->back()->with('success', 'berhasil Update Tagihan');
@@ -222,6 +225,7 @@ class TagihanClientController extends Controller
         KeuanganDetail::create([
             'keuangan_perusahaan_id' => $query->id,
             'tagihan_id' => $tagihan->id,
+            'bank_id' => $tagihan->bank_id,
             'description' => 'Tagihan ' . explode(" ", $tagihan->title)[0],
             'status' => 'pengeluaran',
             'tanggal' => date('d'),
