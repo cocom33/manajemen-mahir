@@ -22,6 +22,7 @@
                 @csrf
                 @method('PUT')
                 <input type="hidden" name="team_id" value="{{ $team->id }}">
+                <input type="hidden" name="detail_team_id" value="{{ $team->team_id }}">
                 <input type="hidden" name="project_id" value="{{$project->id}}">
                 <div class="grid grid-cols-1 gap-5 md:grid-cols-3">
                     <x-form-input label="fee" name="fee" placeholder="masukkan fee" />
@@ -35,6 +36,15 @@
                             type="file">
                         <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">PNG or JPG.</p>
                     </div>
+                    <div class="mb-4">
+                        <label for="nasabah_kantor" class="block text-gray-700 font-medium mb-2">Nasabah Kantor</label>
+                        <input type="text" id="nasabah_kantor" name="nasabah_kantor" class="border border-gray-400 p-2 w-full rounded">
+                      </div>
+                  
+                      <div class="mb-4">
+                        <label for="nasabah_team" class="block text-gray-700 font-medium mb-2">Nasabah Team</label>  
+                        <input type="text" id="nasabah_team" name="nasabah_team" class="border border-gray-400 p-2 w-full rounded">
+                      </div>
                 </div>
 
                 <div class="flex justify-end mt-3">
@@ -58,6 +68,8 @@
                         <th class="text-center whitespace-no-wrap border-b-2">Total Fee</th>
                         <th class="text-center whitespace-no-wrap border-b-2">Tanggal Pemberian</th>
                         <th class="text-center whitespace-no-wrap border-b-2">Status</th>
+                        <th class="text-center whitespace-no-wrap border-b-2">Nasabah Kantor</th>
+                        <th class="text-center whitespace-no-wrap border-b-2">Nasabah Team</th>
                         <th class="text-center whitespace-no-wrap border-b-2">Photo</th>
                         <th class="text-center whitespace-no-wrap border-b-2">ACTIONS</th>
                     </tr>
@@ -71,6 +83,8 @@
                         <td class="text-center border-b">Rp. {{ number_format($team->fee) }}  </td>
                         <td class="text-center border-b">{{ $team->tenggat }}  </td>
                         <td class="text-center border-b">{{ $team->status == 1 ? 'Lunas' : 'Belum Lunas' }}  </td>
+                        <td class="text-center border-b">{{ $team->nasabah_kantor }}  </td>
+                        <td class="text-center border-b">{{ $team->nasbah_team }}  </td>
                         <td class="text-center border-b">
                             @if ($team->status)
                                 @if ($team->photo)

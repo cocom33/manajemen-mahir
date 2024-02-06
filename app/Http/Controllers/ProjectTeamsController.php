@@ -137,10 +137,12 @@ class ProjectTeamsController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->project_id);
+        // $team = Team::find()
+        dd($request->all());
         $projectTeam = new ProjectTeam;
         $projectTeam->project_id = $request->project_id;
         $projectTeam->team_id = $request->team_id;
+
         $projectTeam->save();
 
         return redirect()->back();
@@ -172,7 +174,11 @@ class ProjectTeamsController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        // dd($request);
         $data = ProjectTeam::find($request->team_id);
+        $team = Team::find($request->detail_team_id);
+
+        // dd($team);
 
         if($request->file('photo')) {
             $image = $request->file('photo');
@@ -187,13 +193,29 @@ class ProjectTeamsController extends Controller
             $status = 1;
         }
 
-        $feeteam = ProjectTeamFee::create([
-            'project_team_id' => $data->id,
-            'fee' => $gaji,
-            'status' => $status,
-            'tenggat' => $request->tenggat,
-            'photo' => $imageName ?? '',
-        ]);
+        if($request->has('nasabah_team')){
+            $feeteam = ProjectTeamFee::create([
+                'project_team_id' => $data->id,
+                'fee' => $gaji,
+                'status' => $status,
+                'tenggat' => $request->tenggat,
+                'nasabah_team' => $request->nasabah_team,
+                'nasabah_kantor' => $request->nasabah_kantor,
+                'photo' => $imageName ?? '',
+                
+            ]);
+        } else {
+            $feeteam = ProjectTeamFee::create([
+                'project_team_id' => $data->id,
+                'fee' => $gaji,
+                'status' => $status,
+                'tenggat' => $request->tenggat,
+                'nasabah_kantor' => $request->nasabah_kantor,
+                'nasabah_team' => $team->nasabah,
+                'photo' => $imageName ?? '',
+            ]);
+        }
+        
 
         if ($request->lunas) {
             $query = KeuanganPerusahaan::where([['tahun', date('Y')], ['bulan', date('m')]])->first();
