@@ -98,7 +98,7 @@
                                         <i class="fa-regular fa-eye"></i>
                                     </a>
                                 @elseif ($data->project_team_fee_id)
-                                    <a href="{{ roroute('project.teams.show', [$data->project_team_fee->projectTeam->project->slug, $data->project_team_fee->project_team_id]) }}"
+                                    <a href="{{ route('project.teams.show', [$data->project_team_fee->projectTeam->project->slug, $data->project_team_fee->project_team_id]) }}"
                                         class="button inline-block text-white bg-theme-1 rounded-md">
                                         <i class="fa-regular fa-eye"></i>
                                     </a>
