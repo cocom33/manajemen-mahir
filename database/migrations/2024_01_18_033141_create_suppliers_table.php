@@ -16,6 +16,9 @@ return new class extends Migration
             $table->string('name');
             $table->string('link');
             $table->text('note')->nullable();
+            $table->string('email')->nullable();
+            $table->string('telephone')->nullable();
+            $table->text('alamat')->nullable();
 
             $table->timestamps();
         });
