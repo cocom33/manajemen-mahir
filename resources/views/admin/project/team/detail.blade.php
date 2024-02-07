@@ -90,7 +90,7 @@
                         <td class="text-center border-b">{{ $team->tenggat }}  </td>
                         <td class="text-center border-b">{{ $team->status == 1 ? 'Lunas' : 'Belum Lunas' }}  </td>
                         <td class="text-center border-b">{{ optional(App\Models\Bank::find($team->nasabah_kantor))->name }}</td>
-                        <td class="text-center border-b">{{ $team->nasbah_team }}  </td>
+                        <td class="text-center border-b">{{ $team->nasabah_team }}  </td>
                         <td class="text-center border-b">
                             @if ($team->status)
                                 @if ($team->photo)

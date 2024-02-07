@@ -17,4 +17,5 @@ class KeuanganPerusahaan extends Model
     {
         return $this->hasMany(KeuanganDetail::class);
     }
+
 }
