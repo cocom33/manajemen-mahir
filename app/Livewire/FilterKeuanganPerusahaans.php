@@ -2,7 +2,6 @@
 
 namespace App\Livewire;
 
-use App\Models\KeuanganBulanan;
 use App\Models\KeuanganPerusahaan;
 use Livewire\Component;
 
