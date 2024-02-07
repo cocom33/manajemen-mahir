@@ -3,10 +3,6 @@
 namespace App\Livewire;
 
 use App\Models\Bank;
-use App\Models\Invoice;
-use App\Models\InvoiceOther;
-use App\Models\InvoiceSystem;
-use App\Models\KeuanganBulanan;
 use App\Models\KeuanganDetail;
 use App\Models\KeuanganPerusahaan;
 use Livewire\Component;
@@ -48,6 +44,7 @@ class Keuangan extends Component
         $master = KeuanganPerusahaan::whereIn('tahun', $data['filtertahun'])->whereIn('bulan', $data['filterbulan'])->pluck('id');
 
         $data['detail'] = KeuanganDetail::whereIn('keuangan_perusahaan_id', $master)->whereIn('bank_id', $data['filterbank'])->orderBy('created_at', 'desc')->get();
+        $data['kas'] = KeuanganDetail::get();
 
         return view('livewire.keuangan', $data);
     }

@@ -89,19 +89,21 @@ class ProjectTeamsController extends Controller
             ]);
         }
 
-        KeuanganDetail::create([
+        $t = KeuanganDetail::create([
             'keuangan_perusahaan_id' => $query->id,
             'project_team_fee_id' => $data->id,
             'description' => 'fee ' . $data->projectTeam->team->name,
             'status' => 'pengeluaran',
+            'bank_id' => $data->nasabah_kantor,
             'tanggal' => date('d'),
             'total' => $data->fee,
         ]);
 
-        Pengeluaran::create([
+        $e = Pengeluaran::create([
             'project_id' => $request->project_id,
             'title' => 'fee ' . $data->projectTeam->team->name,
             'date' => date('Y-m-d'),
+            'bank_id' => $data->nasabah_kantor,
             'price' => $data->fee,
             'project_team_fee_id' => $data->id
         ]);
@@ -233,6 +235,7 @@ class ProjectTeamsController extends Controller
                 'keuangan_perusahaan_id' => $query->id,
                 'project_team_fee_id' => $feeteam->id,
                 'description' => 'fee ' . $data->team->name,
+                'bank_id' => $data->nasabah_kantor,
                 'status' => 'pengeluaran',
                 'tanggal' => date('d'),
                 'total' => $gaji,
@@ -242,6 +245,7 @@ class ProjectTeamsController extends Controller
                 'project_id' => $request->project_id,
                 'title' => 'fee ' . $data->team->name,
                 'date' => date('Y-m-d'),
+                'bank_id' => $data->nasabah_kantor,
                 'price' => $gaji,
                 'project_team_fee_id' => $feeteam->id
             ]);
