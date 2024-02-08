@@ -37,9 +37,9 @@
                         <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">PNG or JPG.</p>
                     </div>
                     <div class="mb-4">
-                        <label for="nasabah_kantor" class="block text-gray-700 font-medium mb-2">Nasabah Kantor</label>
+                        <label for="nasabah_kantor" class="block text-gray-700 font-medium mb-2">Nasabah Kantor*</label>
                         {{-- <input type="text" id="nasabah_kantor" name="nasabah_kantor" class="border border-gray-400 p-2 w-full rounded"> --}}
-                        <select name="nasabah_kantor" data-hide-search="true" class="select2 w-full border-theme-6">
+                        <select name="nasabah_kantor" data-hide-search="true" class="select2 w-full border-theme-6" required>
                             <option disabled>Pilih Nasabah</option>
                             @foreach ($banks as $skill)
                             <option value="{{ $skill->id }}">{{ $skill->name }}</option>
@@ -48,8 +48,13 @@
                       </div>
 
                       <div class="mb-4">
-                        <label for="nasabah_team" class="block text-gray-700 font-medium mb-2">Nasabah Team</label>
-                        <input type="text" id="nasabah_team" name="nasabah_team" class="border border-gray-400 p-2 w-full rounded">
+                        <label for="nasabah_team" class="block text-gray-700 font-medium mb-2">Nasabah Team @if (!$team->team->nasabah)*@endif</label>
+                        <input type="text" id="nasabah_team" name="nasabah_team" class="border border-gray-400 p-2 w-full rounded" @if (!$team->team->nasabah) required *@endif>
+                        @if ($team->team->nasabah)
+                        <small>jikalau tidak diisi akan terisi {{ $team->team->nasabah }}</small>
+                        @else
+                        <small>Wajib Diisi</small>
+                        @endif
                       </div>
                 </div>
 
@@ -90,7 +95,7 @@
                         <td class="text-center border-b">{{ $team->tenggat }}  </td>
                         <td class="text-center border-b">{{ $team->status == 1 ? 'Lunas' : 'Belum Lunas' }}  </td>
                         <td class="text-center border-b">{{ optional(App\Models\Bank::find($team->nasabah_kantor))->name }}</td>
-                        <td class="text-center border-b">{{ $team->nasabah_team }}  </td>
+                        <td class="text-center border-b">{{ $team->nasabah_team }} </td>
                         <td class="text-center border-b">
                             @if ($team->status)
                                 @if ($team->photo)

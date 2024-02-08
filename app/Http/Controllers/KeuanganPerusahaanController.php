@@ -6,7 +6,6 @@ use App\Exports\KeuanganUmumExport;
 use App\Models\Bank;
 use App\Models\Invoice;
 use App\Models\InvoiceSystem;
-use App\Models\KeuanganBulanan;
 use App\Models\KeuanganDetail;
 use App\Models\KeuanganPerusahaan;
 use App\Models\Supplier;
@@ -202,7 +201,6 @@ class KeuanganPerusahaanController extends Controller
         $data = KeuanganDetail::findOrFail($id);
         $banks = Bank::get();
         $suppliers = Supplier::get();
-        $bulans = KeuanganBulanan::get();
         $tanggal = $data->tanggal .'/'. $data->keuanganPerusahaan->bulan .'/'. $data->keuanganPerusahaan->tahun;
 
         return view('admin.keuangan-umum.edit', compact('bulans', 'data', 'tanggal', 'suppliers', 'banks'));

@@ -80,18 +80,18 @@
             'name'   => 'supplier',
         ],
         'devider',
-        'profile' =>  [
-            'title'  => 'Profile',
-            'url'    => route('profile.edit'),
-            'icon'   => 'user',
-            'name'   => 'profile',
-        ],
-        'user' =>  [
-            'title'  => 'User',
-            'url'    => route('users.index'),
-            'icon'   => 'user-check',
-            'name'   => 'user',
-        ],
+        // 'profile' =>  [
+        //     'title'  => 'Profile',
+        //     'url'    => route('profile.edit'),
+        //     'icon'   => 'user',
+        //     'name'   => 'profile',
+        // ],
+        // 'user' =>  [
+        //     'title'  => 'User',
+        //     'url'    => route('users.index'),
+        //     'icon'   => 'user-check',
+        //     'name'   => 'user',
+        // ],
         // 'team' =>  [
         //     'title'  => 'asd',
         //     'icon'   => 'user',

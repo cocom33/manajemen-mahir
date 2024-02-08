@@ -1,78 +1,96 @@
 @php
     $menus = [
-        'dashboard' => [
-            'title' => 'Dashboard',
-            'url' => route('dashboard'),
-            'icon' => 'home',
-            'name' => 'dashboard',
+        'dashboard' =>  [
+            'title'  => 'Dashboard',
+            'url'    => route('dashboard'),
+            'icon'   => 'home',
+            'name'   => 'dashboard',
         ],
-        'project' => [
-            'title' => 'Projects',
-            'url' => route('projects'),
-            'icon' => 'briefcase',
-            'name' => 'project',
+        'project' =>  [
+            'title'  => 'Projects',
+            'url'    => route('projects'),
+            'icon'   => 'briefcase',
+            'name'   => 'project',
         ],
-        'tagihan' => [
-            'title' => 'Tagihan',
-            'url' => route('tagihan'),
-            'icon' => 'alert-triangle',
-            'name' => 'tagihan',
+        'tagihan' =>  [
+            'title'  => 'Tagihan',
+            'url'    => route('tagihan'),
+            'icon'   => 'alert-triangle',
+            'name'   => 'tagihan',
         ],
-        // 'keuangan-perusahaan' =>  [
-        //     'title'  => 'Keuangan Perusahaan',
-        //     'url'    => route('keuangan-perusahaan.index'),
-        //     'icon'   => 'home',
-        //     'name'   => 'keuangan-perusahaan',
-        // ],
-        'keuangan-umum' => [
-            'title' => 'Keuangan Umum',
-            'url' => route('keuangan-umum.index'),
-            'icon' => 'dollar-sign',
-            'name' => 'keuangan-umum',
+        'keuangan-umum' =>  [
+            'title'  => 'Keuangan Umum',
+            'url'    => route('keuangan-umum.index'),
+            'icon'   => 'home',
+            'name'   => 'keuangan-umum',
         ],
         // 'keuangan-umum' =>  [
         //     'title'  => 'Keuangan Umum',
         //     'url'    => route('keuangan-umum.index'),
-        //     'icon'   => 'home',
+        //     'icon'   => 'dollar-sign',
         //     'name'   => 'keuangan-umum',
         // ],
         'devider',
-        'teams' => [
-            'title' => 'Teams',
-            'url' => route('teams.index'),
-            'icon' => 'users',
-            'name' => 'teams',
+        'note' =>  [
+            'title'  => 'Note',
+            'url'    => route('notes.index'),
+            'icon'   => 'file-text',
+            'name'   => 'note',
         ],
-        'category-project' => [
-            'title' => 'Project Category',
-            'url' => route('category-project.index'),
-            'icon' => 'layout',
-            'name' => 'category-project',
+        'teams' =>  [
+            'title'  => 'Teams',
+            'url'    => route('teams.index'),
+            'icon'   => 'users',
+            'name'   => 'teams',
         ],
-        'skill' => [
-            'title' => 'Skills',
-            'url' => route('skill.index'),
-            'icon' => 'hexagon',
-            'name' => 'skill',
+        'category-project' =>  [
+            'title'  => 'Project Category',
+            'url'    => route('category-project.index'),
+            'icon'   => 'layout',
+            'name'   => 'category-project'
         ],
-        'client' => [
-            'title' => 'Client',
-            'url' => route('client.index'),
-            'icon' => 'user',
-            'name' => 'client',
+        'skill' =>  [
+            'title'  => 'Skills',
+            'url'    => route('skill.index'),
+            'icon'   => 'hexagon',
+            'name'   => 'skill'
+        ],
+        'client' =>  [
+            'title'  => 'Client',
+            'url'    => route('client.index'),
+            'icon'   => 'user',
+            'name'   => 'client',
+        ],
+        'perusahaan' =>  [
+            'title'  => 'Perusahaan',
+            'url'    => route('perusahaan.index'),
+            'icon'   => 'trello',
+            'name'   => 'perusahaan',
+        ],
+        'bank' =>  [
+            'title'  => 'Bank',
+            'url'    => route('banks.index'),
+            'icon'   => 'book-open',
+            'name'   => 'bank',
+        ],
+        'supplier' =>  [
+            'title'  => 'Supplier',
+            'url'    => route('suppliers.index'),
+            'icon'   => 'truck',
+            'name'   => 'supplier',
         ],
         'devider',
-        'profile' => [
-            'title' => 'Profile',
-            'url' => route('profile.edit'),
-            'icon' => 'user',
-            'name' => 'profile',
-        ],
-        // 'user' =>  [
-        //     'title'  => 'User',
+        // 'profile' =>  [
+        //     'title'  => 'Profile',
         //     'url'    => route('profile.edit'),
         //     'icon'   => 'user',
         //     'name'   => 'profile',
+        // ],
+        // 'user' =>  [
+        //     'title'  => 'User',
+        //     'url'    => route('users.index'),
+        //     'icon'   => 'user-check',
+        //     'name'   => 'user',
         // ],
         // 'team' =>  [
         //     'title'  => 'asd',

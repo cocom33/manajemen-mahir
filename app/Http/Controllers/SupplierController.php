@@ -31,15 +31,12 @@ class SupplierController extends Controller
     {
         $data = $request->validate([
             'name' =>'required',
-            'price' =>'required',
             'link' =>'required',
             'note' =>'nullable',
+            'email' =>'nullable',
+            'telephone' =>'nullable',
+            'alamat' =>'nullable',
         ]);
-
-        if($request->price) {
-            $price = str_replace("Rp. ", "", $request->price);
-            $data['price'] = str_replace(".", "", $price);
-        }
 
         Supplier::create($data);
 
@@ -75,6 +72,9 @@ class SupplierController extends Controller
             'name' =>'required',
             'link' =>'required',
             'note' =>'nullable',
+            'email' =>'nullable',
+            'telephone' =>'nullable',
+            'alamat' =>'nullable',
         ]);
 
         Supplier::findOrFail($id)->update($data);
