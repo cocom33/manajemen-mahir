@@ -1,16 +1,16 @@
 <div>
     <div class="flex justify-around items-center">
         <div class="text-center">
-            <h4 class="text-md">Pemasukan</h4>
-            <p class="font-bold text-lg">{{ number_format($detail->where('status', 'pemasukan')->sum('total')) }}</p>
+            <h4 class="text-lg">Pemasukan</h4>
+            <p class="font-bold text-xl">{{ number_format($detail->where('status', 'pemasukan')->sum('total')) }}</p>
         </div>
         <div class="text-center">
-            <h4 class="text-md">Pengeluaran</h4>
-            <p class="font-bold text-lg">{{ number_format($detail->where('status', 'pengeluaran')->sum('total')) }}</p>
+            <h4 class="text-lg">Pengeluaran</h4>
+            <p class="font-bold text-xl">{{ number_format($detail->where('status', 'pengeluaran')->sum('total')) }}</p>
         </div>
         <div class="text-center">
-            <h4 class="text-md">Kas</h4>
-            <p class="font-bold text-lg">{{ number_format($kas->where('status', 'pemasukan')->sum('total') - $kas->where('status', 'pengeluaran')->sum('total')) }}</p>
+            <h4 class="text-lg">Kas</h4>
+            <p class="font-bold text-xl">{{ number_format($kas->where('status', 'pemasukan')->sum('total') - $kas->where('status', 'pengeluaran')->sum('total')) }}</p>
         </div>
     </div>
 

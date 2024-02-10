@@ -196,8 +196,7 @@ class ProjectTeamsController extends Controller
         if ($request->lunas) {
             $status = 1;
         }
-
-        if($request->has('nasabah_team')){
+        if($request->nasabah_team){
             $feeteam = ProjectTeamFee::create([
                 'project_team_id' => $data->id,
                 'fee' => $gaji,
@@ -206,7 +205,6 @@ class ProjectTeamsController extends Controller
                 'nasabah_team' => $request->nasabah_team,
                 'nasabah_kantor' => $request->nasabah_kantor,
                 'photo' => $imageName ?? '',
-
             ]);
         } else {
             $feeteam = ProjectTeamFee::create([
@@ -214,7 +212,11 @@ class ProjectTeamsController extends Controller
                 'fee' => $gaji,
                 'status' => $status,
                 'tenggat' => $request->tenggat,
+<<<<<<< HEAD
+                'nasabah_team' => $team->nasabah,
+=======
                 'nasabah_team' => $team->nasabah_team->projectTeam->nasabah,
+>>>>>>> b9d5e2f738e3200f30e664eb704214dbc2551b07
                 'nasabah_kantor' => $request->nasabah_kantor,
                 'photo' => $imageName ?? '',
             ]);

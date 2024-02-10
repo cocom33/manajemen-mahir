@@ -153,11 +153,14 @@ class TeamController extends Controller
 
       $validated = $request->validate([
         'name' => 'required',
-        'wa' => 'required',
-        'status' => 'required',
-        'skill' => 'required',
-        'email' => 'required',
-        'alamat' => 'required',
+            'wa' => 'required',
+            'status' => 'required',
+            'skill' => 'required',
+            'email' => 'required',
+            'alamat' => 'required',
+            'nasabah' => 'nullable',
+            'no_rekening' => 'nullable',
+            'nama_rekening' => 'nullable',
       ]);
 
       // Foto KTP

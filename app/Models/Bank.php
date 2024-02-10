@@ -10,4 +10,8 @@ class Bank extends Model
     use HasFactory;
 
     protected $fillable = ['name', 'rekening', 'note'];
+
+    public function keuanganDetail() {
+        return $this->hasMany(KeuanganDetail::class);
+    }
 }
