@@ -177,6 +177,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('/tagihan/{id}/non-aktif', [TagihanController::class, 'nonAktif'])->name('tagihan.non-aktif');
     // end tagihan
 
+    //export excel
+    Route::get('/export-excel', 'KeuanganPerusahaanController@exportExcel');
+    //end export excel
+
     // project type
     Route::resource('category-project', ProjectTypeController::class);
     // end project type

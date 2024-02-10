@@ -22,8 +22,12 @@
                 <div class="absolute top-0 left-0 z-20 w-40 mt-10 dropdown-box">
                     <div class="p-2 dropdown-box__content box">
                         <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white rounded-md hover:bg-gray-200"> <i data-feather="printer" class="w-4 h-4 mr-2"></i> Print </a>
-                        <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white rounded-md hover:bg-gray-200"> <i data-feather="file-text" class="w-4 h-4 mr-2"></i> Export to Excel </a>
-                        <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white rounded-md hover:bg-gray-200"> <i data-feather="file-text" class="w-4 h-4 mr-2"></i> Export to PDF </a>
+                        <form method="GET" action="{{ url('/export-excel') }}">
+                            <button class="submit">
+                                <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white rounded-md   hover:bg-gray-200"> <i data-feather="file-text" class="w-4 h-4 mr-2"></i> Export to Excel </a>
+                            </button>
+                        </form>
+                        <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white rounded-md hover:bg-gray-200"> <i data-feather="file-text" class="w-4 h-4 mr-2"></i> Export to CSV </a>
                     </div>
                 </div>
             </div>

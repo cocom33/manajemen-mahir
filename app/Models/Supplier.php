@@ -9,7 +9,7 @@ class Supplier extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'price', 'link', 'note'];
+    protected $fillable = ['name', 'link', 'note', 'email', 'telephone', 'alamat'];
 
     public function tagihan() {
         return $this->hasMany(Tagihan::class);

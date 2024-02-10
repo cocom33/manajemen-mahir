@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\KeuanganUmumExport;
 use App\Models\Bank;
 use App\Models\Invoice;
 use App\Models\InvoiceSystem;
@@ -10,6 +11,7 @@ use App\Models\KeuanganPerusahaan;
 use App\Models\Supplier;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class KeuanganPerusahaanController extends Controller
 {
@@ -171,6 +173,25 @@ class KeuanganPerusahaanController extends Controller
 
         return view('admin.keuangan-umum.show', $data);
     }
+
+    //Ekspor csv
+    public function exportCsv(Request $request)
+    {
+        $tahun = $request->input('tahun');
+        $bulan = $request->input('bulan');
+
+        return Excel::download(new KeuanganUmumExport($tahun, $bulan), 'keuangan.csv');
+    }
+
+    //Ekspor Excel
+    public function exportExcel(Request $request)
+    {
+        $tahun = $request->input('tahun');
+        $bulan = $request->input('bulan');
+
+        return Excel::download(new KeuanganUmumExport($tahun, $bulan), 'keuangan.xlsx');
+    }
+
 
     /**
      * Show the form for editing the specified resource.

@@ -18,13 +18,6 @@
                     @enderror
                 </div>
                 <div class="mt-3">
-                    <label>Harga*</label>
-                    <input type="text" id="price" name="price" class="input w-full border mt-2 @error('price') border-theme-6 @enderror" placeholder="Masukkan Harga">
-                    @error('price')
-                        <div class="mt-2 text-theme-6">{{ $message }}</div>
-                    @enderror
-                </div>
-                <div class="mt-3">
                     <label>Link*</label>
                     <input type="text" name="link" class="input w-full border mt-2 @error('link') border-theme-6 @enderror" placeholder="Masukkan Link">
                     @error('link')
@@ -35,6 +28,27 @@
                     <label>Catatan</label>
                     <textarea name="note" class="input w-full border mt-2 @error('note') border-theme-6 @enderror" placeholder="Catatan"></textarea>
                     @error('note')
+                        <div class="mt-2 text-theme-6">{{ $message }}</div>
+                    @enderror
+                </div>
+                <div class="mt-3">
+                    <label>Email</label>
+                    <input type="text" name="email" class="input w-full border mt-2 @error('email') border-theme-6 @enderror" placeholder="Masukkan Email">
+                    @error('email')
+                        <div class="mt-2 text-theme-6">{{ $message }}</div>
+                    @enderror
+                </div>
+                <div class="mt-3">
+                    <label>Telephone</label>
+                    <input type="number" name="telephone" class="input w-full border mt-2 @error('telephone') border-theme-6 @enderror" placeholder="Masukkan Telephone">
+                    @error('telephone')
+                        <div class="mt-2 text-theme-6">{{ $message }}</div>
+                    @enderror
+                </div>
+                <div class="mt-3">
+                    <label>Alamat</label>
+                    <textarea name="alamat" class="input w-full border mt-2 @error('alamat') border-theme-6 @enderror" placeholder="Alamat"></textarea>
+                    @error('alamat')
                         <div class="mt-2 text-theme-6">{{ $message }}</div>
                     @enderror
                 </div>

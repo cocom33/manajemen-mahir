@@ -213,7 +213,7 @@ class TeamController extends Controller
 
       $team->update($validated);
 
-      return redirect()->route('teams.index')->with('success', 'Team '. $request->name .' created successfully!');
+      return redirect()->route('teams.index')->with('success', 'Team '. $request->name .' updated successfully!');
 
 
     }
