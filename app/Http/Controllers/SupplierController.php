@@ -88,6 +88,10 @@ class SupplierController extends Controller
     public function destroy(string $id)
     {
         $supplier = Supplier::findOrFail($id);
+        if ($supplier->tagihan->count() >= 1 || $supplier->tagihan->count() >= 1) {
+            return redirect()->back()->with('error', 'Category sudah didaftarkan ke beberapa project');
+        }
+
         $supplier->delete();
 
         return redirect()->route('suppliers.index')->with('success', 'Data Supplier Berhasil Dihapus');

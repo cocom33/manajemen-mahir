@@ -28,6 +28,11 @@ class Client extends Model
         return $this->hasMany(Project::class);
     }
 
+    public function tagihan()
+    {
+        return $this->hasMany(Tagihan::class);
+    }
+
     public function perusahaan()
     {
         return $this->BelongsTo(Perusahaan::class, 'nama_perusahaan', 'id');

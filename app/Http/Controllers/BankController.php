@@ -31,7 +31,7 @@ class BankController extends Controller
     {
         $request->validate([
             'name' =>'required',
-            'rekening' =>'required',
+            'rekening' =>'nullable',
             'note' =>'nullable',
         ]);
 
@@ -82,6 +82,10 @@ class BankController extends Controller
     public function destroy(string $id)
     {
         $bank = Bank::findOrFail($id);
+        if($bank->keuanganDetail->count() >= 1) {
+            return redirect()->back()->with('error', 'Tidak bisa menghapus bank, bank sudah memiliki riwayat');
+        }
+
         $bank->delete();
 
         return redirect()->route('banks.index')->with('success', 'Data Bank Berhasil Dihapus');

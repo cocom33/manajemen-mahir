@@ -77,6 +77,9 @@ class ProjectTypeController extends Controller
     public function destroy(string $id)
     {
         $dt = ProjectType::where('id', $id)->first();
+        if ($dt->project->count() >= 1) {
+            return redirect()->back()->with('error', 'Category sudah didaftarkan ke beberapa project');
+        }
 
         $dt->delete();
 

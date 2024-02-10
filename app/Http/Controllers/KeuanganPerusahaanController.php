@@ -167,7 +167,7 @@ class KeuanganPerusahaanController extends Controller
      */
     public function show(string $id)
     {
-        $data = KeuanganDetail::findOrFail($id);
+        $data['data'] = KeuanganDetail::findOrFail($id);
 
         return view('admin.keuangan-umum.show', $data);
     }

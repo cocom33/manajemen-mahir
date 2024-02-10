@@ -4,7 +4,7 @@
     <div class="intro-y box">
         <div class="flex flex-col sm:flex-row items-center p-5 border-b border-gray-200">
             <h2 class="font-medium text-base mr-auto">
-                Add New Pengeluaran Perusahaan
+                Detail Pengeluaran
             </h2>
             <div class="w-full sm:w-auto flex items-center sm:ml-auto mt-3 sm:mt-0">
             </div>
@@ -15,31 +15,37 @@
                 @method('PUT')
                 <div class="preview">
                     <div class="mt-3">
-                        <label>Description</label>
-                        <input type="text" name="description" value="{{ $data->description }}" class="input w-full border mt-2">
+                        <label>Title</label>
+                        <input value="{{ $data->description }}" class="input w-full border mt-2" readonly>
                     </div>
 
                     <div class="mt-3">
                         <label>Total</label>
-                        <input name="total" value="{{ number_format($data->total) }}" class="input w-full border mt-2">
+                        <input value="{{ number_format($data->total) }}" class="input w-full border mt-2" readonly>
                     </div>
 
                     <div class="mt-3">
-                        <label for="supplier_id">Pilih Supplier</label>
-                        <input type="text" name="description" value="{{ $data->supplier->name }}" class="input w-full border mt-2">
+                        <label>Status</label>
+                        <input value="{{ $data->status == 'pemasukan' ? 'pemasukan' : 'pengeluaran' }}" class="input w-full border mt-2" readonly>
                     </div>
 
                     <div class="mt-3">
-                        <label for="bank_id">Pilih Bank</label>
-                        <input type="text" name="description" value="{{ $data->bank->name }}" class="input w-full border mt-2">
+                        <label for="supplier_id">Supplier</label>
+                        <input value="{{ $data->supplier->name ?? '' }}" class="input w-full border mt-2" readonly>
                     </div>
 
                     <div class="mt-3">
+                        <label for="bank_id">Bank</label>
+                        <input value="{{ $data->bank->name ?? '' }}" class="input w-full border mt-2" readonly>
+                    </div>
+
+                    <div class="mt-3 mb-5">
                         <label>Tanggal</label>
-                        <input name="tanggal" value="{{ $tanggal }}" class="input w-full border mt-2">
-                        <small>Bisa dikosongkan</small>
+                        <input value="{{ $data->tanggal }} / {{ $data->keuanganPerusahaan->bulan }} / {{ $data->keuanganPerusahaan->tahun }}" class="input w-full border mt-2" readonly>
                     </div>
-                    <button type="submit" class="button bg-theme-1 text-white mt-5">Save</button>
+                    <div class="mt-3">
+                        <a href="{{ route('keuangan-umum.index') }}" class="button bg-theme-1 text-white mt-5">Kembali</a>
+                    </div>
                 </div>
             </form>
         </div>

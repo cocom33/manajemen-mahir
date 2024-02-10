@@ -13,8 +13,8 @@ class Skill extends Model
 
     protected $fillable = ['name', 'content'];
 
-    public function team(): BelongsToMany
+    public function team()
     {
-        return $this->belongsToMany(Team::class);
+        return $this->hasMany(Team::class, 'skill', 'id');
     }
 }

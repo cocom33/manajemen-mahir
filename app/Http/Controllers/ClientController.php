@@ -103,6 +103,9 @@ class ClientController extends Controller
 
     public function destroy(Client $client)
     {
+        if($client->project->count() >= 1 || $client->tagihan->count() >= 1) {
+            return redirect()->back()->with('error', 'Client sedang memeliki tagihan atau project');
+        }
         $client->delete();
         return redirect()->route('client.index')->with('error', 'Client '. $client->name .' deleted successfully!');
     }
