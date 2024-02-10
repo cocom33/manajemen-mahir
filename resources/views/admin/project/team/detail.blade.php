@@ -37,10 +37,10 @@
                         <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">PNG or JPG.</p>
                     </div>
                     <div class="mb-4">
-                        <label for="nasabah_kantor" class="block text-gray-700 font-medium mb-2">Nasabah Kantor*</label>
-                        {{-- <input type="text" id="nasabah_kantor" name="nasabah_kantor" class="border border-gray-400 p-2 w-full rounded"> --}}
-                        <select name="nasabah_kantor" data-hide-search="true" class="select2 w-full border-theme-6" required>
-                            <option disabled>Pilih Nasabah</option>
+                        <label for="nasabah_kantor" class="block mb-2 font-medium text-gray-700">Rekening Kantor*</label>
+                        {{-- <input type="text" id="nasabah_kantor" name="nasabah_kantor" class="w-full p-2 border border-gray-400 rounded"> --}}
+                        <select name="nasabah_kantor" data-hide-search="true" class="w-full select2 border-theme-6" required>
+                            <option disabled>Pilih Rekening</option>
                             @foreach ($banks as $skill)
                             <option value="{{ $skill->id }}">{{ $skill->name }}</option>
                             @endforeach
@@ -48,8 +48,8 @@
                       </div>
 
                       <div class="mb-4">
-                        <label for="nasabah_team" class="block text-gray-700 font-medium mb-2">Nasabah Team @if (!$team->team->nasabah)*@endif</label>
-                        <input type="text" id="nasabah_team" name="nasabah_team" class="border border-gray-400 p-2 w-full rounded" @if (!$team->team->nasabah) required *@endif>
+                        <label for="nasabah_team" class="block mb-2 font-medium text-gray-700">Rekening Team @if (!$team->team->nasabah)*@endif</label>
+                        <input type="text" id="nasabah_team" name="nasabah_team" class="w-full p-2 border border-gray-400 rounded" @if (!$team->team->nasabah) required *@endif>
                         @if ($team->team->nasabah)
                         <small>jikalau tidak diisi akan terisi {{ $team->team->nasabah }}</small>
                         @else
@@ -59,7 +59,7 @@
                 </div>
 
                 <div class="flex justify-end mt-3">
-                    <div class="flex items-center mr-3 justify-end">
+                    <div class="flex items-center justify-end mr-3">
                         <input type="checkbox" name="lunas" id="lunas" class="mr-1">
                         <label for="lunas">Tandai Lunas</label>
                     </div>

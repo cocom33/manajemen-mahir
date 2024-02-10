@@ -18,7 +18,7 @@
                     @enderror
                 </div>
                 <div class="mt-3">
-                    <label>Link*</label>
+                    <label>Link</label>
                     <input type="text" name="link" class="input w-full border mt-2 @error('link') border-theme-6 @enderror" placeholder="Masukkan Link">
                     @error('link')
                         <div class="mt-2 text-theme-6">{{ $message }}</div>
