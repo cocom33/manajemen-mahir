@@ -27,14 +27,26 @@
                         <span class="font-semibold">Link</span>
                         <p class="mt-3">{{ $data->link }}</p>
                     </div>
-                    <a href="{{ route('suppliers.index') }}"><button class="mt-5 text-white button bg-theme-1">Back</button></a>
-                </div>
-                <div>
                     <div class="mb-6">
                         <span class="font-semibold">Catatan</span>
                         <div class="mt-3">
                             <p class="mt-3">{{ $data->note ? $data->note : '---' }}</p>
                         </div>
+                    </div>
+                    <a href="{{ route('suppliers.index') }}"><button class="mt-5 text-white button bg-theme-1">Back</button></a>
+                </div>
+                <div>
+                    <div class="mb-6">
+                        <span class="font-semibold">Email</span>
+                        <p class="mt-3">{{ $data->email ? $data->email : '-' }}</p>
+                    </div>
+                    <div class="mb-6">
+                        <span class="font-semibold">Telephone</span>
+                        <p class="mt-3">{{ $data->telephone ? $data->telephone : '-' }}</p>
+                    </div>
+                    <div class="mb-6">
+                        <span class="font-semibold">Alamat</span>
+                        <p class="mt-3">{{ $data->alamat ? $data->alamat : '-' }}</p>
                     </div>
                 </div>
         </div>
