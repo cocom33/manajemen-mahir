@@ -2,22 +2,28 @@
 
 namespace App\Livewire;
 
+use App\Exports\ExportKeuanganDetail;
 use App\Models\Bank;
 use App\Models\KeuanganDetail;
 use App\Models\KeuanganPerusahaan;
+use Illuminate\Http\Response;
+use Illuminate\Support\Collection;
 use Livewire\Component;
+use Maatwebsite\Excel\Facades\Excel;
 
 class Keuangan extends Component
 {
     public $tahun;
     public $bulan;
     public $bank;
+    public Collection $selectedDatas;
 
     public function mount()
     {
         $this->tahun = 'semua';
         $this->bulan = 'semua';
         $this->bank = 'semua';
+        $this->selectedDatas = collect();
     }
 
     public function render()
@@ -62,5 +68,18 @@ class Keuangan extends Component
     public function changebank($bank)
     {
         $this->bank = $bank;
+    }
+
+    public function getSelectedDatas()
+    {
+        return $this->selectedDatas->filter(fn($p) => $p)->keys();
+    }
+
+
+    public function export($ext)
+    {
+        abort_if(!in_array($ext, ['csv', 'xlsx', 'pdf']), Response::HTTP_NOT_FOUND);
+
+        return Excel::download(new ExportKeuanganDetail($this->getSelectedDatas()), 'keuangan.'.$ext);
     }
 }

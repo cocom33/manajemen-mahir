@@ -24,6 +24,7 @@ class KeuanganDetail extends Model
         return $this->belongsTo(KeuanganPerusahaan::class);
     }
 
+
     public function scopeSearch($query, $term)
     {
         $term = "%$term%";
