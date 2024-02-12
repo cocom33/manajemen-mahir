@@ -132,17 +132,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::delete('/projects/{slug}/termins/{id}/delete', [ProjectFeeController::class, 'deleteLampiranTermin'])->name('project.lampiran.pemasukan.destroy');
 
-    Route::get('/project/{slug}/invoice', [InvoiceController::class, 'index'])->name('project.invoice');
-    Route::post('/project/{slug}/invoice', [InvoiceController::class, 'store'])->name('project.invoice.create');
-    Route::get('/project/{slug}/invoice/detail/{id}', [InvoiceController::class, 'detail'])->name('project.invoice.detail');
-    Route::get('/project/{slug}/invoice/download/{id}', [InvoiceController::class, 'downloadInvoice'])->name('project.invoice.download');
-    Route::put('/project/{slug}/invoice-system/store', [InvoiceController::class, 'invoiceSystemStore'])->name('project.invoice.system.create');
-    Route::put('/project/{slug}/invoice-other/store', [InvoiceController::class, 'invoiceOtherStore'])->name('project.invoice.other.create');
-    Route::delete('/project/{slug}/invoice-system/{id}/delete', [InvoiceController::class, 'invoiceSystemDestroy'])->name('project.invoice.system.delete');
-    Route::delete('/project/{slug}/invoice-other/{id}/delete', [InvoiceController::class, 'invoiceOtherDestroy'])->name('project.invoice.other.delete');
-    Route::post('/project/{slug}/invoice/add-invoice', [PorjectController::class, 'projectInvoiceStore'])->name('project.invoice.store');
-    Route::get('/project/{slug}/invoice/{id}/stream', [PorjectController::class, 'getInvoices'])->name('project.invoice.stream');
-
     Route::get('/project/{slug}/tagihan', [TagihanController::class, 'index'])->name('project.tagihan');
     Route::post('/project/{slug}/tagihan/store', [TagihanController::class, 'store'])->name('project.tagihan.store');
     Route::put('/project/{slug}/tagihan/update', [TagihanController::class, 'update'])->name('project.tagihan.update');
