@@ -325,7 +325,6 @@ class ProjectFeeController extends Controller
             }
         } else {
             $langsung = Langsung::where('keuangan_project_id', $keuanganProjects->id)->first();
-            $detail = KeuanganDetail::where('langsung_id', $langsung->id)->get();
 
             if ($langsung != null ){
                 if ($langsung->lampiran) {
@@ -336,7 +335,8 @@ class ProjectFeeController extends Controller
                 } else {
                     $langsung->forceDelete();
                 }
-                $detail->where('langsung_id', $langsung->id)->first()->forceDelete();
+                $detail = KeuanganDetail::where('langsung_id', $langsung->id)->first();
+                $detail->forceDelete();
             }
         }
 
