@@ -238,7 +238,7 @@ class ProjectFeeController extends Controller
         $fee = str_replace("Rp. ", "", $request->price);
         $price = str_replace(".", "", $fee);
 
-        $total = $project->keuangan_project->termin->sum('price') + $price;
+        $total = $project->keuangan_project->termin->sum('price') - $termin->price + $price;
         if ($total > $project->harga_deal) {
             return redirect()->back()->with('error', 'gagal, harap masukkan harga dengan benar');
         }
