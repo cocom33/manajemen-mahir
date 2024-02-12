@@ -14,58 +14,69 @@
         </div>
     </div>
 
-    <div class="flex gap-6 p-5 mt-5 intro-y datatable-wrapper box">
+    <div class="flex flex-col gap-6 p-5 mt-5 md:flex-row intro-y datatable-wrapper box">
         <div class="w-full">
             <label>Tahun</label>
             <div class="mt-2">
-                <select class="w-full border-2 input" wire:model="tahun">
-                    <option wire:click="changeb('semua')" value="semua" selected> Semua</option>
-                    @forelse ($all as $item)
-                        <option wire:click="changet({{ $item }})" value="{{ $item }}">{{ $item }}</option>
-                    @empty
-                        <option class="hidden" value="{{ date('Y') }}">{{ Date('Y') }}</option>
-                    @endforelse
-                </select>
+                <div class="relative w-full">
+                  <div class="flex items-center justify-between w-full py-2 border-2 input" id="divtahun" onclick="showData('listtahun', 'divtahun');" >
+                        <span wire:ignore id="tahun">semua</span>
+                        <span><i class="fa-solid fa-angle-down"></i></span>
+                  </div>
+                  <div id="listtahun" class="absolute hidden w-full bg-white border-2">
+                    <div wire:model="tahun" class="listdata" wire:click="changet('semua')" onclick="changeText('tahun', 'semua');">semua</div>
+                    @foreach ($all as $item)
+                        <div wire:model="tahun" class="listdata" wire:click="changet({{ $item }})" onclick="changeText('tahun', '{{ $item }}');">{{ $item }}</div>
+                    @endforeach
+                  </div>
+                </div>
             </div>
         </div>
 
         <div class="w-full">
             <label>Bulan</label>
             <div class="mt-2">
-                <select class="w-full border-2 input" id="select2" wire:model="bulan">
-                    <wire:ignore>
-                        <option wire:click="changeb('semua')" value="semua" selected> Semua</option>
-                        @foreach ([1,2,3,4,5,6,7,8,9,10,11,12] as $item)
-                            <option wire:click="changeb({{ $item }})" value="{{ $item }}" @if($item == date('m')) selected @endif> {{ \Carbon\Carbon::create()->month($item)->format('F') }}</option>
-                        @endforeach
-                    </wire:ignore>
-                </select>
+                <div class="relative w-full">
+                  <div class="flex items-center justify-between w-full py-2 border-2 input" id="divbulan" onclick="showData('listbulan', 'divbulan');" >
+                        <span wire:ignore id="bulan">semua</span>
+                        <span><i class="fa-solid fa-angle-down"></i></span>
+                  </div>
+                  <div id="listbulan" class="absolute hidden w-full bg-white border-2">
+                    <div wire:model="bulan" class="listdata" wire:click="changeb('semua')" onclick="changeText('bulan', 'semua');">semua</div>
+                    @foreach ([1,2,3,4,5,6,7,8,9,10,11,12] as $item)
+                        <div wire:model="bulan" class="listdata" wire:click="changeb({{ $item }})" onclick="changeText('bulan', '{{ \Carbon\Carbon::create()->month($item)->format('F') }}');">{{ \Carbon\Carbon::create()->month($item)->format('F') }}</div>
+                    @endforeach
+                  </div>
+                </div>
             </div>
         </div>
 
         <div class="w-full">
             <label>Bank</label>
             <div class="mt-2">
-                <select class="w-full border-2 input" id="select2" wire:model="bank">
-                    <wire:ignore>
-                        <option wire:click="changebank('semua')" value="semua" selected>Semua</option>
-                        @foreach ($banks as $item)
-                            <option wire:click="changebank({{ $item->id }})" value="{{ $item->id }}">{{ $item->name }}</option>
-                        @endforeach
-                    </wire:ignore>
-                </select>
+                <div class="relative w-full">
+                  <div class="flex items-center justify-between w-full py-2 border-2 input" id="divbank" onclick="showData('listbank', 'divbank');" >
+                        <span wire:ignore id="bank">semua</span>
+                        <span><i class="fa-solid fa-angle-down"></i></span>
+                  </div>
+                  <div id="listbank" class="absolute hidden w-full bg-white border-2">
+                    <div wire:model="bank" class="listdata" wire:click="changebank('semua')" onclick="changeText('bank', 'semua');">semua</div>
+                    @foreach ($banks as $bank)
+                        <div wire:model="bank" class="listdata" wire:click="changebank({{ $bank->id }})" onclick="changeText('bank', '{{ $bank->name }}');">{{ $bank->name }}</div>
+                    @endforeach
+                  </div>
+                </div>
             </div>
         </div>
-        <button wire:click="export('xlsx')" wire:loading.attr="disabled">Export</button>
+        <div class="md:mt-8">
+            <button wire:click="exportKeuangan()" wire:loading.attr="disabled"><a class="inline-block text-white rounded-md button bg-theme-1">Export</a></button>
+        </div>
     </div>
 
     <div class="p-5 mt-5 intro-y datatable-wrapper box">
         <table class="table w-full table-report table-report--bordered display datatable">
             <thead>
                 <tr>
-                    <th class="whitespace-no-wrap border-b-2">
-                        <input type="checkbox" class="form-control" id="select-all">
-                    </th>
                     <th class="whitespace-no-wrap border-b-2">TITLE</th>
                     <th class="text-center whitespace-no-wrap border-b-2">STATUS</th>
                     <th class="text-center whitespace-no-wrap border-b-2">TOTAL</th>
@@ -77,9 +88,6 @@
             <tbody>
                 @forelse ($detail as $key => $data)
                     <tr>
-                        <td class="border-b">
-                            <input  type="checkbox" class="form-control select" value="{{$data->id}}">
-                        </td>
                         <td class="border-b"><span class="hidden">{{ $key }}</span>{{ $data->description }}</td>
                         <td class="border-b">
                             @if ($data->status == 'pemasukan')

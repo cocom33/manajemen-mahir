@@ -245,13 +245,4 @@ class KeuanganPerusahaanController extends Controller
         return redirect()->back()->with('error', 'Berhasil menghapus detail pengeluaran perusahaan!');
     }
 
-    public function exportKeuangans(Request $request){
-        return Excel::download(new ExportKeuanganDetail, 'keuangan.xlsx', \Maatwebsite\Excel\Excel::XLSX);
-    }
-
-    public function exportKeuangansCsv(Request $request){
-        return Excel::download(new ExportKeuanganDetail, 'keuangan.csv', \Maatwebsite\Excel\Excel::CSV, [
-            'Content-Type' => 'text/csv',
-        ]);
-    }
 }

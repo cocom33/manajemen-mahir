@@ -13,43 +13,41 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class Keuangan extends Component
 {
-    public $tahun;
-    public $bulan;
-    public $bank;
     public Collection $selectedDatas;
-
-    public function mount()
-    {
-        $this->tahun = 'semua';
-        $this->bulan = 'semua';
-        $this->bank = 'semua';
-        $this->selectedDatas = collect();
-    }
+    public $tahun = 'semua';
+    public $bulan = 'semua';
+    public $bank = 'semua';
+    public $data_id;
 
     public function render()
     {
         $data['all'] = KeuanganPerusahaan::groupBy('tahun')->pluck('tahun');
-        $data['filtertahun'] = KeuanganPerusahaan::groupBy('tahun')->pluck('tahun');
-        $data['filterbulan'] = [1,2,3,4,5,6,7,8,9,10,11,12];
+        $filtertahun = KeuanganPerusahaan::groupBy('tahun')->pluck('tahun');
+        $filterbulan = [1,2,3,4,5,6,7,8,9,10,11,12];
 
         $data['banks'] = Bank::get();
-        $data['filterbank'] = Bank::pluck('id');
+        $filterbank = Bank::pluck('id');
 
         if($this->tahun != 'semua') {
-            $data['filtertahun'] = [$this->tahun];
+            $filtertahun = [$this->tahun];
         }
 
         if($this->bulan != 'semua') {
-            $data['filterbulan'] = [$this->bulan];
+            $filterbulan = [$this->bulan];
+        } else {
+            $filterbulan = [1,2,3,4,5,6,7,8,9,10,11,12];
         }
 
         if($this->bank != 'semua') {
-            $data['filterbank'] = [$this->bank];
+            $filterbank = [$this->bank];
         }
 
-        $master = KeuanganPerusahaan::whereIn('tahun', $data['filtertahun'])->whereIn('bulan', $data['filterbulan'])->pluck('id');
+        $bapak = KeuanganPerusahaan::get();
+        $master = $bapak->whereIn('tahun', $filtertahun)->whereIn('bulan', $filterbulan)->pluck('id');
 
-        $data['detail'] = KeuanganDetail::whereIn('keuangan_perusahaan_id', $master)->whereIn('bank_id', $data['filterbank'])->orderBy('created_at', 'desc')->get();
+        $tes = KeuanganDetail::orderBy('created_at', 'desc')->get();
+        $data['detail'] = $tes->whereIn('keuangan_perusahaan_id', $master)->whereIn('bank_id', $filterbank);
+        $this->data_id = $data['detail'];
         $data['kas'] = KeuanganDetail::get();
 
         return view('livewire.keuangan', $data);
@@ -70,16 +68,8 @@ class Keuangan extends Component
         $this->bank = $bank;
     }
 
-    public function getSelectedDatas()
-    {
-        return $this->selectedDatas->filter(fn($p) => $p)->keys();
-    }
-
-
-    public function export($ext)
-    {
-        abort_if(!in_array($ext, ['csv', 'xlsx', 'pdf']), Response::HTTP_NOT_FOUND);
-
-        return Excel::download(new ExportKeuanganDetail($this->getSelectedDatas()), 'keuangan.'.$ext);
+    public function exportKeuangan(){
+        $tes = new ExportKeuanganDetail($this->data_id->pluck('id'));
+        return Excel::download($tes, date('now').'.xlsx', \Maatwebsite\Excel\Excel::XLSX);
     }
 }
