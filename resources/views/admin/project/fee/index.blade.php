@@ -29,7 +29,7 @@
                         <h3 class="font-bold text-xl">
                             Pembayaran {{ $project->keuangan_project->type == 'langsung' ? 'Langsung' : 'Per Termin' }}
                         </h3>
-                        <div class="flex gap-5">
+                        <div class="flex gap-2">
                             @if ($project->keuangan_project->type == 'langsung')
                                 <form
                                     action="{{ route('project.pemasukan.destroy', [$project->slug, $project->keuangan_project->id]) }}"

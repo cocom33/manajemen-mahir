@@ -60,7 +60,7 @@
                     <td class="text-center border-b">Rp.
                         {{ number_format($item->price, 2, ',', '.') }}
                         @if ($project->harga_deal)
-                             / {{ $item->price * 100 / $project->harga_deal }}%
+                             / {{ current(explode(".", $item->price * 100 / $project->harga_deal)) }}%
                         @endif
                     </td>
                     <td class="text-center border-b">

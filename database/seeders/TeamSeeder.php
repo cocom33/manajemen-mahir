@@ -13,6 +13,6 @@ class TeamSeeder extends Seeder
      */
     public function run(): void
     {
-        Team::factory()->count(3)->create();
+        Team::factory()->count(1)->create();
     }
 }
