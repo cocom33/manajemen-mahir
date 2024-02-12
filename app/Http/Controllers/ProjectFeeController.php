@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\FileUpload;
 use App\Models\Termin;
 use App\Models\Project;
 use App\Models\Langsung;
@@ -26,15 +27,12 @@ class ProjectFeeController extends Controller
 
         if ($data['project']->keuangan_project && $data['project']->keuangan_project->type == 'langsung') {
             $data['fee_langsung'] = Langsung::where('keuangan_project_id', $data['project']->keuangan_project->id)->first();
-            // $data['project_teams'] = ProjectTeam::whereNotIn('id', $data['fee_langsung']->pluck('project_team_id'))->where([['project_id', $data['project']->id], ['status', 1]])->get();
         }
 
         if ($data['project']->keuangan_project && $data['project']->keuangan_project->type == 'termin') {
             $data['termin'] = Termin::where('keuangan_project_id', $data['project']->keuangan_project->id)->orderBy('id', 'desc')->get();
         }
         $data['detail'] = $this->gaji($data['project']);
-
-        // dd($data['fee_langsung']);
 
         return view('admin.project.fee.index', $data);
     }
@@ -58,9 +56,10 @@ class ProjectFeeController extends Controller
         }
 
         if ($request->hasFile('lampiran')) {
-            $image = $request->file('lampiran');
-            $imageName = 'bukti-pembayaran-langsung-project-' . $request->slug . '-'. date('d-m-Y') . '.' . $image->extension();
-            $image->move(public_path('bukti-pembayaran'), $imageName);
+            $imageName = FileUpload::file_upload('images/bukti-pembayaran', $request->file('lampiran'));
+            // $image = $request->file('lampiran');
+            // $imageName = 'bukti-pembayaran-langsung-project-' . $request->slug . '-'. date('d-m-Y') . '.' . $image->extension();
+            // $image->move(public_path('bukti-pembayaran'), $imageName);
 
             $data = $request->validate([
                 'keuangan_project_id' => 'required',
@@ -128,9 +127,10 @@ class ProjectFeeController extends Controller
         }
 
         if ($request->hasFile('lampiran')) {
-            $image = $request->file('lampiran');
-            $imageName = 'bukti-pembayaran-' . $langsung->slug . '-'. date('d-m-Y') . '.' . $image->extension();
-            $image->move(public_path('bukti-pembayaran'), $imageName);
+            $imageName = FileUpload::file_upload('images/bukti-pembayaran', $request->file('lampiran'), $langsung->lampiran);
+            // $image = $request->file('lampiran');
+            // $imageName = 'bukti-pembayaran-' . $langsung->slug . '-'. date('d-m-Y') . '.' . $image->extension();
+            // $image->move(public_path('bukti-pembayaran'), $imageName);
 
             $langsung->update([
                 'name' => $request->name,
@@ -184,8 +184,9 @@ class ProjectFeeController extends Controller
         $langsung = Langsung::find($id);
 
         if ($langsung->lampiran) {
-            unlink(public_path('bukti-pembayaran/' . $langsung->lampiran));
-            Storage::delete('bukti-pembayaran/' . $langsung->lampiran);
+            FileUpload::file_delete($langsung->lampiran);
+            // unlink(public_path('bukti-pembayaran/' . $langsung->lampiran));
+            // Storage::delete('bukti-pembayaran/' . $langsung->lampiran);
         }
 
         $langsung->update(['status' => 0, 'lampiran' => null]);
@@ -245,9 +246,10 @@ class ProjectFeeController extends Controller
         }
 
         if ($request->hasFile('lampiran')) {
-            $image = $request->file('lampiran');
-            $imageName = 'bukti-pembayaran-' . $project->slug . '-' . $termin->slug . '-'. date('d-m-Y') . '.' . $image->extension();
-            $image->move(public_path('bukti-pembayaran'), $imageName);
+            $imageName = FileUpload::file_upload('images/bukti-pembayaran', $request->file('lampiran'));
+            // $image = $request->file('lampiran');
+            // $imageName = 'bukti-pembayaran-' . $project->slug . '-' . $termin->slug . '-'. date('d-m-Y') . '.' . $image->extension();
+            // $image->move(public_path('bukti-pembayaran'), $imageName);
 
             $termin->update([
                 'name' => $request->name,
@@ -297,8 +299,9 @@ class ProjectFeeController extends Controller
         $termin = Termin::find($id);
 
         if ($termin->lampiran) {
-            unlink(public_path('bukti-pembayaran/' . $termin->lampiran));
-            Storage::delete('bukti-pembayaran/' . $termin->lampiran);
+            FileUpload::file_delete($termin->lampiran);
+            // unlink(public_path('bukti-pembayaran/' . $termin->lampiran));
+            // Storage::delete('bukti-pembayaran/' . $termin->lampiran);
         }
 
         $termin->update(['status' => 0, 'lampiran' => null]);
@@ -315,8 +318,9 @@ class ProjectFeeController extends Controller
 
             foreach ($termins as $termin) {
                 if ($termin->lampiran) {
-                    unlink(public_path('bukti-pembayaran/' . $termin->lampiran));
-                    Storage::delete('bukti-pembayaran/' . $termin->lampiran);
+                    FileUpload::file_delete($termin->lampiran);
+                    // unlink(public_path('bukti-pembayaran/' . $termin->lampiran));
+                    // Storage::delete('bukti-pembayaran/' . $termin->lampiran);
                 }
                 $termin->forceDelete();
                 $detail->where('termin_id', $termin->id)->first()->forceDelete();
@@ -327,8 +331,9 @@ class ProjectFeeController extends Controller
 
             if ($langsung != null ){
                 if ($langsung->lampiran) {
-                    unlink(public_path('bukti-pembayaran/' . $langsung->lampiran));
-                    Storage::delete('bukti-pembayaran/' . $langsung->lampiran);
+                    FileUpload::file_delete($langsung->lampiran);
+                    // unlink(public_path('bukti-pembayaran/' . $langsung->lampiran));
+                    // Storage::delete('bukti-pembayaran/' . $langsung->lampiran);
                     $langsung->forceDelete();
                 } else {
                     $langsung->forceDelete();

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\FileUpload;
 use App\Models\KeuanganDetail;
 use App\Models\KeuanganPerusahaan;
 use App\Models\Pengeluaran;
@@ -70,9 +71,10 @@ class ProjectTeamsController extends Controller
     public function projectTeamLunas(Request $request, $slug, $id)
     {
         if($request->file('photo')) {
-            $image = $request->file('photo');
-            $imageName = 'bukti-pembayaran-' . $slug . '-'. date('d-m-Y') . '.' . $image->extension();
-            $image->move(public_path('images'), $imageName);
+            $imageName = FileUpload::file_upload('images/fee-team', $request->file('photo'));
+            // $image = $request->file('photo');
+            // $imageName = 'bukti-pembayaran-' . $slug . '-'. date('d-m-Y') . '.' . $image->extension();
+            // $image->move(public_path('images'), $imageName);
         }
 
         $data = ProjectTeamFee::find($id);
@@ -185,9 +187,10 @@ class ProjectTeamsController extends Controller
         // dd($team);
 
         if($request->file('photo')) {
-            $image = $request->file('photo');
-            $imageName = 'bukti-pembayaran-' . $data->slug . '-'. date('d-m-Y') . '.' . $image->extension();
-            $image->move(public_path('images'), $imageName);
+            $imageName = FileUpload::file_upload('images/fee-team', $request->file('photo'));
+            // $image = $request->file('photo');
+            // $imageName = 'bukti-pembayaran-' . $data->slug . '-'. date('d-m-Y') . '.' . $image->extension();
+            // $image->move(public_path('images'), $imageName);
         }
 
         $fee = str_replace("Rp. ", "", $request->fee);
@@ -233,7 +236,7 @@ class ProjectTeamsController extends Controller
                 'keuangan_perusahaan_id' => $query->id,
                 'project_team_fee_id' => $feeteam->id,
                 'description' => 'fee ' . $data->team->name,
-                'bank_id' => $data->nasabah_kantor,
+                'bank_id' => $request->nasabah_kantor,
                 'status' => 'pengeluaran',
                 'tanggal' => date('d'),
                 'total' => $gaji,
@@ -243,7 +246,7 @@ class ProjectTeamsController extends Controller
                 'project_id' => $request->project_id,
                 'title' => 'fee ' . $data->team->name,
                 'date' => date('Y-m-d'),
-                'bank_id' => $data->nasabah_kantor,
+                'bank_id' => $request->nasabah_kantor,
                 'price' => $gaji,
                 'project_team_fee_id' => $feeteam->id
             ]);

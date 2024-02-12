@@ -10,6 +10,7 @@
         .listdata {
             padding: 0.25rem 0.75rem;
             cursor: pointer;
+            z-index: 999;
         }
         .listdata:hover {
             color: white;
@@ -33,7 +34,7 @@
     </div>
 
     <div class="mt-10">
-        <div class="items-center block p-4 bg-gray-200 md:h-20 intro-y sm:flex">
+        <div class="items-center block p-4 bg-gray-200 md:h-20 intro-y sm:flex" style="z-index: 20">
             <h2 class="mr-5 text-lg font-medium truncate">
                 Chart Keuangan
             </h2>
@@ -49,7 +50,7 @@
                     </form>
                 </div>
         </div>
-        <div class="p-5 mt-12 intro-y box sm:mt-5">
+        <div class="p-5 mt-12 intro-y box sm:mt-5" style="z-index: 20">
             <canvas id="pengeluaranPemasukan"></canvas>
         </div>
     </div>
