@@ -80,7 +80,7 @@ public function update(Request $request, $id)
             if (strpos($img->getAttribute('src'),'data:image/') ===0) {
 
                 $data = base64_decode(explode(',',explode(';',$img->getAttribute('src'))[1])[1]);
-                $image_name = "/upload/" . time(). $key.'.png';
+                $image_name = "/upload-notes/" . time(). $key.'.png';
                 file_put_contents(public_path().$image_name,$data);
 
                 $img->removeAttribute('src');
