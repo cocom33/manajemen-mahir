@@ -14,7 +14,7 @@ class ProjectTypeSeeder extends Seeder
      */
     public function run(): void
     {
-        $type = ['type 1', 'type 2', 'type 3', 'type 4', 'type 5'];
+        $type = ['Video'];
 
         foreach ($type as $item) {
             ProjectType::create(['name' => $item]);
