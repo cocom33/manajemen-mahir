@@ -99,7 +99,7 @@
                         <td class="text-center border-b">
                             @if ($team->status)
                                 @if ($team->photo)
-                                    <a href="{{ asset('images/' . $team->photo) }}" target="_blank" class="inline-block text-white button bg-theme-1" type="button">
+                                    <a href="{{ asset('storage/' . $team->photo) }}" target="_blank" class="inline-block text-white button bg-theme-1" type="button">
                                         Lihat Bukti
                                     </a>
                                 @else
