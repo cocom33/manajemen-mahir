@@ -18,42 +18,54 @@
         <div class="w-full">
             <label>Tahun</label>
             <div class="mt-2">
-                <select class="input w-full border-2" wire:model="tahun">
-                    <option wire:click="changeb('semua')" value="semua" selected> Semua</option>
-                    @forelse ($all as $item)
-                        <option wire:click="changet({{ $item }})" value="{{ $item }}">{{ $item }}</option>
-                    @empty
-                        <option class="hidden" value="{{ date('Y') }}">{{ Date('Y') }}</option>
-                    @endforelse
-                </select>
+                <div class="relative w-full">
+                  <div class="input w-full border-2 py-2 flex justify-between items-center" id="divtahun" onclick="showData('listtahun', 'divtahun');" >
+                        <span wire:ignore id="tahun">semua</span>
+                        <span><i class="fa-solid fa-angle-down"></i></span>
+                  </div>
+                  <div id="listtahun" class="absolute bg-white w-full border-2 hidden">
+                    <div wire:model="tahun" class="listdata" wire:click="changet('semua')" onclick="changeText('tahun', 'semua');">semua</div>
+                    @foreach ($all as $item)
+                        <div wire:model="tahun" class="listdata" wire:click="changet({{ $item }})" onclick="changeText('tahun', '{{ $item }}');">{{ $item }}</div>
+                    @endforeach
+                  </div>
+                </div>
             </div>
         </div>
 
         <div class="w-full">
             <label>Bulan</label>
             <div class="mt-2">
-                <select class="input w-full border-2" id="select2" wire:model="bulan">
-                    <wire:ignore>
-                        <option wire:click="changeb('semua')" value="semua" selected> Semua</option>
-                        @foreach ([1,2,3,4,5,6,7,8,9,10,11,12] as $item)
-                            <option wire:click="changeb({{ $item }})" value="{{ $item }}" @if($item == date('m')) selected @endif> {{ \Carbon\Carbon::create()->month($item)->format('F') }}</option>
-                        @endforeach
-                    </wire:ignore>
-                </select>
+                <div class="relative w-full">
+                  <div class="input w-full border-2 py-2 flex justify-between items-center" id="divbulan" onclick="showData('listbulan', 'divbulan');" >
+                        <span wire:ignore id="bulan">semua</span>
+                        <span><i class="fa-solid fa-angle-down"></i></span>
+                  </div>
+                  <div id="listbulan" class="absolute bg-white w-full border-2 hidden">
+                    <div wire:model="bulan" class="listdata" wire:click="changeb('semua')" onclick="changeText('bulan', 'semua');">semua</div>
+                    @foreach ([1,2,3,4,5,6,7,8,9,10,11,12] as $item)
+                        <div wire:model="bulan" class="listdata" wire:click="changeb({{ $item }})" onclick="changeText('bulan', '{{ \Carbon\Carbon::create()->month($item)->format('F') }}');">{{ \Carbon\Carbon::create()->month($item)->format('F') }}</div>
+                    @endforeach
+                  </div>
+                </div>
             </div>
         </div>
 
         <div class="w-full">
             <label>Bank</label>
             <div class="mt-2">
-                <select class="input w-full border-2" id="select2" wire:model="bank">
-                    <wire:ignore>
-                        <option wire:click="changebank('semua')" value="semua" selected>Semua</option>
-                        @foreach ($banks as $item)
-                            <option wire:click="changebank({{ $item->id }})" value="{{ $item->id }}">{{ $item->name }}</option>
-                        @endforeach
-                    </wire:ignore>
-                </select>
+                <div class="relative w-full">
+                  <div class="input w-full border-2 py-2 flex justify-between items-center" id="divbank" onclick="showData('listbank', 'divbank');" >
+                        <span wire:ignore id="bank">semua</span>
+                        <span><i class="fa-solid fa-angle-down"></i></span>
+                  </div>
+                  <div id="listbank" class="absolute bg-white w-full border-2 hidden">
+                    <div wire:model="bank" class="listdata" wire:click="changebank('semua')" onclick="changeText('bank', 'semua');">semua</div>
+                    @foreach ($banks as $bank)
+                        <div wire:model="bank" class="listdata" wire:click="changebank({{ $bank->id }})" onclick="changeText('bank', '{{ $bank->name }}');">{{ $bank->name }}</div>
+                    @endforeach
+                  </div>
+                </div>
             </div>
         </div>
     </div>
@@ -147,17 +159,4 @@
         </table>
     </div>
     <div wire:loading>
-
-    {{-- @push('scripts')
-        <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-        <script>
-            $(document).ready(function() {
-                $('#select2').select2();
-                $('#select2').on('change', function (e) {
-                    var data = $('#select2').select2("val");
-                    @this.set('bulan', data);
-                });
-            });
-        </script>
-    @endpush --}}
 </div>

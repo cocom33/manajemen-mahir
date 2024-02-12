@@ -6,6 +6,15 @@
         option {
             font-family: 'Roboto' !important;
         }
+
+        .listdata {
+            padding: 0.25rem 0.75rem;
+            cursor: pointer;
+        }
+        .listdata:hover {
+            color: white;
+            background-color: rgb(28,63,170);
+        }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 @endpush
@@ -63,7 +72,25 @@
 @endsection
 
 @push('scripts')
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    function changeText(id, text) {
+        id = document.getElementById(id);
+        id.innerHTML = text;
+    }
+    function showData(id, parent) {
+        document.getElementById(id).classList.toggle('hidden');
+        document.getElementById(parent).classList.toggle('border-blue-300');
+    }
+    function removeHover(id, classFriend) {
+        parent = document.getElementById(id);
+        friend = document.getElementsByClassName(classFriend);
+        friend[0].classList.remove('border-blue-300');
+        friend[1].classList.remove('border-blue-300');
+        parent.classList.add('border-blue-300');
+    }
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         const ctx = document.getElementById('pengeluaranPemasukan');
 
