@@ -178,7 +178,7 @@
                                               <i data-feather="eye" class=" w-4 h-4 font-bold"></i>
                                             </a>
                                         @elseif ($item->project_team_fee_id)
-                                            <a href="{{ route('project.teams.show', [$project->slug, $item->projectTeamFee->projectTeam->team_id]) }}" class="button inline-block text-white bg-theme-1 shadow-md">
+                                            <a href="{{ route('project.teams.show', [$project->slug, $item->projectTeamFee->projectTeam->id]) }}" class="button inline-block text-white bg-theme-1 shadow-md">
                                               <i data-feather="eye" class=" w-4 h-4 font-bold"></i>
                                             </a>
                                         @else
