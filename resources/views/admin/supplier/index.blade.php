@@ -14,6 +14,8 @@
         <thead>
             <tr>
                 <th class="whitespace-no-wrap border-b-2">NAMA</th>
+                <th class="text-center whitespace-no-wrap border-b-2">EMAIL</th>
+                <th class="text-center whitespace-no-wrap border-b-2">PHONE</th>
                 <th class="text-center whitespace-no-wrap border-b-2">LINK</th>
                 <th class="text-center whitespace-no-wrap border-b-2">ACTIONS</th>
             </tr>
@@ -22,6 +24,8 @@
             @foreach ($datas as $data)
                 <tr>
                     <td class="border-b">{{ $data->name }}</td>
+                    <a href="#"><td class="text-center border-b ">{{ $data->email ? $data->email : '-' }}</td></a>
+                    <a href="#"><td class="text-center border-b ">{{ $data->telephone ? $data->telephone : '-' }}</td></a>
                     <a href="#"><td class="text-center border-b ">{{ $data->link ? $data->link : '-' }}</td></a>
                     <td class="w-5 border-b">
                         <div class="flex items-center sm:justify-center">
