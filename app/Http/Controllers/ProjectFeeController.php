@@ -321,7 +321,10 @@ class ProjectFeeController extends Controller
                     // Storage::delete('bukti-pembayaran/' . $termin->lampiran);
                 }
                 $termin->forceDelete();
-                $detail->where('termin_id', $termin->id)->first()->forceDelete();
+                $query = $detail->where('termin_id', $termin->id)->first()->forceDelete();
+                if ($query) {
+                    $query->forceDelete();
+                }
             }
         } else {
             $langsung = Langsung::where('keuangan_project_id', $keuanganProjects->id)->first();
