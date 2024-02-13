@@ -158,7 +158,7 @@ class PengeluaranController extends Controller
     public function delete($slug, $id)
     {
         $query = Pengeluaran::find($id);
-        $uang = KeuanganDetail::where('pengeluaran_id')->first();
+        $uang = KeuanganDetail::where('pengeluaran_id', $query->id)->first();
 
         $query->delete();
         $uang->delete();
