@@ -23,7 +23,7 @@ class ExportKeuanganDetail implements FromCollection, WithMapping, ShouldAutoSiz
     */
     public function collection()
     {
-        $keuanganDetail = KeuanganDetail::select('id', 'keuangan_perusahaan_id', 'description', 'status', 'total', 'tanggal', 'bank_id')->with('keuanganPerusahaan', 'bank')
+        $keuanganDetail = KeuanganDetail::select('keuangan_perusahaan_id', 'description', 'status', 'total', 'tanggal', 'bank_id')->with('keuanganPerusahaan', 'bank')
         ->find($this->dataIDs);
 
         return $keuanganDetail;
@@ -33,8 +33,7 @@ class ExportKeuanganDetail implements FromCollection, WithMapping, ShouldAutoSiz
     public function map($keuanganDetail): array
     {
         return [
-            $keuanganDetail->id,
-            $keuanganDetail->tanggal . '/' . $keuanganDetail->keuanganPerusahaan->bulan . '/' .  $keuanganDetail->keuanganPerusahaan->tahun,
+            $keuanganDetail->tanggal . ' / ' . $keuanganDetail->keuanganPerusahaan->bulan . ' / ' .  $keuanganDetail->keuanganPerusahaan->tahun,
             $keuanganDetail->description,
             $keuanganDetail->bank->name,
             $keuanganDetail->status,
@@ -45,7 +44,6 @@ class ExportKeuanganDetail implements FromCollection, WithMapping, ShouldAutoSiz
     public function headings(): array
     {
         return [
-            'id',
             'Tanggal',
             'Title',
             'Bank',
