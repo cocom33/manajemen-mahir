@@ -21,13 +21,13 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => Date('now'),
         ]);
 
-        $this->call([
-            BankSeeder::class,
-            ClientSeeder::class,
-            ProjectTypeSeeder::class,
-            TeamSeeder::class,
-            ProjectSeeder::class,
-            SkillSeeder::class
-        ]);
+        // $this->call([
+        //     BankSeeder::class,
+        //     ClientSeeder::class,
+        //     ProjectTypeSeeder::class,
+        //     TeamSeeder::class,
+        //     ProjectSeeder::class,
+        //     SkillSeeder::class
+        // ]);
     }
 }
