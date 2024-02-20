@@ -55,8 +55,10 @@ class ProjectFeeController extends Controller
             return redirect()->back()->with('error', 'gagal, harap masukkan harga dengan benar');
         }
 
-        if ($request->hasFile('lampiran')) {
-            $imageName = FileUpload::file_upload('images/bukti-pembayaran', $request->file('lampiran'));
+        if ($request->hasFile('lampiran') || $request->lunas) {
+            if ($request->file('lampiran')) {
+                $imageName = FileUpload::file_upload('images/bukti-pembayaran', $request->file('lampiran'));
+            }
             // $image = $request->file('lampiran');
             // $imageName = 'bukti-pembayaran-langsung-project-' . $request->slug . '-'. date('d-m-Y') . '.' . $image->extension();
             // $image->move(public_path('bukti-pembayaran'), $imageName);
@@ -71,7 +73,7 @@ class ProjectFeeController extends Controller
 
             $data['price'] = $price;
             $data['status'] = 1;
-            $data['lampiran'] = $imageName;
+            $data['lampiran'] = $imageName ?? '';
             $langsung = Langsung::create($data);
 
             $keuangan = KeuanganDetail::where('langsung_id', $langsung->id)->first();
@@ -93,9 +95,10 @@ class ProjectFeeController extends Controller
                     'tanggal' => date('d'),
                     'total' => $price,
                 ]);
-            }
+            } else {
+                dd($keuangan);
 
-            return redirect()->back()->with('success', 'Berhasil membuat data dan upload bukti pembayaran!');
+            }
         } else {
             $data = $request->validate([
                 'keuangan_project_id' => 'required',
@@ -108,9 +111,9 @@ class ProjectFeeController extends Controller
             $data['price'] = $price;
 
             Langsung::create($data);
-            return redirect()->back()->with('success', 'Berhasil membuat data!');
         }
 
+        return redirect()->back()->with('success', 'Berhasil membuat data!');
     }
 
     public function projectFeeLangsungUpdate(Request $request, $slug)
@@ -124,8 +127,10 @@ class ProjectFeeController extends Controller
             return redirect()->back()->with('error', 'gagal, harap masukkan harga dengan benar');
         }
 
-        if ($request->hasFile('lampiran')) {
-            $imageName = FileUpload::file_upload('images/bukti-pembayaran', $request->file('lampiran'), $langsung->lampiran);
+        if ($request->hasFile('lampiran') || $request->lunas) {
+            if ($request->file('lampiran')) {
+                $imageName = FileUpload::file_upload('images/bukti-pembayaran', $request->file('lampiran'), $langsung->lampiran);
+            }
             // $image = $request->file('lampiran');
             // $imageName = 'bukti-pembayaran-' . $langsung->slug . '-'. date('d-m-Y') . '.' . $image->extension();
             // $image->move(public_path('bukti-pembayaran'), $imageName);
@@ -136,7 +141,7 @@ class ProjectFeeController extends Controller
                 'bank_id' => $request->bank_id,
                 'tanggal' => $request->tanggal,
                 'status' => 1,
-                'lampiran' => $imageName,
+                'lampiran' => $imageName ?? '',
             ]);
 
             $keuangan = KeuanganDetail::where('langsung_id', $langsung->id)->first();
@@ -163,8 +168,17 @@ class ProjectFeeController extends Controller
                     'total' => $price,
                 ]);
             }
-
-            return redirect()->back()->with('success', 'Berhasil update data dan upload gambar!');
+        } elseif ($langsung->status) {
+            $keuangan = KeuanganDetail::where('langsung_id', $langsung->id)->first();
+            $keuangan->update([
+                'total' => $price,
+            ]);
+            $langsung->update([
+                'name' => $request->name,
+                'price' => $price,
+                'bank_id' => $request->bank_id,
+                'tanggal' => $request->tanggal,
+            ]);
         } else {
             $langsung->update([
                 'name' => $request->name,
@@ -172,9 +186,8 @@ class ProjectFeeController extends Controller
                 'price' => $price,
                 'tanggal' => $request->tanggal,
             ]);
-
-            return redirect()->back()->with('success', 'Berhasil update data!');
         }
+        return redirect()->back()->with('success', 'Berhasil update data!');
     }
 
     public function deleteLampiranLangsung($slug, $id)
@@ -243,8 +256,10 @@ class ProjectFeeController extends Controller
             return redirect()->back()->with('error', 'gagal, harap masukkan harga dengan benar');
         }
 
-        if ($request->hasFile('lampiran')) {
-            $imageName = FileUpload::file_upload('images/bukti-pembayaran', $request->file('lampiran'));
+        if ($request->hasFile('lampiran') || $request->lunas) {
+            if ($request->file('lampiran')) {
+                $imageName = FileUpload::file_upload('images/bukti-pembayaran', $request->file('lampiran'));
+            }
             // $image = $request->file('lampiran');
             // $imageName = 'bukti-pembayaran-' . $project->slug . '-' . $termin->slug . '-'. date('d-m-Y') . '.' . $image->extension();
             // $image->move(public_path('bukti-pembayaran'), $imageName);
@@ -255,7 +270,7 @@ class ProjectFeeController extends Controller
                 'tanggal' => $request->tanggal,
                 'bank_id' => $request->bank_id,
                 'status' => 1,
-                'lampiran' => $imageName,
+                'lampiran' => $imageName ?? '',
             ]);
 
             $keuangan = KeuanganDetail::where('termin_id', $termin->id)->first();
@@ -320,26 +335,23 @@ class ProjectFeeController extends Controller
                     // unlink(public_path('bukti-pembayaran/' . $termin->lampiran));
                     // Storage::delete('bukti-pembayaran/' . $termin->lampiran);
                 }
-                $termin->forceDelete();
-                $query = $detail->where('termin_id', $termin->id)->first()->forceDelete();
+                $query = $detail->where('termin_id', $termin->id)->first();
                 if ($query) {
                     $query->forceDelete();
                 }
+                $termin->forceDelete();
             }
         } else {
             $langsung = Langsung::where('keuangan_project_id', $keuanganProjects->id)->first();
 
             if ($langsung != null ){
-                if ($langsung->lampiran) {
-                    FileUpload::file_delete($langsung->lampiran);
-                    // unlink(public_path('bukti-pembayaran/' . $langsung->lampiran));
-                    // Storage::delete('bukti-pembayaran/' . $langsung->lampiran);
-                    $langsung->forceDelete();
-                } else {
-                    $langsung->forceDelete();
-                }
                 $detail = KeuanganDetail::where('langsung_id', $langsung->id)->first();
                 $detail->forceDelete();
+
+                if ($langsung->lampiran) {
+                    FileUpload::file_delete($langsung->lampiran);
+                }
+                $langsung->forceDelete();
             }
         }
 

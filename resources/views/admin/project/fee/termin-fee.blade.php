@@ -50,7 +50,11 @@
                     @endif
 
                     @if ($termin->status == 0)
-                        <div class="flex justify-end">
+                        <div class="flex justify-end items-center">
+                            <div class="flex items-center mr-3 mt-2">
+                                <input type="checkbox" name="lunas" id="lunas" class="mr-1">
+                                <label for="lunas">Tandai Lunas</label>
+                            </div>
                             <button type="submit" class="button flex align-center text-white bg-theme-1 shadow-md mt-3">
                                 <i data-feather="plus" class=" w-4 h-4 mt-1 font-bold mr-2"></i> <span>Update</span>
                             </button>
